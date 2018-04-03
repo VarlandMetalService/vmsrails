@@ -1,0 +1,51 @@
+@import "bootstrap";
+@import "font-awesome";
+
+@include media-breakpoint-up(sm) {
+  body.sessions-controller {
+    background-color: $light;
+    padding-top: 0;
+    .yield-content {
+      border: 1px solid $gray-300;
+    }
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .no-nav-xs {
+    padding-top: 0 !important;
+    .navbar {
+      display: none;
+    }
+  }
+}
+
+body {
+  padding-top: 57px;
+}
+
+.navbar-nav {
+  li + li {
+    margin-left: $spacer * 0.5;
+  }
+}
+
+.task-list {
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+}
+
+input + .focus-help {
+  display: none;
+}
+input:focus + .focus-help {
+  display: block;
+}
+
+.dropdown-right {
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+}

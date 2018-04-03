@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-12 col-md-9 col-lg-6">
+    <%= form_with url: users_path,
+                  class: 'bg-dark text-white border rounded mb-3 p-3',
+                  method: 'get',
+                  local: true do |f| %>
+      <p class="small font-weight-bold text-warning mb-1 text-uppercase">Filter Results</p>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <%= f.label :by_name,
+                        'Name:'  %>
+            <%= f.text_field :by_name,
+                             class: 'form-control',
+                             value: params[:by_name] %>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <%= f.label :by_category,
+                        'Category:'  %>
+            <%= f.select :by_category, 
+                         options_for_select(User.options_for_category,
+                                            params[:by_category]),
+                         { include_blank: true },
+                         { class: 'custom-select' } %>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="pull-right">
+            <%= link_to 'Reset', users_url, class: 'btn btn-link text-white' %>
+            <%= f.button fa_icon('filter', text: 'Filter'),
+                         class: 'btn btn-sm btn-warning font-weight-bold',
+                         type: 'submit' %>
+          </div>
+          <div class="clearfix"><!----></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

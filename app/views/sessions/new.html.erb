@@ -1,0 +1,48 @@
+<% provide(:title, 'Login') %>
+
+<% if params[:action] == 'create' %>
+  <p class="text-danger font-weight-light mt-3">
+    The Varland QMS system uses the System i to login, so your username and password
+    are always the same ones as you use to sign on to the System i. Please contact IT
+    if you have any trouble or if you need your password reset on the System i.
+  </p>
+<% end %>
+
+<%= form_for(:session, url: login_path) do |f| %>
+
+  <%= content_tag :div, class: 'form-group mt-3' do %>
+    <%= f.label :username,
+                'System i Username:',
+                class: 'font-weight-bold' %>
+    <div class="input-group">
+      <%= input_group_prepend 'user' %>
+      <%= f.text_field :username,
+                       class: 'form-control',
+                       required: true %>
+    </div>
+  <% end %>
+
+  <%= content_tag :div, class: 'form-group' do %>
+    <%= f.label :password,
+                'System i Password:',
+                class: 'font-weight-bold' %>
+    <div class="input-group">
+      <%= input_group_prepend 'lock' %>
+      <%= f.password_field :password,
+                           class: 'form-control',
+                           required: true %>
+    </div>
+  <% end %>
+
+  <%= content_tag :div, class: 'custom-control custom-checkbox' do %>
+    <%= f.check_box :remember_me,
+                    class: 'custom-control-input' %>
+    <%= f.label :remember_me,
+                class: 'custom-control-label font-weight-bold' %>
+  <% end %>
+
+  <%= f.button fa_icon('check', text: 'Login'),
+               class: 'btn btn-primary mt-3 mb-3 font-weight-bold',
+               type: 'submit' %>
+  
+<% end %>

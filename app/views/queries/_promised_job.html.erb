@@ -1,0 +1,19 @@
+<li class="list-group-item p-1<%= ' bg-danger text-white' if object_class == 'danger' %>">
+  <small class="font-weight-bold pull-left">
+    <%= promised_job[:shop_order] %>
+    <% if promised_job[:inspected] %>
+      <span class="badge badge-pill badge-success"><%= fa_icon 'check' %></span>
+    <% end %>
+  </small>
+  <small class="pull-right">
+    <%= "#{promised_job[:containers]} #{promised_job[:container_type]}" %>
+  </small>
+  <div class="clearfix"><!----></div>
+  <small class="font-weight-light">
+    <%= part_spec_info promised_job[:customer], promised_job[:process], promised_job[:part_id], promised_job[:sub_id] %>
+  </small>
+  <div class="clearfix"><!----></div>
+  <% unless promised_job[:status_note].blank? %>
+    <div class="<%= object_class == 'danger' ? 'bg-dark text-warning' : 'bg-light text-info' %> font-weight-bold small p-1"><%= promised_job[:status_note] %></div>
+  <% end %>
+</li>

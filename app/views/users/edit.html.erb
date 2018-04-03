@@ -1,0 +1,108 @@
+<% provide(:title, "Edit User #{@user.full_name}") %>
+<div class="row mt-3">
+  <div class="col">
+    <h4>Edit User: <strong><%= @user.full_name %></strong></h4>
+    <p class="small text-muted">
+      Note: some fields may only be updated on the System i: first name, last name, middle
+      initial, suffix, employee number, etc. If you have any questions about how to edit a
+      user, contact Toby.
+    </p>
+    <%= form_for @user, html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
+      <% if @user.errors.any? %>
+        <div class="alert alert-danger p-2 small font-weight-bold">
+          <p class="mb-0">The update could not be processed due to <%= pluralize(@user.errors.count, "error") %>:</p>
+          <ul class="mb-0">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="form-group">
+            <%= f.label :email,
+                        required_field_label('Email Address') %>
+            <%= f.email_field :email,
+                              class: 'form-control',
+                              required: true,
+                              disabled: @user.is_disabled %>
+            <small class="form-text text-muted">Only official @varland.com email addresses are allowed.</small>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="form-group">
+            <%= f.label :nickname,
+                        required_field_label('Goes By') %>
+            <%= f.text_field :nickname,
+                             class: 'form-control',
+                             required: true,
+                             disabled: @user.is_disabled %>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="form-group">
+            <%= f.label :initials,
+                        required_field_label('Initials') %>
+            <%= f.text_field :initials,
+                             class: 'form-control',
+                             required: true,
+                             disabled: @user.is_disabled %>
+            <small class="form-text text-muted">Enter unique initials for this user.</small>
+          </div>
+        </div>
+        <div class="col-12"><hr class="mt-0" /></div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="form-group">
+            <%= f.label :avatar_bg_color,
+                        required_field_label('Background Color') %>
+            <%= f.color_field :avatar_bg_color,
+                              class: 'form-control pt-0 pb-0 pl-1 pr-1',
+                              required: true,
+                              disabled: @user.is_disabled %>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+          <div class="form-group">
+            <%= f.label :avatar_text_color,
+                        required_field_label('Text Color') %>
+            <%= f.color_field :avatar_text_color,
+                              class: 'form-control pt-0 pb-0 pl-1 pr-1',
+                              required: true,
+                              disabled: @user.is_disabled %>
+          </div>
+        </div>
+        <div class="col-12"><hr class="mt-0" /></div>
+        <div class="col-12">
+          <%= content_tag :div, class: 'custom-control custom-checkbox' do %>
+            <%= f.check_box :is_admin,
+                            class: 'custom-control-input',
+                            disabled: @user.is_disabled %>
+            <%= f.label :is_admin,
+                        'Administrator',
+                        class: 'custom-control-label' %>
+          <% end %>
+        </div>
+        <div class="col-12">
+          <%= content_tag :div, class: 'custom-control custom-checkbox' do %>
+            <%= f.check_box :is_disabled,
+                            class: 'custom-control-input' %>
+            <%= f.label :is_disabled,
+                        'Disabled <small class="text-muted">(Will log user out and prevent future logins)</small>'.html_safe,
+                        class: 'custom-control-label' %>
+          <% end %>
+        </div>
+        <div class="col-12"><hr class="mb-0" /></div>
+        <div class="col-12">
+          <div class="pull-right">
+            <%= link_to 'Cancel', users_url, class: 'btn btn-link mt-3' %>
+            <%= f.button fa_icon('check', text: 'Update'),
+                        class: 'btn btn-success mt-3 font-weight-bold',
+                        type: 'submit' %>
+          </div>
+          <div class="clearfix"><!----></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

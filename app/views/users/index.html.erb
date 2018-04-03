@@ -1,0 +1,12 @@
+<% provide(:title, 'User Management') %>
+<div class="row mt-3">
+  <div class="col">
+    <%= render partial: 'filter_form' %>
+    <p class="font-weight-bold">
+      Found <%= pluralize @users.size, 'user' %>
+    </p>
+    <div class="row">
+      <%= render @users %>
+    </div>
+  </div>
+</div>
