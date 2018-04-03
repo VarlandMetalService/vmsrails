@@ -59,9 +59,9 @@ class User < ApplicationRecord
   validates :nickname,
             presence: true,
             uniqueness: true
-  #{{Add uniqueness requirement for email addresses}}
   validates :email,
             presence: true,
+            uniqueness: true,
             format: { with: /\A[a-z\.]+@varland\.com\z/,
                       message: 'may be a varland.com email address' }
   validates :avatar_bg_color,
@@ -127,8 +127,6 @@ class User < ApplicationRecord
 
   # Authenticates user.
   def authenticate(password)
-    return true
-    #{{Remove fake login}}
     uri = URI.parse "http://api.varland.com/v2/auth"
     http = Net::HTTP.new uri.host, uri.port
     request = Net::HTTP::Post.new uri.request_uri
