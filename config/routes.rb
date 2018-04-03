@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get     '/queries/promise_list',      to: 'queries#promise_list'
   get     '/queries/receipts',          to: 'queries#receipts'
 
+  post    '/system_i/update_user',      to: 'system_i#update_user'
+
   resources :users
   
 end

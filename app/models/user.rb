@@ -57,11 +57,9 @@ class User < ApplicationRecord
             format: { with: /\A[A-Z]+\z/,
                       message: 'may only contain uppercase letters' }
   validates :nickname,
-            presence: true,
-            uniqueness: true
+            presence: true
   validates :email,
             presence: true,
-            uniqueness: true,
             format: { with: /\A[a-z\.]+@varland\.com\z/,
                       message: 'may be a varland.com email address' }
   validates :avatar_bg_color,
@@ -76,8 +74,8 @@ class User < ApplicationRecord
   before_validation do
 
     # Format names.
-    self.first_name = self.first_name.titleize unless self.first_name.match(/\p{Lower}/)
-    unless self.last_name.match(/\p{Lower}/)
+    self.first_name = self.first_name.titleize unless self.first_name.blank? || self.first_name.match(/\p{Lower}/)
+    unless self.last_name.blank? || self.last_name.match(/\p{Lower}/)
       self.last_name = self.last_name.titleize
       if self.last_name.start_with? 'Mc'
         self.last_name[2] = self.last_name[2].upcase
@@ -86,13 +84,15 @@ class User < ApplicationRecord
     self.nickname = self.first_name if self.nickname.blank?
 
     # Auto generate fields that may be left blank.
-    self.initials = "#{self.first_name.first}#{self.last_name.first}".upcase if self.initials.blank?
-    self.username = self.first_name.downcase if self.username.blank?
-    self.email = "#{self.first_name}.#{self.last_name}@varland.com".downcase if self.email.blank?
+    unless self.first_name.blank? || self.last_name.blank?
+      self.initials = "#{self.first_name.first}#{self.last_name.first}".upcase if self.initials.blank?
+      self.username = self.first_name.downcase if self.username.blank?
+      self.email = "#{self.first_name}.#{self.last_name}@varland.com".downcase if self.email.blank?
+    end
 
     # Format case-specific fields.
     ['avatar_bg_color', 'avatar_text_color', 'email', 'username'].each do |a|
-      self[a].downcase!
+      self[a].downcase! unless self[a].blank?
     end
     self.middle_initial.upcase! unless self.middle_initial.blank?
 
