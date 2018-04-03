@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class QueriesController < ApplicationController
 
   skip_before_action  :authenticate_user,
