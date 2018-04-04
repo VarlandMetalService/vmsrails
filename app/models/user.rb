@@ -82,6 +82,7 @@ class User < ApplicationRecord
       end
     end
     self.nickname = self.first_name if self.nickname.blank?
+    self.nickname = self.nickname.titleize unless self.nickname.blank?
 
     # Auto generate fields that may be left blank.
     unless self.first_name.blank? || self.last_name.blank?
