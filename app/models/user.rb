@@ -42,7 +42,7 @@ class User < ApplicationRecord
             uniqueness: true,
             format: { with: /\A[a-z]+\z/,
                       message: 'may only contain lowercase letters' },
-            length: { in: 3..20 }
+            length: { in: 2..20 }
   validates :first_name,
             presence: true,
             format: { with: /\A[A-Z]/,
