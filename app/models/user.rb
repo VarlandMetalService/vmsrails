@@ -81,6 +81,9 @@ class User < ApplicationRecord
         self.last_name[2] = self.last_name[2].upcase
       end
     end
+    unless self.suffix.blank? || self.suffix.match(/[XVI]+/)
+      self.suffix = self.suffix.titleize
+    end
     self.nickname = self.first_name if self.nickname.blank?
     self.nickname = self.nickname.titleize unless self.nickname.blank?
 
