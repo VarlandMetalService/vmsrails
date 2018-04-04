@@ -14,6 +14,8 @@ class SystemIController < ApplicationController
     user.last_name = user_details[:last_name]
     user.suffix = user_details[:suffix]
     user.username = user_details[:username]
+    user.email = user_details[:email]
+    user.nickname = user_details[:nickname]
     if user.save
       return head(:ok)
     else
