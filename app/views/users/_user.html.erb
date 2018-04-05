@@ -18,6 +18,14 @@
       <%= small_label_bold_text 'System i Username', "<code>#{user.username}</code>" %>
     </div>
     <div class="card-footer">
+      <%= form_for user, html: { class: 'd-inline-block' } do |f| %>
+        <%= f.hidden_field :is_disabled,
+                          value: !user.is_disabled %>
+        <%= f.button (user.is_disabled ? fa_icon('check', text: 'Enable') : fa_icon('times-circle', text: 'Disable')),
+                    class: "btn btn-#{user.is_disabled ? 'success' : 'danger'} btn-sm font-weight-bold pt-0 pb-0 pl-1 pr-1",
+                    type: 'submit',
+                    data: { confirm: "Are you sure you want to #{user.is_disabled ? 'enable' : 'disable'} #{user.nickname}?" } %>
+      <% end %>
       <%= link_to fa_icon('times-circle', text: 'Edit'), edit_user_path(user), class: 'btn btn-sm pt-0 pb-0 pl-1 pr-1 btn-primary font-weight-bold' %>
     </div>
   </div>
