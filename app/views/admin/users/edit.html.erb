@@ -7,7 +7,7 @@
       initial, suffix, employee number, etc. If you have any questions about how to edit a
       user, contact Toby.
     </p>
-    <%= form_for @user, html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
+    <%= form_for [:admin, @user], html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
       <% if @user.errors.any? %>
         <div class="alert alert-danger p-2 small font-weight-bold">
           <p class="mb-0">The update could not be processed due to <%= pluralize(@user.errors.count, "error") %>:</p>
@@ -95,7 +95,7 @@
         <div class="col-12"><hr class="mb-0" /></div>
         <div class="col-12">
           <div class="pull-right">
-            <%= link_to 'Cancel', users_url, class: 'btn btn-link mt-3' %>
+            <%= link_to 'Cancel', admin_users_url, class: 'btn btn-link mt-3' %>
             <%= f.button fa_icon('check', text: 'Update'),
                         class: 'btn btn-success mt-3 font-weight-bold',
                         type: 'submit' %>

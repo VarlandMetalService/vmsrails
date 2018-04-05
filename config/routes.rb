@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   post    '/system_i/update_user',      to: 'system_i#update_user'
 
-  resources :users
+  namespace :admin do
+    resources :users
+  end
   
 end

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 col-md-9 col-lg-6">
-    <%= form_with url: users_path,
+    <%= form_with url: admin_users_path,
                   class: 'bg-dark text-white border rounded mb-3 p-3',
                   method: 'get',
                   local: true do |f| %>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-12">
           <div class="pull-right">
-            <%= link_to 'Reset', users_url, class: 'btn btn-link text-white' %>
+            <%= link_to 'Reset', admin_users_url, class: 'btn btn-link text-white' %>
             <%= f.button fa_icon('filter', text: 'Filter'),
                          class: 'btn btn-sm btn-warning font-weight-bold',
                          type: 'submit' %>

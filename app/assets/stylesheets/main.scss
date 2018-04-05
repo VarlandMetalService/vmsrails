@@ -49,3 +49,14 @@ input:focus + .focus-help {
     left: auto;
   }
 }
+
+.hoverable {
+  &:hover {
+    .hover-only {
+      visibility: visible;
+    }
+  }
+  .hover-only {
+    visibility: hidden;
+  }
+}

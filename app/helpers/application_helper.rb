@@ -18,9 +18,9 @@ module ApplicationHelper
 
   def nav_link(controller, action, icon, url, method = :get)
     classes = ['nav-item']
-    if current_page? controller: controller, action: action
-      classes << 'active'
-    end
+    #if current_page? controller: controller, action: action
+    #  classes << 'active'
+    #end
     content_tag :li, class: classes.join(' ') do
       link_to fa_icon("#{icon} 2x"), url, class: 'nav-link p-1', method: method
     end
