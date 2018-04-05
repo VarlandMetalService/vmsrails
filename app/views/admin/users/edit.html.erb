@@ -21,27 +21,6 @@
       <div class="row">
         <div class="col-12 col-sm-6 col-md-4">
           <div class="form-group">
-            <%= f.label :email,
-                        required_field_label('Email Address') %>
-            <%= f.email_field :email,
-                              class: 'form-control',
-                              required: true,
-                              disabled: @user.is_disabled %>
-            <small class="form-text text-muted">Only official @varland.com email addresses are allowed.</small>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4">
-          <div class="form-group">
-            <%= f.label :nickname,
-                        required_field_label('Goes By') %>
-            <%= f.text_field :nickname,
-                             class: 'form-control',
-                             required: true,
-                             disabled: @user.is_disabled %>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4">
-          <div class="form-group">
             <%= f.label :initials,
                         required_field_label('Initials') %>
             <%= f.text_field :initials,
@@ -57,7 +36,7 @@
             <%= f.label :avatar_bg_color,
                         required_field_label('Background Color') %>
             <%= f.color_field :avatar_bg_color,
-                              class: 'form-control pt-0 pb-0 pl-1 pr-1',
+                              class: 'form-control py-0 px-1',
                               required: true,
                               disabled: @user.is_disabled %>
           </div>
@@ -67,7 +46,7 @@
             <%= f.label :avatar_text_color,
                         required_field_label('Text Color') %>
             <%= f.color_field :avatar_text_color,
-                              class: 'form-control pt-0 pb-0 pl-1 pr-1',
+                              class: 'form-control py-0 px-1',
                               required: true,
                               disabled: @user.is_disabled %>
           </div>
