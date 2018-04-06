@@ -67,6 +67,10 @@ class User < ApplicationRecord
             presence: true,
             format: { with: /\A#[0-9a-f]{6}\z/,
                       message: 'must be a valid hex color code' }
+  validates :phone_number,
+            presence: true,
+            format: { with: /\A\d{10}\z/,
+                      message: 'must include exactly 10 digits' }
 
   # Callbacks.
 
@@ -99,6 +103,9 @@ class User < ApplicationRecord
       self[a].downcase! unless self[a].blank?
     end
     self.middle_initial.upcase! unless self.middle_initial.blank?
+    self.address = self.address.titleize unless self.address.blank?
+    self.city = self.city.titleize unless self.city.blank?
+    self.state.upcase! unless self.state.blank?
 
     # Disables user if necessary before saving.
     if self.is_disabled
