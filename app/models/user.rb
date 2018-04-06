@@ -131,12 +131,14 @@ class User < ApplicationRecord
 
   # Authenticates user.
   def authenticate(password)
-    uri = URI.parse "http://api.varland.com/v2/auth"
+    uri = URI.parse "http://as400railsapi.varland.com/v1/auth"
     http = Net::HTTP.new uri.host, uri.port
     request = Net::HTTP::Post.new uri.request_uri
     request.body = "user=#{self.username}&password=#{password}"
     response = http.request request
-    return response.code.to_s == '200' && response.body.to_s == '1'
+    return false unless response.code.to_s == '200'
+    result = JSON.parse response.body
+    return result['result']
   end
 
   # Returns full name.
