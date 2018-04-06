@@ -16,6 +16,11 @@ class SystemIController < ApplicationController
     user.username = user_details[:username]
     user.email = user_details[:email]
     user.nickname = user_details[:nickname]
+    user.address = user_details[:address]
+    user.city = user_details[:city]
+    user.state = user_details[:state]
+    user.zip_code = user_details[:zip_code]
+    user.phone_number = user_details[:phone_number]
     if user.save
       return head(:ok)
     else
