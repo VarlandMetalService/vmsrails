@@ -4,6 +4,9 @@ require "capistrano/setup"
 # Include default deployment tasks
 require "capistrano/deploy"
 
+# Whenever gem integration.
+require 'whenever/capistrano'
+
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
