@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   root    'vms#home'
 
   get     '/login',   to: 'sessions#new'
@@ -14,5 +14,13 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
   end
+  
+  namespace :dept_info do
+    resources :folders
+    resources :local_documents
+    resources :google_documents
+    resources :documents
+  end
+  get     '/dept_info',                 to: 'dept_info#index'
   
 end

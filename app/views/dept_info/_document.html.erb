@@ -1,0 +1,24 @@
+<div>
+  <span>
+    <%= (fa_icon('', class: 'fa-fw') * depth).html_safe %>
+  </span>
+  <% if include_path %><span class="text-<%= dark ? 'muted' : 'muted' %> d-none d-md-inline"><%= document.folder_path.html_safe %> &rarr;</span><% end %>
+  <%= fa_icon('thumb-tack', class: 'fa-fw') if document.is_starred %>
+  <%= document_icon document %>
+  <%
+    link_classes = []
+    link_classes << 'font-weight-bold' if document.age < 7
+    link_classes << 'text-light' if dark
+  %>
+  <%=
+    case document.content_type
+    when 'application/vnd.google-apps.document', 'application/vnd.google-apps.spreadsheet'
+      link_to document.name, document, class: link_classes.join(' ')
+    else
+      link_to document.name, document.url, class: link_classes.join(' '), target: '_blank'
+    end
+  %>
+  <small class="text-<%= dark ? 'muted' : 'muted' %> d-none d-md-inline">
+    <%= document.updated_at.localtime.strftime '%m/%d/%y' %>
+  </small>
+</div>

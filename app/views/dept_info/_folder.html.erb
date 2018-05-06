@@ -1,0 +1,21 @@
+<div class="mt-1">
+  <div class="font-weight-bold">
+    <%= (fa_icon('', class: 'fa-fw') * folder.depth).html_safe %>
+    <span id="folder-icon-<%= folder.id %>">
+      <%= fa_icon('folder', class: 'fa-fw text-muted') %>
+    </span>
+    <a href="#collapse-<%= folder.id %>"
+       class="text-dark folder-link"
+       data-toggle="collapse"
+       data-icon="#folder-icon-<%= folder.id %>"
+       data-folder="folder-<%= folder.id %>"><%= folder.name %></a>
+  </div>
+  <div class="folder-contents collapse" id="collapse-<%= folder.id %>">
+    <%= render partial: "folder", collection: folder.children %>
+    <% unless folder.documents.length == 0 %>
+      <%= render partial: "document", collection: folder.documents, locals: { depth: folder.depth + 1,
+                                                                              include_path: false,
+                                                                              dark: false } %>
+    <% end %>
+  </div>
+</div>

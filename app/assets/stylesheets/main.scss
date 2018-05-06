@@ -60,3 +60,15 @@ input:focus + .focus-help {
     visibility: hidden;
   }
 }
+
+.text-monospace {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.embed-fill-height {
+  height: 77vh;
+}
+
+.max-fill-height {
+  max-height: 77vh;
+}

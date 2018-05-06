@@ -1,0 +1,2 @@
+module DeptInfo::DocumentsHelper
+end

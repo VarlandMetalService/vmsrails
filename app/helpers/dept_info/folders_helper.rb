@@ -1,0 +1,2 @@
+module DeptInfo::FoldersHelper
+end

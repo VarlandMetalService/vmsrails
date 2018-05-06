@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
-  $('a[target="_blank"]').each ->
+  $('.admin_users-controller a[target="_blank"]').each ->
     text = $(@).text() + ' <i class="fa fa-external-link"></i>'
     $(@).html(text)

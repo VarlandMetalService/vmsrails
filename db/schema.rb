@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406151410) do
+ActiveRecord::Schema.define(version: 20180504132518) do
+
+  create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "folder_id"
+    t.string "name"
+    t.string "google_id"
+    t.boolean "is_starred"
+    t.text "description"
+    t.text "contents"
+    t.string "content_type"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "dept_info_folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name", null: false
+    t.bigint "parent_id"
+    t.bigint "lft"
+    t.bigint "rgt"
+    t.integer "depth"
+    t.string "google_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "employee_number", null: false

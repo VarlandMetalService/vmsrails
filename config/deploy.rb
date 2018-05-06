@@ -1,6 +1,8 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
+require "whenever/capistrano"
+
 set :application, 'vmsrails'
 set :repo_url, 'https://github.com/VarlandMetalService/vmsrails'
 
