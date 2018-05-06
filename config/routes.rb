@@ -17,10 +17,9 @@ Rails.application.routes.draw do
   
   namespace :dept_info do
     resources :folders
-    resources :local_documents
-    resources :google_documents
     resources :documents
   end
   get     '/dept_info',                 to: 'dept_info#index'
+  get     '/dept_info/update',          to: 'dept_info#update'
   
 end

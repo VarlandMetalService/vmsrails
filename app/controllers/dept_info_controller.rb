@@ -13,4 +13,10 @@ class DeptInfoController < ApplicationController
     end
   end
 
+  def update
+    loader = DeptInfo::Loader.new()
+    loader.load()
+    redirect_back fallback_location: dept_info_url, success: "Finished updating Departmental Information."
+  end
+
 end
