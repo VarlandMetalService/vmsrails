@@ -81,15 +81,15 @@ protected
 
   def fetch(url, limit = 10)
     return nil if limit == 0
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
+    uri = ::URI.parse(url)
+    http = ::Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.request_uri)
+    request = ::Net::HTTP::Get.new(uri.request_uri)
     response = http.request(request)
     case response
-    when Net::HTTPSuccess
+    when ::Net::HTTPSuccess
       return response
-    when Net::HTTPRedirection
+    when ::Net::HTTPRedirection
       return self.fetch(response['location'], limit - 1)
     else
       response.error!
