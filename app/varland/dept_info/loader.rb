@@ -1,3 +1,7 @@
+require 'json'
+require 'net/https'
+require 'uri'
+
 class DeptInfo::Loader
 
   GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbzTh0AjsLVL0kKxdLAM2KDbf5Z3XYmyQMrRdDMo3M3uj2TQkq4/exec'
@@ -75,7 +79,7 @@ protected
     @google_data = nil
     response = self.fetch(self.class::GOOGLE_URL)
     if (response)
-      @google_data = JSON.parse(response.body)
+      @google_data = ::JSON.parse(response.body)
     end
   end
 
