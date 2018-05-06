@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 35.minutes do
+every 5.minutes do
   rake "dept_info:update_google_documents"
 end
