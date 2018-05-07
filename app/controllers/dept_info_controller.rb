@@ -4,11 +4,15 @@ class DeptInfoController < ApplicationController
 
   has_scope :with_search_term,
             only: :index
+  has_scope :changed_after,
+            only: :index
+  has_scope :changed_before,
+            only: :index
 
   def index
     @folders = DeptInfo::Folder.roots
-    @newest = DeptInfo::Document.unscoped.order(updated_at: :desc).limit(20)
-    if params[:with_search_term]
+    @newest = DeptInfo::Document.unscoped.changed_after(6.months.ago).order(updated_at: :desc).limit(20)
+    if params[:with_search_term] || params[:changed_after] || params[:changed_before]
       @search_results = apply_scopes(DeptInfo::Document).all
     end
   end

@@ -14,6 +14,28 @@
                           value: params[:with_search_term] %>
       </div>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <%= f.label :changed_after,
+                    'From Date:'  %>
+        <%= f.date_field :changed_after,
+                          class: 'form-control',
+                          value: params[:changed_after] %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <%= f.label :changed_before,
+                    'To Date:'  %>
+        <%= f.date_field :changed_before,
+                          class: 'form-control',
+                          value: params[:changed_before] %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-12">
       <div class="pull-right">
         <%= link_to 'Reset', dept_info_url, class: 'btn btn-link text-white' %>
@@ -24,9 +46,9 @@
       <div class="clearfix"><!----></div>
     </div>
   </div>
-  <% if params[:with_search_term] %>
+  <% if params[:with_search_term] || params[:changed_after] || params[:changed_before] %>
     <p class="small font-weight-bold text-warning mt-2 mb-1 text-uppercase">Search Results <small>(Newest @ Top)</small></p>
-    <% if @search_results.length == 0 %>
+    <% if @search_results.empty? || @search_results.length == 0 %>
       <span class="text-danger small font-weight-bold text-uppercase">No matching documents found.</span>
     <% else %>
       <%= render partial: "document", collection: @search_results, locals: { depth: 0, include_path: true, dark: true } %>
