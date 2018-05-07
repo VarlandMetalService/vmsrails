@@ -28,16 +28,16 @@ protected
                                     parent: parent).first()
     if folder.blank?
       folder = DeptInfo::Folder.new()
-      folder.name = folder_object['name']
-      folder.google_id = folder_object['id']
-      folder.parent = parent
-      begin
-        unless folder.save
-          return
-        end
-      rescue
+    end
+    folder.name = folder_object['name']
+    folder.google_id = folder_object['id']
+    folder.parent = parent
+    begin
+      unless folder.save
         return
       end
+    rescue
+      return
     end
 
     # Update or create documents.

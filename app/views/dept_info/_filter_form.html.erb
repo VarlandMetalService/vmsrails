@@ -1,37 +1,35 @@
-<div class="col-12 col-lg-6 mb-3">
-  <%= form_with url: dept_info_path,
-                class: 'bg-dark text-white border rounded p-3',
-                method: 'get',
-                local: true do |f| %>
-    <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <%= f.label :with_search_term,
-                      'Search:',
-                      class: 'sr-only'  %>
-          <%= f.text_field :with_search_term,
-                           class: 'form-control',
-                           value: params[:with_search_term] %>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="pull-right">
-          <%= link_to 'Reset', dept_info_url, class: 'btn btn-link text-white' %>
-          <%= f.button fa_icon('search', text: 'Search'),
-                        class: 'btn btn-sm btn-warning font-weight-bold',
-                        type: 'submit' %>
-        </div>
-        <div class="clearfix"><!----></div>
+<%= form_with url: dept_info_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get',
+              local: true do |f| %>
+  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <%= f.label :with_search_term,
+                    'Search:',
+                    class: 'sr-only'  %>
+        <%= f.text_field :with_search_term,
+                          class: 'form-control',
+                          value: params[:with_search_term] %>
       </div>
     </div>
-    <% if params[:with_search_term] %>
-      <p class="small font-weight-bold text-warning mt-2 mb-1 text-uppercase">Search Results <small>(Newest @ Top)</small></p>
-      <% if @search_results.length == 0 %>
-        <span class="text-danger small font-weight-bold text-uppercase">No matching documents found.</span>
-      <% else %>
-        <%= render partial: "document", collection: @search_results, locals: { depth: 0, include_path: true, dark: true } %>
-      <% end %>
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', dept_info_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('search', text: 'Search'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+  <% if params[:with_search_term] %>
+    <p class="small font-weight-bold text-warning mt-2 mb-1 text-uppercase">Search Results <small>(Newest @ Top)</small></p>
+    <% if @search_results.length == 0 %>
+      <span class="text-danger small font-weight-bold text-uppercase">No matching documents found.</span>
+    <% else %>
+      <%= render partial: "document", collection: @search_results, locals: { depth: 0, include_path: true, dark: true } %>
     <% end %>
   <% end %>
-</div>
+<% end %>

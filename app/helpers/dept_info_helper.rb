@@ -8,6 +8,8 @@ module DeptInfoHelper
       fa_icon('file-word-o', class: 'fa-fw text-primary')
     when 'application/vnd.google-apps.spreadsheet', 'application/excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       fa_icon('file-excel-o', class: 'fa-fw text-success')
+    when 'application/vnd.google-apps.presentation'
+      fa_icon('file-powerpoint-o', class: 'fa-fw text-warning')
     when 'text/plain'
       fa_icon('file-text-o', class: 'fa-fw')
     when 'application/pdf'

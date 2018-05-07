@@ -16,7 +16,7 @@
   <div class="col">
     <%=
       case @document.content_type
-      when 'application/vnd.google-apps.document', 'application/vnd.google-apps.spreadsheet'
+      when 'application/vnd.google-apps.document', 'application/vnd.google-apps.spreadsheet', 'application/vnd.google-apps.presentation'
         render partial: "google", object: @document
       else
         'You must click the link above to view this item in a new tab.'

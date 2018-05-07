@@ -12,7 +12,7 @@
   %>
   <%=
     case document.content_type
-    when 'application/vnd.google-apps.document', 'application/vnd.google-apps.spreadsheet'
+    when 'application/vnd.google-apps.document', 'application/vnd.google-apps.spreadsheet', 'application/vnd.google-apps.presentation'
       link_to document.name, document, class: link_classes.join(' ')
     else
       link_to document.name, document.url, class: link_classes.join(' '), target: '_blank'

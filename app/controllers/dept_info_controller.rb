@@ -7,7 +7,7 @@ class DeptInfoController < ApplicationController
 
   def index
     @folders = DeptInfo::Folder.roots
-    @newest = DeptInfo::Document.unscoped.order(updated_at: :desc).limit(5)
+    @newest = DeptInfo::Document.unscoped.order(updated_at: :desc).limit(20)
     if params[:with_search_term]
       @search_results = apply_scopes(DeptInfo::Document).all
     end
