@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180504132518) do
+ActiveRecord::Schema.define(version: 20180516190945) do
 
   create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "folder_id"
@@ -34,6 +34,31 @@ ActiveRecord::Schema.define(version: 20180504132518) do
     t.string "google_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "maintenance_scheduled_task_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "equipment_type_name"
+    t.string "equipment_name"
+    t.string "task_name"
+    t.string "equipment_type_description"
+    t.string "equipment_serial_number"
+    t.string "equipment_description_1"
+    t.string "equipment_description_2"
+    t.string "equipment_description_3"
+    t.string "equipment_description_4"
+    t.string "equipment_manufacturer"
+    t.string "equipment_model"
+    t.date "equipment_in_service_date"
+    t.string "equipment_department"
+    t.string "equipment_location"
+    t.string "task_description"
+    t.string "task_url"
+    t.integer "scheduled_task_frequency"
+    t.string "scheduled_task_description"
+    t.date "last_maintenance_date"
+    t.string "last_maintenance_initials"
+    t.string "code_name"
+    t.string "code_description"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
