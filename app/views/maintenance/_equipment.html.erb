@@ -1,0 +1,45 @@
+<h5>Scheduled Tasks for <%= "#{scheduled_task_statuses.first.equipment_type_name}: #{scheduled_task_statuses.first.equipment_name}" %></h5>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <td>Task</th>
+      <th>Frequency</th>
+      <th>Due Date</th>
+      <th>Last Time Done</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% scheduled_task_statuses.each do |status| %>
+      <tr>
+        <td>
+          <strong><%= status.scheduled_task_description %></strong>
+        </td>
+        <td>
+          <abbr class="font-weight-bold" title="<%= status.task_description %>"><%= status.task_name %></abbr>
+          <% unless status.task_url.blank? %>
+            <small><%= link_to fa_icon('external-link'), status.task_url, target: '_blank' %></small>
+          <% end %>
+        </td>
+        <td>
+          <strong>Every <%= pluralize status.scheduled_task_frequency, 'Day' %></strong>
+        </td>
+        <td class="<%= status.past_due? ? 'table-danger' : nil %>">
+          <strong><%= status.due_date.strftime '%m/%d/%y' %></strong>
+          <small class="<%= status.past_due? ? 'text-danger font-weight-bold' : 'text-success' %>">
+            (<%= distance_of_time_in_words status.due_date, Date.today %> <%= status.days_until_due < 0 ? 'ago' : 'from today' %>)
+          </small>
+        </td>
+        <td>
+          <% unless status.last_maintenance_date.blank? %>
+            <strong>
+              <%= status.last_maintenance_date.strftime '%m/%d/%y' %>,
+              <%= status.last_maintenance_initials %>,
+              <abbr title="<%= status.code_description %>"><%= status.code_name %></abbr>
+            </strong>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

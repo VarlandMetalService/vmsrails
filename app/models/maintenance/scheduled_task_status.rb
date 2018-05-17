@@ -9,6 +9,7 @@ class Maintenance::ScheduledTaskStatus < ApplicationRecord
       where("last_maintenance_date IS NULL OR DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY) <= DATE_ADD(DATE(NOW()), INTERVAL #{days.to_i} DAY)")
     end
   }
+  scope :soonest_first, -> { order('DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY)') }
   scope :sorted_by, ->(sort) {
     case sort
     when 'task'
@@ -24,15 +25,24 @@ class Maintenance::ScheduledTaskStatus < ApplicationRecord
     end
     order(sort)
   }
-  scope :with_task, ->(task) { where("scheduled_task_description = :search", search: task) unless task.blank? }
-  scope :with_type, ->(type) { where("equipment_type_name = :search", search: type) unless type.blank? }
+  scope :with_task, ->(task) {
+    return if task.blank?
+    sort = 'DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY), equipment_type_name, equipment_name'
+    where("scheduled_task_description = :search", search: task).order(sort)
+  }
+  scope :with_type, ->(type) {
+    return if type.blank?
+    sort = 'equipment_name, DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY), scheduled_task_description'
+    where("equipment_type_name = :search", search: type).order(sort)
+  }
   scope :with_equipment, ->(name) {
     return if name.blank?
+    sort = 'DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY), scheduled_task_description'
     parts = name.split '__'
     if parts.size == 2
-      where("equipment_type_name = :type AND equipment_name = :name", type: parts[0], name: parts[1])
+      where("equipment_type_name = :type AND equipment_name = :name", type: parts[0], name: parts[1]).order(sort)
     else
-      where("equipment_name = :name", name: name)
+      where("equipment_name = :name", name: name).order(sort)
     end
   }
 

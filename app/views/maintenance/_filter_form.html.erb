@@ -11,7 +11,7 @@
         <%= f.number_field :due_in_next_x_days,
                            class: 'form-control',
                            value: params[:due_in_next_x_days] %>
-        <small class="form-text text-muted">Enter <code>-1</code> to show past due items only</small>
+        <small class="form-text text-muted">Enter <code>-1</code> to show past due items only &ndash; shows next 7 days by default</small>
       </div>
     </div>
     <div class="col">
@@ -53,17 +53,6 @@
                       options_for_select(equipment_array.uniq.sort,
                                         params[:with_equipment]),
                       { include_blank: true },
-                      { class: 'custom-select' } %>
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-group">
-        <%= f.label :sorted_by,
-                    'Sort By:'  %>
-        <%= f.select :sorted_by, 
-                      options_for_select(Maintenance::ScheduledTaskStatus.options_for_sorted_by,
-                                        params[:sorted_by]),
-                      { include_blank: false },
                       { class: 'custom-select' } %>
       </div>
     </div>

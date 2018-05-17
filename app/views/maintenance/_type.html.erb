@@ -1,0 +1,69 @@
+<h5>Scheduled Tasks for <abbr title="<%= scheduled_task_statuses.first.equipment_type_description %>"><%= scheduled_task_statuses.first.equipment_type_name %></abbr></h5>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Description</th>
+      <th>Task</th>
+      <th>Frequency</th>
+      <th>Due Date</th>
+      <th>Last Time Done</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% scheduled_task_statuses.pluck(:equipment_name).uniq.each do |id| %>
+      <tr>
+        <td><strong><%= id %></strong></td>
+        <td>
+          <%
+            values = scheduled_task_statuses.map {|s| s.scheduled_task_description if s.equipment_name == id }
+          %>
+          <strong><%= values.compact.join('<br />').html_safe %></strong>
+        </td>
+        <td>
+          <%
+            values = scheduled_task_statuses.map {|s|
+              t = nil
+              if s.equipment_name == id
+                t = "<abbr class=\"font-weight-bold\" title=\"#{ s.task_description }\">#{ s.task_name }</abbr>"
+                unless s.task_url.blank?
+                  t += " <small>#{ link_to fa_icon('external-link'), s.task_url, target: '_blank' }</small>"
+                end
+              end
+              t
+            }
+          %>
+          <strong><%= values.compact.join('<br />').html_safe %></strong>
+        </td>
+        <td>
+          <%
+            values = scheduled_task_statuses.map {|s|
+              "<strong>Every #{ pluralize s.scheduled_task_frequency, 'Day' }</strong>" if s.equipment_name == id
+            }
+          %>
+          <strong><%= values.compact.join('<br />').html_safe %></strong>
+        </td>
+        <td>
+          <%
+            values = scheduled_task_statuses.map {|s|
+              "<strong>#{ s.due_date.strftime '%m/%d/%y' }</strong> <small class=\"#{ s.past_due? ? 'text-danger font-weight-bold' : 'text-success' }\">(#{ distance_of_time_in_words s.due_date, Date.today } #{ s.days_until_due < 0 ? 'ago' : 'from today' })</small>" if s.equipment_name == id
+            }
+          %>
+          <strong><%= values.compact.join('<br />').html_safe %></strong>
+        </td>
+        <td>
+          <%
+            values = scheduled_task_statuses.map {|s|
+              t = nil
+              if s.last_maintenance_date.present? && s.equipment_name == id
+                t = "<strong>#{ s.last_maintenance_date.strftime '%m/%d/%y' }, #{ s.last_maintenance_initials }, <abbr title=\"#{ s.code_description }\">#{ s.code_name }</abbr></strong>"
+              end
+              t
+            }
+          %>
+          <strong><%= values.compact.join('<br />').html_safe %></strong>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
