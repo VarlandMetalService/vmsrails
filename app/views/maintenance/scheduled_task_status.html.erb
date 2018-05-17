@@ -24,11 +24,11 @@
       </thead>
       <tbody>
         <% @scheduled_task_statuses.each do |status| %>
-          <tr>
+          <tr class="<%= status.past_due? ? 'table-danger' : nil %>">
             <td>
               <strong><%= status.scheduled_task_description %></strong><br />
               <small class="text-muted">Frequency:</small> <strong>Every <%= pluralize status.scheduled_task_frequency, 'Day' %></strong><br />
-              <small class="text-muted">Task:</small> <strong title="<%= status.task_description %>"><%= status.task_name %></strong>
+              <small class="text-muted">Task:</small> <abbr class="font-weight-bold" title="<%= status.task_description %>"><%= status.task_name %></abbr>
               <% unless status.task_url.blank? %>
                 <small><%= link_to fa_icon('external-link'), status.task_url, target: '_blank' %></small>
               <% end %>
@@ -47,7 +47,7 @@
                 <strong>
                   <%= status.last_maintenance_date.strftime '%m/%d/%y' %>,
                   <%= status.last_maintenance_initials %>,
-                  <span title="<%= status.code_description %>"><%= status.code_name %></span>
+                  <abbr title="<%= status.code_description %>"><%= status.code_name %></abbr>
                 </strong>
               <% end %>
             </td>
