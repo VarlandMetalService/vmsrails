@@ -1,0 +1,82 @@
+<%= form_with url: maintenance_scheduled_task_status_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get',
+              local: true do |f| %>
+  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :due_in_next_x_days,
+                    'Due Within <code>X</code> Days:'.html_safe  %>
+        <%= f.number_field :due_in_next_x_days,
+                           class: 'form-control',
+                           value: params[:due_in_next_x_days] %>
+        <small class="form-text text-muted">Enter <code>-1</code> to show past due items only</small>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_task,
+                    'Scheduled Task:'  %>
+        <% tasks_array = tasks.map { |t| [t.scheduled_task_description] } %>
+        <%= f.select :with_task, 
+                      options_for_select(tasks_array.uniq.sort,
+                                        params[:with_task]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_type,
+                    'Equipment Type:'  %>
+        <% types_array = tasks.map { |t| [t.equipment_type_name] } %>
+        <%= f.select :with_type, 
+                      options_for_select(types_array.uniq.sort,
+                                        params[:with_type]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_equipment,
+                    'Specific Equipment:'  %>
+        <% equipment_array = tasks.map { |t|
+          if params[:with_type]
+            [t.equipment_name]
+          else
+            ["#{t.equipment_type_name}: #{t.equipment_name}"]
+          end
+        } %>
+        <%= f.select :with_equipment, 
+                      options_for_select(equipment_array.uniq.sort,
+                                        params[:with_equipment]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :sorted_by,
+                    'Sort By:'  %>
+        <%= f.select :sorted_by, 
+                      options_for_select(Maintenance::ScheduledTaskStatus.options_for_sorted_by,
+                                        params[:sorted_by]),
+                      { include_blank: false },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', maintenance_scheduled_task_status_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('filter', text: 'Filter'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>
