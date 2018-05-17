@@ -26,7 +26,15 @@ class Maintenance::ScheduledTaskStatus < ApplicationRecord
   }
   scope :with_task, ->(task) { where("scheduled_task_description = :search", search: task) unless task.blank? }
   scope :with_type, ->(type) { where("equipment_type_name = :search", search: type) unless type.blank? }
-  scope :with_equipment, ->(name) { where("equipment_name = :search", search: name) unless name.blank? }
+  scope :with_equipment, ->(name) {
+    return if name.blank?
+    parts = name.split '||'
+    if parts.size == 2
+      where("equipment_type_name = :type AND equipment_name = :name", type: parts[0], name: parts[1])
+    else
+      where("equipment_name = :name", name: name)
+    end
+  }
 
   def due_date
     return Date.yesterday if self.equipment_in_service_date.nil? && self.last_maintenance_date.nil?
