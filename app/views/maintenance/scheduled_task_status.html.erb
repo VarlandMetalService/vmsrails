@@ -11,16 +11,20 @@
 </div>
 <div class="row mt-3">
   <div class="col">
-    <%=
-      if !params[:with_equipment].blank?
-        render partial: 'equipment', locals: { scheduled_task_statuses: @scheduled_task_statuses }
-      elsif !params[:with_type].blank?
-        render partial: 'type', locals: { scheduled_task_statuses: @scheduled_task_statuses }
-      elsif !params[:with_task].blank?
-        render partial: 'task', locals: { scheduled_task_statuses: @scheduled_task_statuses }
-      else
-        render partial: 'due_soonest', locals: { scheduled_task_statuses: @scheduled_task_statuses }
-      end
-    %>
+    <% if @scheduled_task_statuses.blank? %>
+      <p class="text-danger">No results found.</p>
+    <% else %>
+      <%=
+        if !params[:with_equipment].blank?
+          render partial: 'equipment', locals: { scheduled_task_statuses: @scheduled_task_statuses }
+        elsif !params[:with_type].blank?
+          render partial: 'type', locals: { scheduled_task_statuses: @scheduled_task_statuses }
+        elsif !params[:with_task].blank?
+          render partial: 'task', locals: { scheduled_task_statuses: @scheduled_task_statuses }
+        else
+          render partial: 'due_soonest', locals: { scheduled_task_statuses: @scheduled_task_statuses }
+        end
+      %>
+    <% end %>
   </div>
 </div>
