@@ -28,7 +28,7 @@ class Maintenance::ScheduledTaskStatus < ApplicationRecord
   scope :with_type, ->(type) { where("equipment_type_name = :search", search: type) unless type.blank? }
   scope :with_equipment, ->(name) {
     return if name.blank?
-    parts = name.split '||'
+    parts = name.split '__'
     if parts.size == 2
       where("equipment_type_name = :type AND equipment_name = :name", type: parts[0], name: parts[1])
     else
