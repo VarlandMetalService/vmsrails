@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% @scheduled_task_statuses.each do |status| %>
-          <tr class="<%= status.past_due? ? 'table-danger' : nil %>">
+          <tr>
             <td>
               <strong><%= status.scheduled_task_description %></strong><br />
               <small class="text-muted">Frequency:</small> <strong>Every <%= pluralize status.scheduled_task_frequency, 'Day' %></strong><br />
@@ -37,7 +37,7 @@
               <small class="text-muted">ID:</small> <strong><%= status.equipment_name %></strong><br />
               <small class="text-muted">Type:</small> <strong title="<%= status.equipment_type_description %>"><%= status.equipment_type_name %></strong>
             </td>
-            <td>
+            <td class="<%= status.past_due? ? 'table-danger' : nil %>">
               <small class="text-muted">Due:</small> <strong><%= status.due_date.strftime '%m/%d/%y' %></strong>
               <small class="<%= status.past_due? ? 'text-danger font-weight-bold' : 'text-success' %>">
                 (<%= distance_of_time_in_words status.due_date, Date.today %> <%= status.days_until_due < 0 ? 'ago' : 'from today' %>)
