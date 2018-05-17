@@ -46,7 +46,7 @@
           if params[:with_type]
             [t.equipment_name]
           else
-            ["#{t.equipment_type_name}: #{t.equipment_name}"]
+            ["#{t.equipment_type_name}: #{t.equipment_name}", t.equipment_name]
           end
         } %>
         <%= f.select :with_equipment, 
