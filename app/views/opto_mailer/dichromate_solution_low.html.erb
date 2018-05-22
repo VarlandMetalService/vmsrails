@@ -1,7 +1,29 @@
-<p>Warning: Dichromate Solution Level Low</p>
-<p>This problem must be corrected or parts may not receive the coverage they need.</p>
-<ul>
-  <li>Low Limit: <%= @log.limit %>&Prime;</li>
-  <li>Reading: <%= @log.reading %>&Prime;</li>
-  <li>Timestamp: <%= @log.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %></li>
+<h4 style="font-weight: 500;
+           line-height: 1.2;
+           margin: 1rem 0 0;
+           font-size: 1.5rem;">
+  Dichromate Solution Level Low
+</h4>
+<p style="margin: 1rem 0 0;
+          line-height: 1.2;">
+  This problem must be corrected or parts may not receive the coverage they need.
+</p>
+<ul style="list-style: none;
+           margin: 1rem 0 0;
+           padding: 0;">
+  <li style="margin: 0.25rem 0 0;
+             line-height: 1.2;
+             padding: 0;">
+    <%= opto_email_field_value 'Low Limit', "#{number_with_delimiter(@log.limit)}&Prime;" %>
+  </li>
+  <li style="margin: 0.25rem 0 0;
+             line-height: 1.2;
+             padding: 0;">
+    <%= opto_email_field_value 'Reading', "#{number_with_delimiter(@log.reading)}&Prime;" %>
+  </li>
+  <li style="margin: 0.25rem 0 0;
+             line-height: 1.2;
+             padding: 0;">
+    <%= opto_email_field_value 'Timestamp', @log.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %>
+  </li>
 </ul>

@@ -2,6 +2,7 @@ class OptoMailer < ApplicationMailer
 
   default from: 'varlandmetalservice@gmail.com'
   layout 'opto_mailer'
+  helper :application
  
   def dichromate_solution_low
     @log = params[:log]

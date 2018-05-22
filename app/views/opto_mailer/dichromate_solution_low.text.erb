@@ -1,1 +1,1 @@
-Dichromate Solution Level Low. Low Limit: <%= @log.limit %>". Reading: <%= @log.reading %>". Timestamp: <%= @log.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %>.
+Dichromate Solution Level Low. Low Limit: <%= number_with_delimiter @log.limit %>". Reading: <%= number_with_delimiter @log.reading %>". Timestamp: <%= @log.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %>.
