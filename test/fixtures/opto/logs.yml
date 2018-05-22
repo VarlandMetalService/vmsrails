@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  controller_id: 1
+  type: 
+  lane: 1
+  station: 1
+  shop_order: 1
+  load: 1
+  barrel: 1
+  customer: MyString
+  process: MyString
+  part: MyString
+  sub: MyString
+  controller_timestamp: 2018-05-22 13:59:45
+  json_data: MyText
+
+two:
+  controller_id: 1
+  type: 
+  lane: 1
+  station: 1
+  shop_order: 1
+  load: 1
+  barrel: 1
+  customer: MyString
+  process: MyString
+  part: MyString
+  sub: MyString
+  controller_timestamp: 2018-05-22 13:59:45
+  json_data: MyText
