@@ -1,17 +1,11 @@
 <%= content_tag :h4, style: "font-weight: 500; line-height: 1.2; margin: 1rem 0 0; font-size: 1.5rem;" do -%>
-  Dichromate Solution Level Low
+  Dichromate Rinse Holding Tank Solution Level High
 <% end -%>
 <%= content_tag :p, style: "margin: 1rem 0 0; line-height: 1.2;" do -%>
-  This problem must be corrected or parts may not receive the coverage they need.
+  The rinse waterfill will be disabled until the solution level returns to normal.
 <% end -%>
 <%= content_tag :ul, style: "list-style: none; margin: 1rem 0 0; padding: 0; background-color: #eeeeee; border: 1px solid #dddddd; padding: 0.5rem;" do -%>
   <%= content_tag :li, style: "margin: 0; line-height: 1.2; padding: 0;" do -%>
-    <%= opto_email_field_value 'Low Limit', "#{number_with_delimiter(@log.limit)}&Prime;" %>
-  <% end -%>
-  <%= content_tag :li, style: "margin: 0.25rem 0 0; line-height: 1.2; padding: 0;" do -%>
-    <%= opto_email_field_value 'Reading', "#{number_with_delimiter(@log.reading)}&Prime;" %>
-  <% end -%>
-  <%= content_tag :li, style: "margin: 0.25rem 0 0; line-height: 1.2; padding: 0;" do -%>
     <%= opto_email_field_value 'Timestamp', @log.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %>
   <% end -%>
 <% end -%>

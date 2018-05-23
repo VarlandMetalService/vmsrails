@@ -1,6 +1,6 @@
 require 'json'
 
-class Opto::DichromateSolutionHigh < Opto::Log
+class Opto::DichromateNoTempControl < Opto::Log
 
   # Callbacks.
   after_create :process_notification
@@ -8,13 +8,13 @@ class Opto::DichromateSolutionHigh < Opto::Log
   # Instance methods.
 
   def process_notification
-    OptoMailer.with(log: self).dichromate_solution_high.deliver
+    OptoMailer.with(log: self).dichromate_no_temp_control.deliver
   end
 
   # Class methods.
 
   def self.parse(controller, log_details)
-    new_log = Opto::DichromateSolutionHigh.new
+    new_log = Opto::DichromateNoTempControl.new
     new_log.controller = controller
     new_log.parse_controller_timestamp(log_details[:controller_timestamp])
     new_log.reading = log_details[:reading].to_f

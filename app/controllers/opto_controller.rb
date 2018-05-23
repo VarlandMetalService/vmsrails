@@ -11,8 +11,24 @@ class OptoController < ApplicationController
     case @controller.name
     when "Dichromate"
       case log_details[:type]
+      when 'no_temp_control'
+        log = Opto::DichromateNoTempControl.parse(@controller, log_details)
+      when 'reclaim_sump_solution_high'
+        log = Opto::DichromateReclaimSumpSolutionHigh.parse(@controller, log_details)
+      when 'rinse_holding_solution_high'
+        log = Opto::DichromateRinseHoldingSolutionHigh.parse(@controller, log_details)
+      when 'dichromate_solution_high'
+        log = Opto::DichromateSolutionHigh.parse(@controller, log_details)
       when 'dichromate_solution_low'
         log = Opto::DichromateSolutionLow.parse(@controller, log_details)
+      when 'temp_control_disabled'
+        log = Opto::DichromateTemperatureControlDisabled.parse(@controller, log_details)
+      when 'dichromate_temp_high'
+        log = Opto::DichromateTemperatureHigh.parse(@controller, log_details)
+      when 'dichromate_temp_low'
+        log = Opto::DichromateTemperatureLow.parse(@controller, log_details)
+      when 'dichromate_temp_open'
+        log = Opto::DichromateTemperatureOpenCircuit.parse(@controller, log_details)
       else
         return head(:internal_server_error)
       end
