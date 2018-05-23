@@ -26,7 +26,7 @@
         <tbody>
           <% @logs.each do |l| %>
             <tr>
-              <td><%= l.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %></td>
+              <td><%= l.controller_timestamp.strftime('%m/%d/%Y %H:%M:%S') %></td>
               <td><%= l.controller.name %></td>
               <td><%= l.log_type %></td>
               <td><%= l.details.html_safe %></td>
