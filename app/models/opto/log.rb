@@ -28,7 +28,7 @@ class Opto::Log < ApplicationRecord
 
   def parse_controller_timestamp(raw)
     raw_timestamp = ::DateTime.strptime(raw, "%m/%d/%Y %H:%M:%S")
-    self.controller_timestamp = ::ActiveSupport::TimeZone['Eastern Time (US & Canada)'].parse(raw_timestamp.strftime('%Y-%m-%m %H:%M:%S'))
+    self.controller_timestamp = ::ActiveSupport::TimeZone['Eastern Time (US & Canada)'].parse(raw_timestamp.strftime('%Y-%m-%d %H:%M:%S'))
   end
 
   def log_type
