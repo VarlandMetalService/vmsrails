@@ -3,8 +3,8 @@ class Opto::Log < ApplicationRecord
   # Scoping.
   scope :with_timestamp_gte, ->(timestamp) { where("controller_timestamp >= ?", timestamp) unless timestamp.nil? }
   scope :with_timestamp_lte, ->(timestamp) { where("controller_timestamp <= ?", timestamp) unless timestamp.nil? }
-  scope :with_controller, ->(controller) { where("controller_id <= ?", controller) unless controller.nil? }
-  scope :with_type, ->(type) { where("type <= ?", type) unless type.nil? }
+  scope :with_controller, ->(controller) { where("controller_id = ?", controller) unless controller.nil? }
+  scope :with_type, ->(type) { where("type = ?", type) unless type.nil? }
   scope :sorted_by, ->(sort) {
     case sort
     when 'controller'
