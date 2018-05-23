@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   get     '/queries/receipts',                      to: 'queries#receipts'
 
   post    '/system_i/update_user',                  to: 'system_i#update_user'
+
   post    '/opto/log',                              to: 'opto#log'
+  get     '/opto/logs',                             to: 'opto#logs'
 
   namespace :admin do
     resources :users

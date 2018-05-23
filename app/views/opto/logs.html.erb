@@ -1,0 +1,39 @@
+<% provide(:title, 'Logs - Opto') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Opto Logs</h3>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col">
+    <%= render partial: 'filter_form', locals: { logs: @logs } %>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col">
+    <% if @logs.blank? %>
+      <p class="text-danger">No results found.</p>
+    <% else %>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Controller</th>
+            <th>Type</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @logs.each do |l| %>
+            <tr>
+              <td><%= l.controller_timestamp.in_time_zone('Eastern Time (US & Canada)').strftime('%m/%d/%Y %H:%M:%S') %></td>
+              <td><%= l.controller.name %></td>
+              <td><%= l.log_type %></td>
+              <td><%= l.details.html_safe %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>

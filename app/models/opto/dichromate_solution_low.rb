@@ -11,6 +11,10 @@ class Opto::DichromateSolutionLow < Opto::Log
     OptoMailer.with(log: self).dichromate_solution_low.deliver
   end
 
+  def details
+    "Dichromate solution level is low. Low limit: <strong><code>#{::ActiveSupport::NumberHelper::number_to_delimited self.limit}&Prime;</code></strong>. Reading: <strong><code>#{::ActiveSupport::NumberHelper::number_to_delimited self.reading}&Prime;</code></strong>."
+  end
+
   # Class methods.
 
   def self.parse(controller, log_details)

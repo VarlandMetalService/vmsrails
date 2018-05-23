@@ -1,0 +1,72 @@
+<%= form_with url: opto_logs_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get',
+              local: true do |f| %>
+  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_controller,
+                    'Controller:'  %>
+        <% controllers_array = logs.map { |l| [l.controller.name, l.controller_id] } %>
+        <%= f.select :with_controller, 
+                      options_for_select(controllers_array.uniq.sort,
+                                         params[:with_controller]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_type,
+                    'Log Type:'  %>
+        <% types_array = logs.map { |l| [l.log_type, l.type] } %>
+        <%= f.select :with_type, 
+                      options_for_select(types_array.uniq.sort,
+                                         params[:with_type]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_timestamp_gte,
+                    'From Date/Time:'  %>
+        <%= f.datetime_local_field :with_timestamp_gte,
+                                   class: 'form-control',
+                                   value: params[:with_timestamp_gte] %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_timestamp_lte,
+                    'To Date/Time:'  %>
+        <%= f.datetime_local_field :with_timestamp_lte,
+                                   class: 'form-control',
+                                   value: params[:with_timestamp_lte] %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :sorted_by,
+                    'Sort By:'  %>
+        <%= f.select :sorted_by, 
+                      options_for_select(Opto::Log.options_for_sorted_by,
+                                         params[:sorted_by]),
+                      { include_blank: false },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', opto_logs_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('filter', text: 'Filter'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>

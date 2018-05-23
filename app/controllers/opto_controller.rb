@@ -2,7 +2,21 @@ class OptoController < ApplicationController
 
   skip_before_action  :authenticate_user
   skip_before_action  :verify_authenticity_token
-  before_action :load_controller
+  before_action :load_controller,
+                only: :log
+
+  has_scope :sorted_by,
+            only: :logs,
+            default: nil,
+            allow_blank: true
+  has_scope :with_timestamp_gte, only: :logs
+  has_scope :with_timestamp_lte, only: :logs
+  has_scope :with_controller, only: :logs
+  has_scope :with_type, only: :logs
+  
+  def logs
+    @logs = apply_scopes(Opto::Log).all
+  end
 
   def log
     return head(:internal_server_error) if params[:data].blank?
