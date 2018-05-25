@@ -11,6 +11,10 @@ class Opto::DichromateTemperatureOpenCircuit < Opto::Log
     OptoMailer.with(log: self).dichromate_temperature_open_circuit.deliver
   end
 
+  def details
+    "Open circuit on dichromate tank temperature &ndash; Opto cannot read the temperature. The steam will be disabled and the exhaust will stay on until fixed."
+  end
+
   # Class methods.
 
   def self.parse(controller, log_details)

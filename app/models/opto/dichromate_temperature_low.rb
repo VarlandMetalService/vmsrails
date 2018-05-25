@@ -11,6 +11,10 @@ class Opto::DichromateTemperatureLow < Opto::Log
     OptoMailer.with(log: self).dichromate_temperature_low.deliver
   end
 
+  def details
+    "Dichromate tank temperature is low. Low limit: <strong><code>#{::ActiveSupport::NumberHelper::number_to_delimited self.limit}&deg; F</code></strong>. Reading: <strong><code>#{::ActiveSupport::NumberHelper::number_to_delimited self.reading}&deg; F</code></strong>."
+  end
+
   # Class methods.
 
   def self.parse(controller, log_details)

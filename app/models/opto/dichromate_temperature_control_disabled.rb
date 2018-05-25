@@ -11,6 +11,10 @@ class Opto::DichromateTemperatureControlDisabled < Opto::Log
     OptoMailer.with(log: self).dichromate_temp_control_disabled.deliver
   end
 
+  def details
+    "Opto automatically turned off temperature control due to inactivity. Timeout: <strong><code>#{::ActiveSupport::NumberHelper::number_to_delimited self.limit} seconds</code></strong>."
+  end
+
   # Class methods.
 
   def self.parse(controller, log_details)

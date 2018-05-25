@@ -11,6 +11,10 @@ class Opto::DichromateRinseHoldingSolutionHigh < Opto::Log
     OptoMailer.with(log: self).dichromate_rinse_holding_solution_high.deliver
   end
 
+  def details
+    "Dichromate rinse holding tank solution level is high."
+  end
+
   # Class methods.
 
   def self.parse(controller, log_details)
