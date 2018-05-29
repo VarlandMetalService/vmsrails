@@ -14,6 +14,9 @@
     <% if @logs.blank? %>
       <p class="text-danger">No results found.</p>
     <% else %>
+      <p class="font-weight-bold">
+        <%= page_entries_info @logs %>
+      </p>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -34,6 +37,7 @@
           <% end %>
         </tbody>
       </table>
+      <%= paginate @logs %>
     <% end %>
   </div>
 </div>

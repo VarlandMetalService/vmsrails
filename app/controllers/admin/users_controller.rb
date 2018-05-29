@@ -10,7 +10,7 @@ module Admin
               only: :index
 
     def index
-      @users = apply_scopes(User).all.order(:employee_number)
+      @users = apply_scopes(User).order(:employee_number).page(params[:page])
     end
 
     def edit

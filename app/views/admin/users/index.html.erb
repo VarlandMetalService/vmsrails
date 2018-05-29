@@ -3,7 +3,7 @@
   <div class="col">
     <%= render partial: 'filter_form' %>
     <p class="font-weight-bold">
-      Found <%= pluralize @users.size, 'user' %>
+      <%= page_entries_info @users %>
     </p>
     <table class="table table-striped table-bordered">
       <thead class="thead-dark">
@@ -17,5 +17,6 @@
         <%= render @users %>
       </tbody>
     </table>
+    <%= paginate @users %>
   </div>
 </div>

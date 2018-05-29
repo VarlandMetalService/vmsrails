@@ -1,5 +1,8 @@
 class Opto::Log < ApplicationRecord
 
+  # Pagination.
+  paginates_per 100
+
   # Scoping.
   scope :with_timestamp_gte, ->(timestamp) { where("controller_timestamp >= ?", timestamp) unless timestamp.nil? }
   scope :with_timestamp_lte, ->(timestamp) { where("controller_timestamp <= ?", timestamp) unless timestamp.nil? }
