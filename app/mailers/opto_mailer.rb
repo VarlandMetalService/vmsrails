@@ -4,6 +4,13 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :application
  
+  def dichromate_scheduled_temp_control
+    @log = params[:log]
+    @details = ::ActiveSupport::JSON.decode(@log.json_data)
+    mail(to: ['toby.varland@varland.com', '8594964920@vtext.com', 'vmsforemen@gmail.com'],
+         subject: 'Opto Notification: Turned on Dichromate Temp Control')
+  end
+ 
   def dichromate_no_temp_control
     @log = params[:log]
     mail(to: ['toby.varland@varland.com', '8594964920@vtext.com', 'vmsforemen@gmail.com'],
