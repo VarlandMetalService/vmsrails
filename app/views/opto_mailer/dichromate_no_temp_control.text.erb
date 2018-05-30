@@ -1,1 +1,1 @@
-Load went into Dichromate w/o temp control & w/ low temperature. Low Limit: <%= number_with_delimiter @log.limit %><%= raw '&deg;' %> F. Temperature: <%= number_with_delimiter @log.reading %><%= raw '&deg;' %> F. Timestamp: <%= @log.controller_timestamp.strftime('%m/%d/%Y %H:%M:%S') %>.
+<%= HTMLEntities.new.decode @log.details %>

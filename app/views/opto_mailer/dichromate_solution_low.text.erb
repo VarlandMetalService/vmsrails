@@ -1,1 +1,1 @@
-Dichromate solution level low. Low limit: <%= number_with_delimiter @log.limit %>". Reading: <%= number_with_delimiter @log.reading %>". Timestamp: <%= @log.controller_timestamp.strftime('%m/%d/%Y %H:%M:%S') %>.
+<%= HTMLEntities.new.decode @log.details %>

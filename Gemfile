@@ -44,6 +44,7 @@ gem 'mini_magick'
 gem 'awesome_nested_set'
 gem 'whenever', require: false
 gem 'kaminari'
+gem 'htmlentities'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
