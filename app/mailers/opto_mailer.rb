@@ -6,7 +6,7 @@ class OptoMailer < ApplicationMailer
 
   def acid_silo_solution_low
     @log = params[:log]
-    mail(to: ['toby.varland@varland.com', '8594964920@vtext.com'],
+    mail(to: ['toby.varland@varland.com', 'rich.branson@varland.com'],
          subject: 'Acid Silo: Solution Low')
   end
  
