@@ -3,10 +3,15 @@ class OptoMailer < ApplicationMailer
   default from: 'varlandmetalservice@gmail.com'
   layout 'opto_mailer'
   helper :application
+
+  def acid_silo_solution_low
+    @log = params[:log]
+    mail(to: ['toby.varland@varland.com', '8594964920@vtext.com'],
+         subject: 'Acid Silo: Solution Low')
+  end
  
   def dichromate_scheduled_temp_control
     @log = params[:log]
-    @details = ::ActiveSupport::JSON.decode(@log.json_data)
     mail(to: ['toby.varland@varland.com', '8594964920@vtext.com', 'vmsforemen@gmail.com'],
          subject: 'Dichromate: Turned on Dichromate Temp Control')
   end

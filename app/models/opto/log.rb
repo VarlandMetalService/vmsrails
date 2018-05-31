@@ -1,3 +1,5 @@
+require 'json'
+
 class Opto::Log < ApplicationRecord
 
   # Pagination.
@@ -39,6 +41,15 @@ class Opto::Log < ApplicationRecord
 
   def details
     "Method must be overridden in child classes!"
+  end
+
+  def sms
+    "Method must be overridden in child classes!"
+  end
+
+  def opto_data
+    json = ::ActiveSupport::JSON.decode(self.json_data)
+    return json.symbolize_keys
   end
 
   # Class methods.

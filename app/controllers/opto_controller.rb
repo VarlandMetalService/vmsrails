@@ -25,6 +25,8 @@ class OptoController < ApplicationController
     case @controller.name
     when "Dichromate"
       case log_details[:type]
+      when 'acid_silo_solution_low'
+        log = Opto::AcidSiloSolutionLow.parse(@controller, log_details)
       when 'scheduled_temp_control'
         log = Opto::DichromateScheduledTempControl.parse(@controller, log_details)
       when 'no_temp_control'
