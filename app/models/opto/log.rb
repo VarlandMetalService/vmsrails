@@ -44,7 +44,7 @@ class Opto::Log < ApplicationRecord
   end
 
   def sms
-    "Method must be overridden in child classes!"
+    ::ActionView::Base.full_sanitizer.sanitize(self.details)
   end
 
   def opto_data
