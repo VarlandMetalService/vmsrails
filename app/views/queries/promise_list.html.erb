@@ -4,7 +4,7 @@
   <% if @promised_jobs.size == 0 %>
     <div class="col"><p><mark>There are currently no promised jobs.</mark></p></div>
   <% else %>
-    <div class="col-12">
+    <div class="col-12 d-none d-sm-block">
       <h4>Promise List</h4>
     </div>
     <% @dates.each do |key, object| %>
