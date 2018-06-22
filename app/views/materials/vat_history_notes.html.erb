@@ -5,41 +5,10 @@
   </div>
 </div>
 <div class="row mt-3">
-  <div class="col">
+  <div class="col" id="filter_form">
     <%= render partial: 'filter_form', locals: { notes: @vat_history_notes } %>
   </div>
 </div>
-<div class="row mt-3">
-  <div class="col">
-    <% if @vat_history_notes.blank? %>
-      <p class="text-danger">No results found.</p>
-    <% else %>
-      <p class="font-weight-bold">
-        <%= page_entries_info @vat_history_notes %>
-      </p>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Vat</th>
-            <th>Date/Time</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @vat_history_notes.each do |n| %>
-            <tr>
-              <td>
-                <strong><%= n.vat.code %></strong><br />
-                <%= n.vat.description %><br />
-                Dept: <%= n.vat.department %>
-              </td>
-              <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
-              <td><%= simple_format n.notes, class: 'mb-0' %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <%= paginate @vat_history_notes %>
-    <% end %>
-  </div>
+<div class="row mt-3" id="vat_history_notes">
+  <%= render partial: 'list', locals: { notes: @vat_history_notes } %>
 </div>

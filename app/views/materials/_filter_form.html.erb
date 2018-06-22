@@ -1,7 +1,6 @@
 <%= form_with url: materials_vat_history_notes_path,
               class: 'bg-dark text-white border rounded p-3 mb-3',
-              method: 'get',
-              local: true do |f| %>
+              method: 'get' do |f| %>
   <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
   <div class="row">
     <div class="col">
@@ -13,7 +12,8 @@
                       options_for_select(dept_array.uniq.sort,
                                          params[:with_department]),
                       { include_blank: true },
-                      { class: 'custom-select' } %>
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col">
@@ -25,7 +25,8 @@
                       options_for_select(vat_array.uniq.sort,
                                          params[:with_vat]),
                       { include_blank: true },
-                      { class: 'custom-select' } %>
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col">
@@ -34,6 +35,7 @@
                     'From Date/Time:'  %>
         <%= f.date_field :with_timestamp_gte,
                          class: 'form-control',
+                         onchange: 'this.form.submit();',
                          value: params[:with_timestamp_gte] %>
       </div>
     </div>
@@ -43,6 +45,7 @@
                     'To Date/Time:'  %>
         <%= f.date_field :with_timestamp_lte,
                          class: 'form-control',
+                         onchange: 'this.form.submit();',
                          value: params[:with_timestamp_lte] %>
       </div>
     </div>
@@ -54,7 +57,8 @@
                       options_for_select(Materials::VatHistoryNote.options_for_sorted_by,
                                          params[:sorted_by]),
                       { include_blank: false },
-                      { class: 'custom-select' } %>
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
       </div>
     </div>
   </div>
@@ -65,6 +69,7 @@
                     'Search:'  %>
         <%= f.text_field :with_search_term,
                          class: 'form-control',
+                         onchange: 'this.form.submit();',
                          value: params[:with_search_term] %>
       </div>
     </div>

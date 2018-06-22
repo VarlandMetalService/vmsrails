@@ -1,0 +1,32 @@
+<div class="col">
+  <% if notes.blank? %>
+    <p class="text-danger">No results found.</p>
+  <% else %>
+    <p class="font-weight-bold">
+      <%= page_entries_info notes %>
+    </p>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Vat</th>
+          <th>Date/Time</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% notes.each do |n| %>
+          <tr>
+            <td>
+              <strong><%= n.vat.code %></strong><br />
+              <%= n.vat.description %><br />
+              Dept: <%= n.vat.department %>
+            </td>
+            <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
+            <td><%= simple_format n.notes, class: 'mb-0' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate notes %>
+  <% end %>
+</div>
