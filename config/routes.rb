@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post    '/opto/log',                              to: 'opto#log'
   get     '/opto/logs',                             to: 'opto#logs'
 
+  get     '/materials/vat_history_notes',           to: 'materials#vat_history_notes'
+
   namespace :admin do
     resources :users
   end
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
     resources :folders
     resources :documents
   end
+  
   get     '/dept_info',                             to: 'dept_info#index'
   get     '/dept_info/update',                      to: 'dept_info#update'
 

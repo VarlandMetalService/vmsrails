@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180522175945) do
+ActiveRecord::Schema.define(version: 20180622144634) do
 
   create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "folder_id"
@@ -59,6 +59,19 @@ ActiveRecord::Schema.define(version: 20180522175945) do
     t.string "last_maintenance_initials"
     t.string "code_name"
     t.string "code_description"
+  end
+
+  create_table "materials_vat_history_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "vat_id"
+    t.datetime "notes_timestamp"
+    t.text "notes"
+  end
+
+  create_table "materials_vats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "code"
+    t.string "description"
+    t.string "account"
+    t.integer "department"
   end
 
   create_table "opto_controllers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

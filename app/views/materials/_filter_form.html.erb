@@ -1,0 +1,83 @@
+<%= form_with url: materials_vat_history_notes_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get',
+              local: true do |f| %>
+  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_department,
+                    'Department:'  %>
+        <% dept_array = notes.map { |n| n.vat.department } %>
+        <%= f.select :with_department, 
+                      options_for_select(dept_array.uniq.sort,
+                                         params[:with_department]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_vat,
+                    'Vat:'  %>
+        <% vat_array = notes.map { |n| ["#{n.vat.code} &ndash; #{n.vat.description}".html_safe, n.vat_id] } %>
+        <%= f.select :with_vat, 
+                      options_for_select(vat_array.uniq.sort,
+                                         params[:with_vat]),
+                      { include_blank: true },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_timestamp_gte,
+                    'From Date/Time:'  %>
+        <%= f.date_field :with_timestamp_gte,
+                         class: 'form-control',
+                         value: params[:with_timestamp_gte] %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_timestamp_lte,
+                    'To Date/Time:'  %>
+        <%= f.date_field :with_timestamp_lte,
+                         class: 'form-control',
+                         value: params[:with_timestamp_lte] %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :sorted_by,
+                    'Sort By:'  %>
+        <%= f.select :sorted_by, 
+                      options_for_select(Materials::VatHistoryNote.options_for_sorted_by,
+                                         params[:sorted_by]),
+                      { include_blank: false },
+                      { class: 'custom-select' } %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_search_term,
+                    'Search:'  %>
+        <%= f.text_field :with_search_term,
+                         class: 'form-control',
+                         value: params[:with_search_term] %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', materials_vat_history_notes_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('filter', text: 'Filter'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>
