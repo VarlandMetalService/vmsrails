@@ -22,7 +22,11 @@
               Dept: <%= n.vat.department %>
             </td>
             <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
-            <td><%= simple_format n.notes, class: 'mb-0' %></td>
+            <% if term.blank? %>
+              <td><%= simple_format n.notes, class: 'mb-0' %></td>
+            <% else %>
+              <td><%= highlight(simple_format(n.notes, class: 'mb-0'), term, highlighter: '<mark>\1</mark>') %></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

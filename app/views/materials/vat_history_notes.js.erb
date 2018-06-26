@@ -1,7 +1,8 @@
 <% js = escape_javascript(
   render(
     :partial => 'materials/list',
-    :locals => { :notes => @vat_history_notes }
+    :locals => { :notes => @vat_history_notes,
+                 :term => params[:with_search_term] }
   )
 ) %>
 $('#vat_history_notes').html("<%= js %>");

@@ -10,5 +10,6 @@
   </div>
 </div>
 <div class="row mt-3" id="vat_history_notes">
-  <%= render partial: 'list', locals: { notes: @vat_history_notes } %>
+  <%= render partial: 'list', locals: { notes: @vat_history_notes,
+                                        term: params[:with_search_term] } %>
 </div>
