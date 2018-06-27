@@ -10,6 +10,7 @@
         <tr>
           <th>Vat</th>
           <th>Date/Time</th>
+          <th class="text-center">Entered By</th>
           <th>Notes</th>
         </tr>
       </thead>
@@ -22,6 +23,13 @@
               Dept: <%= n.vat.department %>
             </td>
             <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
+            <td class="text-center">
+              <% if n.user.blank? %>
+                &nbsp;
+              <% else %>
+                <span class="badge badge-pill" style="color: <%= n.user.avatar_text_color %>; background-color: <%= n.user.avatar_bg_color %>;"><%= n.user.initials %></span>
+              <% end %>
+            </td>
             <% if term.blank? %>
               <td><%= simple_format n.notes, class: 'mb-0' %></td>
             <% else %>
