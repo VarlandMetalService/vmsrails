@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622144634) do
+ActiveRecord::Schema.define(version: 20180627214452) do
 
   create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "folder_id"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20180622144634) do
     t.integer "vat_id"
     t.datetime "notes_timestamp"
     t.text "notes"
+    t.integer "user_id"
   end
 
   create_table "materials_vats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -32,6 +32,9 @@ class User < ApplicationRecord
     end
   }
 
+  # Associations.
+  has_many :vat_history_notes, class_name: 'Materials::VatHistoryNote'
+
   # Validation.
   validates :employee_number,
             presence: true,

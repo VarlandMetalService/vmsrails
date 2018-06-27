@@ -44,6 +44,7 @@ class Materials::VatHistoryNote < ApplicationRecord
 
   # Associations.
   belongs_to :vat
+  belongs_to :user, class_name: '::User', optional: true
 
   # Class methods.
 
