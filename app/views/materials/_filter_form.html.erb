@@ -71,6 +71,11 @@
                          class: 'form-control',
                          onchange: 'this.form.submit();',
                          value: params[:with_search_term] %>
+        <small class="form-text text-light">
+          Searches for all words in any order. Use double quotes around multiple words to search for exact phrase. To
+          exclude a word or phrase, use two minus signs before the word or phrase (outside the double quotes for a
+          phrase).
+        </small>
       </div>
     </div>
   </div>

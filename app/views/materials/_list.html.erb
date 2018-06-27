@@ -25,7 +25,8 @@
             <% if term.blank? %>
               <td><%= simple_format n.notes, class: 'mb-0' %></td>
             <% else %>
-              <td><%= highlight(simple_format(n.notes, class: 'mb-0'), term, highlighter: '<mark class="bold">\1</mark>') %></td>
+              <% search_terms = split_search_terms(term) %>
+              <td><%= highlight(simple_format(n.notes, class: 'mb-0'), search_terms[:include], highlighter: '<mark class="bold">\1</mark>') %></td>
             <% end %>
           </tr>
         <% end %>

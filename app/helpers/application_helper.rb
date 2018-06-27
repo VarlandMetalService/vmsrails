@@ -43,4 +43,20 @@ module ApplicationHelper
     "<small style=\"font-weight: 300; font-size: 0.85rem;\">#{label}:</small> <span style=\"color: #e83e8c; font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 0.875rem; font-weight: 700;\">#{value}</span>".html_safe
   end
 
+  def split_search_terms(input)
+    search = {
+      include: [],
+      exclude: []
+    }
+    terms = input.split(/\s(?=(?:[^"]|"[^"]*")*$)/)
+    terms.each do |t|
+      if t[0..1] == '--'
+        search[:exclude] << t[2..-1].gsub(/\A"|"\Z/, '')
+      else
+        search[:include] << t.gsub(/\A"|"\Z/, '')
+      end
+    end
+    search
+  end
+
 end
