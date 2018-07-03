@@ -20,7 +20,7 @@
             <td>
               <a href="#" data-vat="<%= n.vat.id %>" title="Filter by vat <%= n.vat.code %>" class="vat-filter font-weight-bold"><%= n.vat.code %></a><br />
               <%= n.vat.description %><br />
-              Dept: <%= n.vat.department %>
+              Dept: <a href="#" data-dept="<%= n.vat.department %>" title="Filter by department <%= n.vat.department %>" class="dept-filter font-weight-bold"><%= n.vat.department %></a>
             </td>
             <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
             <td class="text-center">
