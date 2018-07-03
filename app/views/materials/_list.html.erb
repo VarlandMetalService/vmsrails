@@ -18,7 +18,7 @@
         <% notes.each do |n| %>
           <tr>
             <td>
-              <strong><%= n.vat.code %></strong><br />
+              <a href="#" data-vat="<%= n.vat.id %>" title="Filter by vat <%= n.vat.code %>" class="vat-filter font-weight-bold"><%= n.vat.code %></a><br />
               <%= n.vat.description %><br />
               Dept: <%= n.vat.department %>
             </td>
