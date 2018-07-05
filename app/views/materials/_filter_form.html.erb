@@ -31,12 +31,25 @@
     </div>
     <div class="col">
       <div class="form-group">
+        <%= f.label :with_user,
+                    'User:' %> 
+                    <% user_array = notes.map { |n| ["#{n.user.full_name}".html_safe, n.user_id] } %>
+        <%= f.select :with_user,
+                      options_for_select(user_array.uniq.sort,
+                                        params[:with_user]),
+                            { include_blank: true },                                     
+                            { class: 'custom-select',
+                            onchange: 'this.form.submit();', }%>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
         <%= f.label :with_timestamp_gte,
                     'From Date/Time:'  %>
         <%= f.date_field :with_timestamp_gte,
                          class: 'form-control',
                          onchange: 'this.form.submit();',
-                         value: params[:with_timestamp_gte] %>
+                         value: params[:with_timestamp_gte] %>            
       </div>
     </div>
     <div class="col">

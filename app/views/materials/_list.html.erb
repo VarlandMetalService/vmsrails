@@ -27,7 +27,8 @@
               <% if n.user.blank? %>
                 &nbsp;
               <% else %>
-                <span class="badge badge-pill" style="color: <%= n.user.avatar_text_color %>; background-color: <%= n.user.avatar_bg_color %>;"><%= n.user.initials %></span>
+               <a href="#" data-user="<%= n.user_id %>" title="Filter by user <%= n.user.initials%>" class ="user-filter font-weight-bold">
+                 <span class="badge badge-pill" style="color: <%= n.user.avatar_text_color %>; background-color: <%= n.user.avatar_bg_color %>;"><%= n.user.initials %></span></a>
               <% end %>
             </td>
             <% if term.blank? %>

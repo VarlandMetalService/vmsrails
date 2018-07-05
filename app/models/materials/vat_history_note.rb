@@ -4,6 +4,7 @@ class Materials::VatHistoryNote < ApplicationRecord
   paginates_per 100
 
   # Scoping.
+  scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }
   scope :with_timestamp_gte, ->(timestamp) { where("notes_timestamp >= ?", timestamp) unless timestamp.nil? }
   scope :with_timestamp_lte, ->(timestamp) { where("notes_timestamp <= ?", timestamp) unless timestamp.nil? }
   scope :with_vat, ->(vat) { where("vat_id = ?", vat) unless vat.nil? }

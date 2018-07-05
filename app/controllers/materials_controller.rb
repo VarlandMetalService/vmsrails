@@ -11,6 +11,7 @@ class MaterialsController < ApplicationController
   has_scope :with_timestamp_lte, only: :vat_history_notes
   has_scope :with_vat, only: :vat_history_notes
   has_scope :with_department, only: :vat_history_notes
+  has_scope :with_user, only: :vat_history_notes
   
   def vat_history_notes
     @vat_history_notes = apply_scopes(Materials::VatHistoryNote).page(params[:page])

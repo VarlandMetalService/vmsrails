@@ -13,3 +13,9 @@ $(document).on 'turbolinks:load', ->
     dept = $(@).data('dept')
     $('select[name=with_department]').val(dept)
     $('select[name=with_department]').closest("form").submit()
+
+$(document).on 'turbolinks:load', ->
+  $('.user-filter').click ->
+    user = $(@).data('user')
+    $('select[name=with_user]').val(user)
+    $('select[name=with_user]').closest("form").submit()
