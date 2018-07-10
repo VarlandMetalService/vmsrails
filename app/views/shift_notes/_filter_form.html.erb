@@ -1,35 +1,22 @@
-<%= form_with url: materials_vat_history_notes_path,
+<%= form_with url: shift_notes_path,
               class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
 <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
- 
-  <div class="row">
+  
+<div class="row">
     <div class="col">
       <div class="form-group">
-        <%= f.label :with_department,
+        <%= f.label :with_dept,
                     'Department:'  %>
-        <% dept_array = notes.map { |n| n.vat.department } %>
-        <%= f.select :with_department, 
-                      options_for_select(dept_array.uniq.sort,
-                                         params[:with_department]),
+        <%= f.select :with_dept, 
+                      options_for_select(ShiftNote.options_for_dept,
+                                         params[:with_dept]),
                       { include_blank: true },
                       { class: 'custom-select',
                         onchange: 'this.form.submit();' } %>
       </div>
     </div>
-    <div class="col">
-      <div class="form-group">
-        <%= f.label :with_vat,
-                    'Vat:'  %>
-        <% vat_array = notes.map { |n| ["#{n.vat.code} &ndash; #{n.vat.description}".html_safe, n.vat_id] } %>
-        <%= f.select :with_vat, 
-                      options_for_select(vat_array.uniq.sort,
-                                         params[:with_vat]),
-                      { include_blank: true },
-                      { class: 'custom-select',
-                        onchange: 'this.form.submit();' } %>
-      </div>
-    </div>
+
     <div class="col">
       <div class="form-group">
         <%= f.label :with_user,
@@ -40,35 +27,54 @@
                                         params[:with_user]),
                             { include_blank: true },                                     
                             { class: 'custom-select',
-                            onchange: 'this.form.submit();', }%>
+                            onchange: 'this.form.submit();' }%>
       </div>
     </div>
+
     <div class="col">
       <div class="form-group">
-        <%= f.label :with_timestamp_gte,
-                    'From Date/Time:'  %>
-        <%= f.date_field :with_timestamp_gte,
+        <%= f.label :with_timestamp,
+                    'From Date/Time:' %>
+        <%= f.date_field :with_timestamp,
                          class: 'form-control',
                          onchange: 'this.form.submit();',
-                         value: params[:with_timestamp_gte] %>            
+                         value: params[:with_timestamp] %>            
       </div>
     </div>
+
     <div class="col">
       <div class="form-group">
-        <%= f.label :with_timestamp_lte,
-                    'To Date/Time:'  %>
-        <%= f.date_field :with_timestamp_lte,
-                         class: 'form-control',
-                         onchange: 'this.form.submit();',
-                         value: params[:with_timestamp_lte] %>
+        <%= f.label :with_shift_type,
+                    'Shift Type:' %> 
+        <%= f.select :with_shift_type,
+                      options_for_select(ShiftNote.options_for_shift_type,
+                                        params[:with_user]),
+                            { include_blank: true },                                     
+                            { class: 'custom-select',
+                            onchange: 'this.form.submit();' }%>
       </div>
     </div>
+
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_shift_time,
+                    'Shift Time:' %> 
+        <%= f.select :with_shift_time,
+                      options_for_select(ShiftNote.options_for_shift_time,
+                                        params[:with_user]),
+                            { include_blank: true },                                     
+                            { class: 'custom-select',
+                            onchange: 'this.form.submit();' }%>
+      </div>
+    </div>
+    
+   
     <div class="col">
       <div class="form-group">
         <%= f.label :sorted_by,
                     'Sort By:'  %>
         <%= f.select :sorted_by, 
-                      options_for_select(Materials::VatHistoryNote.options_for_sorted_by,
+                      options_for_select(ShiftNote.options_for_sorted_by,
                                          params[:sorted_by]),
                       { include_blank: false },
                       { class: 'custom-select',
@@ -76,6 +82,7 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -93,10 +100,11 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-12">
       <div class="pull-right">
-        <%= link_to 'Reset', materials_vat_history_notes_url, class: 'btn btn-link text-white' %>
+        <%= link_to 'Reset', shift_notes_url, class: 'btn btn-link text-white' %>
         <%= f.button fa_icon('filter', text: 'Filter'),
                       class: 'btn btn-sm btn-warning font-weight-bold',
                       type: 'submit' %>

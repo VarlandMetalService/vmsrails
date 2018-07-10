@@ -1,0 +1,26 @@
+<%= form_with scope: :ShiftNote, url: shift_notes_path, local: true do |form| %>
+  <br><br>
+    <p> 
+      <%= form.label :user %>
+      <%= form.text_field :user_id %>
+    </p>
+
+    <p>
+      <%= form.label :Department %>
+      <%= form.select :dept, options_for_select(ShiftNote.options_for_dept) %>
+    </p>
+
+    <p>
+      <%= form.label :Shift_type %>
+      <%= form.select :shift_type, options_for_select(ShiftNote.options_for_shift_type) %>
+    </p>
+
+    <p>
+      <%= form.label :Shift_time %>
+      <%= form.select :shift_time, options_for_select(ShiftNote.options_for_shift_time) %>
+    </p>
+  
+      <%= form.submit %>
+    
+
+  <% end %>

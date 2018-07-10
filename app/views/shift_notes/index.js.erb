@@ -1,0 +1,15 @@
+<% js = escape_javascript(
+  render(
+    :partial => 'shift_notes/list',
+    :locals => { :notes => @shift_notes,
+                 :term => params[:with_search_term] }
+  )
+) %>
+$('#shift_notes').html("<%= js %>");
+<% js2 = escape_javascript(
+  render(
+    :partial => 'shift_notes/filter_form',
+    :locals => { :notes => @shift_notes }
+  )
+) %>
+$('#filter_form').html("<%= js2 %>");

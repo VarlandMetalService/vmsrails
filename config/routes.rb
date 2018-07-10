@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :shift_notes
+ 
   root    'vms#home'
 
   get     '/login',   to: 'sessions#new'

@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627214452) do
+ActiveRecord::Schema.define(version: 20180705180442) do
 
-  create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "folder_id"
     t.string "name"
     t.string "google_id"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20180627214452) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "dept_info_folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "dept_info_folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name", null: false
     t.bigint "parent_id"
     t.bigint "lft"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20180627214452) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "maintenance_scheduled_task_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "maintenance_scheduled_task_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "equipment_type_name"
     t.string "equipment_name"
     t.string "task_name"
@@ -61,21 +61,21 @@ ActiveRecord::Schema.define(version: 20180627214452) do
     t.string "code_description"
   end
 
-  create_table "materials_vat_history_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "materials_vat_history_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "vat_id"
     t.datetime "notes_timestamp"
     t.text "notes"
     t.integer "user_id"
   end
 
-  create_table "materials_vats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "materials_vats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "code"
     t.string "description"
     t.string "account"
     t.integer "department"
   end
 
-  create_table "opto_controllers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "opto_controllers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "ip_address"
     t.string "name"
     t.string "series"
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20180627214452) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "opto_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "opto_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "controller_id"
     t.string "type"
     t.datetime "controller_timestamp"
@@ -104,7 +104,20 @@ ActiveRecord::Schema.define(version: 20180627214452) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.date "date"
+    t.integer "shift_time"
+    t.integer "user_id"
+    t.string "dept"
+    t.string "shift_type"
+    t.text "user_notes"
+    t.integer "supervisor_id"
+    t.text "supervisor_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "employee_number", null: false
     t.string "username", limit: 20, null: false
     t.string "first_name", null: false

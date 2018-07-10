@@ -1,0 +1,46 @@
+<%= form_for(@shift_note, :url => shift_note_path(@shift_note), :html => { :method => :put }) do |f| %>
+
+<p>
+  <strong>Date:</strong>
+  <%= @shift_note.created_at %>
+</p>
+
+<p>
+  <%= f.label :user %>
+  <%= f.text_field :user_id, :value =>@shift_note.user_id%>
+</p>
+
+<p>
+  <%= f.label :Department %>
+  <%= f.select :dept, options_for_select(ShiftNote.options_for_dept, @shift_note.dept) %>
+</p>
+
+<p>
+  <%= f.label :Shift_time %>
+  <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time) %>
+</p>
+
+<p>
+  <%= f.label :Shift_type %>
+  <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type, @shift_note.shift_type) %>
+</p>
+
+<p>
+  <%= f.label :Message %>
+  <%= f.text_field :message, :value =>@shift_note.message%>
+</p>
+
+<p>
+  <%= f.label :Response %>
+  <%= f.text_field :response, :value =>@shift_note.response%>
+</p>
+
+<p>
+  <%= f.label :supervisor %>
+  <%= f.text_field :response_uid, :value =>@shift_note.response_uid%>
+</p>
+
+  <%= f.submit %>
+
+  <%= submit_tag "Submit Post" %>
+<% end %>

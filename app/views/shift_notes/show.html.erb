@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @shift_note.created_at %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @shift_note.user.full_name %>
+</p>
+
+<p>
+  <strong>Dept:</strong>
+  <%= @shift_note.dept %>
+</p>
+
+<p>
+  <strong>Shift time:</strong>
+  <%= @shift_note.shift_time %>
+</p>
+
+<p>
+  <strong>Shift type:</strong>
+  <%= @shift_note.shift_type %>
+</p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @shift_note.message %>
+</p>
+<br> <br> <br>
+<p>
+  <strong>Response:</strong>
+  <%= @shift_note.response %>
+</p>
+
+<p>
+  <strong>Response Author:</strong>
+  <%= @shift_note.supervisor.full_name %>
+</p>
+<p>
+  <strong>Updated:</strong>
+  <%= @shift_note.updated_at %>
+</p>
+
+<%= link_to 'Edit', edit_shift_note_path %> 
+<%= link_to 'Back', shift_notes_path %>

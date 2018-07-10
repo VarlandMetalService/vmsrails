@@ -1,0 +1,50 @@
+<div class="col">
+    <% if notes.blank? %>
+     <p class = "text-danger">No results found.</p>
+    <%else%> 
+    <p class="font-weight-bold"> 
+    <% page_entries_info notes %>
+
+    </p>
+     
+  
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Last Updated</th>
+          <th>Shift Type</th>
+          <th>Shift Time</th>
+          <th class="text-center">Entered By</th>
+          <th>Dept</th>
+          <th>Message</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+
+<tbody>
+<% notes.each do |n| %>
+    <tr>
+        <td> <%= n.updated_at %> </td>
+        
+        <td> <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
+        <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> </td>
+
+        <td> <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
+        <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a> </td>
+        
+        <td class="text-center"> <% if n.user.blank? %> &nbsp;
+          <% else %> <a href="#" data-user="<%= n.user_id %>" title="Filter by user 
+            <%= n.user.initials%>" class ="user-filter font-weight-bold">
+            <span class="badge badge-pill" style="color: <%= n.user.avatar_text_color %>; 
+            background-color: <%= n.user.avatar_bg_color %>;"><%= n.user.initials %></span></a> <% end %> </td>
+
+        <td> <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
+          class="dept-filter font-weight-bold"><%= n.dept %></a> </td>
+            <td> <%= n.message %> </td>
+            <td> <%= link_to 'Show', shift_note_path(n.id) %>        
+    </tr>
+    <% end %>
+</tbody>
+</table>
+<% end %>
+</div>
