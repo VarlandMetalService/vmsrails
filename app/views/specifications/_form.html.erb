@@ -1,0 +1,114 @@
+<%= form_for @specification, html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
+  <% if @specification.errors.any? %>
+    <div class="alert alert-danger p-2 small font-weight-bold">
+      <p class="mb-0">The update could not be processed due to <%= pluralize(@specification.errors.count, "error") %>:</p>
+      <ul class="mb-0">
+        <% @specification.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :organization,
+                    required_field_label('Organization') %>
+        <%= f.text_field :organization,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :name,
+                    required_field_label('Name') %>
+        <%= f.text_field :name,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :revision,
+                    'Revision:' %>
+        <%= f.text_field :revision,
+                         class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :file,
+                    'File:' %>
+        <%= f.file_field :file,
+                         class: 'form-control-file' %>
+        <%= f.hidden_field :file_cache %>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group">
+        <%= f.label :description,
+                    required_field_label('Description') %>
+        <%= f.text_field :description,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+    <div class="col-12"><hr class="mt-0 mb-3" /></div>
+    <div class="col-12">
+      <h5>Classifications</h5>
+      <p class="text-muted small">You may leave the name &amp; description blank on one classification to make it the default.</p>
+      <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th class="w-10" rowspan="2">Name</th>
+            <th class="w-auto" rowspan="2">Description</th>
+            <th class="text-center w-4" rowspan="2">Process<br />Code</th>
+            <th class="text-center w-5" rowspan="2">Color</th>
+            <th class="text-center bg-danger" colspan="2">Alloy %</th>
+            <th class="text-center bg-warning text-dark" colspan="3">Thickness</th>
+            <th class="text-center bg-info" colspan="2">Salt Spray</th>
+            <th class="text-center bg-success" colspan="6">Baking</th>
+            <th class="text-center w-4" rowspan="2">Options</th>
+          </tr>
+          <tr>
+            <th class="text-center w-3"><small class="font-weight-bold">Min</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Max</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Min</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Max</small></th>
+            <th class="text-center w-5"><small class="font-weight-bold">Unit</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">White</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Red</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Set</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">&plusmn;</small></th>
+            <th class="text-center w-4"><small class="font-weight-bold">Unit</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Minutes</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Within</small></th>
+            <th class="text-center w-3"><small class="font-weight-bold">Inert?</small></th>
+          </tr>
+        </thead>
+        <tbody id="classifications">
+          <%= f.fields_for :classifications do |classification| %>
+            <%= render 'classification_fields', f: classification %>
+          <% end %>
+        </tbody>
+      </table>
+      <p><%= link_to_add_association '<i class="fa fa-plus"></i> Add'.html_safe,
+                                     f,
+                                     :classifications,
+                                     class: 'btn btn-sm btn-warning',
+                                     :'data-association-insertion-node' => '#classifications',
+                                     :'data-association-insertion-method' => 'append' %></p>
+    </div>
+    <div class="col-12"><hr class="mb-0 mt-0" /></div>
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Cancel', specifications_url, class: 'btn btn-link mt-3' %>
+        <%= f.button fa_icon('check', text: 'Save'),
+                     class: 'btn btn-primary mt-3 font-weight-bold',
+                     type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>

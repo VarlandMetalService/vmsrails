@@ -1,0 +1,119 @@
+<tr class="nested-fields">
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :name,
+                       class: 'form-control',
+                       placeholder: '(Default)' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-2">
+      <%= f.text_field :description,
+                       class: 'form-control',
+                       placeholder: '(Not displayed for default)' %>
+    </div>
+    <div class="form-group mb-0">
+      <%= f.label 'Additional notes:' %>
+      <%= f.text_area :notes,
+                      class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :vms_process_code,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :color,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :minimum_alloy_percentage,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :maximum_alloy_percentage,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :minimum_thickness,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :maximum_thickness,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.select :thickness_unit, 
+                   ['mils', 'µm'],
+                   { include_blank: false },
+                   { class: 'custom-select' } %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :salt_spray_white_spec,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :salt_spray_red_spec,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :bake_setpoint,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :bake_variation_limit,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.select :bake_temperature_unit, 
+                   ['º F', 'º C'],
+                   { include_blank: false },
+                   { class: 'custom-select' } %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :bake_soak_length,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td>
+    <div class="form-group mb-0">
+      <%= f.text_field :bake_within_limit,
+                       class: 'form-control' %>
+    </div>
+  </td>
+  <td class="text-center">
+    <div class="form-check pl-0">
+      <%= f.check_box :bake_requires_inert_atmosphere %>
+    </div>
+  </td>
+  <td class="text-center">
+    <%= link_to_remove_association '<i class="fa fa-times"></i>'.html_safe,
+                                   f,
+                                   class: 'btn btn-sm btn-danger' %>
+  </td>
+</tr>

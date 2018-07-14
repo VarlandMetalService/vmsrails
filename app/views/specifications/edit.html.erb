@@ -1,0 +1,16 @@
+<% provide(:title, "Edit Specification #{@specification.organization} #{@specification.name}") %>
+<div class="row mt-3">
+  <div class="col">
+    <h4>
+      Edit Specification:
+      <strong>
+        <%= @specification.organization %>
+        <%= @specification.name %>
+        <% unless @specification.revision.blank? %>
+          <small class="text-muted">Rev: <%= @specification.revision %></small>
+        <% end %>
+      </strong>
+    </h4>
+    <%= render partial: 'form' %>
+  </div>
+</div>

@@ -45,6 +45,7 @@ gem 'awesome_nested_set'
 gem 'whenever', require: false
 gem 'kaminari'
 gem 'htmlentities'
+gem 'cocoon'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

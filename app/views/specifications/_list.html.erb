@@ -1,0 +1,145 @@
+<%
+  search_terms = nil
+  unless term.blank?
+    search_terms = split_search_terms(term)
+  end
+%>
+<div class="col-12">
+  <%= link_to fa_icon('plus', text: 'Add Specification'), new_specification_path, class: 'font-weight-bold btn btn-primary mb-3' %>
+</div>
+<div class="col">
+  <% if specifications.blank? %>
+    <p class="text-danger">No specifications found.</p>
+  <% else %>
+    <p class="font-weight-bold">
+      <%= page_entries_info specifications %>
+    </p>
+    <table class="table table-bordered table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th rowspan="2">Organization</th>
+          <th rowspan="2">Name</th>
+          <th rowspan="2">Description</th>
+          <th class="text-center" rowspan="2">Process Code</th>
+          <th class="text-center" rowspan="2">Color</th>
+          <th class="text-center border-bottom-0 bg-danger" colspan="2">Alloy %</th>
+          <th class="text-center border-bottom-0 bg-warning text-dark" colspan="2">Thickness</th>
+          <th class="text-center border-bottom-0 bg-info" colspan="2">Salt Spray</th>
+          <th class="text-center border-bottom-0 bg-success" colspan="4">Baking</th>
+          <th class="text-center" rowspan="2">Options</th>
+        </tr>
+        <tr>
+          <th class="text-center"><small class="font-weight-bold">Min</small></th>
+          <th class="text-center"><small class="font-weight-bold">Max</small></th>
+          <th class="text-center"><small class="font-weight-bold">Min</small></th>
+          <th class="text-center"><small class="font-weight-bold">Max</small></th>
+          <th class="text-center"><small class="font-weight-bold">White</small></th>
+          <th class="text-center"><small class="font-weight-bold">Red</small></th>
+          <th class="text-center"><small class="font-weight-bold">Temperature</small></th>
+          <th class="text-center"><small class="font-weight-bold">Length</small></th>
+          <th class="text-center"><small class="font-weight-bold">Within</small></th>
+          <th class="text-center"><small class="font-weight-bold">Inert?</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% alt = false %>
+        <% specifications.each do |s| %>
+          <% alt = !alt %>
+          <tr class="specification <%= 'bg-light' if alt %>">
+            <td class="font-weight-bold"><%= highlight_unless_nil(s.organization, search_terms) %></td>
+            <td class="font-weight-bold">
+              <% unless s.file.file.nil? %>
+                <%= link_to '<i class="fa fa-file-pdf-o text-danger"></i>'.html_safe, s.file.url, target: '_blank' %>
+              <% end %>
+              <%= highlight_unless_nil(s.name, search_terms) %><%= " <small class=\"text-muted\">(Rev: #{s.revision})</small>".html_safe unless s.revision.blank? %>
+            </td>
+            <td class="font-weight-bold">
+              <%= highlight_unless_nil(s.description, search_terms) %>
+              <% unless s.default_classification.blank? || s.default_classification.notes.blank? %>
+                <hr class="mb-1 mt-1" />
+                <small><strong>Notes:</strong> <em><%= highlight_unless_nil(s.default_classification.notes, search_terms) %></em></small>
+                <hr class="mb-1 mt-1" />
+              <% end %>
+            </td>
+            <% if s.default_classification %>
+              <td class="text-center"><%= highlight_unless_nil(s.default_classification.vms_process_code, search_terms) %></td>
+              <td class="text-center"><%= highlight_unless_nil(s.default_classification.color, search_terms) %></td>
+              <td class="text-center"><%= "#{s.default_classification.minimum_alloy_percentage}%" unless s.default_classification.minimum_alloy_percentage.blank? %></td>
+              <td class="text-center"><%= "#{s.default_classification.maximum_alloy_percentage}%" unless s.default_classification.maximum_alloy_percentage.blank? %></td>
+              <td class="text-center"><%= thickness(s.default_classification.minimum_thickness, s.default_classification.thickness_unit) %></td>
+              <td class="text-center"><%= thickness(s.default_classification.maximum_thickness, s.default_classification.thickness_unit) %></td>
+              <td class="text-center"><%= s.default_classification.salt_spray_white_spec %></td>
+              <td class="text-center"><%= s.default_classification.salt_spray_red_spec %></td>
+              <td class="text-center">
+                <%= temperature(s.default_classification.bake_setpoint, s.default_classification.bake_variation_limit, s.default_classification.bake_temperature_unit) %>
+              </td>
+              <td class="text-center"><%= bake_time(s.default_classification.bake_soak_length) %></td>
+              <td class="text-center"><%= bake_time(s.default_classification.bake_within_limit) %></td>
+              <td class="text-center"><i class="fa fa-<%= s.default_classification.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+            <% else %>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            <% end %>
+            <td class="text-center">
+              <div class="btn-group">
+                <%= link_to fa_icon('pencil'),
+                            edit_specification_path(s),
+                            class: 'font-weight-bold btn btn-sm btn-primary' %>
+                <%= link_to fa_icon('clone'),
+                            duplicate_specification_path(s),
+                            method: :post,
+                            class: 'font-weight-bold btn btn-sm btn-warning' %>
+                <%= link_to fa_icon('times'),
+                            specification_path(s),
+                            method: :delete,
+                            class: 'font-weight-bold btn btn-sm btn-danger',
+                            data: { confirm: 'Are you sure you want to delete this specification?' } %>
+              </div>
+            </td>
+          </tr>
+          <% s.classifications.each do |c| %>
+            <% next if c.is_default_classification? %>
+            <tr class="classification small <%= 'bg-light' if alt %>">
+              <td>&nbsp;</td>
+              <td><%= highlight_unless_nil(c.name, search_terms) %></td>
+              <td>
+                <%= highlight_unless_nil(c.description, search_terms) %>
+                <% unless c.notes.blank? %>
+                  <hr class="mb-1 mt-1" />
+                  <small><strong>Notes:</strong> <em><%= highlight_unless_nil(c.notes, search_terms) %></em></small>
+                  <hr class="mb-1 mt-1" />
+                <% end %>
+              </td>
+              <td class="text-center"><%= highlight_unless_nil(c.vms_process_code, search_terms) %></td>
+              <td class="text-center"><%= highlight_unless_nil(c.color, search_terms) %></td>
+              <td class="text-center"><%= "#{c.minimum_alloy_percentage}%" unless c.minimum_alloy_percentage.blank? %></td>
+              <td class="text-center"><%= "#{c.maximum_alloy_percentage}%" unless c.maximum_alloy_percentage.blank? %></td>
+              <td class="text-center"><%= thickness(c.minimum_thickness, c.thickness_unit) %></td>
+              <td class="text-center"><%= thickness(c.maximum_thickness, c.thickness_unit) %></td>
+              <td class="text-center"><%= c.salt_spray_white_spec %></td>
+              <td class="text-center"><%= c.salt_spray_red_spec %></td>
+              <td class="text-center">
+                <%= temperature(c.bake_setpoint, c.bake_variation_limit, c.bake_temperature_unit) %>
+              </td>
+              <td class="text-center"><%= bake_time(c.bake_soak_length) %></td>
+              <td class="text-center"><%= bake_time(c.bake_within_limit) %></td>
+              <td class="text-center"><i class="fa fa-<%= c.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+              <td>&nbsp;</td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate specifications %>
+  <% end %>
+</div>

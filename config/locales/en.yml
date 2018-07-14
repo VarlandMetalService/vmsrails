@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  errors:
+    messages:
+      extension_whitelist_error: "must be one of the following types: %{allowed_types}"

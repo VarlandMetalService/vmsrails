@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
   resources :shift_notes
+  resources :specifications do
+    member do
+      post  'duplicate'
+    end
+  end
  
   root    'vms#home'
 

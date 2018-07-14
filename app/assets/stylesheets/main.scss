@@ -76,3 +76,32 @@ input:focus + .focus-help {
 mark.bold {
   background-color: yellow;
 }
+
+.w-3 {
+  width: 3% !important;
+}
+
+.w-4 {
+  width: 4% !important;
+}
+
+.w-5 {
+  width: 5% !important;
+}
+
+.w-10 {
+  width: 10% !important;
+}
+
+.classification {
+  td {
+    border-bottom: none !important;
+    border-top: none !important;
+  }
+}
+
+.specification {
+  td {
+    border-bottom: none !important;
+  }
+}

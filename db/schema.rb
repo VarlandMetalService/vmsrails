@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705180442) do
+ActiveRecord::Schema.define(version: 20180713130712) do
+
+  create_table "classifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "specification_id"
+    t.string "name"
+    t.string "description"
+    t.string "vms_process_code"
+    t.string "color"
+    t.float "minimum_alloy_percentage", limit: 24
+    t.float "maximum_alloy_percentage", limit: 24
+    t.float "minimum_thickness", limit: 24
+    t.float "maximum_thickness", limit: 24
+    t.string "thickness_unit"
+    t.integer "salt_spray_white_spec"
+    t.integer "salt_spray_red_spec"
+    t.integer "bake_setpoint"
+    t.integer "bake_variation_limit"
+    t.string "bake_temperature_unit"
+    t.integer "bake_soak_length"
+    t.integer "bake_within_limit"
+    t.boolean "bake_requires_inert_atmosphere"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "folder_id"
@@ -105,14 +129,23 @@ ActiveRecord::Schema.define(version: 20180705180442) do
   end
 
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.date "date"
     t.integer "shift_time"
     t.integer "user_id"
     t.string "dept"
     t.string "shift_type"
-    t.text "user_notes"
-    t.integer "supervisor_id"
-    t.text "supervisor_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "message"
+    t.text "response"
+    t.integer "response_uid"
+  end
+
+  create_table "specifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "organization"
+    t.string "name"
+    t.string "description"
+    t.string "revision"
+    t.string "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

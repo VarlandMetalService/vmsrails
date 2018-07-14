@@ -1,0 +1,109 @@
+<%
+  organization_array = specifications.map { |s| s.organization }
+  name_array = specifications.map { |s| s.name }
+  classifications_array = []
+  process_codes_array = []
+  colors_array = []
+  specifications.each do |s|
+    s.classifications.each do |c|
+      classifications_array << c.name unless c.name.blank?
+      process_codes_array << c.vms_process_code
+      colors_array << c.color unless c.color.blank?
+    end
+  end
+%>
+<%= form_with url: specifications_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get' do |f| %>
+
+  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+ 
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_organization,
+                    'Organization:'  %>
+        <%= f.select :with_organization, 
+                      options_for_select(organization_array.uniq.sort,
+                                         params[:with_organization]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_name,
+                    'Name:'  %>
+        <%= f.select :with_name, 
+                      options_for_select(name_array.uniq.sort,
+                                         params[:with_name]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_classification,
+                    'Classification:'  %>
+        <%= f.select :with_classification, 
+                      options_for_select(classifications_array.uniq.sort,
+                                         params[:with_classification]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_process_code,
+                    'Process Code:'  %>
+        <%= f.select :with_process_code, 
+                      options_for_select(process_codes_array.uniq.sort,
+                                         params[:with_process_code]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_color,
+                    'Color:'  %>
+        <%= f.select :with_color, 
+                      options_for_select(colors_array.uniq.sort,
+                                         params[:with_color]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_search_term,
+                    'Search:'  %>
+        <%= f.text_field :with_search_term,
+                         class: 'form-control',
+                         onchange: 'this.form.submit();',
+                         value: params[:with_search_term] %>
+        <small class="form-text text-light">
+          Searches for all words in any order. Use double quotes around multiple words to search for exact phrase.
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', specifications_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('filter', text: 'Filter'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>

@@ -1,5 +1,10 @@
 module ApplicationHelper
 
+  def highlight_unless_nil(text, terms, options = { highlighter: '<mark class="bold">\1</mark>' })
+    return text if terms.nil?
+    highlight(text, terms[:include], highlighter: options[:highlighter])
+  end
+
   def required_field_label(text)
     (text + '<sup class="text-danger">' + fa_icon('asterisk') + '</sup>:').html_safe
   end
