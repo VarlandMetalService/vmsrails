@@ -75,20 +75,13 @@
               </td>
               <td class="text-center"><%= bake_time(s.default_classification.bake_soak_length) %></td>
               <td class="text-center"><%= bake_time(s.default_classification.bake_within_limit) %></td>
-              <td class="text-center"><i class="fa fa-<%= s.default_classification.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+              <% if s.default_classification.bake_setpoint.blank? %>
+                <td class="text-center">&nbsp;</td>
+              <% else %>
+                <td class="text-center"><i class="fa fa-<%= s.default_classification.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+              <% end %>
             <% else %>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <% 12.times do %><td></td><% end %>
             <% end %>
             <td class="text-center">
               <div class="btn-group">
@@ -133,7 +126,11 @@
               </td>
               <td class="text-center"><%= bake_time(c.bake_soak_length) %></td>
               <td class="text-center"><%= bake_time(c.bake_within_limit) %></td>
-              <td class="text-center"><i class="fa fa-<%= c.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+              <% if c.bake_setpoint.blank? %>
+                <td class="text-center">&nbsp;</td>
+              <% else %>
+                <td class="text-center"><i class="fa fa-<%= c.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
+              <% end %>
               <td>&nbsp;</td>
             </tr>
           <% end %>

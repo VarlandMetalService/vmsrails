@@ -20,7 +20,7 @@ class SpecificationsController < ApplicationController
   def create
     @specification = Specification.new(specification_params) 
     if @specification.save
-      redirect_to 'index'
+      redirect_to specifications_url
     else
       render :action => 'new'
     end 
