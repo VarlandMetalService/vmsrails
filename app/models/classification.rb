@@ -12,7 +12,7 @@ class Classification < ApplicationRecord
                           case_sensitive: false,
                           message: "must be unique within a specification" }
   validates :thickness_unit,
-            inclusion: {  in: %w(mils µm),
+            inclusion: {  in: %w(in µm),
                           message: "%{value} is not a valid thickness unit" },
             allow_blank: true
   validates :bake_temperature_unit,

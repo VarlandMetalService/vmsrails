@@ -5,10 +5,10 @@ module SpecificationsHelper
     calculated = thickness
     case unit
     when 'µm'
-      calculated *= 0.0393701
-      "#{number_with_precision(calculated, precision: 3)}<br /><small class=\"text-muted\">(#{thickness == thickness.to_i ? thickness.to_i : thickness}µm)</small>".html_safe
+      calculated *= 0.0000393701
+      "#{number_with_precision(calculated, precision: 6)}<br /><small class=\"text-muted\">(#{thickness == thickness.to_i ? thickness.to_i : thickness}µm)</small>".html_safe
     else
-      "#{number_with_precision(calculated, precision: 3)}".html_safe
+      "#{number_with_precision(calculated, precision: 6)}".html_safe
     end
   end
 
