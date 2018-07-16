@@ -1,16 +1,20 @@
 class Classification < ApplicationRecord
 
+  # Soft deletes.
+  acts_as_paranoid
+
   # Associations.
   belongs_to  :specification
   
   # Validations.
+  validates_as_paranoid
+  validates_uniqueness_of_without_deleted :name,
+                                          scope: :specification_id,
+                                          case_sensitive: false,
+                                          message: "must be unique within a specification"
   validate :validate_classification
   validates :vms_process_code,
             presence: true
-  validates :name,
-            uniqueness: { scope: :specification_id,
-                          case_sensitive: false,
-                          message: "must be unique within a specification" }
   validates :thickness_unit,
             inclusion: {  in: %w(in µm),
                           message: "%{value} is not a valid thickness unit" },

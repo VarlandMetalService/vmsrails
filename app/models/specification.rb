@@ -1,5 +1,8 @@
 class Specification < ApplicationRecord
 
+  # Soft deletes.
+  acts_as_paranoid
+
   # Pagination.
   paginates_per 100
 
@@ -15,13 +18,15 @@ class Specification < ApplicationRecord
                                 allow_destroy: true
   
   # Validations.
+  validates_as_paranoid
+  validates_uniqueness_of_without_deleted :name,
+                                          scope: [:organization, :revision],
+                                          case_sensitive: false,
+                                          message: "must be unique within an organization"
   validates :organization,
             presence: true
   validates :name,
-            presence: true,
-            uniqueness: { scope: [:organization, :revision],
-                          case_sensitive: false,
-                          message: "must be unique within an organization" }
+            presence: true
   validates :description,
             presence: true
 

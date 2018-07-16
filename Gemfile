@@ -46,6 +46,7 @@ gem 'whenever', require: false
 gem 'kaminari'
 gem 'htmlentities'
 gem 'cocoon'
+gem 'acts_as_paranoid', '~> 0.6.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
