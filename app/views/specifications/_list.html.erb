@@ -90,31 +90,37 @@
                     <%= link_to fa_icon('pencil'),
                                 edit_specification_path(s),
                                 class: 'font-weight-bold btn btn-sm btn-primary',
-                                title: 'Edit Specification' %>
+                                title: 'Edit Specification',
+                                data: { toggle: 'tooltip' } %>
                     <%= link_to fa_icon('clone'),
                                 duplicate_specification_path(s),
                                 method: :post,
                                 class: 'font-weight-bold btn btn-sm btn-warning',
-                                title: 'Duplicate Specification' %>
+                                title: 'Duplicate Specification',
+                                data: { toggle: 'tooltip' } %>
                     <%= link_to fa_icon('archive'),
                                 archive_specification_path(s),
                                 method: :post,
                                 class: 'font-weight-bold btn btn-sm btn-info',
                                 title: 'Archive Specification',
-                                data: { confirm: 'Are you sure you want to archive this specification?' } %>
+                                data: { confirm: 'Are you sure you want to archive this specification?',
+                                        toggle: 'tooltip' } %>
                   <% else %>
                     <%= link_to fa_icon('undo'),
                                 unarchive_specification_path(s),
                                 method: :post,
                                 class: 'font-weight-bold btn btn-sm btn-info',
-                                title: 'Delete Specification',
-                                data: { confirm: 'Are you sure you want to un-archive this specification?' } %>
+                                title: 'Un-Archive Specification',
+                                data: { confirm: 'Are you sure you want to un-archive this specification?',
+                                        toggle: 'tooltip' } %>
                   <% end %>
                   <%= link_to fa_icon('times'),
                               specification_path(s),
                               method: :delete,
                               class: 'font-weight-bold btn btn-sm btn-danger',
-                              data: { confirm: 'Are you sure you want to delete this specification?' } %>
+                              title: 'Delete Specification',
+                              data: { confirm: 'Are you sure you want to delete this specification?',
+                                        toggle: 'tooltip' } %>
                 </div>
               </td>
             </tr>
