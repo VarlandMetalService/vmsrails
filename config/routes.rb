@@ -2,8 +2,13 @@ Rails.application.routes.draw do
 
   resources :shift_notes
   resources :specifications do
+    collection do
+      get   'archived'
+    end
     member do
       post  'duplicate'
+      post  'archive'
+      post  'unarchive'
     end
   end
  

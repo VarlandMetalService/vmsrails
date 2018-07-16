@@ -43,6 +43,11 @@
         <%= f.file_field :file,
                          class: 'form-control-file' %>
         <%= f.hidden_field :file_cache %>
+        <% unless @specification.file.file.nil? %>
+          <small class="form-text text-muted">
+            Current: <%= link_to '<i class="fa fa-file-pdf-o text-danger"></i>'.html_safe, @specification.file.url, target: '_blank' %> <%= @specification.file.file.identifier %>
+          </small>
+        <% end %>
       </div>
     </div>
     <div class="col-12">

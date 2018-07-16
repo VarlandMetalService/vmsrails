@@ -31,7 +31,9 @@ class Specification < ApplicationRecord
             presence: true
 
   # Scoping.
-  default_scope { order('specifications.organization, specifications.name') }
+  default_scope { where(archived_at: nil).order('specifications.organization, specifications.name') }
+  scope :with_archived, -> { unscope(where: :archived_at) }
+  scope :archived, -> { unscope(where: :archived_at).where.not(archived_at: nil) }
   scope :with_organization, ->(organization) { where("specifications.organization = ?", organization) unless organization.nil? }
   scope :with_name, ->(name) { where("specifications.name = ?", name) unless name.nil? }
   scope :with_classification, ->(classification) { joins(:classifications).where("classifications.name = ?", classification).distinct() unless classification.nil? }

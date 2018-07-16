@@ -1,7 +1,16 @@
-<% provide(:title, "Specifications") %>
+<% provide(:title, "#{'Archived ' if params[:action] == 'archived'} Specifications") %>
 <div class="row mt-3">
   <div class="col">
-    <h3 class="mb-0">Specifications</h3>
+    <h3 class="mb-0"><%= 'Archived ' if params[:action] == 'archived' %>Specifications</h3>
+    <p>
+      <% if params[:action] == 'archived' %>
+        <%= link_to 'Current specifications',
+                    specifications_path %>
+      <% else %>
+        <%= link_to 'Archived specifications',
+                    archived_specifications_path %>
+      <% end %>
+    </p>
   </div>
 </div>
 <div class="row mt-3">

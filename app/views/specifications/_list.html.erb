@@ -86,13 +86,26 @@
               <% end %>
               <td class="text-center">
                 <div class="btn-group">
-                  <%= link_to fa_icon('pencil'),
-                              edit_specification_path(s),
-                              class: 'font-weight-bold btn btn-sm btn-primary' %>
-                  <%= link_to fa_icon('clone'),
-                              duplicate_specification_path(s),
-                              method: :post,
-                              class: 'font-weight-bold btn btn-sm btn-warning' %>
+                  <% if s.archived_at.nil? %>
+                    <%= link_to fa_icon('pencil'),
+                                edit_specification_path(s),
+                                class: 'font-weight-bold btn btn-sm btn-primary' %>
+                    <%= link_to fa_icon('clone'),
+                                duplicate_specification_path(s),
+                                method: :post,
+                                class: 'font-weight-bold btn btn-sm btn-warning' %>
+                    <%= link_to fa_icon('archive'),
+                                archive_specification_path(s),
+                                method: :post,
+                                class: 'font-weight-bold btn btn-sm btn-info',
+                                data: { confirm: 'Are you sure you want to archive this specification?' } %>
+                  <% else %>
+                    <%= link_to fa_icon('undo'),
+                                unarchive_specification_path(s),
+                                method: :post,
+                                class: 'font-weight-bold btn btn-sm btn-info',
+                                data: { confirm: 'Are you sure you want to un-archive this specification?' } %>
+                  <% end %>
                   <%= link_to fa_icon('times'),
                               specification_path(s),
                               method: :delete,

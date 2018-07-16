@@ -12,8 +12,7 @@
     end
   end
 %>
-<%= form_with url: specifications_path,
-              class: 'bg-dark text-white border rounded p-3 mb-3',
+<%= form_with class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
 
   <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
@@ -98,7 +97,7 @@
   <div class="row">
     <div class="col-12">
       <div class="pull-right">
-        <%= link_to 'Reset', specifications_url, class: 'btn btn-link text-white' %>
+        <%= link_to 'Reset', url_for, class: 'btn btn-link text-white' %>
         <%= f.button fa_icon('filter', text: 'Filter'),
                       class: 'btn btn-sm btn-warning font-weight-bold',
                       type: 'submit' %>

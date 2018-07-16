@@ -2,15 +2,22 @@ class SpecificationsController < ApplicationController
 
   skip_before_action  :authenticate_user
 
-  has_scope :with_search_term, only: :index
-  has_scope :with_organization, only: :index
-  has_scope :with_name, only: :index
-  has_scope :with_classification, only: :index
-  has_scope :with_process_code, only: :index
-  has_scope :with_color, only: :index
+  has_scope :with_search_term, only: [:index, :all]
+  has_scope :with_organization, only: [:index, :all]
+  has_scope :with_name, only: [:index, :all]
+  has_scope :with_classification, only: [:index, :all]
+  has_scope :with_process_code, only: [:index, :all]
+  has_scope :with_color, only: [:index, :all]
 
   def index
     @specifications = apply_scopes(Specification).page(params[:page])
+    @unpaged_specifications = apply_scopes(Specification)
+  end
+
+  def archived
+    @specifications = apply_scopes(Specification.archived).page(params[:page])
+    @unpaged_specifications = apply_scopes(Specification.archived)
+    render :action => 'index'
   end
 
   def new
@@ -28,6 +35,20 @@ class SpecificationsController < ApplicationController
 
   def edit
     @specification = Specification.find(params[:id])
+  end
+
+  def archive
+    specification = Specification.find(params[:id])
+    specification.archived_at = Time.now
+    specification.save
+    redirect_to specifications_url
+  end
+
+  def unarchive
+    specification = Specification.archived.find(params[:id])
+    specification.archived_at = nil
+    specification.save
+    redirect_to specifications_url
   end
 
   def duplicate
