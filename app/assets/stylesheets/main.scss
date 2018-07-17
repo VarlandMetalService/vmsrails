@@ -105,3 +105,10 @@ mark.bold {
     border-bottom: none !important;
   }
 }
+
+a.collapse-filters {
+  &:hover {
+    text-decoration: none !important;
+  }
+  text-decoration: none !important;
+}
