@@ -1,0 +1,58 @@
+<%= form_for [:admin, @permission], html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
+  <% if @permission.errors.any? %>
+    <div class="alert alert-danger p-2 small font-weight-bold">
+      <p class="mb-0">The update could not be processed due to <%= pluralize(@permission.errors.count, "error") %>:</p>
+      <ul class="mb-0">
+        <% @permission.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <%= f.label :description,
+                    required_field_label('Description') %>
+        <%= f.text_field :description,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+    <div class="col-12"><hr class="mt-0 mb-3" /></div>
+    <div class="col-12">
+      <h5>Users</h5>
+      <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>Access Level</th>
+            <th class="text-center">Options</th>
+          </tr>
+        </thead>
+        <tbody id="assigned_permissions">
+          <%= f.fields_for :assigned_permissions do |assigned_permission| %>
+            <%= render 'assigned_permission_fields', f: assigned_permission, label_set: f.object.label_set %>
+          <% end %>
+        </tbody>
+      </table>
+      <p><%= link_to_add_association '<i class="fa fa-plus"></i> Add User'.html_safe,
+                                     f,
+                                     :assigned_permissions,
+                                     class: 'btn btn-sm btn-warning',
+                                     :'data-association-insertion-node' => '#assigned_permissions',
+                                     :'data-association-insertion-method' => 'append',
+                                     :render_options => { locals: { label_set: f.object.label_set } } %></p>
+    </div>
+    <div class="col-12"><hr class="mb-0 mt-0" /></div>
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Cancel', admin_permissions_url, class: 'btn btn-link mt-3' %>
+        <%= f.button fa_icon('check', text: 'Save'),
+                     class: 'btn btn-primary mt-3 font-weight-bold',
+                     type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>

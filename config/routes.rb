@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :permissions
   end
   
   namespace :dept_info do

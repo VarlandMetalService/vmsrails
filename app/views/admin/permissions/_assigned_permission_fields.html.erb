@@ -1,0 +1,23 @@
+<tr class="nested-fields">
+  <td>
+    <div class="form-group mb-0">
+      <%= f.collection_select(:user_id,
+                              User.all,
+                              :id,
+                              :number_and_name,
+                              { include_blank: true },
+                              { class: 'custom-select' }) %>
+    </div>
+  </td>
+  <td>
+    <%= f.select :value,
+                 options_for_select(AssignedPermission.options_for_value(label_set), f.object.value),
+                 { include_blank: false },
+                 { class: 'custom-select' } %>
+  </td>
+  <td class="text-center">
+    <%= link_to_remove_association '<i class="fa fa-times"></i>'.html_safe,
+                                   f,
+                                   class: 'btn btn-sm btn-danger' %>
+  </td>
+</tr>

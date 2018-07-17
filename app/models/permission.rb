@@ -1,7 +1,7 @@
 class Permission < ApplicationRecord
 
-  # Pagination.
-  paginates_per 100
+  # Scoping.
+  default_scope { order('permission') }
 
   # Associations.
   has_many      :assigned_permissions,
