@@ -11,7 +11,6 @@ class Specification < ApplicationRecord
 
   # Associations.
   has_many  :classifications,
-            dependent: :destroy,
             inverse_of: :specification
   accepts_nested_attributes_for :classifications,
                                 reject_if: :all_blank,
@@ -31,8 +30,9 @@ class Specification < ApplicationRecord
             presence: true
 
   # Scoping.
-  default_scope { where(archived_at: nil).order('specifications.organization, specifications.name') }
-  scope :with_archived, -> { unscope(where: :archived_at) }
+  default_scope { order('specifications.organization, specifications.name') }
+  # scope :with_archived, -> { unscope(where: :archived_at) }
+  scope :without_archived, -> { where(archived_at: nil) }
   scope :archived, -> { unscope(where: :archived_at).where.not(archived_at: nil) }
   scope :with_organization, ->(organization) { where("specifications.organization = ?", organization) unless organization.nil? }
   scope :with_name, ->(name) { where("specifications.name = ?", name) unless name.nil? }

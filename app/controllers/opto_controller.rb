@@ -16,6 +16,7 @@ class OptoController < ApplicationController
   
   def logs
     @logs = apply_scopes(Opto::Log).page(params[:page])
+    @unpaged_logs = apply_scopes(Opto::Log)
   end
 
   def log

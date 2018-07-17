@@ -10,13 +10,19 @@ class SpecificationsController < ApplicationController
   has_scope :with_color, only: [:index, :all]
 
   def index
-    @specifications = apply_scopes(Specification).page(params[:page])
-    @unpaged_specifications = apply_scopes(Specification)
+    @specifications = apply_scopes(Specification.without_archived).page(params[:page])
+    @unpaged_specifications = apply_scopes(Specification.without_archived)
   end
 
   def archived
     @specifications = apply_scopes(Specification.archived).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.archived)
+    render :action => 'index'
+  end
+
+  def deleted
+    @specifications = apply_scopes(Specification.only_deleted).page(params[:page])
+    @unpaged_specifications = apply_scopes(Specification.only_deleted)
     render :action => 'index'
   end
 
@@ -45,9 +51,15 @@ class SpecificationsController < ApplicationController
   end
 
   def unarchive
-    specification = Specification.archived.find(params[:id])
+    specification = Specification.find(params[:id])
     specification.archived_at = nil
     specification.save
+    redirect_to specifications_url
+  end
+
+  def undelete
+    specification = Specification.only_deleted.find(params[:id])
+    specification.recover
     redirect_to specifications_url
   end
 
@@ -76,6 +88,8 @@ class SpecificationsController < ApplicationController
 
   def destroy
     @specification = Specification.find(params[:id])
+    @specification.archived_at = nil
+    @specification.save
     @specification.destroy
     redirect_to specifications_url
   end

@@ -4,11 +4,13 @@ Rails.application.routes.draw do
   resources :specifications do
     collection do
       get   'archived'
+      get   'deleted'
     end
     member do
       post  'duplicate'
       post  'archive'
       post  'unarchive'
+      post  'undelete'
     end
   end
  

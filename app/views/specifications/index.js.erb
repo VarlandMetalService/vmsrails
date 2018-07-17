@@ -9,7 +9,7 @@ $('#specifications').html("<%= js %>");
 <% js2 = escape_javascript(
   render(
     :partial => 'specifications/filter_form',
-    :locals => { :specifications => @specifications }
+    :locals => { :specifications => @unpaged_specifications }
   )
 ) %>
 $('#filter_form').html("<%= js2 %>");

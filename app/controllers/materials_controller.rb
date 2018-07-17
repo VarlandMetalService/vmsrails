@@ -15,6 +15,7 @@ class MaterialsController < ApplicationController
   
   def vat_history_notes
     @vat_history_notes = apply_scopes(Materials::VatHistoryNote).page(params[:page])
+    @unpaged_vat_history_notes = apply_scopes(Materials::VatHistoryNote)
   end
 
 end
