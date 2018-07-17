@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       helpers.log_in user
       params[:session][:remember_me] == '1' ? helpers.remember(user) : helpers.forget(user)
-      redirect_to root_url
+      redirect_to(session[:return_to] || root_path) and return
     else
       flash.now[:danger] = 'Login failed. Please contact IT for assistance if necessary.'
       render 'new'

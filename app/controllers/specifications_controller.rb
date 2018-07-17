@@ -1,6 +1,12 @@
 class SpecificationsController < ApplicationController
 
-  skip_before_action  :authenticate_user
+  before_action :check_user_permission,
+                only: :index
+  before_action :require_user_permission,
+                only: :archived
+  before_action :require_admin_permission
+  skip_before_action  :require_admin_permission,
+                      only: [:index, :archived]
 
   has_scope :with_search_term, only: [:index, :all]
   has_scope :with_organization, only: [:index, :all]
@@ -47,19 +53,22 @@ class SpecificationsController < ApplicationController
     specification = Specification.find(params[:id])
     specification.archived_at = Time.now
     specification.save
-    redirect_back(fallback_location: specifications_url)
+    flash[:info] = "#{specification.title} has been archived. View <a href=\"#{archived_specifications_url}\">archived specifications</a>."
+    redirect_back(fallback_location: specifications_url) and return
   end
 
   def unarchive
     specification = Specification.find(params[:id])
     specification.archived_at = nil
     specification.save
+    flash[:info] = "#{specification.title} has been un-archived. View <a href=\"#{specifications_url}\">current specifications</a>."
     redirect_back(fallback_location: specifications_url)
   end
 
   def undelete
     specification = Specification.only_deleted.find(params[:id])
     specification.recover
+    flash[:info] = "#{specification.title} has been un-deleted. View <a href=\"#{specifications_url}\">current specifications</a>."
     redirect_back(fallback_location: specifications_url)
   end
 
@@ -73,6 +82,7 @@ class SpecificationsController < ApplicationController
       new_classification.specification = new_specification
       new_classification.save
     end
+    flash[:info] = "#{specification.title} has been duplicated as #{new_specification.title}."
     redirect_to specifications_url
   end
 
@@ -91,10 +101,23 @@ class SpecificationsController < ApplicationController
     @specification.archived_at = nil
     @specification.save
     @specification.destroy
+    flash[:info] = "#{@specification.title} has been deleted. View <a href=\"#{deleted_specifications_url}\">deleted specifications</a>."
     redirect_back(fallback_location: specifications_url)
   end
 
 private
+
+  def check_user_permission
+    check_permission 'specifications'
+  end
+
+  def require_user_permission
+    require_permission 'specifications', 2
+  end
+
+  def require_admin_permission
+    require_permission 'specifications', 3
+  end
 
   def specification_params
     params.require(:specification).permit(:organization,

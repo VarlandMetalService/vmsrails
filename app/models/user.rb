@@ -33,7 +33,12 @@ class User < ApplicationRecord
   }
 
   # Associations.
-  has_many :vat_history_notes, class_name: 'Materials::VatHistoryNote'
+  has_many      :vat_history_notes,
+                class_name: 'Materials::VatHistoryNote'
+  has_many      :assigned_permissions
+  has_many      :permissions,
+                -> { select('permissions.*, assigned_permissions.value AS access_level') },
+                :through => :assigned_permissions
 
   # Validation.
   validates :employee_number,

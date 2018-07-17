@@ -25,17 +25,39 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user
-    redirect_to(login_url) and return unless helpers.logged_in?
+    unless helpers.logged_in?
+      session[:return_to] = request.fullpath
+      redirect_to(login_url) and return
+    end
+    session.delete(:return_to)
     @current_user = helpers.current_user
   end
 
   def authenticate_admin
-    redirect_to(login_url) and return unless helpers.logged_in?
+    unless helpers.logged_in?
+      session[:return_to] = request.fullpath
+      redirect_to(login_url) and return
+    end
     @current_user = helpers.current_user
     unless @current_user.is_admin
-      redirect_to root_url
-      flash.now[:danger] = 'You are not authorized to access the page you requested. Admin access is required.'
+      redirect_back(fallback_location: root_url)
+      flash[:danger] = 'You are not authorized to access the page you requested. Admin access is required.'
       return
+    end
+  end
+
+  def check_permission(right)
+    if helpers.current_user.nil?
+      @access_level = nil
+    else
+      @access_level ||= helpers.current_user.permissions.find_by_permission right
+    end
+  end
+
+  def require_permission(right, level)
+    @access_level ||= helpers.current_user.permissions.find_by_permission right
+    if @access_level.nil? || @access_level.access_level < level
+      redirect_back(fallback_location: root_url, flash: { danger: 'Permission denied. Please contact IT if you have questions.' }) and return
     end
   end
 

@@ -68,5 +68,14 @@ class Specification < ApplicationRecord
   def default_classification
     self.classifications.find_by_name(['', nil])
   end
+  def title
+    parts = []
+    parts << self.organization
+    parts << self.name
+    unless self.revision.blank?
+      parts << "(Rev: #{self.revision})"
+    end
+    parts.join ' '
+  end
 
 end

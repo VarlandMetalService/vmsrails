@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180716204437) do
+ActiveRecord::Schema.define(version: 20180717131110) do
+
+  create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.bigint "permission_id"
+    t.bigint "user_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permission_id"], name: "index_assigned_permissions_on_permission_id"
+    t.index ["user_id"], name: "index_assigned_permissions_on_user_id"
+  end
 
   create_table "classifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "specification_id"
@@ -128,6 +138,12 @@ ActiveRecord::Schema.define(version: 20180716204437) do
     t.text "json_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "permission"
+    t.string "description"
+    t.integer "label_set"
   end
 
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

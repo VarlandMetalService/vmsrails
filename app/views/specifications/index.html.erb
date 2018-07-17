@@ -2,29 +2,31 @@
 <div class="row mt-3">
   <div class="col">
     <h3 class="mb-0"><%= "#{params[:action].titleize} " unless params[:action] == 'index' %>Specifications</h3>
-    <p>
-      Go to:
-      <% case params[:action] %>
-      <% when 'archived' %>
-        <%= link_to 'Current Specifications',
-                    specifications_path %>
-        &bull;
-        <%= link_to 'Deleted Specifications',
-                    deleted_specifications_path %>
-      <% when 'deleted' %>
-        <%= link_to 'Current Specifications',
-                    specifications_path %>
-        &bull;
-        <%= link_to 'Archived specifications',
-                    archived_specifications_path %>
-      <% else %>
-        <%= link_to 'Archived specifications',
-                    archived_specifications_path %>
-        &bull;
-        <%= link_to 'Deleted Specifications',
-                    deleted_specifications_path %>
-      <% end %>
-    </p>
+    <%
+      links = []
+      case params[:action]
+      when 'archived'
+        links << link_to('Current Specifications', specifications_path)
+        if @access_level && @access_level.access_level >= 3
+          links << link_to('Deleted Specifications', deleted_specifications_path)
+        end
+      when 'deleted'
+        links << link_to('Current Specifications', specifications_path)
+        if @access_level && @access_level.access_level >= 2
+          links << link_to('Archived Specifications', archived_specifications_path)
+        end
+      else
+        if @access_level && @access_level.access_level >= 2
+          links << link_to('Archived Specifications', archived_specifications_path)
+        end
+        if @access_level && @access_level.access_level >= 3
+          links << link_to('Deleted Specifications', deleted_specifications_path)
+        end
+      end
+    %>
+    <%= '<p>Go to:'.html_safe if links.size > 0 %>
+    <%= links.join(' &bull; ').html_safe %>
+    <%= '</p>'.html_safe if links.size > 0 %>
   </div>
 </div>
 <div class="row mt-3">
@@ -34,5 +36,6 @@
 </div>
 <div class="row mt-3" id="specifications">
   <%= render partial: 'list', locals: { specifications: @specifications,
-                                        term: params[:with_search_term] } %>
+                                        term: params[:with_search_term],
+                                        access_level: @access_level } %>
 </div>
