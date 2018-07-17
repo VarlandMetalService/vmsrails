@@ -47,20 +47,20 @@ class SpecificationsController < ApplicationController
     specification = Specification.find(params[:id])
     specification.archived_at = Time.now
     specification.save
-    redirect_to specifications_url
+    redirect_back(fallback_location: specifications_url)
   end
 
   def unarchive
     specification = Specification.find(params[:id])
     specification.archived_at = nil
     specification.save
-    redirect_to specifications_url
+    redirect_back(fallback_location: specifications_url)
   end
 
   def undelete
     specification = Specification.only_deleted.find(params[:id])
     specification.recover
-    redirect_to specifications_url
+    redirect_back(fallback_location: specifications_url)
   end
 
   def duplicate
@@ -91,7 +91,7 @@ class SpecificationsController < ApplicationController
     @specification.archived_at = nil
     @specification.save
     @specification.destroy
-    redirect_to specifications_url
+    redirect_back(fallback_location: specifications_url)
   end
 
 private

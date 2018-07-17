@@ -9,7 +9,7 @@
 </div>
 <div class="col">
   <% if specifications.blank? %>
-    <p class="text-danger">No specifications found.</p>
+    <p class="text-danger">No <%= params[:action] unless params[:action] == 'index' %> specifications found.</p>
   <% else %>
     <p class="font-weight-bold">
       <%= page_entries_info specifications %>
