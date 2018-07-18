@@ -7,19 +7,19 @@
       case params[:action]
       when 'archived'
         links << link_to('Current Specifications', specifications_path)
-        if @access_level && @access_level.access_level >= 3
+        if @access_level >= 3
           links << link_to('Deleted Specifications', deleted_specifications_path)
         end
       when 'deleted'
         links << link_to('Current Specifications', specifications_path)
-        if @access_level && @access_level.access_level >= 2
+        if @access_level >= 2
           links << link_to('Archived Specifications', archived_specifications_path)
         end
       else
-        if @access_level && @access_level.access_level >= 2
+        if @access_level >= 2
           links << link_to('Archived Specifications', archived_specifications_path)
         end
-        if @access_level && @access_level.access_level >= 3
+        if @access_level >= 3
           links << link_to('Deleted Specifications', deleted_specifications_path)
         end
       end
@@ -36,6 +36,5 @@
 </div>
 <div class="row mt-3" id="specifications">
   <%= render partial: 'list', locals: { specifications: @specifications,
-                                        term: params[:with_search_term],
-                                        access_level: @access_level } %>
+                                        term: params[:with_search_term] } %>
 </div>

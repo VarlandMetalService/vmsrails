@@ -48,15 +48,20 @@ class ApplicationController < ActionController::Base
 
   def check_permission(right)
     if helpers.current_user.nil?
-      @access_level = nil
+      obj = nil
     else
-      @access_level ||= helpers.current_user.permissions.find_by_permission right
+      obj ||= helpers.current_user.permissions.find_by_permission right
+    end
+    if obj.nil?
+      @access_level = 0
+    else
+      @access_level = obj.access_level
     end
   end
 
   def require_permission(right, level)
-    @access_level ||= helpers.current_user.permissions.find_by_permission right
-    if @access_level.nil? || @access_level.access_level < level
+    check_permission(right)
+    if @access_level < level
       redirect_back(fallback_location: root_url, flash: { danger: 'Permission denied. Please contact IT if you have questions.' }) and return
     end
   end
