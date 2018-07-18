@@ -8,27 +8,41 @@ class SpecificationsController < ApplicationController
   skip_before_action  :require_admin_permission,
                       only: [:index, :archived]
 
-  has_scope :with_search_term, only: [:index, :all]
-  has_scope :with_organization, only: [:index, :all]
-  has_scope :with_name, only: [:index, :all]
-  has_scope :with_classification, only: [:index, :all]
-  has_scope :with_process_code, only: [:index, :all]
-  has_scope :with_color, only: [:index, :all]
+  has_scope :with_search_term, only: :index
+  has_scope :with_organization, only: :index
+  has_scope :with_name, only: :index
+  has_scope :with_classification, only: :index
+  has_scope :with_process_code, only: :index
+  has_scope :with_color, only: :index
+  has_scope :with_ss_white_spec, only: :index
+  has_scope :with_ss_red_spec, only: :index
+  has_scope :with_min_alloy_percentage, only: :index
+  has_scope :with_max_alloy_percentage, only: :index
+  has_scope :with_min_thickness, only: :index
+  has_scope :with_max_thickness, only: :index
+  has_scope :with_bake_temperature, only: :index
+  has_scope :with_bake_variation_limit, only: :index
+  has_scope :with_bake_time, only: :index
+  has_scope :with_bake_within_limit, only: :index
+  has_scope :with_inert_bake, only: :index
 
   def index
     @specifications = apply_scopes(Specification.without_archived).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.without_archived)
+    @sql = apply_scopes(Specification.without_archived).page(params[:page]).to_sql
   end
 
   def archived
     @specifications = apply_scopes(Specification.archived).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.archived)
+    @sql = apply_scopes(Specification.archived).page(params[:page]).to_sql
     render :action => 'index'
   end
 
   def deleted
     @specifications = apply_scopes(Specification.only_deleted).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.only_deleted)
+    @sql = apply_scopes(Specification.only_deleted).page(params[:page]).to_sql
     render :action => 'index'
   end
 

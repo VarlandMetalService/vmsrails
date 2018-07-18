@@ -86,23 +86,221 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <div class="card bg-warning text-dark p-3 mb-3">
+          <p class="m-0">
+            The fields below can be used to search numeric fields in a variety of ways. If you only enter a number, the
+            program will look for values matching the number you enter. You may also enter <code>>=</code>, <code>></code>,
+            <code><=</code>, <code><</code>, <code>=</code>, or <code>!=</code> before a number for more flexibility.
+            Finally, you may enter a range by entering two numbers separated by <code>-</code>.
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_min_alloy_percentage,
+                      'Min Alloy %:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_min_alloy_percentage,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_min_alloy_percentage] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_max_alloy_percentage,
+                      'Max Alloy %:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_max_alloy_percentage,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_max_alloy_percentage] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_min_thickness,
+                      'Min Thickness:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_min_thickness,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_min_thickness] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">&Prime;</span>
+            </div>
+          </div>
+          <small class="form-text text-warning">
+            Search values are entered in inches. Value is rounded to the nearest half micron (with a 10% fudge factor) to search
+            values entered in microns.
+          </small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_max_thickness,
+                      'Max Thickness:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_max_thickness,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_max_thickness] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">&Prime;</span>
+            </div>
+          </div>
+          <small class="form-text text-warning">
+            Search values are entered in inches. Value is rounded to the nearest half micron (with a 10% fudge factor) to search
+            values entered in microns.
+          </small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_ss_white_spec,
+                      'SS White Spec:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_ss_white_spec,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_ss_white_spec] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">hrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_ss_red_spec,
+                      'SS Red Spec:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_ss_red_spec,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_ss_red_spec] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">hrs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_bake_temperature,
+                      'Bake Setpoint:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_bake_temperature,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_bake_temperature] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">&deg; F</span>
+            </div>
+          </div>
+          <small class="form-text text-warning">
+            Search values are entered in &deg; F. Value is converted to &deg; C (with a 5% fudge factor) to search
+            values entered in &deg; C.
+          </small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_bake_variation_limit,
+                      'Bake Variation:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_bake_variation_limit,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_bake_variation_limit] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">&deg; F</span>
+            </div>
+          </div>
+          <small class="form-text text-warning">
+            Search values are entered in &deg; F. Value is converted to &deg; C (with a 10% fudge factor) to search
+            values entered in &deg; C.
+          </small>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_bake_time,
+                      'Bake Time:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_bake_time,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_bake_time] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_bake_within_limit,
+                      'Bake Within:'  %>
+          <div class="input-group">
+            <%= f.text_field :with_bake_within_limit,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_bake_within_limit] %>
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_inert_bake,
+                      'Inert Bake:'  %>
+          <%= f.select :with_inert_bake, 
+                        options_for_select(['No', 'Yes'],
+                                          params[:with_inert_bake]),
+                        { include_blank: true },
+                        { class: 'custom-select',
+                          onchange: 'this.form.submit();' } %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col">
         <div class="form-group">
           <%= f.label :with_search_term,
                       'Search:'  %>
           <%= f.text_field :with_search_term,
-                          class: 'form-control',
-                          onchange: 'this.form.submit();',
-                          value: params[:with_search_term] %>
+                           class: 'form-control',
+                           onchange: 'this.form.submit();',
+                           value: params[:with_search_term] %>
           <small class="form-text text-light">
             Searches for all words in any order. Use double quotes around multiple words to search for exact phrase.
           </small>
         </div>
       </div>
     </div>
+    <div class="row collapse" id="filterExplanation">
+      <div class="col">
+        <p class="text-info text-monospace"><%= @sql %></p>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
         <div class="pull-right">
+          <a class="text-info btn btn-link d-nonex" data-toggle="collapse" href="#filterExplanation" role="button" aria-expanded="false" aria-controls="filterExplanation">
+            Explain
+          </a>
           <%= link_to 'Reset', url_for, class: 'btn btn-link text-white' %>
           <%= f.button fa_icon('filter', text: 'Filter'),
                         class: 'btn btn-sm btn-warning font-weight-bold',

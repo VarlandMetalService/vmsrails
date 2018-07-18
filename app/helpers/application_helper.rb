@@ -64,4 +64,46 @@ module ApplicationHelper
     search
   end
 
+  def inches_to_half_micron(inches)
+    calculated = inches.to_f * 25400
+    rounded = (calculated * 2).round / 2.0
+    return rounded
+  end
+
+  def split_numeric_terms(input)
+    terms = input.split(/^\s*([>!=<]*)\s*(\d*\.?\d+)\s*(-)?\s*(\d*\.?\d+)?\s*$/)
+    search = nil
+    functions = {}
+    functions['>='] = 'gte'
+    functions['>'] = 'gt'
+    functions['<='] = 'lte'
+    functions['<'] = 'lt'
+    functions['='] = 'eq'
+    functions['=='] = 'eq'
+    functions['!='] = 'ne'
+    functions['<>'] = 'ne'
+    case terms.size
+    when 3
+      function ||= functions[terms[1]]
+      if function.nil?
+        search = {
+          function: 'eq',
+          value: terms[2]
+        }
+      else
+        search = {
+          function: function,
+          value: terms[2]
+        }
+      end
+    when 5
+      search = {
+        function: 'range',
+        minimum: terms[2],
+        maximum: terms[4]
+      }
+    end
+    return search
+  end
+
 end
