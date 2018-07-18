@@ -138,6 +138,7 @@ private
                                           :name,
                                           :description,
                                           :revision,
+                                          :notes,
                                           :file,
                                           :file_cache,
                                           classifications_attributes: [:id,

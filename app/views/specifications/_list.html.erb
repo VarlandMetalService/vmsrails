@@ -60,10 +60,13 @@
               </td>
               <td class="font-weight-bold">
                 <%= highlight_unless_nil(s.description, search_terms) %>
-                <% unless s.default_classification.blank? || s.default_classification.notes.blank? %>
+                <% unless s.notes.blank? %>
                   <hr class="mb-1 mt-1" />
-                  <small><strong>Notes:</strong> <em><%= highlight_unless_nil(s.default_classification.notes, search_terms) %></em></small>
-                  <hr class="mb-1 mt-1" />
+                  <div class="small font-italic">
+                    <p class="font-weight-bold mb-1">Notes:</p>
+                    <%= highlight_unless_nil(@markdown_renderer.render(s.notes).html_safe, search_terms) %>
+                  </div>
+                  <hr class="mb-1 remove-p-spacing-in-td" />
                 <% end %>
               </td>
               <% if s.default_classification %>
@@ -153,11 +156,6 @@
                 <td><%= highlight_unless_nil(c.name, search_terms) %></td>
                 <td>
                   <%= highlight_unless_nil(c.description, search_terms) %>
-                  <% unless c.notes.blank? %>
-                    <hr class="mb-1 mt-1" />
-                    <small><strong>Notes:</strong> <em><%= highlight_unless_nil(c.notes, search_terms) %></em></small>
-                    <hr class="mb-1 mt-1" />
-                  <% end %>
                 </td>
                 <td class="text-center"><%= highlight_unless_nil(c.vms_process_code, search_terms) %></td>
                 <td class="text-center"><%= highlight_unless_nil(c.color, search_terms) %></td>

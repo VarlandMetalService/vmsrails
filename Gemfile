@@ -47,6 +47,7 @@ gem 'kaminari'
 gem 'htmlentities'
 gem 'cocoon'
 gem 'acts_as_paranoid', '~> 0.6.0'
+gem 'redcarpet'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

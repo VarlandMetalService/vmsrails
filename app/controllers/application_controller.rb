@@ -4,8 +4,13 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user
   before_action :initialize_body_classes
+  before_action :instantiate_markdown_renderer
 
   private
+
+  def instantiate_markdown_renderer
+    @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+  end
 
   def auto_refresh(delay = 30)
     @auto_refresh_delay = delay

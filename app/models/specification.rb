@@ -51,6 +51,7 @@ class Specification < ApplicationRecord
         sub_conditions << "specifications.organization LIKE :#{key}"
         sub_conditions << "specifications.name LIKE :#{key}"
         sub_conditions << "specifications.description LIKE :#{key}"
+        sub_conditions << "specifications.notes LIKE :#{key}"
         sub_conditions << "classifications.name LIKE :#{key}"
         sub_conditions << "classifications.description LIKE :#{key}"
         sub_conditions << "classifications.notes LIKE :#{key}"

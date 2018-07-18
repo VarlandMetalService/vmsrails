@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180718153806) do
+ActiveRecord::Schema.define(version: 20180718193550) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20180718153806) do
     t.datetime "updated_at", null: false
     t.index ["permission_id"], name: "index_assigned_permissions_on_permission_id"
     t.index ["user_id"], name: "index_assigned_permissions_on_user_id"
+  end
+
+  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "comment"
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "attachable_type"
+    t.bigint "attachable_id"
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
   end
 
   create_table "classifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -156,7 +166,6 @@ ActiveRecord::Schema.define(version: 20180718153806) do
     t.integer "response_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "attachment"
   end
 
   create_table "specifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -169,6 +178,7 @@ ActiveRecord::Schema.define(version: 20180718153806) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.datetime "archived_at"
+    t.text "notes"
     t.index ["archived_at"], name: "index_specifications_on_archived_at"
     t.index ["deleted_at"], name: "index_specifications_on_deleted_at"
   end
