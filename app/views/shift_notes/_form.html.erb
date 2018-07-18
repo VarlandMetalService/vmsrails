@@ -1,44 +1,55 @@
-<%= form_with model: @shift_note do |f| %>
-<br><br>
+<%= form_with model: @shift_note do |f| %> <br>
 
-<% users_array = User.all.map { |user| [user.full_name, user.id] } %>
-    <p> 
-      <%= f.label :user %>
-      <%= f.select :user_id, options_for_select(users_array), :selected => @shift_note.user.full_name %>
-    </p>
-
-    <p>
-      <%= f.label :Department %>
-      <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), :value => @shift_note.dept %>
-    </p>
-
-    <p>
-      <%= f.label :Shift_type %>
-      <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type) %>
-    </p>
-
-    <p>
-      <%= f.label :Shift_time %>
-      <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time) %>
-    </p>
-
-    <p>
-    <%= f.label :Message %>
-    <%= f.text_field :message%>
-    </p>
-
-    <% if @shift_note.message? %>
-    <p>
-    <%= f.label :Response %>
-    <%= f.text_field :response, :value =>@shift_note.response%>
-    <br>
-      <%= f.label :Responder %>
-      <%= f.select :response_uid, options_for_select(users_array), :value =>@shift_note.response_uid %>
-    </p>
-    <% else %>
-    <% end %>
+  <% users_array = User.all.map { |user| [user.full_name, user.id] } %>
   
-    <%= f.submit yield(:button_text), class: "btn btn-primary"%>
-    
+  <p> 
+    <%= f.label :user %>
+    <%= f.select :user_id, options_for_select(users_array, @shift_note.user_id) %>
+  </p>
 
+  <p>
+    <%= f.label :Department %>
+    <%= f.select :dept, options_for_select(ShiftNote.options_for_dept, @shift_note.dept) %>
+  </p>
+
+  <p>
+    <%= f.label :Shift_type %>
+    <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type, @shift_note.shift_type) %>
+  </p>
+
+  <p>
+    <%= f.label :Shift_time %>
+    <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time) %>
+  </p>
+
+  <p>
+    <%= f.label :Message %>
+    <%= f.text_area :message, :cols => 70, :rows => 10 %>
+  </p>
+
+  <p>
+    <label>Attachment</label>
+    <%= image_tag(@shift_note.attachment_url) if @shift_note.attachment? %>
+  </p>
+
+  <p>     
+    <%= f.file_field :attachment %>
+    <% if @shift_note.attachment %>
+      <%= f.check_box :remove_attachment %>
+      <label>Remove attachment</label>
+    <% end %>
+  </p>
+
+  <% if @shift_note.message? %>
+    <p>
+      <%= f.label :Response %>
+      <%= f.text_area :response, :cols => 70, :rows => 10 %>
+      <br>
+      <%= f.label :Responder %>
+      <%= f.select :response_uid, options_for_select(users_array, @shift_note.response_uid) %>
+    </p>
   <% end %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
+
+<% end %>

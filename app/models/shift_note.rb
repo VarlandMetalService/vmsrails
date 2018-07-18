@@ -1,26 +1,14 @@
 class ShiftNote < ApplicationRecord
 
-  paginates_per 100
+    paginates_per 100
 
-  # Constants.
-  VALID_IP_REGEX = /\A([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}\z/i
-
-  # Associations.
-  belongs_to    :supervisor,
+    # Associations.
+    belongs_to :user, class_name: '::User', optional: true
+    belongs_to    :supervisor,
                 class_name: 'User',
                 foreign_key: 'response_uid', optional: true
-  has_many      :attachments,
-                as: :attachable,
-                dependent: :destroy
-
-  accepts_nested_attributes_for   :attachments,
-                                  reject_if: :all_blank,
-                                  allow_destroy: true
-
- 
-
-    #date, shift_time, user_id, dept, shift_type, user_notes, supervisor_id, supervisor_notes
-    
+    mount_uploader :attachment, AttachmentUploader
+   
     # Scoping.
     scope :with_timestamp, ->(timestamp) { where("created_at >= ?", timestamp) unless timestamp.nil? }
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }
@@ -31,9 +19,9 @@ class ShiftNote < ApplicationRecord
     scope :sorted_by, ->(sort){
     case sort
     when 'oldest'
-      sort_by = 'updated_at'
+        sort_by = 'updated_at'
     else
-      sort_by = 'updated_at DESC'
+        sort_by = 'updated_at DESC'
     end
     order(sort_by)} 
 
@@ -59,16 +47,12 @@ class ShiftNote < ApplicationRecord
         where(conditions.join(' AND '), parameters.symbolize_keys)
         end}
 
-    # Associations.
-    belongs_to :user, class_name: '::User', optional: true
-    
-    # Class methods.
-    
+    # Options for sorting.    
     def self.options_for_sorted_by
         [['Newest', 'newest'],
          ['Oldest', 'oldest']]
-    end
-    
+    end 
+
     def self.options_for_shift_time
         [['1', '1'],
          ['2', '2'],

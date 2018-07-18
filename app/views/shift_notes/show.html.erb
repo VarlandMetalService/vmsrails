@@ -1,47 +1,55 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Date:</strong>
-  <%= @shift_note.created_at %>
-</p>
+  <p>
+    <%= link_to 'Back', shift_notes_path, class: "btn btn-primary" %> 
+    <%= link_to 'Edit', edit_shift_note_path, class: "btn btn-primary" %>
+  </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @shift_note.user.full_name %>
-</p>
+  <p>
+    <strong>Date:</strong>
+    <%= @shift_note.created_at %>
+    <br>
+    <strong>Updated:</strong>
+    <%= @shift_note.updated_at %>
+  </p>
 
-<p>
-  <strong>Dept:</strong>
-  <%= @shift_note.dept %>
+  <p>
+    <strong>User:</strong>
+    <%= @shift_note.user.full_name %>
+  </p>
 
-  <strong>Shift type:</strong>
-  <%= @shift_note.shift_type %>
+  <p>
+    <strong>Dept:</strong>
+    <%= @shift_note.dept %>
 
-  <strong>Shift time:</strong>
-  <%= @shift_note.shift_time %>
-  <br><%= link_to 'Back', shift_notes_path, class: "btn btn-primary" %>
-  <%= link_to 'Edit', edit_shift_note_path, class: "btn btn-primary" %><br>
-</p>
+    <strong>Shift type:</strong>
+    <%= @shift_note.shift_type %>
 
-<p>
-  <strong>Message:</strong>
-  <%= @shift_note.message %>
-</p>
+    <strong>Shift time:</strong>
+    <%= @shift_note.shift_time %>
+  </p>
 
-<% if @shift_note.response? %>
-<p>
-  <strong>Response:</strong>
-  <%= @shift_note.response %>
-  <br>
-  <strong>Responder:</strong>
-  <%= @shift_note.supervisor.full_name %>
-</p>
+    <%= image_tag @shift_note.attachment_url unless @shift_note.attachment.blank?  %>
+
+  <p>
+    <strong>Message:</strong>
+    <%= @shift_note.message %>
+  </p>
+
+  <% if @shift_note.response? %>
+    <p>
+      <strong>Response:</strong>
+      <%= @shift_note.response %>
+      <br>
+      <% if @shift_note.response_uid? %>
+        <strong>Responder:</strong>
+        <%= @shift_note.supervisor.full_name %>
+    </p>
+  <% end %>
+    
+
+
 <% end %>
-
-<p>
-  <strong>Updated:</strong>
-  <%= @shift_note.updated_at %>
-</p>
 
 
 
