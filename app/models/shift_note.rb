@@ -28,18 +28,17 @@ class ShiftNote < ApplicationRecord
     scope :with_shift_type, ->(type) { where("shift_type = ?", type) unless type.nil? }
     scope :with_shift_time, ->(time) { where("shift_time = ?", time) unless time.nil? }
 
-    scope :sorted_by, ->(sort) {
+    scope :sorted_by, ->(sort){
     case sort
     when 'oldest'
       sort_by = 'updated_at'
     else
       sort_by = 'updated_at DESC'
     end
-    order(sort_by)
-  }
+    order(sort_by)} 
 
     # scope :with_search_term, ->(term) { where("notes LIKE :search", search: "%#{term}%") unless term.blank? }
-    scope :with_search_term, ->(term) {
+    scope :with_search_term, ->(term){
         unless term.blank?
         search = ApplicationController.helpers.split_search_terms(term)
         conditions = []
@@ -58,8 +57,7 @@ class ShiftNote < ApplicationRecord
             term_index += 1
         end
         where(conditions.join(' AND '), parameters.symbolize_keys)
-        end
-    }
+        end}
 
     # Associations.
     belongs_to :user, class_name: '::User', optional: true
@@ -97,4 +95,5 @@ class ShiftNote < ApplicationRecord
          ['Dept. 12', '12'],
          ['Waste Water', '30']]
     end
+
 end

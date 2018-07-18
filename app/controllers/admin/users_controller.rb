@@ -32,12 +32,12 @@ module Admin
 
     def user_params
       params.require(:user).permit(:is_disabled,
-                                  :is_admin,
-                                  :initials,
-                                  :email,
-                                  :nickname,
-                                  :avatar_bg_color,
-                                  :avatar_text_color)
+                                   :is_admin,
+                                   :initials,
+                                   :email,
+                                   :nickname,
+                                   :avatar_bg_color,
+                                   :avatar_text_color)
     end
 
   end

@@ -24,7 +24,7 @@
 <tbody>
 <% notes.each do |n| %>
     <tr>
-        <td> <%= n.updated_at %> </td>
+        <td> <%= n.updated_at %>  </td>
         
         <td> <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
         <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> </td>
@@ -40,8 +40,8 @@
 
         <td> <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
           class="dept-filter font-weight-bold"><%= n.dept %></a> </td>
-            <td> <%= n.message %> </td>
-            <td> <%= link_to 'Show', shift_note_path(n.id) %>        
+        <td> <%= n.message %> </td>
+        <td> <%= link_to 'Show', shift_note_path(n.id), class: "btn btn-primary"%>      
     </tr>
     <% end %>
 </tbody>
