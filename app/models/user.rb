@@ -160,6 +160,7 @@ class User < ApplicationRecord
   def full_name
     "#{self.first_name} #{self.last_name} #{self.suffix}".strip
   end
+  
   def number_and_name
     "#{self.employee_number} - #{self.full_name}"
   end

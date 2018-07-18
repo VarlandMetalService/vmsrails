@@ -11,33 +11,24 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
   has_scope :sorted_by,           only: :index
 
 
-  # GET /shift_notes
-  # GET /shift_notes.json
   def index
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page])
   end
 
-  # GET /shift_notes/1
-  # GET /shift_notes/1.json
   def show
   end
 
-  # GET /shift_notes/new
   def new
-    @shift_note = ShiftNote.new(params[:shift_note])
+    @shift_note = ShiftNote.new
   end
 
-  # GET /shift_notes/1/edit
   def edit
   end
 
-  # POST /shift_notes
-  # POST /shift_notes.json
-
   def create
     @shift_note = ShiftNote.new(shift_note_params) 
-
     if @shift_note.save
+      flash[:success] = "Shift note created."
       redirect_to :shift_note => 'list'
     else
       render :action => 'new'
@@ -45,19 +36,15 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
     end 
   end
 
-  # PATCH/PUT /shift_notes/1
-  # PATCH/PUT /shift_notes/1.json
   def update
       if @shift_note.update(shift_note_params)
-        flash[:success] = "ShiftNote updated"
+        flash[:success] = "Shift note updated."
         redirect_to shift_note_path(@shift_note)
       else
         render 'edit'
       end
   end
 
-  # DELETE /shift_notes/1
-  # DELETE /shift_notes/1.json
   def destroy
     @shift_note.destroy
     respond_to do |format|
@@ -66,7 +53,8 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
     end
   end
 
-    # Use callbacks to share common setup or constraints between actions.
+  private
+    # Select shift note by id.
     def set_shift_note
       @shift_note = ShiftNote.find(params[:id])
     end

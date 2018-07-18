@@ -1,26 +1,44 @@
-<%= form_with scope: :ShiftNote, url: shift_notes_path, local: true do |form| %>
-  <br><br>
+<%= form_with model: @shift_note do |f| %>
+<br><br>
+
+<% users_array = User.all.map { |user| [user.full_name, user.id] } %>
     <p> 
-      <%= form.label :user %>
-      <%= form.text_field :user_id %>
+      <%= f.label :user %>
+      <%= f.select :user_id, options_for_select(users_array), :selected => @shift_note.user.full_name %>
     </p>
 
     <p>
-      <%= form.label :Department %>
-      <%= form.select :dept, options_for_select(ShiftNote.options_for_dept) %>
+      <%= f.label :Department %>
+      <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), :value => @shift_note.dept %>
     </p>
 
     <p>
-      <%= form.label :Shift_type %>
-      <%= form.select :shift_type, options_for_select(ShiftNote.options_for_shift_type) %>
+      <%= f.label :Shift_type %>
+      <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type) %>
     </p>
 
     <p>
-      <%= form.label :Shift_time %>
-      <%= form.select :shift_time, options_for_select(ShiftNote.options_for_shift_time) %>
+      <%= f.label :Shift_time %>
+      <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time) %>
     </p>
+
+    <p>
+    <%= f.label :Message %>
+    <%= f.text_field :message%>
+    </p>
+
+    <% if @shift_note.message? %>
+    <p>
+    <%= f.label :Response %>
+    <%= f.text_field :response, :value =>@shift_note.response%>
+    <br>
+      <%= f.label :Responder %>
+      <%= f.select :response_uid, options_for_select(users_array), :value =>@shift_note.response_uid %>
+    </p>
+    <% else %>
+    <% end %>
   
-      <%= form.submit %>
+    <%= f.submit yield(:button_text), class: "btn btn-primary"%>
     
 
   <% end %>
