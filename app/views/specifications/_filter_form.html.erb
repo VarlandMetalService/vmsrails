@@ -106,7 +106,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_min_alloy_percentage] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">%</span>
+              <span class="input-group-text">%</span>
             </div>
           </div>
         </div>
@@ -121,7 +121,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_max_alloy_percentage] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">%</span>
+              <span class="input-group-text">%</span>
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_min_thickness] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">&Prime;</span>
+              <span class="input-group-text">&Prime;</span>
             </div>
           </div>
           <small class="form-text text-warning">
@@ -155,7 +155,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_max_thickness] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">&Prime;</span>
+              <span class="input-group-text">&Prime;</span>
             </div>
           </div>
           <small class="form-text text-warning">
@@ -174,7 +174,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_ss_white_spec] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">hrs</span>
+              <span class="input-group-text">hrs</span>
             </div>
           </div>
         </div>
@@ -189,7 +189,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_ss_red_spec] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">hrs</span>
+              <span class="input-group-text">hrs</span>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_bake_temperature] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">&deg; F</span>
+              <span class="input-group-text">&deg; F</span>
             </div>
           </div>
           <small class="form-text text-warning">
@@ -218,12 +218,15 @@
           <%= f.label :with_bake_variation_limit,
                       'Bake Variation:'  %>
           <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">&plusmn;</span>
+            </div>
             <%= f.text_field :with_bake_variation_limit,
                             class: 'form-control',
                             onchange: 'this.form.submit();',
                             value: params[:with_bake_variation_limit] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">&deg; F</span>
+              <span class="input-group-text">&deg; F</span>
             </div>
           </div>
           <small class="form-text text-warning">
@@ -242,7 +245,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_bake_time] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">min</span>
+              <span class="input-group-text">min</span>
             </div>
           </div>
         </div>
@@ -257,7 +260,7 @@
                             onchange: 'this.form.submit();',
                             value: params[:with_bake_within_limit] %>
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">min</span>
+              <span class="input-group-text">min</span>
             </div>
           </div>
         </div>
