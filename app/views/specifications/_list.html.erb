@@ -4,7 +4,7 @@
     search_terms = split_search_terms(term)
   end
 %>
-<% if access_level && access_level.access_level >= 3 %>
+<% if @access_level >= 3 %>
   <div class="col-12">
     <%= link_to fa_icon('plus', text: 'Add Specification'), new_specification_path, class: 'font-weight-bold btn btn-primary mb-3' %>
   </div>
@@ -29,7 +29,7 @@
             <th class="text-center border-bottom-0 bg-warning text-dark" colspan="2">Thickness</th>
             <th class="text-center border-bottom-0 bg-info" colspan="2">Salt Spray</th>
             <th class="text-center border-bottom-0 bg-success" colspan="4">Baking (&deg; F)</th>
-            <% if access_level && access_level.access_level >= 3 %>
+            <% if @access_level >= 3 %>
               <th class="text-center w-5" rowspan="2">Options</th>
             <% end %>
           </tr>
@@ -88,7 +88,7 @@
               <% else %>
                 <% 12.times do %><td></td><% end %>
               <% end %>
-              <% if access_level && access_level.access_level >= 3 %>
+              <% if @access_level >= 3 %>
                 <td class="text-center">
                   <div class="btn-group">
                     <% case params[:action] %>
@@ -177,7 +177,7 @@
                 <% else %>
                   <td class="text-center"><i class="fa fa-<%= c.bake_requires_inert_atmosphere ? 'check text-success' : 'times text-danger' %>"></i></td>
                 <% end %>
-                <% if access_level && access_level.access_level >= 3 %>
+                <% if @access_level >= 3 %>
                   <td>&nbsp;</td>
                 <% end %>
               </tr>

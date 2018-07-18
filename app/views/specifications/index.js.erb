@@ -2,8 +2,7 @@
   render(
     :partial => 'specifications/list',
     :locals => { :specifications => @specifications,
-                 :term => params[:with_search_term],
-                 :access_level => @access_level }
+                 :term => params[:with_search_term] }
   )
 ) %>
 $('#specifications').html("<%= js %>");
