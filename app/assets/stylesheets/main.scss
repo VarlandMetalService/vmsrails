@@ -125,3 +125,16 @@ a.collapse-filters {
     margin-bottom: 0;
   }
 }
+
+.trix-button-group--history-tools,
+.trix-button--icon-quote,
+.trix-button--icon-code {
+  display: none !important;
+}
+
+trix-toolbar .trix-button-row {
+  justify-content: flex-start !important;
+  .trix-button-group + .trix-button-group {
+    margin-left: 10px;
+  }
+}

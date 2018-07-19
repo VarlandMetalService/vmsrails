@@ -31,9 +31,30 @@ function uploadAttachment(attachment) {
   return xhr.send(form);
 }
 
+function removeAttachment(URL) {
+
+  var extractionRegex = /^\/uploads\/inline_attachments\/(\d+)\/.*$/gi;
+  let m;
+
+  while ((m = extractionRegex.exec(URL)) !== null) {
+    if (m.index === extractionRegex.lastIndex) { extractionRegex.lastIndex++; }
+    var objectID = m[1];
+    var xhr = new XMLHttpRequest;
+    xhr.open("DELETE", "/inline_attachments/" + objectID + ".json", true);
+    xhr.setRequestHeader("X-CSRF-Token", Rails.csrfToken());
+    return xhr.send();
+  }
+
+}
+
 document.addEventListener("trix-attachment-add", function(event) {
   var attachment = event.attachment;
   if (attachment.file) {
     return uploadAttachment(attachment);
   }
+});
+
+document.addEventListener("trix-attachment-remove", function(event) {
+  var attachment = event.attachment;
+  return removeAttachment(attachment.attachment.previewURL);
 });
