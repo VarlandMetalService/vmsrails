@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :photos
+  resources :inline_attachments
   resources :shift_notes
   resources :specifications do
     collection do

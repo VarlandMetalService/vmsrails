@@ -7,10 +7,10 @@ function uploadAttachment(attachment) {
   var file = attachment.file;
   var form = new FormData;
   form.append("Content-Type", file.type);
-  form.append("photo[image]", file);
+  form.append("inline_attachment[file]", file);
 
   var xhr = new XMLHttpRequest;
-  xhr.open("POST", "/photos.json", true);
+  xhr.open("POST", "/inline_attachments.json", true);
   xhr.setRequestHeader("X-CSRF-Token", Rails.csrfToken());
 
   xhr.upload.onprogress = function(event) {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180718215252) do
+ActiveRecord::Schema.define(version: 20180719001741) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -78,6 +78,12 @@ ActiveRecord::Schema.define(version: 20180718215252) do
     t.bigint "rgt"
     t.integer "depth"
     t.string "google_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inline_attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

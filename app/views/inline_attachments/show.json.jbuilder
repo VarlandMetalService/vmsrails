@@ -1,0 +1,1 @@
+json.image_url @inline_attachment.file.url
