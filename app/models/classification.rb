@@ -27,6 +27,16 @@ class Classification < ApplicationRecord
   # Scoping.
   default_scope { order('name') }
 
+  # Callbacks.
+
+  # Format fields before validation.
+  before_validation do
+
+    # Format case-specific fields.
+    self.vms_process_code.upcase! unless self.vms_process_code.blank?
+
+  end
+
   # Methods.
   def validate_classification
 
