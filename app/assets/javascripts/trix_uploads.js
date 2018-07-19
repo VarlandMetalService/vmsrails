@@ -34,7 +34,7 @@ function uploadAttachment(attachment) {
 function removeAttachment(URL) {
 
   var extractionRegex = /^\/uploads\/inline_attachments\/(\d+)\/.*$/gi;
-  let m;
+  var m = null;
 
   while ((m = extractionRegex.exec(URL)) !== null) {
     if (m.index === extractionRegex.lastIndex) { extractionRegex.lastIndex++; }
