@@ -50,7 +50,7 @@
           <% alt = false %>
           <% specifications.each do |s| %>
             <% alt = !alt %>
-            <tr class="specification <%= 'bg-light' if alt %>">
+            <tr class="specification <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if s.default_classification && s.default_classification.not_capable %>">
               <td class="font-weight-bold"><%= highlight_unless_nil(s.organization, search_terms) %></td>
               <td class="font-weight-bold">
                 <% unless s.file.file.nil? %>
@@ -148,7 +148,7 @@
             </tr>
             <% s.classifications.each do |c| %>
               <% next if c.is_default_classification? %>
-              <tr class="classification small <%= 'bg-light' if alt %>">
+              <tr class="classification small <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if c.not_capable %>">
                 <td>&nbsp;</td>
                 <td><%= highlight_unless_nil(c.name, search_terms) %></td>
                 <td>

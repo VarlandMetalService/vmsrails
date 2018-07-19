@@ -160,6 +160,7 @@ private
                                                                        :bake_within_limit,
                                                                        :bake_requires_inert_atmosphere,
                                                                        :notes,
+                                                                       :not_capable,
                                                                        :_destroy])
   end
 

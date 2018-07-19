@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719145932) do
+ActiveRecord::Schema.define(version: 20180719153538) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20180719145932) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.boolean "not_capable"
     t.index ["deleted_at"], name: "index_classifications_on_deleted_at"
   end
 
