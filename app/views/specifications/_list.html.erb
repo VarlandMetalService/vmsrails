@@ -61,12 +61,9 @@
               <td class="font-weight-bold">
                 <%= highlight_unless_nil(s.description, search_terms) %>
                 <% unless s.notes.blank? %>
-                  <hr class="mb-1 mt-1" />
-                  <div class="small font-italic">
-                    <p class="font-weight-bold mb-1">Notes:</p>
-                    <%= highlight_unless_nil(@markdown_renderer.render(s.notes).html_safe, search_terms) %>
+                  <div class="trix-td-content border mt-2 mb-2 p-3 bg-<%= alt ? 'white' : 'light' %> rounded">
+                    <%= highlight_unless_nil(sanitize(s.notes), search_terms) %>
                   </div>
-                  <hr class="mb-1 remove-p-spacing-in-td" />
                 <% end %>
               </td>
               <% if s.default_classification %>

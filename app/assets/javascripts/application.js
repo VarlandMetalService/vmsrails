@@ -16,4 +16,5 @@
 //= require rails-ujs
 //= require turbolinks
 //= require cocoon
+//= require trix
 //= require_tree .
