@@ -6,7 +6,8 @@ module SpecificationsHelper
     case unit
     when 'µm'
       calculated *= 0.0000393701
-      "#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 5)}&Prime;<br /><small class=\"text-muted\">(#{thickness == thickness.to_i ? thickness.to_i : thickness}µm)</small>".html_safe
+      #"#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 5)}&Prime;<br /><small class=\"text-muted\">(#{thickness == thickness.to_i ? thickness.to_i : thickness}µm)</small>".html_safe
+      "#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 5)}&Prime;".html_safe
     else
       "#{number_with_precision(calculated, precision: 5)}&Prime;".html_safe
     end
@@ -26,11 +27,11 @@ module SpecificationsHelper
       unless variation_limit.blank?
         html << " &plusmn; #{calc_variation_limit.to_i}"
       end
-      html << "<br /><small class=\"text-muted\">(#{setpoint}#{unit}"
-      unless variation_limit.blank?
-        html << " &plusmn; #{variation_limit.to_i}#{unit}"
-      end
-      html << ")</small>"
+      #html << "<br /><small class=\"text-muted\">(#{setpoint}#{unit}"
+      #unless variation_limit.blank?
+      #  html << " &plusmn; #{variation_limit.to_i}#{unit}"
+      #end
+      #html << ")</small>"
     else
       html = "#{calc_setpoint.to_i}"
       unless variation_limit.blank?

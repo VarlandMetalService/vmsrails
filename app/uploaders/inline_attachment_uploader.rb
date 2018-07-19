@@ -3,11 +3,11 @@ class InlineAttachmentUploader < CarrierWave::Uploader::Base
   storage :file
 
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "uploads/inline_attachments/#{model.id}"
   end
 
-  def extension_whitelist
-    %w(jpg gif png)
+  def content_type_whitelist
+    /image\//
   end
   
 end
