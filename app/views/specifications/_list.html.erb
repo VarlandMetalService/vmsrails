@@ -65,7 +65,7 @@
                 <% unless s.file.file.nil? %>
                   <%= link_to '<i class="fa fa-file-pdf-o text-danger"></i>'.html_safe, s.file.url, target: '_blank' %>
                 <% end %>
-                <%= highlight_unless_nil(s.name, search_terms) %><%= " <small class=\"text-muted\">(Rev: #{s.revision})</small>".html_safe unless s.revision.blank? %>
+                <%= highlight_unless_nil(s.name, search_terms) %><%= " <small class=\"text-muted\">(Rev:&nbsp;#{s.revision})</small>".html_safe unless s.revision.blank? %>
               </td>
               <td class="font-weight-bold">
                 <%= highlight_unless_nil(s.description, search_terms) %>
