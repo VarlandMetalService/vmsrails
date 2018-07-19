@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
   resources :inline_attachments
-  resources :shift_notes
+  
+  resources :shift_notes do
+    resources :comments, module: :shift_notes
+  end
+
   resources :specifications do
     collection do
       get   'archived'

@@ -22,16 +22,6 @@ ActiveRecord::Schema.define(version: 20180719153538) do
     t.index ["user_id"], name: "index_assigned_permissions_on_user_id"
   end
 
-  create_table "attachments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.text "comment"
-    t.string "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "attachable_type"
-    t.bigint "attachable_id"
-    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
-  end
-
   create_table "classifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "specification_id"
     t.string "name"
@@ -189,6 +179,7 @@ ActiveRecord::Schema.define(version: 20180719153538) do
     t.integer "response_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "attachment"
   end
 
   create_table "specifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

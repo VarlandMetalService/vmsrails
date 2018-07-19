@@ -7,7 +7,7 @@ class ShiftNote < ApplicationRecord
     belongs_to    :supervisor,
                 class_name: 'User',
                 foreign_key: 'response_uid', optional: true
-    mount_uploader :attachment, AttachmentUploader
+    has_many :comments, as: :commentable
    
     # Scoping.
     scope :with_timestamp, ->(timestamp) { where("created_at >= ?", timestamp) unless timestamp.nil? }

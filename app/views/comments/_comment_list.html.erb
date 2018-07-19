@@ -1,0 +1,29 @@
+<% commentable.comments.each do |c| %>
+    <p>
+    <% if params[:action] == 'edit' %>
+        <%= link_to '(Delete)', 
+                            shift_note_comment_path(commentable, c), 
+                            method: :delete,
+                            data: { confirm: 'Are you sure?' } %> 
+    <% end %>
+
+       
+
+        <class="text-center"> <% if c.user.blank? %> &nbsp;
+        <% else %> <span class="badge badge-pill" 
+        style="color: <%= c.user.avatar_text_color %>; 
+        background-color: <%= c.user.avatar_bg_color %>;">
+        <%= c.user.initials %></span>
+        <% end %>:
+        <%= c.created_at %>
+
+        <%= sanitize c.body %>
+        <br>
+        <% if c.attachment? %>
+        Attachments:
+        <a href="<%= c.attachment_url %>">
+            <%= image_tag(c.attachment_url(:thumb)) if c.attachment? %> 
+        </a>
+        <% end %>
+    </p>
+<% end %>  
