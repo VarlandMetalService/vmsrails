@@ -25,7 +25,7 @@ class Classification < ApplicationRecord
             allow_blank: true
 
   # Scoping.
-  default_scope { order('name') }
+  # default_scope { order('name') }
 
   # Callbacks.
 
