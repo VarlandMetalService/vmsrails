@@ -88,11 +88,17 @@
     <div class="row">
       <div class="col-12">
         <div class="card bg-warning text-dark p-3 mb-3">
-          <p class="m-0">
+          <p>
             The fields below can be used to search numeric fields in a variety of ways. If you only enter a number, the
             program will look for values matching the number you enter. You may also enter <code>>=</code>, <code>></code>,
             <code><=</code>, <code><</code>, <code>=</code>, or <code>!=</code> before a number for more flexibility.
             Finally, you may enter a range by entering two numbers separated by <code>-</code>.
+          </p>
+          <p class="m-0">
+            When searching thicknesses, you enter search values in inches. The values are converted to microns in order
+            to search values in microns. When this happens, the value in inches is converted to the nearest half micron
+            and then a fudge factor is applied to catch conversion mismatches. The same process is applied to searching
+            temperatures &ndash; you enter temperatures in &deg; F and they're converted to &deg; C.
           </p>
         </div>
       </div>
@@ -139,10 +145,6 @@
               <span class="input-group-text">&Prime;</span>
             </div>
           </div>
-          <small class="form-text text-warning">
-            Search values are entered in inches. Value is rounded to the nearest half micron (with a 10% fudge factor) to search
-            values entered in microns.
-          </small>
         </div>
       </div>
       <div class="col">
@@ -158,10 +160,6 @@
               <span class="input-group-text">&Prime;</span>
             </div>
           </div>
-          <small class="form-text text-warning">
-            Search values are entered in inches. Value is rounded to the nearest half micron (with a 10% fudge factor) to search
-            values entered in microns.
-          </small>
         </div>
       </div>
       <div class="col">
@@ -207,10 +205,6 @@
               <span class="input-group-text">&deg; F</span>
             </div>
           </div>
-          <small class="form-text text-warning">
-            Search values are entered in &deg; F. Value is converted to &deg; C (with a 5% fudge factor) to search
-            values entered in &deg; C.
-          </small>
         </div>
       </div>
       <div class="col">
@@ -229,10 +223,6 @@
               <span class="input-group-text">&deg; F</span>
             </div>
           </div>
-          <small class="form-text text-warning">
-            Search values are entered in &deg; F. Value is converted to &deg; C (with a 10% fudge factor) to search
-            values entered in &deg; C.
-          </small>
         </div>
       </div>
       <div class="col">
