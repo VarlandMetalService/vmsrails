@@ -9,10 +9,12 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>Last Updated</th>
-          <th>Shift Type</th>
-          <th>Shift Time</th>
+          <th>Date</th>
+          <th>Shift</th>
+          <th>By</th>
           <th>Dept</th>
+          <th>Type</th>  
+          <th>Note</th>    
           <th>Comments</th>
           <th>Links</th>
         </tr>
@@ -21,16 +23,24 @@
       <tbody>
         <% notes.each do |n| %>
           <tr>
-            <td> <%= n.updated_at %>  </td>
-            
-            <td> <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
+            <td class="text-center"> <%= n.updated_at.strftime('%m/%d/%y') %>  </td>
+
+            <td class="text-center"> <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
+            <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a> </td>
+          
+            <td class="text-center"><class="text-center"> <% if n.user.blank? %> &nbsp;
+              <% else %> <span class="badge badge-pill" 
+              style="color: <%= n.user.avatar_text_color %>; 
+              background-color: <%= n.user.avatar_bg_color %>;">
+              <%= n.user.initials %><% end %></span></td> 
+
+            <td class="text-center"> <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
+              class="dept-filter font-weight-bold"><%= n.dept %></a> </td>
+
+            <td class="text-center"> <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
             <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> </td>
 
-            <td> <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
-            <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a> </td>
-            
-            <td> <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
-              class="dept-filter font-weight-bold"><%= n.dept %></a> </td>
+            <td> <%=sanitize n.message %>  </td>
 
             <td>
             <%= render partial: "comments/comment_list", locals: {commentable: n} %>
