@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719001741) do
+ActiveRecord::Schema.define(version: 20180719145932) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20180719001741) do
   create_table "classifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "specification_id"
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "vms_process_code"
     t.string "color"
     t.float "minimum_alloy_percentage", limit: 24
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20180719001741) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_classifications_on_deleted_at"
+  end
+
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "commentable_type"
+    t.integer "commentable_id"
+    t.text "body"
+    t.string "attachment"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dept_info_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -183,7 +193,7 @@ ActiveRecord::Schema.define(version: 20180719001741) do
   create_table "specifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "organization"
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "revision"
     t.string "file"
     t.datetime "created_at", null: false
