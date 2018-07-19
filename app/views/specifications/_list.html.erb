@@ -15,6 +15,10 @@
   <% else %>
     <p class="font-weight-bold">
       <%= page_entries_info specifications %>
+      &bull;
+      <button class="btn btn-link p-0 text-info show-all-classifications font-weight-bold" type="button"><%= fa_icon('expand', text: 'Expand All') %></button>
+      &bull;
+      <button class="btn btn-link p-0 text-info hide-all-classifications font-weight-bold" type="button"><%= fa_icon('compress', text: 'Collapse All') %></button>
     </p>
     <div class="table-responsive-md">
       <table class="table table-bordered table-sm">
@@ -53,6 +57,11 @@
             <tr class="specification <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if s.default_classification && s.default_classification.not_capable %>">
               <td class="font-weight-bold"><%= highlight_unless_nil(s.organization, search_terms) %></td>
               <td class="font-weight-bold">
+                <% if s.classifications.non_default.size > 0 %>
+                  <span class="float-right">
+                    <button class="btn btn-link p-0 text-info classification-toggler" data-id="<%= s.id %>" type="button"><%= fa_icon 'compress' %></button>
+                  </span>
+                <% end %>
                 <% unless s.file.file.nil? %>
                   <%= link_to '<i class="fa fa-file-pdf-o text-danger"></i>'.html_safe, s.file.url, target: '_blank' %>
                 <% end %>
@@ -148,7 +157,7 @@
             </tr>
             <% s.classifications.each do |c| %>
               <% next if c.is_default_classification? %>
-              <tr class="classification small <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if c.not_capable %>">
+              <tr class="classification small <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if c.not_capable %> collapse show spec-<%= s.id %>-classification spec-classification">
                 <td>&nbsp;</td>
                 <td><%= highlight_unless_nil(c.name, search_terms) %></td>
                 <td>

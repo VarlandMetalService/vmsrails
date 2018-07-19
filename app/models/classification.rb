@@ -25,6 +25,7 @@ class Classification < ApplicationRecord
             allow_blank: true
 
   # Scoping.
+  scope :non_default, -> { where.not(name: '') }
   # default_scope { order('name') }
 
   # Callbacks.
