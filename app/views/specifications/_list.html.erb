@@ -15,6 +15,10 @@
   <% else %>
     <p class="font-weight-bold">
       <%= page_entries_info specifications %>
+      &bull;
+      <button class="btn btn-link p-0 text-info show-all-classifications font-weight-bold" type="button"><%= fa_icon('expand', text: 'Expand All') %></button>
+      &bull;
+      <button class="btn btn-link p-0 text-info hide-all-classifications font-weight-bold" type="button"><%= fa_icon('compress', text: 'Collapse All') %></button>
     </p>
     <div class="table-responsive-md">
       <table class="table table-bordered table-sm">
@@ -53,10 +57,15 @@
             <tr class="specification <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if s.default_classification && s.default_classification.not_capable %>">
               <td class="font-weight-bold"><%= highlight_unless_nil(s.organization, search_terms) %></td>
               <td class="font-weight-bold">
+                <% if s.classifications.non_default.size > 0 %>
+                  <span class="float-right">
+                    <button class="btn btn-link p-0 text-info classification-toggler" data-id="<%= s.id %>" type="button"><%= fa_icon 'compress' %></button>
+                  </span>
+                <% end %>
                 <% unless s.file.file.nil? %>
                   <%= link_to '<i class="fa fa-file-pdf-o text-danger"></i>'.html_safe, s.file.url, target: '_blank' %>
                 <% end %>
-                <%= highlight_unless_nil(s.name, search_terms) %><%= " <small class=\"text-muted\">(Rev: #{s.revision})</small>".html_safe unless s.revision.blank? %>
+                <%= highlight_unless_nil(s.name, search_terms) %><%= " <small class=\"text-muted\">(Rev:&nbsp;#{s.revision})</small>".html_safe unless s.revision.blank? %>
               </td>
               <td class="font-weight-bold">
                 <%= highlight_unless_nil(s.description, search_terms) %>
@@ -96,7 +105,7 @@
                       <%= link_to fa_icon('undo'),
                                   unarchive_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-info',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Un-Archive Specification',
                                   data: { confirm: 'Are you sure you want to un-archive this specification?',
                                           toggle: 'tooltip' } %>
@@ -111,26 +120,26 @@
                       <%= link_to fa_icon('undo'),
                                   undelete_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-danger',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Un-Delete Specification',
                                   data: { confirm: 'Are you sure you want to un-delete this specification?',
                                             toggle: 'tooltip' } %>
                     <% else %>
                       <%= link_to fa_icon('pencil'),
                                   edit_specification_path(s),
-                                  class: 'font-weight-bold btn btn-sm btn-primary',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Edit Specification',
                                   data: { toggle: 'tooltip' } %>
                       <%= link_to fa_icon('clone'),
                                   duplicate_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-warning',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Duplicate Specification',
                                   data: { toggle: 'tooltip' } %>
                       <%= link_to fa_icon('archive'),
                                   archive_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-info',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Archive Specification',
                                   data: { confirm: 'Are you sure you want to archive this specification?',
                                           toggle: 'tooltip' } %>
@@ -148,7 +157,7 @@
             </tr>
             <% s.classifications.each do |c| %>
               <% next if c.is_default_classification? %>
-              <tr class="classification small <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if c.not_capable %>">
+              <tr class="classification small <%= 'bg-light' if alt %> <%= 'text-danger classification-not-capable' if c.not_capable %> collapse show spec-<%= s.id %>-classification spec-classification">
                 <td>&nbsp;</td>
                 <td><%= highlight_unless_nil(c.name, search_terms) %></td>
                 <td>
