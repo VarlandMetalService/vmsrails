@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<%= link_to 'New Shift Note', new_shift_note_path %>
+<%= link_to 'New Shift Note', new_shift_note_path, class:"btn btn-primary" %>
 
 <div class="row mt-3" id="shift_notes">
   <%= render partial: 'list', locals: { notes: @shift_notes,

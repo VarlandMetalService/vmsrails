@@ -22,34 +22,6 @@
     <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time) %>
   </p>
 
-  <p>
-    <%= f.label :Message %>
-    <%= f.text_area :message, :cols => 70, :rows => 10 %>
-  </p>
-
-  <p>
-    <label>Attachment</label>
-    <%= image_tag(@shift_note.attachment_url) if @shift_note.attachment? %>
-  </p>
-
-  <p>     
-    <%= f.file_field :attachment %>
-    <% if @shift_note.attachment %>
-      <%= f.check_box :remove_attachment %>
-      <label>Remove attachment</label>
-    <% end %>
-  </p>
-
-  <% if @shift_note.message? %>
-    <p>
-      <%= f.label :Response %>
-      <%= f.text_area :response, :cols => 70, :rows => 10 %>
-      <br>
-      <%= f.label :Responder %>
-      <%= f.select :response_uid, options_for_select(users_array, @shift_note.response_uid) %>
-    </p>
-  <% end %>
-
   <%= f.submit yield(:button_text), class: "btn btn-primary"%>
 
 <% end %>
