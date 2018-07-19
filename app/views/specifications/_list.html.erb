@@ -105,7 +105,7 @@
                       <%= link_to fa_icon('undo'),
                                   unarchive_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-info',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Un-Archive Specification',
                                   data: { confirm: 'Are you sure you want to un-archive this specification?',
                                           toggle: 'tooltip' } %>
@@ -120,26 +120,26 @@
                       <%= link_to fa_icon('undo'),
                                   undelete_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-danger',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Un-Delete Specification',
                                   data: { confirm: 'Are you sure you want to un-delete this specification?',
                                             toggle: 'tooltip' } %>
                     <% else %>
                       <%= link_to fa_icon('pencil'),
                                   edit_specification_path(s),
-                                  class: 'font-weight-bold btn btn-sm btn-primary',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Edit Specification',
                                   data: { toggle: 'tooltip' } %>
                       <%= link_to fa_icon('clone'),
                                   duplicate_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-warning',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Duplicate Specification',
                                   data: { toggle: 'tooltip' } %>
                       <%= link_to fa_icon('archive'),
                                   archive_specification_path(s),
                                   method: :post,
-                                  class: 'font-weight-bold btn btn-sm btn-info',
+                                  class: 'font-weight-bold btn btn-sm btn-dark',
                                   title: 'Archive Specification',
                                   data: { confirm: 'Are you sure you want to archive this specification?',
                                           toggle: 'tooltip' } %>
