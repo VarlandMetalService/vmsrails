@@ -39,6 +39,12 @@ class User < ApplicationRecord
   has_many      :permissions,
                 -> { select('permissions.*, assigned_permissions.value AS access_level') },
                 :through => :assigned_permissions
+  has_many      :employee_notes,
+                class_name: 'EmployeeNote',
+                foreign_key: 'employee'
+  has_many      :authored_employee_notes,
+                class_name: 'EmployeeNote',
+                foreign_key: 'entered_by'
 
   # Validation.
   validates :employee_number,

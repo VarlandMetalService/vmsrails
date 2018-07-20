@@ -1,0 +1,97 @@
+<%= form_for @employee_note, html: { class: 'vms-form bg-light border rounded p-3' } do |f| %>
+  <% if @employee_note.errors.any? %>
+    <div class="alert alert-danger p-2 small font-weight-bold">
+      <p class="mb-0">The update could not be processed due to <%= pluralize(@specification.errors.count, "error") %>:</p>
+      <ul class="mb-0">
+        <% @employee_note.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <%= f.label :employee,
+                        required_field_label('Employee')  %>
+            <%= f.collection_select(:employee,
+                                    User.all,
+                                    :id,
+                                    :number_and_name,
+                                    { include_blank: true },
+                                    { class: 'custom-select',
+                                      required: true }) %>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <%= f.label :note_on,
+                        required_field_label('Date') %>
+            <%= f.date_field :note_on,
+                             class: 'form-control',
+                             required: true %>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <%= f.label :note_type,
+                        required_field_label('Type')  %>
+            <%= f.select :note_type, 
+                         EmployeeNote.options_for_type,
+                         { include_blank: true },
+                         { class: 'custom-select',
+                           required: true } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <%= f.label :notes,
+                        required_field_label('Notes') %>
+            <%= f.trix_editor :notes,
+                              class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <%= f.label :follow_up,
+                        'Follow Up:' %>
+            <%= f.trix_editor :follow_up,
+                              class: 'form-control' %>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="form-group">
+            <%= f.label :follow_up_on,
+                        'Follow Up Date:' %>
+            <%= f.date_field :follow_up_on,
+                             class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12"><hr class="mb-0 mt-0" /></div>
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Cancel', employee_notes_url, class: 'btn btn-link mt-3 form-cancel-button' %>
+        <%= f.button fa_icon('check', text: 'Save'),
+                     class: 'btn btn-primary mt-3 font-weight-bold',
+                     type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+  </div>
+<% end %>

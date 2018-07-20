@@ -27,10 +27,8 @@
     <%= @shift_note.shift_time %>
   </p>
 
-  <%=sanitize @shift_note.message %><br>
-
-  <%= render partial: "comments/comment_list", locals: {commentable: @shift_note} %>
-  <%= render partial: "comments/comment_form", locals: {commentable: @shift_note} %>
+<%= render partial: "comments/comment_list", locals: {commentable: @shift_note} %>
+ <%= render partial: "comments/comment_form", locals: {commentable: @shift_note} %>
 
 
 

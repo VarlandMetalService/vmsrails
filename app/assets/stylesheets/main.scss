@@ -126,6 +126,18 @@ a.collapse-filters {
   }
 }
 
+.trix-td-content-large {
+  max-width: 100%;
+  font-weight: 400;
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+  ol, ul {
+    margin-bottom: 0;
+  }
+}
+
 .trix-button-group--history-tools,
 .trix-button--icon-quote,
 .trix-button--icon-code {

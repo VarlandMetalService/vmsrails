@@ -1,0 +1,129 @@
+<%
+  user_array = []
+  author_array = []
+  type_array = []
+  employee_notes.each do |n|
+    user_array << [n.subject.number_and_name, n.subject.id]
+    author_array << [n.author.number_and_name, n.author.id]
+    type_array << n.note_type
+  end
+  #specifications.each do |s|
+  #  s.classifications.each do |c|
+  #    classifications_array << c.name unless c.name.blank?
+  #    process_codes_array << c.vms_process_code
+  #    colors_array << c.color unless c.color.blank?
+  #  end
+  #end
+%>
+<%= form_with class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get' do |f| %>
+
+  <p class="small font-weight-bold text-warning mb-0 text-uppercase">
+    <a class="collapse-filters text-warning" data-toggle="collapse" href="#collapseFilters" role="button" aria-expanded="true" aria-controls="collapseFilters">
+      [ - ]
+    </a>
+    Filter Results
+  </p>
+
+  <div class="collapse show mt-2" id="collapseFilters">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_employee,
+                      'Employee:' %>
+          <%= f.select :with_employee,
+                        options_for_select(user_array.uniq.sort,
+                                           params[:with_employee]),
+                              { include_blank: true },                                     
+                              { class: 'custom-select',
+                              onchange: 'this.form.submit();', }%>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_entered_by,
+                      'Entered By:' %>
+          <%= f.select :with_entered_by,
+                        options_for_select(author_array.uniq.sort,
+                                           params[:with_entered_by]),
+                              { include_blank: true },                                     
+                              { class: 'custom-select',
+                              onchange: 'this.form.submit();', }%>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_note_type,
+                      'Note Type:' %>
+          <%= f.select :with_note_type,
+                        options_for_select(type_array.uniq.sort,
+                                           params[:with_note_type]),
+                              { include_blank: true },                                     
+                              { class: 'custom-select',
+                              onchange: 'this.form.submit();', }%>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_date_gte,
+                      'Starting Date:'  %>
+          <%= f.date_field :with_date_gte,
+                          class: 'form-control',
+                          onchange: 'this.form.submit();',
+                          value: params[:with_date_gte] %>            
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_date_lte,
+                      'Ending Date:'  %>
+          <%= f.date_field :with_date_lte,
+                          class: 'form-control',
+                          onchange: 'this.form.submit();',
+                          value: params[:with_date_lte] %>            
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :sorted_by,
+                      'Sorted By:' %>
+          <%= f.select :sorted_by,
+                        options_for_select(EmployeeNote.options_for_sorted_by,
+                                           params[:sorted_by]),
+                              { include_blank: false },                                     
+                              { class: 'custom-select',
+                              onchange: 'this.form.submit();', }%>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_search_term,
+                      'Search:'  %>
+          <%= f.text_field :with_search_term,
+                           class: 'form-control',
+                           onchange: 'this.form.submit();',
+                           value: params[:with_search_term] %>
+          <small class="form-text text-light">
+            Searches for all words in any order. Use double quotes around multiple words to search for exact phrase. To
+            exclude a word or phrase, use two minus signs before the word or phrase (outside the double quotes for a
+            phrase).
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="pull-right">
+          <%= link_to 'Reset', url_for, class: 'btn btn-link text-white' %>
+          <%= f.button fa_icon('filter', text: 'Filter'),
+                        class: 'btn btn-sm btn-warning font-weight-bold',
+                        type: 'submit' %>
+        </div>
+        <div class="clearfix"><!----></div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

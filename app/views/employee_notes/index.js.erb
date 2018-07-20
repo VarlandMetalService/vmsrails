@@ -1,0 +1,15 @@
+<% js = escape_javascript(
+  render(
+    :partial => 'employee_notes/list',
+    :locals => { :employee_notes => @employee_notes,
+                 :term => params[:with_search_term] }
+  )
+) %>
+$('#employee_notes').html("<%= js %>");
+<% js2 = escape_javascript(
+  render(
+    :partial => 'employee_notes/filter_form',
+    :locals => { :employee_notes => @unpaged_employee_notes }
+  )
+) %>
+$('#filter_form').html("<%= js2 %>");

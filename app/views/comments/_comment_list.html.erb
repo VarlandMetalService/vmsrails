@@ -22,7 +22,7 @@
         <% if c.attachment? %>
         Attachments:
         <a href="<%= c.attachment_url %>">
-            <%= image_tag(preview_or_default_image(c)) if c.attachment? %> 
+            <%= image_tag(c.attachment_url(:thumb)) if c.attachment? %> 
         </a>
         <% end %>
     </p>
