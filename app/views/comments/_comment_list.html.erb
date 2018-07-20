@@ -15,7 +15,7 @@
         background-color: <%= c.user.avatar_bg_color %>;">
         <%= c.user.initials %></span>
         <% end %>:
-        <%= c.created_at %>
+        <%= c.created_at.strftime('%m/%d/%y') %>
 
         <%= sanitize c.body %>
         <br>
