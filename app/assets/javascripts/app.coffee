@@ -1,4 +1,16 @@
 $(document).on 'turbolinks:load', ->
+  $('[data-filter]').click ->
+    clicked = $(@)
+    filter = clicked.data('filter')
+    type = clicked.data('filter-type')
+    value = clicked.data('filter-value')
+    selector = type + '[name="' + filter + '"]'
+    switch type
+      when "select"
+        $(selector).val(value).prop('selected', true).closest('form').submit()
+      else
+        $(selector).val(value).closest('form').submit()
+    return false
   $('[data-toggle="tooltip"]').tooltip()
   $('.collapse-filters').click ->
     target = $(@)

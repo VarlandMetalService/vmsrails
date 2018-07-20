@@ -1,0 +1,15 @@
+<% provide(:title, "Employee Notes") %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Employee Notes</h3>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col" id="filter_form">
+    <%= render partial: 'filter_form', locals: { employee_notes: @unpaged_employee_notes } %>
+  </div>
+</div>
+<div class="row mt-3" id="employee_notes">
+  <%= render partial: 'list', locals: { employee_notes: @employee_notes,
+                                        term: params[:with_search_term] } %>
+</div>

@@ -27,6 +27,12 @@ class AssignedPermission < ApplicationRecord
           ['View Archived', '2'],
           ['Admin Access', '3']
         ]
+      when 4 #employee_notes
+        [
+          ['No Access', '0'],
+          ['Manage Own Notes', '2'],
+          ['Manage Everybody\'s Notes', '3']
+        ]
       else
         [
           ['No Access', '0'],

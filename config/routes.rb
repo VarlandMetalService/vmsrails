@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :employee_notes
   resources :inline_attachments
   
   resources :shift_notes do
