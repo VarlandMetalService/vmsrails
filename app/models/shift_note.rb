@@ -1,7 +1,7 @@
 class ShiftNote < ApplicationRecord
 
     # Pagination.
-    paginates_per 30
+    paginates_per 2
 
     # Associations.
     belongs_to :user, class_name: '::User', optional: true

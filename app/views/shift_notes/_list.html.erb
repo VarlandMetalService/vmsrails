@@ -22,7 +22,7 @@
       </thead>
 
       <%= page_entries_info notes %>
-      <%= paginate @shift_notes %>
+      <%= paginate notes %>
 
       <tbody>
         <% notes.each do |n| %>
@@ -56,5 +56,5 @@
       </tbody>
     </table>
   <% end %>
-   <%= paginate @shift_notes %>
+   <%= paginate notes %>
 </div>
