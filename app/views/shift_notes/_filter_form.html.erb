@@ -48,7 +48,7 @@
                     'Shift Type:' %> 
         <%= f.select :with_shift_type,
                       options_for_select(ShiftNote.options_for_shift_type,
-                                        params[:with_user]),
+                                        params[:with_shift_type]),
                             { include_blank: true },                                     
                             { class: 'custom-select',
                             onchange: 'this.form.submit();' }%>
@@ -61,7 +61,7 @@
                     'Shift Time:' %> 
         <%= f.select :with_shift_time,
                       options_for_select(ShiftNote.options_for_shift_time,
-                                        params[:with_user]),
+                                        params[:with_shift_time]),
                             { include_blank: true },                                     
                             { class: 'custom-select',
                             onchange: 'this.form.submit();' }%>

@@ -1,13 +1,14 @@
 class ShiftNote < ApplicationRecord
 
-    paginates_per 100
+    # Pagination.
+    paginates_per 30
 
     # Associations.
     belongs_to :user, class_name: '::User', optional: true
     belongs_to    :supervisor,
                 class_name: 'User',
                 foreign_key: 'response_uid', optional: true
-    has_many :comments, as: :commentable
+    has_many :comments, as: :commentable, dependent: :destroy
    
     # Scoping.
     scope :with_timestamp, ->(timestamp) { where("created_at >= ?", timestamp) unless timestamp.nil? }

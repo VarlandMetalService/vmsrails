@@ -4,6 +4,7 @@
   <%else%> 
     <p class="font-weight-bold"> 
     <% page_entries_info notes %>
+    
     </p>
      
     <table class="table table-bordered table-striped">
@@ -19,6 +20,9 @@
           <th>Links</th>
         </tr>
       </thead>
+
+      <%= page_entries_info notes %>
+      <%= paginate @shift_notes %>
 
       <tbody>
         <% notes.each do |n| %>
@@ -52,4 +56,5 @@
       </tbody>
     </table>
   <% end %>
+   <%= paginate @shift_notes %>
 </div>
