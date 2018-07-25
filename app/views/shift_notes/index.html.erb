@@ -1,9 +1,10 @@
-<p id="notice"><%= notice %></p>
-<% provide(:title, 'Shift Notes - VMCS-rails') %>
+<% provide(:title, 'Shift Notes') %>
+
 <div class="row mt-3">
   <h3 class="mb-0">Shift Notes</h3>
   </div>
 </div>
+
 <div class="row mt-3">
   <div class="col" id="filter_form">
     <%= render partial: 'filter_form', locals: { notes: @shift_notes } %>
@@ -16,5 +17,3 @@
   <%= render partial: 'list', locals: { notes: @shift_notes,
                                         term: params[:with_search_term] } %>
 </div>
-
-
