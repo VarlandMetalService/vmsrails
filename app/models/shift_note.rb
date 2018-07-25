@@ -26,7 +26,6 @@ class ShiftNote < ApplicationRecord
     end
     order(sort_by)} 
 
-    # scope :with_search_term, ->(term) { where("notes LIKE :search", search: "%#{term}%") unless term.blank? }
     scope :with_search_term, ->(term){
         unless term.blank?
         search = ApplicationController.helpers.split_search_terms(term)
