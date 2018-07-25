@@ -59,10 +59,11 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
       @shift_note = ShiftNote.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Never trust parameters from the internet, only allow the white list.
     def shift_note_params
       params.require(:shift_note).permit(:id, :shift_time, :shift_type, :dept, 
-                                         :user_id, :message, :response, :response_uid,
+                                         :user_id, :message, :response,
+                                         :response_uid,
                                          :attachment)
     end
 

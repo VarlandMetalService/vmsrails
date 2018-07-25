@@ -3,29 +3,31 @@
   <% users_array = User.all.map { |user| [user.full_name, user.id] } %>
 
   <p> 
-    <%= f.label :user %>
-    <%= f.select :user_id, options_for_select(users_array, @shift_note.user_id) %>
+    <%= f.label :User %>:
+    <%= f.select :user_id, options_for_select(users_array, current_user.id), {}, class: "form-control" %>
   </p>
 
 
   <p>
-    <%= f.label :Department %>
-    <%= f.select :dept, options_for_select(ShiftNote.options_for_dept, @shift_note.dept) %>
+    <%= f.label :Department %>:
+    <%= f.select :dept, options_for_select(ShiftNote.options_for_dept, @shift_note.dept), {}, class: "form-control" %>
   </p>
 
   <p>
-    <%= f.label :Shift_type %>
-    <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type, @shift_note.shift_type) %>
+    <%= f.label :Shift_type %>:
+    <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type, @shift_note.shift_type), {}, class: "form-control" %>
   </p>
 
   <p>
-    <%= f.label :Shift_time %>
-    <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time) %>
+    <%= f.label :Shift_time %>:
+    <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time), {}, 
+                                         class: "form-control" %>
   </p>
 
   <p>
-    <%= f.label :Message %>
-    <%= f.trix_editor :message, class: "form-control", placeholder: "Add note here..." %>
+    <%= f.label :Message %>:
+    <%= f.trix_editor :message, class: "form-control", placeholder:
+                                                        "Add note here..." %>
   </p>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary"%>

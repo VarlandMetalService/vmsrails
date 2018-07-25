@@ -3,8 +3,11 @@
   <p>
     <%= link_to 'Back', shift_notes_path, class: "btn btn-primary" %> 
     <%= link_to 'Edit', edit_shift_note_path, class: "btn btn-primary" %>
+    <h2><strong>Note:</h2></strong>
+ 
   </p>
 
+<div class="container-fluid">
   <p>
     <strong>Created:</strong>
     <%= @shift_note.created_at %>
@@ -14,9 +17,7 @@
     <br>
     <strong>Entered by:</strong>
     <%= @shift_note.user.full_name %>
-  </p>
-
-  <p>
+    <br>
     <strong>Dept:</strong>
     <%= @shift_note.dept %>
 
@@ -26,9 +27,12 @@
     <strong>Shift time:</strong>
     <%= @shift_note.shift_time %>
   </p>
-
+  <strong>Message:</strong> <br>
   <%=sanitize @shift_note.message %><br>
+</div>
 
+
+<h3><strong>Comments:</h3></strong>
   <%= render partial: "comments/comment_list", locals: {commentable: @shift_note} %>
   <%= render partial: "comments/comment_form", locals: {commentable: @shift_note} %>
 
