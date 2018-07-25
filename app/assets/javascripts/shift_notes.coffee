@@ -19,9 +19,14 @@ $(document).on 'turbolinks:load', ->
     $('select[name=with_shift_time]').val(shift_time)
     $('select[name=with_shift_time]').closest("form").submit()
 
-
 $(document).on 'turbolinks:load', ->
   $('.shift_type-filter').click ->
     shift_type = $(@).data('shift_type')
     $('select[name=with_shift_type]').val(shift_type)
     $('select[name=with_shift_type]').closest("form").submit()
+
+$(document).on 'turbolinks:load', ->
+  $('.shift_type-filter').click ->
+    sorted_by = $(@).data('sorted_by')
+    $('select[name=sorted_by]').val(shift_type)
+    $('select[name=sorted_by]').closest("form").submit()

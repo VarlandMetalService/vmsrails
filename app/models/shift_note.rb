@@ -1,4 +1,5 @@
 class ShiftNote < ApplicationRecord
+    default_scope { order(created_at: :desc) }
 
     # Pagination.
     paginates_per 30
