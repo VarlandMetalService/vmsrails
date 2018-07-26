@@ -29,6 +29,7 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
     @shift_note = ShiftNote.new(shift_note_params) 
     if @shift_note.save
       flash[:success] = "Shift note created."
+      ShiftNotesMailer.send_note(@shift_note, @shift_note.shift_type).deliver_now
       redirect_to shift_note_path(@shift_note)
     else
       render :action => 'new'

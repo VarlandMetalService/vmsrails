@@ -19,6 +19,12 @@
 
 # Learn more: http://github.com/javan/whenever
 
+ENV['RAILS_ENV'] = "development"
+
 every 5.minutes do
   rake "dept_info:update_google_documents"
+end
+
+every 2.minutes do
+  rake "shift_notes:send_shift_notes_summary"
 end
