@@ -1,0 +1,50 @@
+<h2><strong>Note:</h2></strong>
+
+<div class="container-fluid" style="border:1px solid #cecece;">
+  <p>
+    <strong>Created:</strong>
+    <%= @commentable.created_at %>
+    <br>
+    <strong>Updated:</strong>
+    <%= @commentable.updated_at %>
+    <br>
+    <strong>Entered by:</strong>
+    <%= @commentable.user.full_name %>
+    <br>
+    <strong>Dept:</strong>
+    <%= @commentable.dept %>
+
+    <strong>Shift type:</strong>
+    <%= @commentable.shift_type %>
+
+    <strong>Shift time:</strong>
+    <%= @commentable.shift_time %>
+  </p>
+  <strong>Message:</strong> <br>
+  <%=sanitize @commentable.message %>
+  <br>
+</div>
+<h3><strong>Comments:</h3></strong>
+<div class="container-fluid" style="border:1px solid #cecece;">
+    <% @commentable.comments.each do |c| %>
+        <class="text-center"> 
+        <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
+        <% if c.user.blank? %> 
+            &nbsp;
+        <% else %> 
+            <span class="badge badge-pill" style="color: 
+            <%= c.user.avatar_text_color %>; 
+            background-color: <%= c.user.avatar_bg_color %>;">
+            <%= c.user.initials %> </span>
+        <% end %>:
+        
+        <%= sanitize c.body %>
+        <br>
+        <% if c.attachment? %>
+            Attachments:
+            <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %> <br>
+            </a>
+        <% end %>
+    <% end %>
+
+</div>

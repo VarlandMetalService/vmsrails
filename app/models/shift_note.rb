@@ -6,9 +6,6 @@ class ShiftNote < ApplicationRecord
 
     # Associations.
     belongs_to :user, class_name: '::User', optional: true
-    belongs_to    :supervisor,
-                class_name: 'User',
-                foreign_key: 'response_uid', optional: true
     has_many :comments, as: :commentable, dependent: :destroy
    
     # Scoping.
@@ -80,5 +77,4 @@ class ShiftNote < ApplicationRecord
          ['Dept. 12', '12'],
          ['Waste Water', '30']]
     end
-
 end

@@ -24,6 +24,11 @@
                                          class: "form-control" %>
   </p>
 
+  <p> 
+    <%= f.label :Shift_date %>:
+    <%= f.date_field :created_at, class: "form-control" %>
+  </p>
+
   <p>
     <%= f.label :Message %>:
     <%= f.trix_editor :message, class: "form-control", placeholder:

@@ -1,4 +1,5 @@
 class ShiftNotesController < ApplicationController
+  include ApplicationHelper
 before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
 
   has_scope :with_search_term,    only: :index
@@ -18,7 +19,7 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
   end
 
   def new
-    @shift_note = ShiftNote.new
+    @shift_note = ShiftNote.new(created_at: prod_date, shift_time: prod_shift)
   end
 
   def edit
@@ -61,9 +62,7 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
     # Never trust parameters from the internet, only allow the white list.
     def shift_note_params
       params.require(:shift_note).permit(:id, :shift_time, :shift_type, :dept, 
-                                         :user_id, :message, :response,
-                                         :response_uid,
-                                         :attachment)
+                                         :user_id, :message, :created_at)
     end
 
 end

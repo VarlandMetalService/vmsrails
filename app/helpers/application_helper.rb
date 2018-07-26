@@ -106,4 +106,23 @@ module ApplicationHelper
     return search
   end
 
+  def prod_date
+    t = Time.now
+    if t.hour < 7 || t.hour > 23
+      return Date.yesterday
+    else  
+      return Date.today
+    end
+  end
+
+  def prod_shift
+    t = Time.now
+    if t.hour < 7 || t.hour > 23
+      return 3
+    elsif t.hour >= 7 && t.hour <= 15
+      return 1
+    else
+      return 2
+    end
+  end
 end

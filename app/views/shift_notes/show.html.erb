@@ -10,8 +10,8 @@
 <div class="container-fluid" style="border:1px solid #cecece;">
   <p>
     <br>
-    <strong>Created:</strong>
-    <%= @shift_note.created_at %>
+    <strong>Shift date:</strong>
+    <%= @shift_note.created_at.strftime('%m/%d/%y') %>
     <br>
     <strong>Updated:</strong>
     <%= @shift_note.updated_at %>
