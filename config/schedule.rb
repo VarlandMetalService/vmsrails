@@ -25,6 +25,6 @@ every 5.minutes do
   rake "dept_info:update_google_documents"
 end
 
-every 2.minutes do
+every 1.day, at: '8:00 am' do
   rake "shift_notes:send_shift_notes_summary"
 end
