@@ -1,10 +1,10 @@
 <% provide(:title, 'Edit Shift Note') %>
 <% provide(:button_text, "Edit shift details") %>
-
+<br>
 <%= link_to 'Back', shift_note_path, class: "btn btn-primary" %>
 <%= link_to "Delete", @shift_note, class: "btn btn-primary", method: :delete, 
                                              data: { confirm: "You sure?" } %>
-
+<br><br>
 <%= render partial: 'form' %> 
 <br><br><br>
 <%= render partial: "comments/comment_list", 
