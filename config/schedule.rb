@@ -19,8 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-ENV['RAILS_ENV'] = "development"
-
 every 5.minutes do
   rake "dept_info:update_google_documents"
 end
