@@ -1,53 +1,59 @@
-<% @note_array.each do |n| %>
+<% 3.times do |x| %>
+    <% s = x+1 %>
+    <% notes = @note_array.select {|na| na.shift_time == s } %>
+    <% if notes.empty? %>
+    <h2>No new notes from <%= s.ordinalize %> shift.</h2>
+    <% else %>
+        <h2><%= s.ordinalize %> shift notes:</h2>
+        <% notes.each do |n| %>
+            <div class="container-fluid" style="border:1px solid #cecece;">
+            <p>
+                <strong>Shift date:</strong>
+                <%= n.created_at.strftime('%m/%d/%y') %>  
+                <br>
+                <strong>Updated:</strong>
+                <%= n.updated_at %>
+                <br>
+                <strong>Entered by:</strong>
+                <%= n.user.full_name %>
+                <br>
+                <strong>Dept:</strong>
+                <%= n.dept %>
 
-    <h2><strong>Note:</h2></strong>
+                <strong>Shift type:</strong>
+                <%= n.shift_type %>
 
-    <div class="container-fluid" style="border:1px solid #cecece;">
-    <p>
-        <strong>Shift date:</strong>
-        <%= n.created_at.strftime('%m/%d/%y') %>  
-        <br>
-        <strong>Updated:</strong>
-        <%= n.updated_at %>
-        <br>
-        <strong>Entered by:</strong>
-        <%= n.user.full_name %>
-        <br>
-        <strong>Dept:</strong>
-        <%= n.dept %>
+                <strong>Shift time:</strong>
+                <%= n.shift_time %>
+            </p>
+            <strong>Message:</strong> <br>
+            <%=sanitize n.message %> <br>
 
-        <strong>Shift type:</strong>
-        <%= n.shift_type %>
-
-        <strong>Shift time:</strong>
-        <%= n.shift_time %>
-    </p>
-    <strong>Message:</strong> <br>
-    <%=sanitize n.message %>
-    <br>
-    </div>
-    <h3><strong>Comments:</h3></strong>
-    <div class="container-fluid" style="border:1px solid #cecece;">
-        <% n.comments.each do |c| %>
-            <class="text-center"> 
-            <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
-            <% if c.user.blank? %> 
-                &nbsp;
-            <% else %> 
-                <span class="badge badge-pill" style="color: 
-                <%= c.user.avatar_text_color %>; 
-                background-color: <%= c.user.avatar_bg_color %>;">
-                <%= c.user.initials %> </span>
-            <% end %>:
-            
-            <%= sanitize c.body %>
-            <br>
-            <% if c.attachment? %>
-                Attachments:
-                <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %> <br>
-                </a>
+            <% if n.comments.empty? %>
             <% else %>
+                <strong>Comments:</strong>
+                <% n.comments.each do |c| %>
+                    <class="text-center"> 
+                    <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
+                    <% if c.user.blank? %> 
+                        &nbsp;
+                    <% else %> 
+                        <span class="badge badge-pill" style="color: 
+                        <%= c.user.avatar_text_color %>; 
+                        background-color: <%= c.user.avatar_bg_color %>;">
+                        <%= c.user.initials %> </span>:
+                    <% end %>
+                    <%= sanitize c.body %>
+                    <br>
+                    <% if c.attachment? %>
+                        Attachments:
+                        <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %> <br>
+                        </a>
+                    <% else %>
+                    <% end %>
+                <% end %>
             <% end %>
+            </div>
         <% end %>
-    </div>
+    <% end %>
 <% end %>

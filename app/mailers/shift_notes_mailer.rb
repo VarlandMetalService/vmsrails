@@ -29,7 +29,8 @@ class ShiftNotesMailer < ApplicationMailer
       end
       case group
         when 'IT'
-          recipient = 'IT <it@varland.com>'
+          recipient = 'Richard Legacy <richard.legacy@varland.com>'
+          # 'IT <it@varland.com>'
         when 'Lab'
           recipient = 'Lab <lab@varland.com>'
         when 'Maintenance'
