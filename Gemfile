@@ -48,6 +48,7 @@ gem 'htmlentities'
 gem 'cocoon'
 gem 'acts_as_paranoid', '~> 0.6.0'
 gem 'trix'
+gem 'localtunnel'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -7,6 +7,12 @@ Rails.application.routes.draw do
     resources :comments, module: :shift_notes
   end
 
+  scope module: 'thickness', path: 'thickness' do
+    resources :blocks do
+      resources :checks
+    end
+  end
+
   resources :specifications do
     collection do
       get   'archived'

@@ -31,7 +31,7 @@
 
             <% if n.comments.empty? %>
             <% else %>
-                <strong>Comments:</strong>
+                <strong>Comments:</strong> <br>
                 <% n.comments.each do |c| %>
                     <class="text-center"> 
                     <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>

@@ -1,6 +1,8 @@
 class ShiftNotesController < ApplicationController
+  skip_before_action  :authenticate_user
+  skip_before_action :verify_authenticity_token
   include ApplicationHelper
-before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
+  before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
 
   has_scope :with_search_term,    only: :index
   has_scope :with_timestamp,      only: :index
@@ -13,6 +15,11 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
 
   def index
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @shift_notes }
+    end
   end
 
   def show
@@ -30,7 +37,10 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
     if @shift_note.save
       flash[:success] = "Shift note created."
       ShiftNotesMailer.send_note(@shift_note, @shift_note.shift_type).deliver_now
-      redirect_to shift_note_path(@shift_note)
+      respond_to do |format|
+        format.html { redirect_to shift_note_path(@shift_note)}
+        format.json { render :json => @shift_note }
+      end
     else
       render :action => 'new'
       Rails.logger.info(@shift_note.errors.inspect)
@@ -65,6 +75,5 @@ before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
       params.require(:shift_note).permit(:id, :shift_time, :shift_type, :dept, 
                                          :user_id, :message, :created_at)
     end
-
 end
 

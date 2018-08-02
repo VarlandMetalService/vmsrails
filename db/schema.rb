@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719193711) do
+ActiveRecord::Schema.define(version: 20180802152958) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -207,6 +207,42 @@ ActiveRecord::Schema.define(version: 20180719193711) do
     t.text "notes"
     t.index ["archived_at"], name: "index_specifications_on_archived_at"
     t.index ["deleted_at"], name: "index_specifications_on_deleted_at"
+  end
+
+  create_table "thickness_blocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "user_id"
+    t.integer "so_num"
+    t.integer "load_num"
+    t.integer "block_num"
+    t.boolean "is_rework"
+    t.string "directory"
+    t.string "product"
+    t.string "application"
+    t.string "customer"
+    t.string "process"
+    t.string "part"
+    t.string "sub"
+    t.float "load_weight", limit: 24
+    t.float "piece_weight", limit: 24
+    t.float "part_area", limit: 24
+    t.float "part_density", limit: 24
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "thickness_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "block_id"
+    t.datetime "check_timestamp"
+    t.integer "check_num"
+    t.float "thickness", limit: 24
+    t.float "alloy_percentage", limit: 24
+    t.float "x", limit: 24
+    t.float "y", limit: 24
+    t.float "z", limit: 24
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
