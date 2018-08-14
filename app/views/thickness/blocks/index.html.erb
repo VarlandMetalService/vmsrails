@@ -2,57 +2,15 @@
 
 <h1>Thickness Readings</h1>
 
-<table>
-  <thead> <tr>
-    <th> User ID </th>
-    <th> SO Num </th>
-    <th> Load Num </th>
-    <th> Block Num </th>
-    <th> Is Rework? </th>
-    <th> Directory </th>
-    <th> Product </th>
-    <th> Application </th>
-    <th> Customer </th>
-    <th> Process </th>
-    <th> Part </th>
-    <th> Sub </th>
-    <th> Load Weight </th>
-    <th> Piece Weight </th>
-    <th> Part Area </th>
-    <th> Part Density </th>
-    <th> Checks </th>
-  </tr> </thead>
-<%= page_entries_info @blocks %>
-      <%= paginate @blocks %>
-  <tbody>
-    <% @blocks.each do |t| %>
-      <tr>
-        <td><%= t.user_id %> </td>
-        <td><%= t.so_num %> </td>
-        <td><%= t.load_num %> </td>
-        <td><%= t.block_num %> </td>
-        <td><%= t.is_rework %> </td>
-        <td><%= t.directory %> </td>
-        <td><%= t.product %> </td>
-        <td><%= t.application %> </td>
-        <td><%= t.customer %> </td>
-        <td><%= t.process %> </td>
-        <td><%= t.part %> </td>
-        <td><%= t.sub %> </td>
-        <td><%= t.load_weight %> </td>
-        <td><%= t.piece_weight %> </td>
-        <td><%= t.part_area %> </td>
-        <td><%= t.part_density %> </td>
-        <td><% t.checks.each do |c| %>
-              <%= c.check_num %> 
-              <% end %>
-              </td>
+<div class="row">
+  <div class="col" id="filter_form">
+    <%= render partial: 'filter_form', locals: { notes: @blocks} %>
+  </div>
+</div>
 
-        <td><%= link_to 'Show', block_path(t) %></td>
-        <td><%= link_to 'Destroy', block_path(t), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<div class="row">
+  <div class="col" id="list">
+    <%= render partial: 'list', locals: { notes: @blocks,
+                                        term: params[:with_search_term] } %>
+  </div>
+</div>

@@ -39,3 +39,4 @@ $(document).on 'turbolinks:load', ->
       $('.spec-' + id + '-classification').collapse('hide')
       target.html('<i class="fa fa-expand"></i>')
       target.addClass('collapsed')
+

@@ -1,0 +1,144 @@
+<%= form_with url: blocks_path,
+              class: 'bg-dark text-white border rounded p-3 mb-3',
+              method: 'get' do |f| %>
+<p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+
+  <div class="row"> 
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_timestamp,
+                    'From Date:' %>
+        <%= f.text_field :with_timestamp,
+                        { type: :date,
+                          class: 'form-control',
+                         onchange: 'this.form.submit();',
+                         value: params[:with_timestamp]} %>            
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_directory,
+                    'Directory:' %>
+        <% directory_array = notes.map { |n| n.directory}%>
+        <%= f.select :with_directory,
+                         options_for_select(directory_array.uniq.sort,
+                                            params[:with_directory]),
+                        { include_blank: true },
+                         {class: 'custom-select',
+                         onchange: 'this.form.submit();'} %>            
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_product,
+                    'Product:' %>
+        <% product_array = notes.map { |n| n.product}%>
+        <%= f.select :with_product,
+                         options_for_select(product_array.uniq.sort,
+                                            params[:with_product]),
+                        { include_blank: true },
+                         {class: 'custom-select',
+                         onchange: 'this.form.submit();'} %>            
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_application,
+                    'Application:' %>
+        <% application_array = notes.map { |n| n.application}%>
+        <%= f.select :with_application,
+                         options_for_select(application_array.uniq.sort,
+                                            params[:with_application]),
+                        { include_blank: true },
+                         {class: 'custom-select',
+                         onchange: 'this.form.submit();'} %>            
+      </div>
+    </div>
+
+  <div class="w-100"></div>
+
+    <div class="col">
+      <div class="form-group">
+        <%= f.label :with_user,
+                    'User ID:' %>
+        <% user_array = notes.map { |n| n.user_id }%>
+        <%= f.select :with_user,
+                         options_for_select(user_array.uniq.sort,
+                                            params[:with_user]),
+                        { include_blank: true },
+                         {class: 'custom-select',
+                         onchange: 'this.form.submit();'} %>            
+      </div>
+    </div>
+
+    <div class="col">
+        <div class="form-group">
+          <%= f.label :with_customer,
+                      'Customer:' %>
+          <% customer_array = notes.map { |n| n.customer}%>
+          <%= f.select :with_customer,
+                          options_for_select(customer_array.compact.uniq.sort,
+                                              params[:with_customer]),
+                          { include_blank: true },
+                          {class: 'custom-select',
+                          onchange: 'this.form.submit();'} %>            
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_process,
+                      'Process:' %>
+          <% process_array = notes.map { |n| n.process}%>
+          <%= f.select :with_process,
+                          options_for_select(process_array.compact.uniq.sort,
+                                              params[:with_process]),
+                          { include_blank: true },
+                          {class: 'custom-select',
+                          onchange: 'this.form.submit();'} %>            
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :with_part,
+                      'Part:' %>
+          <% part_array = notes.map { |n| n.part}%>
+          <%= f.select :with_part,
+                          options_for_select(part_array.compact.uniq.sort,
+                                              params[:with_part]),
+                          { include_blank: true },
+                          {class: 'custom-select',
+                          onchange: 'this.form.submit();'} %>            
+        </div>
+      </div>
+
+     <div class="col">
+      <div class="form-group">
+        <%= f.label :with_rework,
+                    'Rework?' %>
+        <%= f.select :with_rework,
+                         options_for_select([["True", "1"],
+                                            ["False", "0"]],
+                                            params[:with_rework]),
+                        { include_blank: true },
+                         {class: 'custom-select',
+                         onchange: 'this.form.submit();'} %>            
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Reset', blocks_url, class: 'btn btn-link text-white' %>
+        <%= f.button fa_icon('filter', text: 'Filter'),
+                      class: 'btn btn-sm btn-warning font-weight-bold',
+                      type: 'submit' %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,12 +1,21 @@
 module Thickness
   class BlocksController < ApplicationController
     before_action :set_block, only: [:show, :edit, :update, :destroy]
-    skip_before_action  :authenticate_user
+    skip_before_action :authenticate_user
     skip_before_action :verify_authenticity_token
     
+    has_scope :with_timestamp,    only: :index
+    has_scope :with_directory,    only: :index
+    has_scope :with_product,      only: :index
+    has_scope :with_application,  only: :index
+    has_scope :with_user,         only: :index
+    has_scope :with_customer,     only: :index
+    has_scope :with_process,      only: :index
+    has_scope :with_part,         only: :index
+    has_scope :with_rework,       only: :index
 
     def index
-      @blocks = Block.all.page(params[:page])
+      @blocks = apply_scopes(Thickness::Block).all.page(params[:page])
       respond_to do |format|
         format.html
         format.json { render :json => @blocks }
@@ -21,10 +30,10 @@ module Thickness
     end
   
     def new
-      @block = Block.new
+      
+      @block = Block.new(block_params) 
       @checks = @block.checks.build
-      @block.save
-      @checks.save
+
     end
   
     def edit
@@ -34,6 +43,7 @@ module Thickness
       @block = Block.new(block_params) 
       @checks = @block.checks.build
       if @block.save
+        remove_blank_checks(@block)
         flash[:success] = "Block created."
         respond_to do |format|
           format.html { redirect_to block_path(@block)}
@@ -70,9 +80,17 @@ module Thickness
   
       # Never trust parameters from the internet, only allow the white list.
       def block_params
-        params.require(:block).permit( 
-          :user_id, :so_num, :load_num, :block_num, :is_rework, :directory, :product, :application, :customer, :process,  :part, :sub, :load_weight, :piece_weight, :part_area, :part_density, 
-          :checks_attributes => [:id, :check_timestamp, :check_num, :thickness, :alloy_percentage, :x, :y, :z, '_destroy'])
+         params.require(:block).permit( 
+           :user_id, :so_num, :load_num, :block_num, :is_rework, :directory, :product, :application, :customer, :process,  :part, :sub, :load_weight, :piece_weight, :part_area, :part_density, 
+           :checks_attributes => [:id, :check_timestamp, :check_num, :thickness, :alloy_percentage, :x, :y, :z, '_destroy'])
       end 
+
+      def remove_blank_checks(block)
+        block.checks.each do |c|
+          if c.thickness.blank?
+            c.destroy
+          end
+        end
+      end
   end
 end

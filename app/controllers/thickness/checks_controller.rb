@@ -15,14 +15,14 @@ module Thickness
     end
   
     def new
-      @check = check.new
+      @check = check.new(check_params)
     end
   
     def edit
     end
   
     def create
-      @check = check.new
+      @check = check.new(check_params)
       if @check.save
         flash[:success] = "check created."
         respond_to do |format|
@@ -60,7 +60,7 @@ module Thickness
   
       # Never trust parameters from the internet, only allow the white list.
       def check_params
-        params.require(:check).permit(:id, :block_id, :check_timestamp, :check_num, :thickness, :alloy_percentage, :x, :y, :z)
+        params.require(:thickness)
       end 
   end
 end

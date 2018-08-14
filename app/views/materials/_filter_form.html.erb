@@ -38,9 +38,9 @@
         <%= f.select :with_user,
                       options_for_select(user_array.uniq.sort,
                                         params[:with_user]),
-                            { include_blank: true },                                     
+                            { include_blank: true },
                             { class: 'custom-select',
-                            onchange: 'this.form.submit();', }%>
+                            onchange: 'this.form.submit();' }%>
       </div>
     </div>
     <div class="col">

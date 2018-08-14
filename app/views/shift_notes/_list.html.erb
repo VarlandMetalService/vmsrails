@@ -19,8 +19,13 @@
         </tr>
       </thead>
 
-      <%= page_entries_info notes %>
-      <%= paginate notes %>
+      <div class="card">
+    <h5 class="card-header">
+        <%= page_entries_info @shift_notes %></h5>
+      <div class="card-body">
+        <%= paginate @shift_notes %>
+      </div>
+    </div>
 
       <tbody>
         <% notes.each do |n| %>
