@@ -17,7 +17,7 @@
     <td><%= b.load_weight  %> </td>
     <td><%= b.piece_weight %> </td>
     <td><%= b.part_area    %> </td>
-    <td><%=(b.piece_weight.to_f/(b.part_area.to_f*b.checks.first.thickness)).round(2)%> </td>
+    <td><%=((b.piece_weight.to_f/32.2)/(b.part_area.to_f*b.checks.first.thickness)).round(2)%> </td>
   </tbody>
 </table>
 <table class="table table-bordered table-striped">

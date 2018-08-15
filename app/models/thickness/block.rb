@@ -7,8 +7,6 @@ module Thickness
     accepts_nested_attributes_for :checks
     self.table_name = "thickness_blocks"
 
-    
-
     # Scoping.
 
     # has_scope :with_timestamp,    only: :index
@@ -21,8 +19,6 @@ module Thickness
     # has_scope :with_part,         only: :index
     # has_scope :with_rework,       only: :index
     # has_scope :with_search_term,  only: :index
-
-    default_scope { order(updated_at: :desc) }
 
     scope :with_timestamp, ->(timestamp) { joins(:checks).where(" thickness_checks.check_timestamp >= ?", timestamp) unless timestamp.nil? }
     scope :with_directory, ->(directory) { where("directory = ?", directory)unless directory.nil? }

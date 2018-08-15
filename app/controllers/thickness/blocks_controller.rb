@@ -16,7 +16,7 @@ module Thickness
 
     def index
       @blocks = Thickness::Block.all    
-      @bbl = apply_scopes(Thickness::Block).all.page(params[:page]).includes(:checks)
+      @bbl = apply_scopes(Thickness::Block).all.page(params[:page]).includes(:checks).order('updated_at DESC')
       respond_to do |format|
         format.html
         format.json { render :json => @blocks }
