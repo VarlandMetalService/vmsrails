@@ -14,7 +14,7 @@ class ShiftNotesController < ApplicationController
 
 
   def index
-    @shift_notes = apply_scopes(ShiftNote).all.page(params[:page])
+    @shift_notes = apply_scopes(ShiftNote).all.page(params[:page]).includes(:comments, :user)
 
     respond_to do |format|
       format.html
@@ -36,7 +36,7 @@ class ShiftNotesController < ApplicationController
     @shift_note = ShiftNote.new(shift_note_params) 
     if @shift_note.save
       flash[:success] = "Shift note created."
-      ShiftNotesMailer.send_note(@shift_note, @shift_note.shift_type).deliver_now
+      ShiftNotesMailer.send_note(@shift_note, @shift_note.shift_type).deliver_later
       respond_to do |format|
         format.html { redirect_to shift_note_path(@shift_note)}
         format.json { render :json => @shift_note }

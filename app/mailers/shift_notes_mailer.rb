@@ -58,4 +58,3 @@ class ShiftNotesMailer < ApplicationMailer
       mail(subject: 'Shift Note Summary!')
     end
 end
-
