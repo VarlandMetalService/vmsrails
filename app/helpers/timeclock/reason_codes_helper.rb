@@ -1,0 +1,2 @@
+module Timeclock::ReasonCodesHelper
+end

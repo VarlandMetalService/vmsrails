@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   resources :employee_notes
   resources :inline_attachments
+
+  namespace :timeclock do
+    resources :clock_records
+    resources :clock_edits
+    resources :reason_codes
+  end
   
   resources :shift_notes do
     resources :comments, module: :shift_notes
@@ -27,6 +33,8 @@ Rails.application.routes.draw do
   end
  
   root    'vms#home'
+  
+  get '/timeclock', to: 'timeclock#work'
 
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'

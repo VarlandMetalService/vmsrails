@@ -1,0 +1,27 @@
+<%= form_with(model: timeclock_reason_code, local: true) do |form| %>
+  <% if timeclock_reason_code.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(timeclock_reason_code.errors.count, "error") %> prohibited this timeclock_reason_code from being saved:</h2>
+
+      <ul>
+      <% timeclock_reason_code.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, id: :timeclock_reason_code_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :requires_note %>
+    <%= form.check_box :requires_note, id: :timeclock_reason_code_requires_note %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

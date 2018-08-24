@@ -1,0 +1,98 @@
+<%= form_with model: @clock_record do |f| %>
+
+  <div class="field hidden">
+    <%= f.label :user_id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div class="field hidden">
+    <%= f.label :ip_address %>
+    <%= f.hidden_field :ip_address, value: request.remote_ip %>
+  </div>
+
+  <div class="field hidden">
+    <%= f.label :timestamp %>
+    <%= f.datetime_select :timestamp %>
+  </div>
+  
+  <% @week_rec = records_to_weeks(@period_records) %>
+  <% @week_totals = calc_week_totals(@week_rec) %>  
+
+  <div class="row">
+      <div class="card btn-block">
+        <div class="card-body bg-secondary text-light">
+          <h3 class="card-title text-center"><%= current_user.full_name %></h3>
+          <p class="card-text text-center">
+            Employee #<%=current_user.employee_number %><br><br>
+            Total weekly hours: <%= @week_totals.sum %>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush bg-secondary">
+          <% x = @period_records.order('timestamp').last.record_type unless current_user.clock_records.last.blank? %>
+          <% if x == "Start Work" || x == "End Break" %>
+            <li class="list-group-item bg-dark">
+              <input class="btn btn-primary btn-block" type="submit", name="record_type", value="Start Break">
+            </li>
+            <li class="list-group-item bg-dark">
+              <input class="btn btn-danger btn-block" type="submit", name="record_type", value="End Work">
+            </li>
+          <% elsif x == "Start Break" %>
+            <li class="list-group-item bg-dark">
+            <input class="btn btn-info btn-block" type="submit", name="record_type", value="End Break">
+            </li>
+          <% else %>
+            <li class="list-group-item bg-dark">
+            <input class="btn btn-success btn-block" type="submit", name="record_type", value="Start Work">
+            </li>
+          <% end %>
+        <% end %>
+        </ul>
+      </div>
+  </div>
+  <div class="row">
+    <% sun = DateTime.now - DateTime.now.wday %>
+      <table class="table table-fill table-bordered table-striped">
+        <thead class="thead-dark text-center">
+          <tr>
+              <th style="width: 5%">
+                <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>
+              <th style="width: 18%">
+                <%= (sun+1).strftime("%A") %><br><%= (sun+1).strftime("%m-%d")%></th>
+              <th style="width: 18%">
+                <%= (sun+2).strftime("%A") %><br><%= (sun+2).strftime("%m-%d")%></th>
+              <th style="width: 18%">
+                <%= (sun+3).strftime("%A") %><br><%= (sun+3).strftime("%m-%d")%></th>
+              <th style="width: 18%">
+                <%= (sun+4).strftime("%A") %><br><%= (sun+4).strftime("%m-%d")%></th>
+              <th style="width: 18%">
+                <%= (sun+5).strftime("%A") %><br><%= (sun+5).strftime("%m-%d")%></th>
+              <th style="width: 5%">
+                <%= (sun+6).strftime("%A") %><br><%= (sun+6).strftime("%m-%d")%></th>
+          </tr>
+        </thead> 
+        <thead class="thead-light text-center">
+          <tr>
+            <% @week_totals.each do |hours| %>
+              <th><%= hours %> hrs</th>
+            <% end %>
+          </tr>    
+        </thead>
+        <tbody>
+          <tr class="table-secondary">
+            <% @week_rec.each do |rec| %>
+              <td>
+                <table class="table table-fill" style="table-layout: fixed;">
+                  <thead></thead>
+                  <tbody>
+                    <% rec.each do |r| %>
+                      <%= render partial: 'calendar_entry', cached: :true, locals: { record: r} %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>        
+    </div>
+  </div>

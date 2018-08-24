@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Clock Records</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clock_records.each do |r| %>
+      <tr>
+        <td><%= User.find(r.user_id).full_name %>
+        <td><%= r.record_type %>
+        <td><%= r.timestamp.strftime("%m/%d/%y @ %I:%M%P") %>
+        <% if r.clock_edit.blank? %>
+        <%= link_to "Edit", 
+            :controller => "clock_edits", 
+            :action => "new", 
+            :rid => r.id %>
+        <% else %>
+        <%= link_to "Edit", edit_timeclock_clock_edit_path(r.clock_edit, :rid => r.id) %>
+        <% end %>
+        <td><%= link_to 'Destroy', r, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Timeclock', timeclock_path %>

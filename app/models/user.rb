@@ -45,6 +45,9 @@ class User < ApplicationRecord
   has_many      :authored_employee_notes,
                 class_name: 'EmployeeNote',
                 foreign_key: 'entered_by'
+  has_many      :clock_records,
+                class_name: 'Timeclock::ClockRecord',
+                foreign_key: 'user_id'
 
   # Validation.
   validates :employee_number,

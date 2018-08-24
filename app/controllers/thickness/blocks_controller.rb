@@ -16,7 +16,7 @@ module Thickness
 
     def index
       @blocks = Thickness::Block.all    
-      @bbl = apply_scopes(Thickness::Block).all.page(params[:page]).includes(:checks).order('updated_at DESC')
+      @bbl = apply_scopes(@blocks).page(params[:page]).includes(:checks).order('updated_at DESC')
       respond_to do |format|
         format.html
         format.json { render :json => @blocks }
@@ -31,10 +31,8 @@ module Thickness
     end
   
     def new
-      
       @block = Block.new(block_params) 
       @checks = @block.checks.build
-
     end
   
     def edit
@@ -57,12 +55,12 @@ module Thickness
     end
   
     def update
-        if @block.update(block_params)
-          flash[:success] = "Block updated."
-          redirect_to block_path(@block)
-        else
-          render 'edit'
-        end
+      if @block.update(block_params)
+        flash[:success] = "Block updated."
+        redirect_to block_path(@block)
+      else
+        render 'edit'
+      end
     end
   
     def destroy
@@ -72,7 +70,7 @@ module Thickness
         format.json { head :no_content }
       end
     end
-  
+
     private
       # Select Block by id.
       def set_block
@@ -92,6 +90,6 @@ module Thickness
             c.destroy
           end
         end
-      end
+      end  
   end
 end

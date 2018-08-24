@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180802152958) do
+ActiveRecord::Schema.define(version: 20180817142948) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -47,6 +47,27 @@ ActiveRecord::Schema.define(version: 20180802152958) do
     t.datetime "deleted_at"
     t.boolean "not_capable"
     t.index ["deleted_at"], name: "index_classifications_on_deleted_at"
+  end
+
+  create_table "clock_edits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "clock_record_id"
+    t.integer "user_id"
+    t.string "ip_address"
+    t.integer "reason_id"
+    t.datetime "deleted_at"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clock_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "record_type"
+    t.string "ip_address"
+    t.datetime "timestamp"
+    t.datetime "deleted_at"
   end
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -241,6 +262,13 @@ ActiveRecord::Schema.define(version: 20180802152958) do
     t.float "y", limit: 24
     t.float "z", limit: 24
     t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "timeclock_reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "description"
+    t.boolean "requires_note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

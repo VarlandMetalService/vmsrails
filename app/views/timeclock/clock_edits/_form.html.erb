@@ -1,0 +1,47 @@
+<%= form_for @clock_edit do |form| %>
+  <% if clock_edit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(clock_edit.errors.count, "error") %> prohibited this clock_edit from being saved:</h2>
+      <ul>
+      <% clock_edit.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @clock_edit.clock_record_id.blank? %>
+    <% record = Timeclock::ClockRecord.find(params["rid"]) %>
+      <%= form.hidden_field :clock_record_id, value: params["rid"] %>
+  <% else %>
+    <% record = Timeclock::ClockRecord.find(@clock_edit.clock_record.id) %>
+    <% @clock_edit.clock_record = record %>
+    <%= form.hidden_field :clock_record_id, value: @clock_edit.clock_record.id %>
+  <% end %>
+
+  <div class="card text-center" style="width: 16rem;">
+    <div class="card-header bg-dark text-white">
+      <strong><%= form.datetime_field :clock_record_timestamp %></strong>
+    </div>
+    <div class='card-body text-light <%= Timeclock.color_options["#{record.record_type}"] %>'>
+      <h5 class="card-title text-center">
+        <%= form.select :clock_record_record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, record.record_type)  %></h5>
+      <p class="card-text text-center">
+        <%= User.find(record.user_id).full_name %>
+      </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-secondary text-white"><u>Edit</u>: <%= form.select :reason_id, Timeclock::ReasonCode.all.collect { |rc| [rc.description, rc.id] } %></li>
+      <li class="list-group-item bg-secondary text-white">Note: <%= form.text_area :note, id: :clock_edit_note %></li>
+      <footer class="blockquote-footer p-1 text-white bg-secondary"> Edited by <%= @current_user.initials %> on
+        <%= Time.now.strftime("%m/%d/%y @ %I:%M%P") %>
+      </footer>
+    </ul>
+  </div>
+  <br>
+
+  <%= form.hidden_field :user_id, value: @current_user.id  %>
+  <%= form.hidden_field :ip_address, value: request.remote_ip %>
+
+  <%= form.submit :submit %>
+<% end %>

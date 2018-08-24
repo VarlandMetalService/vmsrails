@@ -17,4 +17,4 @@
 //= require turbolinks
 //= require cocoon
 //= require trix
-//= require_tree .
+//= require_tree

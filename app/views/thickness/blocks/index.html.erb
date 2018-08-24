@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col" id="filter_form">
-    <%= render partial: 'filter_form', locals: { notes: @blocks} %>
+    <%= render partial: 'filter_form', cached: :true, locals: { notes: @blocks} %>
   </div>
 </div>
 
