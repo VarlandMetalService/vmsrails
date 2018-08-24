@@ -16,7 +16,7 @@
   </div>
   
   <% @week_rec = records_to_weeks(@period_records) %>
-  <% @week_totals = calc_week_totals(@week_rec) %>  
+  <% @week_totals = calc_week_totals(@week_rec) %> 
 
   <div class="row">
       <div class="card btn-block">
@@ -24,25 +24,25 @@
           <h3 class="card-title text-center"><%= current_user.full_name %></h3>
           <p class="card-text text-center">
             Employee #<%=current_user.employee_number %><br><br>
-            Total weekly hours: <%= @week_totals.sum %>
+            Total weekly hours: <%= (@week_totals.sum*4).round / 4.0 %>
           </p>
         </div>
         <ul class="list-group list-group-flush bg-secondary">
           <% x = @period_records.order('timestamp').last.record_type unless current_user.clock_records.last.blank? %>
           <% if x == "Start Work" || x == "End Break" %>
             <li class="list-group-item bg-dark">
-              <input class="btn btn-primary btn-block" type="submit", name="record_type", value="Start Break">
+              <input class="btn btn-primary btn-block btn-block2" type="submit", name="record_type", value="Start Break">
             </li>
             <li class="list-group-item bg-dark">
-              <input class="btn btn-danger btn-block" type="submit", name="record_type", value="End Work">
+              <input class="btn btn-danger btn-block btn-block2" type="submit", name="record_type", value="End Work">
             </li>
           <% elsif x == "Start Break" %>
             <li class="list-group-item bg-dark">
-            <input class="btn btn-info btn-block" type="submit", name="record_type", value="End Break">
+            <input class="btn btn-info btn-block btn-block2" type="submit", name="record_type", value="End Break">
             </li>
           <% else %>
             <li class="list-group-item bg-dark">
-            <input class="btn btn-success btn-block" type="submit", name="record_type", value="Start Work">
+            <input class="btn btn-success btn-block btn-block2" type="submit", name="record_type", value="Start Work">
             </li>
           <% end %>
         <% end %>
@@ -73,7 +73,7 @@
         <thead class="thead-light text-center">
           <tr>
             <% @week_totals.each do |hours| %>
-              <th><%= hours %> hrs</th>
+              <th><%= (hours*4).round / 4.0 %> hrs</th>
             <% end %>
           </tr>    
         </thead>

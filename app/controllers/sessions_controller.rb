@@ -23,4 +23,19 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  def timeclock_new
+  end
+
+  def timeclock_create
+    user = User.find_by(username: params[:session][:username].downcase)
+    if user && user.authenticate(params[:session][:pin])
+      helpers.log_in user
+      params[:session][:remember_me] == '1' ? helpers.remember(user) : helpers.forget(user)
+      redirect_to(session[:return_to] || root_path) and return
+    else
+      flash.now[:danger] = 'Login failed. Please contact IT for assistance if necessary.'
+      render 'new'
+    end
+  end
+
 end

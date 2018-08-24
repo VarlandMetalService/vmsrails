@@ -27,7 +27,11 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     unless helpers.logged_in?
       session[:return_to] = request.fullpath
+      if(session[:return_to] == "/timeclock")
+        redirect_to('/timeclock/login') and return
+      else
       redirect_to(login_url) and return
+      end
     end
     session.delete(:return_to)
     @current_user = helpers.current_user
