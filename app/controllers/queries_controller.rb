@@ -24,6 +24,7 @@ class QueriesController < ApplicationController
           data = []
           @customer[:parts].each do |p|
             fields = []
+            fields << p[:customer].gsub('"', '""')
             fields << p[:processCode].gsub('"', '""')
             fields << p[:partID].gsub('"', '""')
             fields << p[:subID].gsub('"', '""')
@@ -34,7 +35,7 @@ class QueriesController < ApplicationController
             fields << p[:listedChemicals].join("\n").gsub('"', '""')
             data << '"' + fields.join('","') + '"'
           end
-          send_data 'Process Code,Part ID,Sub ID,Last Order,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
+          send_data 'Customer,Process Code,Part ID,Sub ID,Last Order,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
         }
       end
     end

@@ -14,6 +14,7 @@
           <table class="table table-bordered">
             <thead>
               <tr>
+                <th class="text-center">Customer Code</th>
                 <th class="text-center">Process Code</th>
                 <th>Part ID</th>
                 <th class="text-center">Sub ID</th>
@@ -27,6 +28,7 @@
             <tbody>
               <% @customer[:parts].each do |p| %>
                 <tr class="<%= 'bg-warning' if p[:isAffected] %>">
+                  <td class="text-center"><%= p[:customer] %></td>
                   <td class="text-center"><%= p[:processCode] %></td>
                   <td><%= p[:partID] %></td>
                   <td class="text-center"><%= p[:subID] %></td>
