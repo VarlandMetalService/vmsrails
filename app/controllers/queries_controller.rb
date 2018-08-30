@@ -4,9 +4,21 @@ require 'uri'
 class QueriesController < ApplicationController
 
   skip_before_action  :authenticate_user,
-                      only: [:promise_list, :receipts]
+                      only: [:promise_list, :receipts, :prop65]
   before_action :reference_user,
-                only: [:promise_list, :receipts]
+                only: [:promise_list, :receipts, :prop65]
+
+  def prop65
+    if params[:customer].blank?
+      @customer = nil
+    else
+      uri = URI.parse "http://as400railsapi.varland.com/v1/prop65customer?customer=#{params[:customer]}"
+      http = Net::HTTP.new uri.host, uri.port
+      request = Net::HTTP::Get.new uri.request_uri
+      response = http.request request
+      @customer = JSON.parse response.body, symbolize_names: true
+    end
+  end
   
   def receipts
     uri = URI.parse 'http://as400railsapi.varland.com/v1/receipts'

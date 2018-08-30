@@ -223,8 +223,6 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    timepiece (0.4.1)
-      jquery-rails (>= 3.0.0)
     trix (0.11.1)
       rails (> 4.1, < 5.2)
     turbolinks (5.1.0)
@@ -281,7 +279,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails
-  timepiece
   trix
   turbolinks (~> 5)
   tzinfo-data
@@ -290,4 +287,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
