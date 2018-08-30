@@ -27,13 +27,14 @@ class QueriesController < ApplicationController
             fields << p[:processCode].gsub('"', '""')
             fields << p[:partID].gsub('"', '""')
             fields << p[:subID].gsub('"', '""')
+            fields << DateTime.rfc2822(p[:lastOrderDate]).strftime('%m/%d/%y')
             fields << p[:partName].join("\n").gsub('"', '""')
             fields << p[:processSpecification].join("\n").gsub('"', '""')
             fields << p[:isAffected] ? 'TRUE' : 'FALSE'
             fields << p[:listedChemicals].join("\n").gsub('"', '""')
             data << '"' + fields.join('","') + '"'
           end
-          send_data 'Process Code,Part ID,Sub ID,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
+          send_data 'Process Code,Part ID,Sub ID,Last Order,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
         }
       end
     end

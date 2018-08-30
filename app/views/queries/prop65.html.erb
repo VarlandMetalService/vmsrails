@@ -17,6 +17,7 @@
                 <th class="text-center">Process Code</th>
                 <th>Part ID</th>
                 <th class="text-center">Sub ID</th>
+                <th class="text-center">Last Order</th>
                 <th>Part Name</th>
                 <th>Process Specification</th>
                 <th class="text-center">Prop 65 Affected?</th>
@@ -29,6 +30,7 @@
                   <td class="text-center"><%= p[:processCode] %></td>
                   <td><%= p[:partID] %></td>
                   <td class="text-center"><%= p[:subID] %></td>
+                  <td class="text-center"><%= DateTime.rfc2822(p[:lastOrderDate]).strftime('%m/%d/%y') %></td>
                   <td><%= p[:partName].join('<br />').html_safe %></td>
                   <td><%= p[:processSpecification].join('<br />').html_safe %></td>
                   <td class="text-center text-<%= p[:isAffected] ? 'success' : 'danger' %>"><%= fa_icon p[:isAffected] ? 'check' : 'times' %></td>
