@@ -17,6 +17,25 @@ class QueriesController < ApplicationController
       request = Net::HTTP::Get.new uri.request_uri
       response = http.request request
       @customer = JSON.parse response.body, symbolize_names: true
+      respond_to do |format|
+        format.html
+        format.js
+        format.csv {
+          data = []
+          @customer[:parts].each do |p|
+            fields = []
+            fields << p[:processCode].gsub('"', '""')
+            fields << p[:partID].gsub('"', '""')
+            fields << p[:subID].gsub('"', '""')
+            fields << p[:partName].join("\n").gsub('"', '""')
+            fields << p[:processSpecification].join("\n").gsub('"', '""')
+            fields << p[:isAffected] ? 'TRUE' : 'FALSE'
+            fields << p[:listedChemicals].join("\n").gsub('"', '""')
+            data << '"' + fields.join('","') + '"'
+          end
+          send_data 'Process Code,Part ID,Sub ID,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
+        }
+      end
     end
   end
   
