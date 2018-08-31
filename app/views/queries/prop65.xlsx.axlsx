@@ -1,0 +1,68 @@
+wb = xlsx_package.workbook
+wb.styles do |s|
+  title = s.add_style b: true, sz: 24, alignment: { horizontal: :center, vertical: :center }
+  sub_title = s.add_style i: true, sz: 16, alignment: { horizontal: :center, vertical: :center }
+  left_header = s.add_style fg_color: 'FFFFFF', b: true, bg_color: '000000', alignment: { horizontal: :left, vertical: :center, wrap_text: true }
+  center_header = s.add_style fg_color: 'FFFFFF', b: true, bg_color: '000000', alignment: { horizontal: :center, vertical: :center, wrap_text: true }
+  center = s.add_style alignment: { horizontal: :center, vertical: :top }
+  left = s.add_style alignment: { horizontal: :left, vertical: :top }
+  wrap = s.add_style alignment: { horizontal: :left, vertical: :top, wrap_text: true }
+  margins = { left: 0.5, right: 0.5, top: 0.5, bottom: 0.5, header: 0.25, footer: 0.25 }
+  setup = { fit_to_width: 1, fit_to_height: 999, orientation: :landscape, paper_width: "11in", paper_height: "8.5in" }
+  options = { grid_lines: false, headings: false, horizontal_centered: true }
+  header_footer = { different_first: false, odd_header: '', odd_footer: '&CPage &P of &N&R&D &T'}
+  wb.add_worksheet(name: "#{@customer[:code]} Prop65 Report",
+                   page_margins: margins,
+                   page_setup: setup,
+                   print_options: options,
+                   header_footer: header_footer) do |sheet|
+    sheet.add_row ["Proposition 65 Report for #{@customer[:code]}"], style: title, height: 35
+    sheet.add_row ["Generated on #{DateTime.now.strftime('%m/%d/%y')}"], style: sub_title, height: 25
+    sheet.add_row ['']
+    sheet.add_row ['Customer Code',
+                   'Process Code',
+                   'Part ID',
+                   'Sub ID',
+                   'Last Order',
+                   'Part Name',
+                   'Process Specification',
+                   'Prop 65 Affected?',
+                   'Listed Chemicals'],
+                   style: [center_header,
+                           center_header,
+                           left_header,
+                           center_header,
+                           center_header,
+                           left_header,
+                           left_header,
+                           center_header,
+                           left_header], height: 40
+    @customer[:parts].each do |p|
+      lines = [p[:partName].size, p[:processSpecification].size, p[:listedChemicals].size].max
+      lines = 1 if lines < 1
+      row_height = 20 + (15 * (lines - 1))
+      sheet.add_row [p[:customer],
+                     p[:processCode],
+                     p[:partID],
+                     p[:subID],
+                     DateTime.rfc2822(p[:lastOrderDate]).strftime('%m/%d/%Y'),
+                     p[:partName].join("\n"),
+                     p[:processSpecification].join("\n"),
+                     p[:isAffected] ? 'TRUE' : 'FALSE',
+                     p[:listedChemicals].join("\n")],
+                     style: [center,
+                             center,
+                             left,
+                             center,
+                             center,
+                             wrap,
+                             wrap,
+                             center,
+                             wrap], height: row_height
+    end
+    sheet.column_widths(18, 12, 20, 8, 18, 50, 50, 15, 50)
+    sheet.merge_cells("A1:I1")
+    sheet.merge_cells("A2:I2")
+    wb.add_defined_name("'#{@customer[:code]} Prop65 Report'!$1:$4", :local_sheet_id => sheet.index, :name => '_xlnm.Print_Titles')
+  end
+end

@@ -20,23 +20,7 @@ class QueriesController < ApplicationController
       respond_to do |format|
         format.html
         format.js
-        format.csv {
-          data = []
-          @customer[:parts].each do |p|
-            fields = []
-            fields << p[:customer].gsub('"', '""')
-            fields << p[:processCode].gsub('"', '""')
-            fields << p[:partID].gsub('"', '""')
-            fields << p[:subID].gsub('"', '""')
-            fields << DateTime.rfc2822(p[:lastOrderDate]).strftime('%m/%d/%y')
-            fields << p[:partName].join("\n").gsub('"', '""')
-            fields << p[:processSpecification].join("\n").gsub('"', '""')
-            fields << p[:isAffected] ? 'TRUE' : 'FALSE'
-            fields << p[:listedChemicals].join("\n").gsub('"', '""')
-            data << '"' + fields.join('","') + '"'
-          end
-          send_data 'Customer,Process Code,Part ID,Sub ID,Last Order,Part Name,Process Specification,Affected?,Chemical List' + "\n" + data.join("\n"), filename: "Prop65_#{@customer[:code]}.csv"
-        }
+        format.xlsx
       end
     end
   end

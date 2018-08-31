@@ -49,6 +49,9 @@ gem 'cocoon'
 gem 'acts_as_paranoid', '~> 0.6.0'
 gem 'trix'
 gem 'localtunnel'
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'axlsx_rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
