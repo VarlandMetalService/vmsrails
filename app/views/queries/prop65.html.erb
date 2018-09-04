@@ -1,0 +1,47 @@
+<% provide(:title, "Proposition 65 Report" + (@customer.nil? ? '' : " for #{@customer[:code]}")) %>
+
+<div class="row mt-3">
+
+  <% if @customer.nil? %>
+    <div class="col"><p><mark>You must add a customer code to the end of the URL to see a report.</mark></p></div>
+  <% else %>
+    <div class="col-12">
+      <h4>Proposition 65 Report for <%= @customer[:code] %></h4>
+      <p>Analyzed <%= pluralize @customer[:parts].size, 'part specification' %>:<p>
+      <p><%= link_to fa_icon('file-excel-o', text: 'Download Spreadsheet'), { :format => :xlsx }, { :class => 'btn btn-sm btn-success text-light' } %></p>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center">Customer Code</th>
+              <th class="text-center">Process Code</th>
+              <th>Part ID</th>
+              <th class="text-center">Sub ID</th>
+              <th class="text-center">Last Order</th>
+              <th>Part Name</th>
+              <th>Process Specification</th>
+              <th class="text-center">Prop 65 Affected?</th>
+              <th>Listed Chemicals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @customer[:parts].each do |p| %>
+              <tr class="<%= 'bg-warning' if p[:isAffected] %>">
+                <td class="text-center"><%= p[:customer] %></td>
+                <td class="text-center"><%= p[:processCode] %></td>
+                <td><%= p[:partID] %></td>
+                <td class="text-center"><%= p[:subID] %></td>
+                <td class="text-center"><%= DateTime.rfc2822(p[:lastOrderDate]).strftime('%m/%d/%y') %></td>
+                <td><%= p[:partName].join('<br />').html_safe %></td>
+                <td><%= p[:processSpecification].join('<br />').html_safe %></td>
+                <td class="text-center text-<%= p[:isAffected] ? 'success' : 'danger' %>"><%= fa_icon p[:isAffected] ? 'check' : 'times' %></td>
+                <td><%= p[:listedChemicals].join('<br />').html_safe %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+</div>
