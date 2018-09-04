@@ -1,0 +1,26 @@
+<%= form_with(model: print_job, local: true) do |form| %>
+  <% if print_job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(print_job.errors.count, "error") %> prohibited this print_job from being saved:</h2>
+
+      <ul>
+      <% print_job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<div class="form-group p-3 text-center">
+  LPR Command
+  <%= form.text_field :lpr_command, class: "form-control" %>
+  <%= form.submit class: "btn btn-primary btn-block" %>
+  <div class="form-text text-muted">
+    <% PrintQueue::PrintJobRule.options_for_option_flag.each do |o,v| %>
+    <%= o %><br>
+    <% end %>
+  </div>
+
+<% end %>
+</div>

@@ -1,0 +1,40 @@
+<% provide(:title, 'Print Job Rules') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Print Job Rules</h3>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark text-light">
+        <tr>
+          <th class="text-center">Priority</th>
+          <th>Rule</th>
+          <th class="text-center">Option Flag</th>
+          <th>Option Value</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @print_job_rules.each do |print_job_rule| %>
+          <tr>
+            <td class="text-center <%= PrintQueue::PrintJobRule.options_for_priority_colors[print_job_rule.priority] %>"><%= PrintQueue::PrintJobRule.options_for_priority.invert[print_job_rule.priority] %></td>
+            <td><%= string_rep(print_job_rule) %>
+            <td class="text-center"><%= print_job_rule.option_flag %></td>
+            <td><%= print_job_rule.option_value %></td>
+            <td>
+              <div class="btn-group" role="group">
+                <%= link_to 'Edit', edit_print_queue_print_job_rule_path(print_job_rule), class: "btn btn-primary text-light"  %>
+                <%= link_to '~Destroy', print_job_rule, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger text-light"  %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to 'New Print Job Rule', new_print_queue_print_job_rule_path, :class => "btn btn-primary" %>
+  </div>
+</div>

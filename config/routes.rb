@@ -21,6 +21,20 @@ Rails.application.routes.draw do
 
   get '/thickness', to: 'thickness/blocks#index'
 
+  scope module: 'print_queue', as: 'print_queue' do
+    resources :print_jobs do 
+      collection do
+        get :send_print_cmd
+      end
+    end
+  end
+
+  scope module: 'print_queue', as: 'print_queue' do
+    resources :print_job_rules
+  end
+
+  root 'print_queue/print_jobs#fail_index'
+
   resources :specifications do
     collection do
       get   'archived'

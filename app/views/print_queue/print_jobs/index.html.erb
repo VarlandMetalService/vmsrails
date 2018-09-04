@@ -1,0 +1,46 @@
+<% provide(:title, 'Print Jobs(All)') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Print Jobs(All)</h3>
+  </div>
+</div>
+<p id="notice"><%= notice %></p>
+
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark text-light">
+        <tr>
+          <th class="text-center">Succesful?</th>
+          <th>LPR Command</th>
+          <th>User</th>
+          <th>File type</th>
+          <th>Workstation</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @print_jobs.each do |print_job| %>
+          <tr>
+            <td class="text-center text-light <%= print_job.fail_flag? ? 'bg-danger' : 'bg-success'%>"><%= print_job.fail_flag? ? (fa_icon ["times", "3x"]) : (fa_icon ["check", "3x"]) %></td>
+            <td><%= print_job.lpr_command %></td>
+            <td><%= print_job.user %></td>
+            <td><%= print_job.file_type %></td>
+            <td><%= print_job.workstation %></td>
+            <td><%= print_job.created_at.strftime("%m/%d/%y @ %I:%M") %></td>
+            <td><%= print_job.updated_at.strftime("%m/%d/%y @ %I:%M") %></td>
+            <td>
+              <div class="btn-group" role="group">
+                <%= link_to 'Edit', edit_print_queue_print_job_path(print_job), class: "btn btn-primary text-light"  %>
+                <%= link_to 'Send', send_print_cmd_print_queue_print_jobs_path(:id => print_job.id), class: "btn btn-primary text-light", remote: true  %>            
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<% if @print_job_rule.blank? %>
+<% else %>
+<div class="row p-3 m-3">
+  <div class="card" style="width: 18rem;">
+    <div class="card-header text-center <%= PrintQueue::PrintJobRule.options_for_priority_colors[@print_job_rule.priority] %> ">
+      Priority: <%= PrintQueue::PrintJobRule.options_for_priority.invert[@print_job_rule.priority] %>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title text-center"><%= string_rep(@print_job_rule) %></h5>
+      <p class="card-text text-center"><%= @print_job_rule.option_flag %><br> <%= @print_job_rule.option_value %></p>
+      <div class="btn btn-primary btn-block text-light">
+        <%= link_to 'Edit', edit_print_queue_print_job_rule_path(@print_job_rule), :class => "btn text-light" %> |
+        <%= link_to 'Back', print_queue_print_job_rules_path, :class => "btn text-light" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+
