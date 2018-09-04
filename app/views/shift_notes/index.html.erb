@@ -1,13 +1,12 @@
+<p id="notice"><%= notice %></p>
 <% provide(:title, 'Shift Notes') %>
-
-<div class="row p-3">
+<div class="row mt-3">
   <div class="col">
-    <h1>Shift Notes</h1>
+    <h3 class="mb-0">Shift Notes</h3>
   </div>
 </div>
-
-<div class="row">
-  <div class="col" id="filter_form">
+<div class="row mt-3">
+  <div class="col-12" id="filter_form">
     <%= render partial: 'filter_form', locals: { notes: @shift_notes } %>
   </div>
 </div>

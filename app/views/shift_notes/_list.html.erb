@@ -1,17 +1,16 @@
 <div class="row p-3">
   <div class="col">
-      <%= link_to 'New Shift Note', new_shift_note_path, class:"btn btn-warning" %>
+    <% if notes.blank? %>
+      <p class="text-danger">No results found.</p>
+    <% else %>
+      <p class="font-weight-bold">
+        <%= page_entries_info notes %>
+        <%= paginate notes %>
+      </p>
+    <% end %>
   </div>
 </div>
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header bg-dark text-white">
-          <%= page_entries_info @shift_notes %></h5>
-      <div class="card-body">
-        <%= paginate @shift_notes %>
-      </div>
-    </div>
-  </div>
+
   
 
   <div class ="col">     
@@ -57,7 +56,7 @@
 
             <td> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
             
-            <td> <%= link_to 'Show', shift_note_path(n.id), class: "btn btn-warning"%> </tr>
+            <td> <%= link_to 'Show', shift_note_path(n.id), class: "btn btn-warning text-dark"%> </tr>
         <% end %>
       </tbody>
     </table>

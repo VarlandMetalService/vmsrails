@@ -28,7 +28,8 @@
           </p>
         </div>
         <ul class="list-group list-group-flush bg-secondary">
-          <% x = @period_records.order('timestamp').last.record_type unless current_user.clock_records.last.blank? %>
+          <% x = @period_records.order('timestamp').last.record_type unless 
+          @period_records.blank? %>
           <% if x == "Start Work" || x == "End Break" %>
             <li class="list-group-item bg-dark">
               <input class="btn btn-primary btn-block btn-block2" type="submit", name="record_type", value="Start Break">

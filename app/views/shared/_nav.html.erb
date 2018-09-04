@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-
   <%= content_tag :span, 'VMS', class: 'navbar-brand' %>
   <button class="navbar-toggler"
           type="button"
@@ -11,26 +10,40 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   
-
   <div class="collapse navbar-collapse justify-content-between"
        id="vmsNavContent">
     <ul class="navbar-nav">
       <%= nav_link 'vms', 'home', 'home', root_url %>
-      <li class="nav-item dropdown d-none">
-        <a class="nav-link dropdown-toggle p-1"
-           href="#" id="queriesDropdown"
-           role="button"
-           data-toggle="dropdown"
-           aria-haspopup="true"
-           aria-expanded="false">
-          <%= fa_icon 'list 2x' %>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="queriesDropdown">
-          <%= link_to 'Promise List', queries_promise_list_url, class: 'dropdown-item' %>
-          <%= link_to 'Receipts', queries_receipts_url, class: 'dropdown-item' %>
-        </div>
-      </li>
 
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Applications
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Department Info', dept_info_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Scheduled Tasks', maintenance_scheduled_task_status_path, class: "dropdown-item" %>
+            <%= link_to 'Specifications', specifications_path, 
+            class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+            <%= link_to 'Jobs on Receipt', queries_receipts_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Promise List', queries_promise_list_path, 
+            class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+            <%= link_to 'Opto Logs', opto_logs_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Thickness Readings', thickness_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Vat History Notes', materials_vat_history_notes_path, 
+            class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+            <%= link_to 'Shift Notes', shift_notes_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Timeclock', timeclock_path, 
+            class: "dropdown-item" %>
+        </div>
+    </li>
     </ul>
     <% unless @current_user.nil? %>
       <ul class="navbar-nav">
@@ -53,5 +66,4 @@
         <%= nav_link 'sessions', 'destroy', 'sign-out', logout_path, :delete %>
       </ul>
     <% end %>
-  </div>
 </nav>

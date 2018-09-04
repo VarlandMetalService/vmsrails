@@ -1,3 +1,4 @@
+<div class="row">
 <div class="col">
 <%= form_with url: shift_notes_path,
               class: 'bg-dark text-white border rounded p-3 mb-3',
@@ -102,7 +103,12 @@
   </div>
 
   <div class="row">
-    <div class="col-12">
+    <div class="col">
+      <div CLASS="pull-left">
+        <%= link_to 'New Shift Note', new_shift_note_path, class:"btn btn-warning font-weight-bold text-dark" %>        
+      </div>
+    </div>
+    <div class="col">
       <div class="pull-right">
         <%= link_to 'Reset', shift_notes_url, class: 'btn btn-link text-white' %>
         <%= f.button fa_icon('filter', text: 'Filter'),

@@ -16,9 +16,10 @@
     <% else %>
       <p class="font-weight-bold">
         <%= page_entries_info @logs %>
+        <%= paginate @logs %>
       </p>
       <table class="table table-bordered table-striped">
-        <thead>
+        <thead class="thead-dark">
           <tr>
             <th>Date/Time</th>
             <th>Controller</th>

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/thickness', to: 'thickness/blocks#index'
+
   resources :specifications do
     collection do
       get   'archived'
@@ -36,7 +38,6 @@ Rails.application.routes.draw do
   
   get '/timeclock/login', to: 'timeclock#login'
   get '/timeclock', to: 'timeclock#work'
-
 
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'

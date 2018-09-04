@@ -1,16 +1,12 @@
-<div class="row p-3">
-</div>
-  <div class="col">
-    <div class="card">
-        <h5 class="card-header bg-dark text-white">
-            <%= page_entries_info @bbl %></h5>
-          <div class="card-body">
-            <%= paginate @bbl %>
-          </div>
-    </div>
-  </div>
-
-  <div class="col">
+<% if notes.blank? %>
+    <p class="text-danger">No results found.</p>
+  <% else %>
+    <p class="font-weight-bold">
+      <%= page_entries_info notes %>
+      <%= paginate notes %>
+    </p>
+  <% end %>
+  
   <% @bbl.each do |t| %>
     <% cache t do %>
       <table class="table table-fill table-bordered table-striped">
@@ -123,5 +119,6 @@
       </div>
     <% end %>
   <% end %>
+  <%= paginate notes %>
 </div>
 

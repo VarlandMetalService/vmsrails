@@ -4,9 +4,10 @@
   <% else %>
     <p class="font-weight-bold">
       <%= page_entries_info notes %>
+      <%= paginate notes %>
     </p>
     <table class="table table-bordered table-striped">
-      <thead>
+      <thead class="thead-dark">
         <tr>
           <th>Vat</th>
           <th>Date/Time</th>
