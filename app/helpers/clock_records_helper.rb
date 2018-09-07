@@ -82,7 +82,7 @@ module ClockRecordsHelper
         end
 
         if prev_rec != nil && prev_rec.timestamp.strftime("%A") != rec.timestamp.strftime("%A")
-          if rec.record_type == 'Start Work' || rec.record_type =='End Break'
+          if rec.record_type =='End Break'
             total += (24*3600)
           elsif rec.record_type == 'Start Break'
             total -= (24*3600)

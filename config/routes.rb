@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   root    'vms#home'
   
   get '/timeclock/login', to: 'timeclock#login'
+  post '/timeclock/login', to: 'sessions#timeclock_create'
   get '/timeclock', to: 'timeclock#work'
 
   get     '/login',   to: 'sessions#new'
@@ -82,5 +83,9 @@ Rails.application.routes.draw do
   get     '/dept_info/update',                      to: 'dept_info#update'
 
   get     '/maintenance/scheduled_task_status',     to: 'maintenance#scheduled_task_status'
+
+  # QC Routes
+  get '/qc/salt_spray', to: 'qc#salt_spray'
+  get '/qc/rejected_parts', to: 'qc#rejected_parts'
   
 end

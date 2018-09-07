@@ -14,7 +14,6 @@
        id="vmsNavContent">
     <ul class="navbar-nav">
       <%= nav_link 'vms', 'home', 'home', root_url %>
-
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Applications
@@ -47,10 +46,12 @@
             <%= link_to 'Print Job Rules', print_queue_print_job_rules_path, 
             class: "dropdown-item" %>
         </div>
-    </li>
+      </li>
     </ul>
+    <ul class="navbar-nav">
+      <h3><li class="text-white text-center", id="clock"></li></h3>
     <% unless @current_user.nil? %>
-      <ul class="navbar-nav">
+      
         <% if @current_user.is_admin %>
           <li class="nav-item dropdown dropdown-right">
             <a class="nav-link dropdown-toggle p-1"

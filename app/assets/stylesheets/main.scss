@@ -151,34 +151,52 @@ trix-toolbar .trix-button-row {
   }
 }
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  padding: 6px 0px;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.42857;
-  display: table-cell;
-  vertical-align: middle;
-}
-
- .btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  border-radius: 35px;
-  font-size: 24px;
-  line-height: 1.33;
-  display: table-cell;
-  vertical-align: middle;
-}
-
 .hidden{
   display: none;
 }
+
+// Block button size increase for touch users.
 .btn-block2 {
   padding: 2% 0; 
-  /* define values in pixels / Percentage or em. whatever suits 
-     your requirements */
+}
+
+// CSS for timeclock numpad.
+.keypad-button {
+  font-size: 24px;
+  line-height: 75px;
+  text-align: center;
+  height: 75px;
+  width: 75px;
+  padding: 0;
+  border-radius: 100%;
+}
+
+.button-container {
+  text-align: left;
+  float: right;
+  left: -50%;
+  position: relative;
+}
+
+.button-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clearfix::after {
+  content: " ";
+  display: table;
+  clear: both; }
+
+.button-container> .buttons {
+    left: 50%;
+    position: relative;
+}
+
+.button-container li {
+  float: left;
+  display: block;
+  margin: 7.5px 7.5px 7.5px;
+  list-style-type: none;
 }

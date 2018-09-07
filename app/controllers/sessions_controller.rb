@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   skip_before_action  :authenticate_user,
-                      only: [:new, :create]
+                      only: [:new, :create, :timeclock_new, :timeclock_create]
 
   def new
   end
@@ -20,21 +20,21 @@ class SessionsController < ApplicationController
 
   def destroy
     helpers.log_out if helpers.logged_in?
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
 
   def timeclock_new
   end
 
   def timeclock_create
-    user = User.find_by(username: params[:session][:username].downcase)
-    if user && user.authenticate(params[:session][:pin])
+    password = { :pin => params[:pin_num]}
+    user = User.find_by(employee_number: params[:user_num])
+    if user && user.pin == params[:pin_num].to_i
       helpers.log_in user
-      params[:session][:remember_me] == '1' ? helpers.remember(user) : helpers.forget(user)
-      redirect_to(session[:return_to] || root_path) and return
+      helpers.forget(user)
+      redirect_to('/timeclock') and return
     else
       flash.now[:danger] = 'Login failed. Please contact IT for assistance if necessary.'
-      render 'new'
     end
   end
 

@@ -1,0 +1,227 @@
+<p id="notice"><%= notice %></p>
+<% provide(:title, 'QC - Rejected Parts') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Rejected Parts</h3>
+  </div>
+</div>
+
+<%= form_for :rejected_part, url: '' do |f| %>
+<div class="container-span border p-1">
+  <div class="text"><u>Section 1: Identification & Description</u></div>
+  <div class="form-row mt-3">
+    <div class="col-5">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> VMS S.O. #: </span>
+        </div>
+        <%= f.text_field :so_num, class: "form-control", 
+                                    placeholder: "Shop order number." %>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Rejected By: </span>
+        </div>
+        <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id] },
+                          allow_blank: true ), { include_blank: true }, { class: "form-control" } %>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Date: </span>
+        </div>
+        <%= f.date_field :date, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Reject Tag #:</span>
+        </div>
+        <%= f.text_field :reject_tag_num, class: "form-control", 
+                                    placeholder: "First rework on original S.O. is Reject Tag #1, second rework is Rejectect Tag #2, etc..." %>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-3">
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> From: </span>
+        </div>
+        <%= f.select :from_tag, options_for_select( [['Original S.O', '1'],
+                                                    ['Reject Tag #', '2']] ), {},
+              { class: "form-control", placeholder: "Shop Order Num" } %>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Defect/Problem: </span>
+        </div>
+        <%= f.text_field :defect, class: "form-control",
+                                    placeholder: "What's wrong with it?" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container-span border p-1">
+  <div class="text">
+    <%= f.check_box :woops, id: "section2radio" %>
+    <u>Section 2: Approval Without Rework (rarely used) </u>
+  </div>
+  <div class="container-span", style="display: none;", id="section2">
+  <div class="form-row mt-3">
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Loads Approved: </span>
+        </div>
+        <%= f.text_field :loads_approved, class: "form-control", 
+                                         placeholder: "Record loads approved.",
+                                         id: "section2loads_approved" %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Approved By: </span>
+        </div>
+        <%= f.text_field :approved_by, class: "form-control", 
+                                       placeholder: "No RW approved by whom?",
+                                       id: "section2approved_by" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Comments: </span>
+        </div>
+        <%= f.text_field :section2_comments, class: "form-control", 
+                                       placeholder: "Explain whats going on.",
+                                       id: "section2comments" %>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container-span border p-1">
+  <div class="text">
+    <%= f.check_box :woops, id: "section3radio" %>
+    <u>Section 3: Load Specific Info (use if barrel or station are possible causes of the defect)</u>
+  </div>
+  <div class="container-span", style="display: none;", id="section3">
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Load #(s): </span>
+        </div>
+        <%= f.text_field :load_nums, class: "form-control", 
+                                         placeholder: "Load#1, Load#2, Load#3...",
+                                         id: "section3load" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Barrel #(s): </span>
+        </div>
+        <%= f.text_field :barrel_nums, class: "form-control", 
+                                       placeholder: "Barrel#1, Barrel#2, Barrel#3...",
+                                       id: "section3barrel" %>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Tank/Station(s): </span>
+        </div>
+        <%= f.text_field :tank_nums, class: "form-control", 
+                                       placeholder: "Tank/Station#1, Tank/Station#2, Tank/Station#3...",
+                                       id: "section3tank" %>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container-span border p-1">
+  <div class="text">
+    <u>Section 4: Cause of Defect/Problem</u>
+  </div>
+  <div class="container-span", id="section4">
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Cause: </span>
+        </div>
+        <%= f.text_area :cause, class: "form-control", 
+                                         placeholder: "Investigate CAUSE asap after DEFECT is discovered/identified. Record ANY known information and circumstances related to the rework that may help identify the cause.", rows: "6" %>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="text-center">
+<%= f.submit "Submit Rejected Part Form" %>
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+  var section2radio = document.getElementById('section2radio')
+  var section2      = document.getElementById('section2')
+  var section3radio = document.getElementById('section3radio')
+  var section3      = document.getElementById('section3')
+
+  section2radio.addEventListener("click", function() {
+    if(section2radio.checked) {
+      section2.style['display'] = "";
+      document.getElementById('section2loads_approved').disabled = false;
+      document.getElementById('section2approved_by'   ).disabled = false;
+      document.getElementById('section2comments'      ).disabled = false;
+    }
+    else {
+      section2.style['display'] = "none";
+      document.getElementById('section2loads_approved').disabled = true;
+      document.getElementById('section2approved_by'   ).disabled = true;
+      document.getElementById('section2comments'      ).disabled = true;
+    } 
+  });
+
+  section3radio.addEventListener("click", function() {
+    if(section3radio.checked) {
+      section3.style['display'] = "";
+      document.getElementById('section3load'  ).disabled = false;
+      document.getElementById('section3tank'  ).disabled = false;
+      document.getElementById('section3barrel').disabled = false;
+    }
+    else {
+      section3.style['display'] = "none";
+      document.getElementById('section3load'  ).disabled = true;
+      document.getElementById('section3tank'  ).disabled = true;
+      document.getElementById('section3barrel').disabled = true;
+    } 
+  });
+</script>

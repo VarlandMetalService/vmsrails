@@ -1,3 +1,10 @@
+<script type="text/javascript">
+    var redirectTimeoutId = window.setTimeout(logout, 10000)
+    window.addEventListener('click', function() {
+        window.clearTimeout(redirectTimeoutId)
+    })
+</script>
+
 <%= form_with model: @clock_record do |f| %>
 
   <div class="field hidden">
@@ -19,7 +26,7 @@
   <% @week_totals = calc_week_totals(@week_rec) %> 
 
   <div class="row">
-      <div class="card btn-block">
+      <div class="card btn-block border-dark">
         <div class="card-body bg-secondary text-light">
           <h3 class="card-title text-center"><%= current_user.full_name %></h3>
           <p class="card-text text-center">

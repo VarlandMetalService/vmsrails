@@ -162,7 +162,7 @@ class User < ApplicationRecord
     response = http.request request
     return false unless response.code.to_s == '200'
     result = JSON.parse response.body
-    return result['result']
+    return result['result']     
   end
 
   # Returns full name.

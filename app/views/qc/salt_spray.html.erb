@@ -1,0 +1,124 @@
+<p id="notice"><%= notice %></p>
+<% provide(:title, 'QC - Salt Spray') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Salt Spray</h3>
+  </div>
+</div>
+
+<%= form_for :salt_spray, url: 'qc/salt_spray' do |f| %>
+<div class="row mt-3 form-group">
+  <div class="col-4">
+    <div class="form-group input-group">
+      <%= f.label "pH", "pH: ", class: "col-form-label" %>
+      <%= f.text_field :ph, class: "form-control" %>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-group input-group">
+      <%= f.label "temp", "Temp: ", class: "col-form-label" %>
+      <%= f.text_field :temp, class: "form-control" %>
+      <div class="input-group-append">
+        <span class="input-group-text"> º F </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="form-group input-group">
+      <%= f.label "weight", "Weight: ", class: "col-form-label" %>
+      <%= f.text_field :weight, class: "form-control" %>
+      <div class="input-group-append">
+        <span class="input-group-text"> grams </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-group input-group">
+      <%= f.label "Cabinet Temp", "Cabinet Temp: ", class: "col-form-label" %>
+      <%= f.text_field :cabinet_temp, class: "form-control" %>
+      <div class="input-group-append">
+        <span class="input-group-text"> º F </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th></th>
+      <th class="text-center"> Collection #1 </th>
+      <th class="text-center"> Collection #2 </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center"> Volume: </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :salt_cabtemp, class: "form-control" %> 
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">cc</span>
+            </div>
+        </div>
+      </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :di_cabtemp, class: "form-control" %> 
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">cc</span>
+            </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center"> Time: </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :salt_add, class: "form-control" %>   
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">HH:MM:SS</span>
+            </div>
+        </div>
+      </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :di_add, class: "form-control" %> 
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">HH:MM:SS</span>
+            </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <thead class="thead-dark">
+    <th></th>
+    <th class="text-center"> Distilled H<sub>2</sub>O </th>
+    <th class="text-center"> Salt:NaCl<sub>(aq)</sub>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center"> Adds: </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :di_add, class: "form-control" %> 
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">gal</span>
+            </div>
+        </div>
+      </td>
+      <td>
+        <div class="input-group">
+          <%= f.text_field :di_add, class: "form-control" %> 
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">gal</span>
+            </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    <%= f.submit "Save Salt Spray" %>
+  </div>
+</div>
+<% end %> 

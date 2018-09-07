@@ -6,6 +6,9 @@ module Timeclock
     # belongs_to :period, class_name: 'Timeclock::Period', optional: true
     self.table_name = "clock_records"
 
+    # Validations.
+    validates_presence_of :user_id, :record_type, :timestamp
+
     # Options for select
     def self.options_for_record_type
       [['Start Work' , 'Start Work'],

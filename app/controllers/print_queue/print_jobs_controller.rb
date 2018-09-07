@@ -50,7 +50,7 @@ class PrintQueue::PrintJobsController < ApplicationController
   def update
     respond_to do |format|
       if @print_job.update(print_job_params)
-        format.html { redirect_to print_jobs_path, notice: 'Print job was successfully updated.' }
+        format.html { redirect_to print_queue_print_jobs_path, notice: 'Print job was successfully updated.' }
         format.json { render :show, status: :ok, location: @print_job }
       else
         format.html { render :edit }

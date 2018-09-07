@@ -1,19 +1,304 @@
-  <div class="btn-group-vertical ml-4 mt-4" role="group" aria-label="Basic example">
-    <div class="btn-group btn-group-xl">
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">1</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">2</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">3</button>
-    </div>
-    <div class="btn-group btn-group-xl">
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">4</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">5</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary border-bottom-0">6</button>
-    </div>
-    <div class="btn-group btn-group-xl">
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary">7</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary">8</button>
-        <button type="button" class="btn btn-circle btn-xl btn-outline-secondary">9</button>
+<%= form_with model: @session, id:"form" do |f| %>
+<div class="container-fluid">
+    <div class= "row">
+        <div class="col-xs-12 col-sm-12" style="display: block;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <p class="lead text-center">
+                        <div class="container text-center", id="user-prompt">
+                            Select employee from dropdown or enter number and click "enter."
+                        </div>
+                        <div class="container text-center", id="pin-prompt", style="display: none;">
+                            Please enter your pin and click "enter."
+                        </div>
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-4 offset-sm-4">
+                    <div class="form-group">
+                        <%= f.select :user_num, 
+                            options_for_select(User.all.map{ |u| 
+                            ["#{u.employee_number} - #{u.full_name}", u.employee_number] }), { include_blank: true }, { class: "form-control form-control-lg", 
+                                                        id: "employee-dropdown" } %>
+                        <br>
+                        <%= f.text_field :user_num, 
+                            { class: "form-control form-control-lg text-center", id: "user-manual-entry", maxlength: 3 }  %>
+                        <%= f.text_field :pin_num, 
+                            { class: "form-control text-center form-control-lg", 
+                                 id: "pin-entry", maxlength: 4, 
+                              style: "display: none;" }  %>
+                    </div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-xs-12 col-sm-6 offset-sm-3">
+                    <br>
+                    <div class="form-group", id="user-numpad-field">            
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="button btn btn-info keypad-button", id="one-button">1</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="two-button">2</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="three-button">3</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-info keypad-button", id="four-button">4</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="five-button">5</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="six-button">6</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-info keypad-button", id="seven-button">7</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="eight-button">8</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="nine-button">9</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-warning keypad-button text-dark", id="del-button">Del</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="zero-button">0</button></li>
+                                <li><button type="button" class="btn btn-success keypad-button", id="enter-button">Enter</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group", id="pin-numpad-field", style="display: none;">
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="button btn btn-info keypad-button", id="one-pin-button">1</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="two-pin-button">2</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="three-pin-button">3</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-info keypad-button", id="four-pin-button">4</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="five-pin-button">5</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="six-pin-button">6</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-info keypad-button", id="seven-pin-button">7</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="eight-pin-button">8</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="nine-pin-button">9</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="button-container">
+                            <ul class="buttons">
+                                <li><button type="button" class="btn btn-warning keypad-button text-dark", id="del-pin-button">Del</button></li>
+                                <li><button type="button" class="btn btn-info keypad-button", id="zero-pin-button">0</button></li>
+                                <li><button type="button" class="btn btn-success keypad-button", id="enter-pin-button">Enter</button></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>              
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<% end %>
 
-Routes are overwritten so accessing timeclock when not logged in pulls up timeclock/login which has entries in sessions controller
+<body onload="startTime()">
+   
+<script type="text/javascript">
+    var one   = document.getElementById('one-pin-button');
+    var two   = document.getElementById('two-pin-button');
+    var three = document.getElementById('three-pin-button');
+    var four  = document.getElementById('four-pin-button');
+    var five  = document.getElementById('five-pin-button');
+    var six   = document.getElementById('six-pin-button');
+    var seven = document.getElementById('seven-pin-button');
+    var eight = document.getElementById('eight-pin-button');
+    var nine  = document.getElementById('nine-pin-button');
+    var zero  = document.getElementById('zero-pin-button');
+    var enter = document.getElementById('enter-pin-button');
+    var del   = document.getElementById('del-pin-button');
+    var pin   = document.getElementById('pin-entry');
+    one.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '1');
+        }
+    });
+    two.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '2');
+        }
+    });
+    three.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '3');
+        }
+    });
+    four.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '4');
+        }
+    });
+    five.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '5');
+        }
+    });
+    six.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '6');
+        }
+    });
+    seven.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '7');
+        }
+    });
+    eight.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '8');
+        }
+    });
+    nine.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '9');
+        }
+    });
+    zero.addEventListener("click", function() {
+        if(pin.value.length < 4) {
+            pin.value = (pin.value + '0');
+        }
+    });
+    enter.addEventListener("click", function() {
+        if(pin.value.length == 4) {
+            document.getElementById('form').submit();
+        }
+    });
+    del.addEventListener("click", function() {
+        if(pin.value.length > 0) {
+            pin.value = pin.value.substr(0, pin.value.length-1)
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    var one      = document.getElementById('one-button');
+    var two      = document.getElementById('two-button');
+    var three    = document.getElementById('three-button');
+    var four     = document.getElementById('four-button');
+    var five     = document.getElementById('five-button');
+    var six      = document.getElementById('six-button');
+    var seven    = document.getElementById('seven-button');
+    var eight    = document.getElementById('eight-button');
+    var nine     = document.getElementById('nine-button');
+    var zero     = document.getElementById('zero-button');
+    var enter    = document.getElementById('enter-button');
+    var del      = document.getElementById('del-button');
+    var user     = document.getElementById('user-manual-entry');
+    var dropdown = document.getElementById('employee-dropdown')
+    one.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '1');
+        }
+    });
+    two.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '2');
+        }
+    });
+    three.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '3');
+        }
+    });
+    four.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '4');
+        }
+    });
+    five.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '5');
+        }
+    });
+    six.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '6');
+        }
+    });
+    seven.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '7');
+        }
+    });
+    eight.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '8');
+        }
+    });
+    nine.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '9');
+        }
+    });
+    zero.addEventListener("click", function() {
+        if(user.value.length < 3) {
+            user.value = (user.value + '0');
+        }
+    });
+    enter.addEventListener("click", function() {
+        if(user.value.length == 3 ) {
+            document.getElementById('pin-prompt').style['display'] = '';
+            document.getElementById('user-prompt').style['display'] = 'none';
+            user.disabled = true;
+            user.style['display'] = "none";
+            document.getElementById('user-numpad-field').style['display'] = 'none';
+            document.getElementById('pin-numpad-field').style['display'] = '';
+            dropdown.value = user.value
+            document.getElementById("pin-entry").style['display'] = "";
+        }
+        else if(dropdown.value != 'nil') {
+            document.getElementById('pin-prompt').style['display'] = '';
+            document.getElementById('user-prompt').style['display'] = 'none';
+            document.getElementById('user-manual-entry').disabled = true;
+            document.getElementById('user-numpad-field').style['display'] = 'none';
+            document.getElementById('pin-numpad-field').style['display'] = '';
+        }
+
+    });
+    del.addEventListener("click", function() {
+        if(user.value.length > 0) {
+            user.value = user.value.substr(0, user.value.length-1)
+        }
+    });
+</script>
+
+<script type="text/javascript">
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    var d = today.toDateString();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('clock').innerHTML =
+    d + " - " + h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
