@@ -1,5 +1,8 @@
 class Maintenance::ScheduledTaskStatus < ApplicationRecord
 
+   # Pagination.
+   paginates_per 50
+
   # Scoping.
   scope :past_due, -> { where('last_maintenance_date IS NULL OR DATE_ADD(last_maintenance_date, INTERVAL scheduled_task_frequency + 0 DAY) < DATE(NOW())') }
   scope :due_in_next_x_days, ->(days) {

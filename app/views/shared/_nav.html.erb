@@ -14,9 +14,10 @@
        id="vmsNavContent">
     <ul class="navbar-nav">
       <%= nav_link 'vms', 'home', 'home', root_url %>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Applications
+          Reports
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <%= link_to 'Department Info', dept_info_path, 
@@ -29,7 +30,7 @@
             class: "dropdown-item" %>
             <%= link_to 'Promise List', queries_promise_list_path, 
             class: "dropdown-item" %>
-            <%= link_to 'Prop 65 (Broken Link)', '#', 
+            <%= link_to 'Prop 65 (Broken)', '#', 
             class: "dropdown-item" %>
           <div class="dropdown-divider"></div>
             <%= link_to 'Opto Logs', opto_logs_path, 
@@ -38,15 +39,36 @@
             class: "dropdown-item" %>
             <%= link_to 'Vat History Notes', materials_vat_history_notes_path, 
             class: "dropdown-item" %>
-          <div class="dropdown-divider"></div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Apps
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <%= link_to 'Shift Notes', shift_notes_path, 
             class: "dropdown-item" %>
-            <%= link_to 'Timeclock', timeclock_path, 
+            <%= link_to 'Print Jobs', print_queue_print_jobs_path, 
             class: "dropdown-item" %>
             <%= link_to 'Print Job Rules', print_queue_print_job_rules_path, 
             class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+            <%= link_to 'Timeclock', timeclock_path, 
+            class: "dropdown-item" %>
         </div>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          QC
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Salt Spray (Broken)', qc_salt_spray_path, 
+            class: "dropdown-item" %>
+            <%= link_to 'Rejected Parts', qc_rejected_parts_path, 
+            class: "dropdown-item" %>
+        </div>
+      </li>
+
     </ul>
     <ul class="navbar-nav">
       <h3><li class="text-white text-center", id="clock"></li></h3>

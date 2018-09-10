@@ -15,9 +15,9 @@ class MaintenanceController < ApplicationController
 
   def scheduled_task_status
     if params[:with_task].blank? && params[:with_type].blank? && params[:with_equipment].blank?
-      @scheduled_task_statuses = apply_scopes(Maintenance::ScheduledTaskStatus).all.soonest_first
+      @scheduled_task_statuses = apply_scopes(Maintenance::ScheduledTaskStatus).all.page(params[:page]).soonest_first
     else
-      @scheduled_task_statuses = apply_scopes(Maintenance::ScheduledTaskStatus).all
+      @scheduled_task_statuses = apply_scopes(Maintenance::ScheduledTaskStatus).all.page(params[:page])
     end
   end
 

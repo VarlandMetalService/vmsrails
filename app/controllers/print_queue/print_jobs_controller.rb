@@ -64,7 +64,7 @@ class PrintQueue::PrintJobsController < ApplicationController
   def destroy
     @print_job.destroy
     respond_to do |format|
-      format.html { redirect_to print_jobs_url, notice: 'Print job was successfully destroyed.' }
+      format.html { redirect_to print_queue_print_jobs_url, notice: 'Print job was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

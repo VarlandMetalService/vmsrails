@@ -86,6 +86,9 @@ Rails.application.routes.draw do
 
   # QC Routes
   get '/qc/salt_spray', to: 'qc#salt_spray'
-  get '/qc/rejected_parts', to: 'qc#rejected_parts'
+
+  scope module: 'qc', as: 'qc', path: 'qc' do
+    resources :rejected_parts
+  end
   
 end

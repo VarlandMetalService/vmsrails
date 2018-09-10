@@ -21,7 +21,7 @@ module Qc
       respond_to do |format|
         if @rejected_part.save
           format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully created.'}
-          format.json { render :show, status: :created, location @rejected_part }
+          format.json { render :show, status: :created, location: @rejected_part }
         else
             format.html { render :new }
             format.json { render json: @rejected_part.errors, status: :unprocessable_entity}
@@ -33,7 +33,7 @@ module Qc
       respond_to do |format|
         if @rejected_part.update(rejected_part_params)
           format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully updated.'}
-          format.json { render :show, status: :ok, location @rejected_part }
+          format.json { render :show, status: :ok, location: @rejected_part }
         else
             format.html { render :edit }
             format.json { render json: @rejected_part.errors, status: :unprocessable_entity}
@@ -56,7 +56,7 @@ module Qc
       end
 
       def rejected_part_params
-          params.require(:rejected_part).permit(:so_num, :user_id, :date, :rejecte_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause)
+          params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :rejecte_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box)
       end
   end
 end

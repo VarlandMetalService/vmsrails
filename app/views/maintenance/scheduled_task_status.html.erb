@@ -9,6 +9,10 @@
     <%= render partial: 'filter_form', locals: { tasks: @scheduled_task_statuses } %>
   </div>
 </div>
+
+<%= page_entries_info @scheduled_task_statuses %>
+<%= paginate @scheduled_task_statuses %>
+
 <div class="row mt-3">
   <div class="col">
     <% if @scheduled_task_statuses.blank? %>

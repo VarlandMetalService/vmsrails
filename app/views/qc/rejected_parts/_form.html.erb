@@ -1,12 +1,4 @@
-<p id="notice"><%= notice %></p>
-<% provide(:title, 'QC - Rejected Parts') %>
-<div class="row mt-3">
-  <div class="col">
-    <h3 class="mb-0">Rejected Parts</h3>
-  </div>
-</div>
-
-<%= form_for :rejected_part, url: '' do |f| %>
+<%= form_for @rejected_part do |f| %>
 <div class="container-span border p-1">
   <div class="text"><u>Section 1: Identification & Description</u></div>
   <div class="form-row mt-3">
@@ -24,8 +16,13 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> Rejected By: </span>
         </div>
-        <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id] },
-                          allow_blank: true ), { include_blank: true }, { class: "form-control" } %>
+        <%= f.select :user_id, options_for_select(
+              User.all.map { |u| [u.full_name, u.id] }, 
+              unless @rejected_part.user_id.blank?
+                [User.find(@rejected_part.user_id), @rejected_part.user_id] 
+              end),
+                { include_blank: true }, 
+                { class: "form-control" } %>
       </div>
     </div>
     <div class="col-4">
@@ -75,10 +72,10 @@
 
 <div class="container-span border p-1">
   <div class="text">
-    <%= f.check_box :woops, id: "section2radio" %>
+    <%= f.check_box :s2box, id: "section2radio" %>
     <u>Section 2: Approval Without Rework (rarely used) </u>
   </div>
-  <div class="container-span", style="display: none;", id="section2">
+  <div class="container-span", style="display:<% if @rejected_part.s2box == true %> ;<% else %> none;<% end %>", id="section2">
   <div class="form-row mt-3">
     <div class="col-6">
       <div class="input-group">
@@ -95,9 +92,14 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> Approved By: </span>
         </div>
-        <%= f.text_field :approved_by, class: "form-control", 
-                                       placeholder: "No RW approved by whom?",
-                                       id: "section2approved_by" %>
+        <%= f.select :approved_by, options_for_select(
+              User.all.map { |u| [u.full_name, u.id] }, 
+                unless @rejected_part.user_id.blank?
+                  [User.find(@rejected_part.user_id), @rejected_part.user_id] 
+                end),
+                { include_blank: true }, 
+                { class: "form-control",                                      placeholder: "No RW approved by whom?",
+                  id: "section2approved_by" } %>
       </div>
     </div>
   </div>
@@ -120,10 +122,10 @@
 
 <div class="container-span border p-1">
   <div class="text">
-    <%= f.check_box :woops, id: "section3radio" %>
+    <%= f.check_box :s3box, id: "section3radio" %>
     <u>Section 3: Load Specific Info (use if barrel or station are possible causes of the defect)</u>
   </div>
-  <div class="container-span", style="display: none;", id="section3">
+  <div class="container-span", style="display:<% if @rejected_part.s3box == true %> ;<% else %> none;<% end %>", id="section3">
   <div class="form-row mt-3">
     <div class="col-12">
       <div class="input-group">
@@ -184,7 +186,8 @@
   </div>
 </div>
 <div class="text-center">
-<%= f.submit "Submit Rejected Part Form" %>
+  <%= link_to 'Back', qc_rejected_parts_path, :class => "btn" %>
+  <%= f.submit "Submit Rejected Part Form" %>
 </div>
 <% end %>
 

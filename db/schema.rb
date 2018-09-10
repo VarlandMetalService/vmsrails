@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817142948) do
+ActiveRecord::Schema.define(version: 20180910135644) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -205,6 +205,52 @@ ActiveRecord::Schema.define(version: 20180817142948) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "print_job_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "var1"
+    t.string "var2"
+    t.integer "var1_type"
+    t.integer "var2_type"
+    t.string "operator"
+    t.boolean "op_is_logic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "option_flag"
+    t.string "option_value"
+    t.integer "priority"
+  end
+
+  create_table "print_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "file"
+    t.string "file_type"
+    t.datetime "destroyed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "fail_flag"
+    t.string "lpr_command"
+    t.string "workstation"
+    t.string "user"
+  end
+
+  create_table "qc_rejected_parts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "so_num"
+    t.integer "user_id"
+    t.date "date"
+    t.integer "reject_tag_num"
+    t.string "from_tag"
+    t.string "defect"
+    t.string "loads_approved"
+    t.integer "approved_by"
+    t.text "section2_comments"
+    t.string "load_nums"
+    t.string "barrel_nums"
+    t.string "tank_nums"
+    t.text "cause"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "s2box"
+    t.boolean "s3box"
+  end
+
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "shift_time"
     t.integer "user_id"
@@ -295,6 +341,7 @@ ActiveRecord::Schema.define(version: 20180817142948) do
     t.string "state", limit: 2
     t.integer "zip_code"
     t.string "phone_number", limit: 10
+    t.integer "pin"
   end
 
 end
