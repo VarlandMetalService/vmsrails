@@ -1,0 +1,5 @@
+class AddPeriodIdToClockRecord < ActiveRecord::Migration[5.1]
+  def change
+    add_column :clock_records, :clock_period_id, :integer
+  end
+end

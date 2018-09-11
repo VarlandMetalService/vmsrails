@@ -261,19 +261,26 @@
         if(user.value.length == 3 ) {
             document.getElementById('pin-prompt').style['display'] = '';
             document.getElementById('user-prompt').style['display'] = 'none';
-            user.disabled = true;
-            user.style['display'] = "none";
             document.getElementById('user-numpad-field').style['display'] = 'none';
             document.getElementById('pin-numpad-field').style['display'] = '';
             dropdown.value = user.value
+            user.disabled = true;
+            user.style['display'] = "none";
             document.getElementById("pin-entry").style['display'] = "";
+            document.getElementById("pin-entry").style['display'] = "";
+            document.getElementById("pin-entry").style['display'] = "";
+            
         }
         else if(dropdown.value != 'nil') {
             document.getElementById('pin-prompt').style['display'] = '';
             document.getElementById('user-prompt').style['display'] = 'none';
-            document.getElementById('user-manual-entry').disabled = true;
             document.getElementById('user-numpad-field').style['display'] = 'none';
             document.getElementById('pin-numpad-field').style['display'] = '';
+            user.disabled = true;
+            user.style['display'] = "none";
+            document.getElementById("pin-entry").style['display'] = "";
+            document.getElementById("pin-entry").style['display'] = "";
+            document.getElementById("pin-entry").style['display'] = "";
         }
 
     });

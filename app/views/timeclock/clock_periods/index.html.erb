@@ -1,0 +1,38 @@
+<% Timeclock::ClockPeriod.all.each do |period| %>
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th width="1">Finalized?</th>
+          <th>ID</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th class="text-center">Links</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center text-light 
+            <%= !period.finalized? ? 'bg-danger' : 'bg-success'%>">
+              <%= !period.finalized? ? 
+                (fa_icon ["times", "3x"]) : (fa_icon ["check", "3x"]) %>
+          </td>
+          <td><%= period.id %></td>
+          <td><%= period.start_date.strftime("%m/%d/%y @ %H:%M %p") %></td>
+          <td><%= period.end_date.strftime(  "%m/%d/%y @ %H:%M %p") %></td>
+          <td class="text-center">
+            <div class="btn-group-vertical", role="group">
+                <%= link_to fa_icon('eye'),
+                              timeclock_clock_period_path(period),
+                              class: 'font-weight-bold btn btn-sm btn-success',
+                              title: 'View Clock Period',
+                              data: { toggle: 'tooltip' } %>
+              </div>
+          </td>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
+

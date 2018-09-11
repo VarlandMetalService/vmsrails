@@ -2,11 +2,10 @@ module Timeclock
   class Timeclock::ClockRecordsController < ApplicationController
     before_action :set_clock_record, only: [:show, :edit, :update, :destroy]
 
-
-
     def index
       @clock_records = Timeclock::ClockRecord.all
-
+      @clock_record = Timeclock::ClockRecord.new
+      @clock_edit = @clock_record.build_clock_edit
       respond_to do |format|
         format.html
         format.json { render :json => @clock_records }
@@ -28,13 +27,14 @@ module Timeclock
       @clock_record = ClockRecord.new(clock_record_params)
       @clock_record.record_type = params["record_type"] unless params["record_type"].blank?
       round_minutes(@clock_record)
-      if(@clock_record.timestamp == ClockRecord.all.where(@current_user.id == :user_id).last.timestamp)
+      if(ClockRecord.all.where(@current_user.id == :user_id).exists? &&@clock_record.timestamp == ClockRecord.all.where(@current_user.id == :user_id).last.timestamp)
         @clock_record.timestamp += 1.minute
       end
+      set_or_create_period(@clock_record)
       if @clock_record.save
         flash[:success] = "Clock record created."
         respond_to do |format|
-          format.html { redirect_to timeclock_path }
+          format.html { redirect_back(fallback_location: '') }
           format.json { render :json => @clock_record }
         end
       else
@@ -56,7 +56,7 @@ module Timeclock
     def destroy
       @clock_record.destroy
       respond_to do |format|
-        format.html { redirect_to timeclock_clock_records_url, notice: 'Clock record was successfully destroyed.' }
+        format.html { redirect_back(fallback_location: '') }
         format.json { head :no_content }
       end
     end
@@ -70,6 +70,20 @@ module Timeclock
       # Never trust parameters from the internet, only allow the white list.
       def clock_record_params
         params.require(:timeclock_clock_record).permit(:id, :user_id,:record_type, :ip_address, :deleted_at, :timestamp, clock_edit_attributes: [:id, :clock_record_id, :user_id, :ip_address, :reason_id, :deleted_at, :note] )
+      end
+
+      def set_or_create_period(cr)
+        Timeclock::ClockPeriod.all.where(:finalized => false).each do |period|
+          if cr.timestamp.between?(period.start_date, period.end_date)
+            cr.clock_period_id = period.id
+          end
+        end
+        if cr.clock_period_id.blank?
+          sun = cr.timestamp.beginning_of_day - cr.timestamp.wday.days
+          period = Timeclock::ClockPeriod.create(                            :start_date => (sun + 7.hours), :end_date => (sun + 6.days + 7.hours),
+            :finalized => false )
+            cr.clock_period_id = period.id
+        end
       end
 
       def round_minutes(cr)

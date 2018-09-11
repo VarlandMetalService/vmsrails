@@ -31,7 +31,7 @@ module Timeclock
       respond_to do |format|
         if @clock_edit.save
           @clock_edit.clock_record.update_attributes(:record_type => params["timeclock_clock_edit"]["clock_record_record_type"], :timestamp => params["timeclock_clock_edit"]["clock_record_timestamp"] )
-          format.html { redirect_to timeclock_clock_records_path, notice: 'Clock edit was successfully created.' }
+          format.html { redirect_back(fallback_location: '') }
           format.json { render :show, status: :created, location: @clock_edit }
         else
 
@@ -47,7 +47,7 @@ module Timeclock
       respond_to do |format|
         if @clock_edit.update(clock_edit_params)
           @clock_edit.clock_record.update_attributes(:record_type => params["timeclock_clock_edit"]["clock_record_record_type"], :timestamp => params["timeclock_clock_edit"]["clock_record_timestamp"] )
-          format.html { redirect_to timeclock_clock_records_path, notice: 'Clock edit was successfully updated.' }
+          format.html { redirect_back(fallback_location: '') }
           format.json { render :show, status: :ok, location: @clock_edit }
         else
           format.html { render :edit }

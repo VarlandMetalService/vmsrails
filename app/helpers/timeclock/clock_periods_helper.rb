@@ -1,0 +1,2 @@
+module Timeclock::ClockPeriodsHelper
+end

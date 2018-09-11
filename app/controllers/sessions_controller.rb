@@ -29,7 +29,8 @@ class SessionsController < ApplicationController
   def timeclock_create
     password = { :pin => params[:pin_num]}
     user = User.find_by(employee_number: params[:user_num])
-    if user && user.pin == params[:pin_num].to_i
+    puts user.pin.to_i
+    if user.pin.to_i == params[:pin_num].to_i
       helpers.log_in user
       helpers.forget(user)
       redirect_to('/timeclock') and return

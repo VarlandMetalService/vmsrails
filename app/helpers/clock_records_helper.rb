@@ -1,13 +1,13 @@
 module ClockRecordsHelper
 
   def records_to_weeks(period_records)
-    sun_rec ||= [] 
-    mon_rec ||= [] 
-    tue_rec ||= [] 
-    wed_rec ||= [] 
-    thu_rec ||= [] 
-    fri_rec ||= [] 
-    sat_rec ||= [] 
+    sun_rec = [] 
+    mon_rec = [] 
+    tue_rec = [] 
+    wed_rec = [] 
+    thu_rec = [] 
+    fri_rec = [] 
+    sat_rec = [] 
     period_records.each do |record|
       case record.timestamp.strftime("%A")
         when 'Sunday'
@@ -54,12 +54,12 @@ module ClockRecordsHelper
           end
       end
     end
-    @week_rec ||= [sun_rec, mon_rec, tue_rec, wed_rec, thu_rec, fri_rec, sat_rec]
-    return @week_rec
+    week_rec = [sun_rec, mon_rec, tue_rec, wed_rec, thu_rec, fri_rec, sat_rec]
+    return week_rec
   end
 
   def calc_week_totals(week_rec)
-    week_totals ||= []
+    week_totals = []
 
     week_rec.each do |day_rec|
       total = 0

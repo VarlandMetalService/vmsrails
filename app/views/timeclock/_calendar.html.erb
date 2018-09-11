@@ -42,7 +42,7 @@
       <thead class="thead-dark text-center">
         <tr>
             <th style="width: 5%">
-              <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>Fix these for 3rd shift
+              <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>
             <th style="width: 18%">
               <%= (sun+1).strftime("%A") %><br><%= (sun+1).strftime("%m-%d")%></th>
             <th style="width: 18%">
@@ -70,7 +70,7 @@
               <% end %>
             <% end %>
               <%= total/3600 hours %>
-              <%= week_total += total/3600 %>
+              <% week_total += total/3600 %>
           </th>
           <% end %>
         </tr>    

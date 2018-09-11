@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :timeclock do
     resources :clock_records
     resources :clock_edits
+    resources :clock_periods
     resources :reason_codes
   end
   
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
   get '/timeclock/login', to: 'timeclock#login'
   post '/timeclock/login', to: 'sessions#timeclock_create'
   get '/timeclock', to: 'timeclock#work'
+  get '/timeclock/clock_periods(/:id)/user(/:user_id)', to: 'timeclock/clock_periods#user_summary', as: :user_summary, action: :get 
 
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'
@@ -89,6 +91,8 @@ Rails.application.routes.draw do
 
   scope module: 'qc', as: 'qc', path: 'qc' do
     resources :rejected_parts
+    get '/rejected_parts(/:id)/pdf', to: 'rejected_parts#create_pdf'
   end
+
   
 end

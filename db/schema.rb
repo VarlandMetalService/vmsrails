@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180910135644) do
+ActiveRecord::Schema.define(version: 20180911121508) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -60,6 +60,12 @@ ActiveRecord::Schema.define(version: 20180910135644) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "clock_period_tables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean "finalized"
+  end
+
   create_table "clock_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -68,6 +74,7 @@ ActiveRecord::Schema.define(version: 20180910135644) do
     t.string "ip_address"
     t.datetime "timestamp"
     t.datetime "deleted_at"
+    t.integer "clock_period_id"
   end
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

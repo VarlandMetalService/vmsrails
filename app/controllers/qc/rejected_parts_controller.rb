@@ -1,6 +1,6 @@
 module Qc
   class RejectedPartsController < ApplicationController
-    before_action :set_rejected_part, only: [:show, :edit, :update, :destroy]
+    before_action :set_rejected_part, only: [:show, :edit, :update, :destroy, :create_pdf]
 
     def index
         @rejected_parts = RejectedPart.all
@@ -49,6 +49,9 @@ module Qc
       end
     end
 
+    def create_pdf
+    end
+
     private
 
       def set_rejected_part
@@ -58,5 +61,6 @@ module Qc
       def rejected_part_params
           params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box)
       end
+
   end
 end

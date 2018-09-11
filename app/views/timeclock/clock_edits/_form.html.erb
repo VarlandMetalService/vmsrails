@@ -1,5 +1,8 @@
+<% if @clock_edit.blank? %>
+  <% @clock_edit = Timeclock::ClockEdit.new %>
+<% end %>
 <%= form_for @clock_edit do |form| %>
-  <% if clock_edit.errors.any? %>
+  <% if @clock_edit.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(clock_edit.errors.count, "error") %> prohibited this clock_edit from being saved:</h2>
       <ul>
@@ -11,37 +14,41 @@
   <% end %>
 
   <% if @clock_edit.clock_record_id.blank? %>
-    <% record = Timeclock::ClockRecord.find(params["rid"]) %>
-      <%= form.hidden_field :clock_record_id, value: params["rid"] %>
+    <% record = Timeclock::ClockRecord.find(rid) %>
+      <%= form.hidden_field :clock_record_id, value: rid %>
   <% else %>
     <% record = Timeclock::ClockRecord.find(@clock_edit.clock_record.id) %>
     <% @clock_edit.clock_record = record %>
     <%= form.hidden_field :clock_record_id, value: @clock_edit.clock_record.id %>
   <% end %>
 
-  <div class="card text-center" style="width: 20rem;">
+  <div class="card text-center" style="">
     <div class="card-header bg-dark text-white">
-      <strong><%= form.datetime_field :clock_record_timestamp %></strong>
+      <strong><%= form.datetime_field :clock_record_timestamp, class: "form-control" %></strong>
     </div>
     <div class='card-body text-light <%= Timeclock.color_options["#{record.record_type}"] %>'>
       <h5 class="card-title text-center">
-        <%= form.select :clock_record_record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, record.record_type)  %></h5>
+        <%= form.select :clock_record_record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, record.record_type), {}, { class: "form-control" }  %></h5>
       <p class="card-text text-center">
         <%= User.find(record.user_id).full_name %>
       </p>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item bg-secondary text-white"><u>Edit</u>: <%= form.select :reason_id, Timeclock::ReasonCode.all.collect { |rc| [rc.description, rc.id] } %></li>
-      <li class="list-group-item bg-secondary text-white">Note: <%= form.text_area :note, id: :clock_edit_note %></li>
-      <footer class="blockquote-footer p-1 text-white bg-secondary"> Edited by <%= @current_user.initials %> on
-        <%= Time.now.strftime("%m/%d/%y @ %I:%M%P") %>
-      </footer>
+      <li class="list-group-item bg-secondary text-white"><u>Edit</u>: <%= form.select :reason_id, Timeclock::ReasonCode.all.collect { |rc| [rc.description, rc.id] }, {}, { class: "form-control" } %></li>
+      <li class="list-group-item bg-secondary text-white">Note: <%= form.text_area :note, id: :clock_edit_note, class: "form-control" %></li>
+      <li class="list-group-item bg-secondary text-white">
+        <footer class="blockquote-footer p-1 text-white bg-secondary"> Edited by <%= @current_user.initials %> on
+          <%= Time.now.strftime("%m/%d/%y @ %I:%M%P") %>
+        </footer>
+      </li>
     </ul>
   </div>
-  <br>
+</div>
 
   <%= form.hidden_field :user_id, value: @current_user.id  %>
   <%= form.hidden_field :ip_address, value: request.remote_ip %>
-
-  <%= form.submit :submit %>
+  <div class="text-center">
+  <%= link_to 'Destroy', record, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+  <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
 <% end %>

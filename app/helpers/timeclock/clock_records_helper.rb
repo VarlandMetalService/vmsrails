@@ -1,0 +1,2 @@
+module Timeclock::ClockRecordsHelper
+end

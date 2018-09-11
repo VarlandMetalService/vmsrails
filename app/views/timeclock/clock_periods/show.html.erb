@@ -1,0 +1,48 @@
+<% user_records = {} %>
+
+<%= link_to "Back", timeclock_clock_periods_path, class: "btn btn-primary" %>
+
+<% @clock_period.clock_records.each do |record| %>
+  <% if user_records[%Q[#{record.user.id}]].blank? %>
+    <% array = [record] %>
+    <% user_records.store(%Q[#{record.user.id}], array) %>
+  <% else %>
+    <% user_records[%Q[#{record.user.id}]] << record  %>
+  <% end %>
+<% end %>
+
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>User</th>
+      <th>Total</th>
+      <th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Links</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% user_records.each do |user, records| %>
+    <% week_rec = nil %>
+    <% week_totals = nil %>
+    <% week_rec = records_to_weeks(records) %>
+    <% week_totals = calc_week_totals(week_rec) %>
+    <tr>
+      <td><%= User.find(user).full_name %></td>
+      <td><%= (week_totals.sum*4).round / 4.0 %> hrs</td>
+      <% week_totals.each do |hours| %>
+      <th><%= (hours*4).round / 4.0 %> hrs</th>
+      <% end %>
+      <td><%= link_to fa_icon('eye'),
+            user_summary_path(:id => @clock_period.id, :user_id => user),
+            :action => :user_summary, data: {turbolinks: false} %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
