@@ -75,9 +75,9 @@ module ClockRecordsHelper
           end
         end
 
-        if rec.record_type == 'Start Work' || rec.record_type == 'End Break'
+        if rec.record_type == 'Start Work'  || rec.record_type == 'Start Break' || rec.record_type == 'End Break'
           total -= rec.timestamp.seconds_since_midnight
-        elsif rec.record_type == 'End Work' || rec.record_type == 'Start Break'
+        elsif rec.record_type == 'End Work' 
           total += rec.timestamp.seconds_since_midnight
         end
 

@@ -16,6 +16,7 @@
     <tr>
       <th>User</th>
       <th>Total</th>
+      <th>Links</th>
       <th>Sun</th>
       <th>Mon</th>
       <th>Tue</th>
@@ -23,7 +24,6 @@
       <th>Thu</th>
       <th>Fri</th>
       <th>Sat</th>
-      <th>Links</th>
     </tr>
   </thead>
   <tbody>
@@ -35,12 +35,16 @@
     <tr>
       <td><%= User.find(user).full_name %></td>
       <td><%= (week_totals.sum*4).round / 4.0 %> hrs</td>
+      <td class="text-center">
+        <%= link_to fa_icon('eye'),
+            user_summary_path(:id => @clock_period.id, :user_id => user),
+            :action => :user_summary, 
+            data: {turbolinks: false}, 
+            class: "font-weight-bold btn btn-sm btn-success" %>
+      </td>
       <% week_totals.each do |hours| %>
       <th><%= (hours*4).round / 4.0 %> hrs</th>
       <% end %>
-      <td><%= link_to fa_icon('eye'),
-            user_summary_path(:id => @clock_period.id, :user_id => user),
-            :action => :user_summary, data: {turbolinks: false} %></td>
     </tr>
     <% end %>
   </tbody>
