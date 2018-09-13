@@ -18,3 +18,4 @@
 //= require cocoon
 //= require trix
 //= require_tree
+

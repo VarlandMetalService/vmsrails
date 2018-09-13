@@ -23,6 +23,7 @@ class Timeclock::ClockPeriodsController < ApplicationController
 
   def user_summary
     @period_records = Timeclock::ClockRecord.all.where("user_id = #{params[:user_id]}").where("clock_period_id = #{params[:id]}")
+    @period = Timeclock::ClockPeriod.find(params[:id])
   end
 
   # POST /timeclock/clock_periods

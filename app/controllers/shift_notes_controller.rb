@@ -1,6 +1,4 @@
 class ShiftNotesController < ApplicationController
-  skip_before_action  :authenticate_user
-  skip_before_action :verify_authenticity_token
   include ApplicationHelper
   before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
 
@@ -14,6 +12,7 @@ class ShiftNotesController < ApplicationController
 
 
   def index
+    check_permission('shift_notes')
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page]).includes(:comments, :user)
 
     respond_to do |format|

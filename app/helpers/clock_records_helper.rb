@@ -7,7 +7,9 @@ module ClockRecordsHelper
     wed_rec = [] 
     thu_rec = [] 
     fri_rec = [] 
-    sat_rec = [] 
+    sat_rec = []
+    period_records.sort_by{ |key| key[:timestamp]} 
+    period_records.reverse
     period_records.each do |record|
       case record.timestamp.strftime("%A")
         when 'Sunday'
@@ -58,51 +60,50 @@ module ClockRecordsHelper
     return week_rec
   end
 
+  def seconds_since_day_start(time)
+    if time.seconds_since_midnight < 7*3600
+      return time.seconds_since_midnight + 17*3600
+    else
+      return time.seconds_since_midnight - 7*3600
+    end
+  end
+
+
   def calc_week_totals(week_rec)
+    # seconds per hour
+    sph = 3600
+    start = nil
     week_totals = []
-
-    week_rec.each do |day_rec|
+    
+    week_rec.each do |day|
       total = 0
-      prev_rec = nil
 
-      day_rec.each do |rec|
+      day.each_with_index do |rec, i|
 
-        if prev_rec == nil
-          if rec.record_type == 'End Work' || rec.record_type == 'Start Break'
-            total -= 7*3600
-          elsif rec.record_type == 'End Break'
-            total += 7*3600
-          end
+        if rec.record_type == 'Start Work' || rec.record_type == 'End Break'
+          total -= seconds_since_day_start(rec.timestamp)
         end
+        if rec.record_type == 'End Work' || rec.record_type == 'Start Break'
+          total += seconds_since_day_start(rec.timestamp)
+        end   
 
-        if rec.record_type == 'Start Work'  || rec.record_type == 'Start Break' || rec.record_type == 'End Break'
-          total -= rec.timestamp.seconds_since_midnight
-        elsif rec.record_type == 'End Work' 
-          total += rec.timestamp.seconds_since_midnight
-        end
-
-        if prev_rec != nil && prev_rec.timestamp.strftime("%A") != rec.timestamp.strftime("%A")
-          if rec.record_type =='End Break'
-            total += (24*3600)
-          elsif rec.record_type == 'Start Break'
-            total -= (24*3600)
-          end
-        end
-
-        if day_rec.last == rec
+        if i == day.size - 1
           if rec.record_type == 'Start Work' || rec.record_type == 'End Break'
-            total += 7*3600
-            if rec.timestamp.strftime("%A") == day_rec.first.timestamp.strftime("%A")
-              total += (23*3600 + 59*60 + 59)
-            end
+            total += 24*3600
+          elsif rec.record_type == 'Start Break'
+            total -= 24*3600
           end
         end
-        prev_rec = rec
       end
-      week_totals << total/3600
+    if total < 0
+      total += 24*3600
+    end
+    total/3600
+    week_totals << ((4*total/3600).round / 4.0)
     end
     return week_totals
   end
+  
 
 
 end

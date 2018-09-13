@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col">
+    <table class="table table-striped table-border">
+      <thead class="thead-dark">
+        <tr>
+          <th>Weight</th>
+          <th>Print Queue</th>
+          <th>User</th>
+          <th>Workstation</th>
+          <th>Document Type</th>
+          <th class="text-center">Links</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @print_queue_rules.each do |p| %>
+        <tr>
+          <td><%= p.weight %></td>
+          <td><%= %Q[#{Printing::PrintQueue.find(p.print_queue_id).printer} #{Printing::PrintQueue.find(p.print_queue_id).options}] unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %></td>
+          <td><%= User.find(p.user_id).full_name unless p.user_id.blank? %></td>
+          <td><%= Workstation.find(p.workstation_id).name unless p.workstation_id.blank?  %></td>
+          <td><%= Workstation.find(p.document_type_id).name unless p.document_type_id.blank? %></td>
+          <td class="text-center">
+            <div class="btn-group", role="group">
+                <%= link_to fa_icon('pencil'),
+                            edit_printing_print_queue_rule_path(p),
+                            class: 'font-weight-bold btn btn-sm btn-warning',
+                            title: 'Edit Print Queue Rule',
+                            data: { toggle: 'tooltip' } %>
+                <%= link_to fa_icon('times'),
+                            printing_print_queue_rule_path(p),
+                            method: :delete,
+                            class: 'font-weight-bold btn btn-sm btn-danger',
+                            title: 'Delete Print Queue Rule',
+                            data: { confirm: 'Are you sure you want to delete this Print Queue Rule?',                            toggle: 'tooltip' } %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

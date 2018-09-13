@@ -59,17 +59,21 @@
                               class: 'font-weight-bold btn btn-sm btn-success',
                               title: 'View Shift Note',
                               data: { toggle: 'tooltip' } %>
+                <% if @access_level >= 2 %>
                 <%= link_to fa_icon('pencil'),
                             edit_shift_note_path(n),
                             class: 'font-weight-bold btn btn-sm btn-warning',
                             title: 'Edit Shift Note',
                             data: { toggle: 'tooltip' } %>
+                <% end %>
+                <% if @access_level >= 3 %>
                 <%= link_to fa_icon('times'),
                             shift_note_path(n),
                             method: :delete,
                             class: 'font-weight-bold btn btn-sm btn-danger',
                             title: 'Delete Shift Note',
-                            data: { confirm: 'Are you sure you want to delete this rejected part?',                            toggle: 'tooltip' } %>
+                            data: { confirm: 'Are you sure you want to delete this shift note?',                            toggle: 'tooltip' } %>
+                <%  end %>
               </div>
             </td>
           </tr>

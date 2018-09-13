@@ -20,12 +20,10 @@
 
         <li class="list-group-item bg-secondary text-white"><%=record.clock_edit.note%>
         </li>
-
-        <li class="list-group-item bg-secondary text-white">
           <footer class="blockquote-footer p-1 text-white bg-secondary"> Edited by: <%= User.find(record.clock_edit.user_id).initials %> @
           <%= record.clock_edit.updated_at.strftime("%I:%M%P %m/%d/%y") %>
           </footer>
-        </li>
+
         
         <li class="list-group-item bg-secondary"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%= record.id %>">Edit</button>
         </li>

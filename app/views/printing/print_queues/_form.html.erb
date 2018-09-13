@@ -1,0 +1,28 @@
+<%= link_to fa_icon('arrow-left'),
+                          printing_print_queues_path,
+                          method: :get,
+                          class: 'font-weight-bold btn btn-sm btn-danger',
+                          title: 'Back' %>
+<div class="form-group">
+  <%= form_for @print_queue do |f| %>
+  <div class="form-row mt-3">
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Printer: </span>
+        </div>
+        <%= f.text_field :printer, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Options: </span>
+        </div>
+        <%= f.text_field :options, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <%= f.submit "Save Print Queue", class: "btn btn-primary" %>
+  <% end %>
+</div>

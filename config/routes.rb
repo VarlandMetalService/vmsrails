@@ -1,5 +1,30 @@
 Rails.application.routes.draw do
 
+  # QC Routes
+  get '/qc/salt_spray', to: 'qc#salt_spray'
+
+  scope module: 'qc', as: 'qc', path: 'qc' do
+    resources :rejected_parts
+    get '/rejected_parts(/:id)/pdf', to: 'rejected_parts#create_pdf'
+  end
+
+  # Printing Routes
+  scope module: 'printing', as: 'printing' do
+    resources :print_queues
+    resources :print_queue_rules
+  end
+
+  scope module: 'printing', as: 'printing' do
+    resources :print_jobs do
+      collection do
+        get :send_print_cmd
+        get :set_queue
+      end
+    end
+  end
+
+  get 'printing/print_job(/:id)/send', to: 'printing/print_jobs#send_print_cmd'
+
   resources :employee_notes
   resources :inline_attachments
 
@@ -22,20 +47,6 @@ Rails.application.routes.draw do
 
   get '/thickness', to: 'thickness/blocks#index'
 
-  scope module: 'print_queue', as: 'print_queue' do
-    resources :print_jobs do 
-      collection do
-        get :send_print_cmd
-      end
-    end
-  end
-
-  scope module: 'print_queue', as: 'print_queue' do
-    resources :print_job_rules
-  end
-
-  root 'print_queue/print_jobs#fail_index'
-
   resources :specifications do
     collection do
       get   'archived'
@@ -51,9 +62,9 @@ Rails.application.routes.draw do
  
   root    'vms#home'
   
-  get '/timeclock/login', to: 'timeclock#login'
+  get '/timeclock/login',  to: 'timeclock#login'
   post '/timeclock/login', to: 'sessions#timeclock_create'
-  get '/timeclock', to: 'timeclock#work'
+  get '/timeclock',        to: 'timeclock#work'
   get '/timeclock/clock_periods(/:id)/user(/:user_id)', to: 'timeclock/clock_periods#user_summary', as: :user_summary, action: :get 
 
   get     '/login',   to: 'sessions#new'
@@ -85,14 +96,5 @@ Rails.application.routes.draw do
   get     '/dept_info/update',                      to: 'dept_info#update'
 
   get     '/maintenance/scheduled_task_status',     to: 'maintenance#scheduled_task_status'
-
-  # QC Routes
-  get '/qc/salt_spray', to: 'qc#salt_spray'
-
-  scope module: 'qc', as: 'qc', path: 'qc' do
-    resources :rejected_parts
-    get '/rejected_parts(/:id)/pdf', to: 'rejected_parts#create_pdf'
-  end
-
-  
+ 
 end

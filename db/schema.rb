@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180911121508) do
+ActiveRecord::Schema.define(version: 20180913155725) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20180911121508) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "clock_period_tables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "clock_periods", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "start_date"
     t.datetime "end_date"
     t.boolean "finalized"
@@ -107,6 +107,12 @@ ActiveRecord::Schema.define(version: 20180911121508) do
     t.bigint "rgt"
     t.integer "depth"
     t.string "google_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "document_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -212,30 +218,32 @@ ActiveRecord::Schema.define(version: 20180911121508) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "print_job_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "var1"
-    t.string "var2"
-    t.integer "var1_type"
-    t.integer "var2_type"
-    t.string "operator"
-    t.boolean "op_is_logic"
+  create_table "print_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "user_id"
+    t.integer "workstation_id"
+    t.integer "document_type_id"
+    t.integer "print_queue_id"
+    t.string "file"
+    t.boolean "is_complete"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "option_flag"
-    t.string "option_value"
-    t.integer "priority"
   end
 
-  create_table "print_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string "file"
-    t.string "file_type"
-    t.datetime "destroyed_at"
+  create_table "print_queue_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "user_id"
+    t.integer "workstation_id"
+    t.integer "document_type_id"
+    t.integer "print_queue_id"
+    t.integer "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "fail_flag"
-    t.string "lpr_command"
-    t.string "workstation"
-    t.string "user"
+  end
+
+  create_table "print_queues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "printer"
+    t.string "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "qc_rejected_parts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -349,6 +357,12 @@ ActiveRecord::Schema.define(version: 20180911121508) do
     t.integer "zip_code"
     t.string "phone_number", limit: 10
     t.integer "pin"
+  end
+
+  create_table "workstations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

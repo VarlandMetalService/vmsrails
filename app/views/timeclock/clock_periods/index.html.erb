@@ -1,4 +1,3 @@
-<% Timeclock::ClockPeriod.all.each do |period| %>
 <div class="row mt-3">
   <div class="col">
     <table class="table table-bordered table-striped">
@@ -12,6 +11,7 @@
         </tr>
       </thead>
       <tbody>
+        <% Timeclock::ClockPeriod.all.each do |period| %>
         <tr>
           <td class="text-center text-light 
             <%= !period.finalized? ? 'bg-danger' : 'bg-success'%>">
@@ -30,9 +30,11 @@
                     data: { toggle: 'tooltip' } %>
               </div>
           </td>
+        </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
 </div>
-<% end %>
+
 

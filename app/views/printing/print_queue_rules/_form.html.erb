@@ -1,0 +1,66 @@
+<div class="form-group">
+<%= link_to fa_icon('arrow-left'),
+                          printing_print_queue_rules_path,
+                          method: :get,
+                          class: 'font-weight-bold btn btn-sm btn-danger',
+                          title: 'Back' %>
+  <%= form_for @print_queue_rule do |f| %>
+
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> User: </span>
+        </div>
+        <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id]}), { include_blank: true }, { class: 'form-control' }%>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mt-3">
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Print Queue: </span>
+        </div>
+        <%= f.select :print_queue_id, options_for_select(Printing::PrintQueue.all.map { |q| [q.printer, q.id] }), { include_blank: true }, { class: 'form-control' } %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Weight: </span>
+        </div>
+        <%= f.text_field :weight, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mt-3">
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Workstation: </span>
+        </div>
+        <%= f.select :workstation_id, 
+                options_for_select(Workstation.all.map { |w| [w.name, w.id]}), { include_blank: true }, { class: 'form-control' } %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Document Type: </span>
+        </div>
+        <%= f.select :document_type_id, options_for_select( DocumentType.all.map{ |d| [d.name, d.id] }), { include_blank: true }, { class: 'form-control' } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mt-3">
+    <div class="col-12">
+      <%= f.submit "Save Print Queue Rule", class: "btn btn-primary"%>
+    </div>
+  </div>
+    
+  <% end %>
+</div>
