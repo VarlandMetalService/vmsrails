@@ -1,6 +1,6 @@
 class CreateQcRejectedPartsTable < ActiveRecord::Migration[5.1]
   def change
-    create_table :qc_rejected_parts_tables do |t|
+    create_table :qc_rejected_parts do |t|
       t.integer :so_num
       t.integer :user_id
       t.date :date
