@@ -6,6 +6,7 @@
 </div>
 
 <%= form_for :salt_spray, url: 'qc/salt_spray' do |f| %>
+<div class="container-fluid border p-3">
 <div class="row mt-3 form-group">
   <div class="col-4">
     <div class="form-group input-group">
@@ -40,6 +41,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <table class="table table-bordered table-striped">
@@ -117,7 +119,14 @@
     </tr>
   </tbody>
 </table>
-    <%= f.submit "Save Salt Spray" %>
+<div class="btn-group" role="group">
+    <%= link_to fa_icon('arrow-left'),
+                        root_path,
+                        method: :get,
+                        class: 'font-weight-bold btn btn-sm btn-secondary',
+                        title: 'Back' %>
+    <%= f.submit 'Save Salt Spray', class: "btn btn-primary"%>
+</div>
   </div>
 </div>
 <% end %> 

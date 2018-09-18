@@ -40,10 +40,7 @@
       <div id="options" class="form-inline mb-3">
         <div class="form-group">
 
-          <%= link_to fa_icon('times'), "javascript:;",
-            class: 'font-weight-bold btn btn-sm btn-danger',
-            id: "remove_option",
-            title: 'Delete Option' %>
+          
 
           <div class="input-group">
             <div class="input-group-prepend">
@@ -60,6 +57,11 @@
             </div>
             <%= f.text_field 'options', { name: "printing_print_queue[options][]", class: "form-control", id: "option_select", placeholder: "(Dependent on flag.)" } %>
           </div>
+
+          <%= link_to fa_icon('times'), "javascript:;",
+            class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+            id: "remove_option",
+            title: 'Delete Option' %>
 
         </div>
       </div>

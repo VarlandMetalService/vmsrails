@@ -191,10 +191,9 @@
                         method: :get,
                         class: 'font-weight-bold btn btn-sm btn-secondary',
                         title: 'Back' %>
-    <%= f.submit "Save Print Queue Rule", class: "btn btn-primary"%>
+    <%= f.submit yield(:button_text), class: "btn btn-primary"%>
 </div>
 <% end %>
-
 
 <script type="text/javascript">
   var section2radio = document.getElementById('section2radio')

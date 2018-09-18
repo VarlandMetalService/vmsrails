@@ -46,11 +46,10 @@
     </div>
   </div>
 </div>
-
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th></th>
+      <th><%= f.check_box "users", { :name => 'test', :multiple => true, id: 'check_all', :checked => false }, nil, nil %><sub>(all)</sub></th>
       <th>User</th>
       <th>Total</th>
       <th>Links</th>
@@ -89,3 +88,27 @@
 </table>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> Create Holiday Shift for checked users </button>
 <% end %>
+
+
+<script type="text/javascript">
+  var check_all = document.getElementById('check_all')
+  check_all.addEventListener("click", function() {
+    if(check_all.checked) {
+      var cbxs = $('input[type="checkbox"]');
+      cbxs.prop("checked", !cbxs.prop("checked"));
+    }
+    else {
+      var cbxs = $('input[type="checkbox"]');
+      cbxs.prop("checked", !cbxs.prop("checked"));
+    }
+  })
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#check_all').on("click", function(){
+    var cbxs = $('input[type="checkbox"]');
+    cbxs.prop("checked", !cbxs.prop("checked"));
+    });
+  });
+</script>
