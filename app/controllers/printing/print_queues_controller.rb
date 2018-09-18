@@ -37,6 +37,15 @@ class Printing::PrintQueuesController < ApplicationController
   end
 
   def update
+    str = ""
+    params[:printing_print_queue][:options].each do |op|
+      puts op
+      if(!op.blank? && !op.include?('[') && !op.include?(']'))
+        str << op << " "
+      end
+    end
+    @print_queue.update_attribute(:options, str)
+    params[:printing_print_queue].delete :options
     respond_to do |format|
       if @print_queue.update(print_queue_params)
         format.html { redirect_to printing_print_queues_path, notice: 'Print queue was successfully updated.' }
