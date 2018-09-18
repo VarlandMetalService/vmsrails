@@ -8,7 +8,7 @@ module Timeclock
      'End Work' => 'bg-danger', 
      'Start Break' => 'bg-primary', 
      'End Break' => 'bg-info', 
-     'Note' => 'text-dark'}
+     'Note' => 'text-dark', 
+     'Holiday' => 'text-dark'}
   end
-
 end

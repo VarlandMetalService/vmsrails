@@ -16,7 +16,8 @@ module Timeclock
        ['End Work'   ,   'End Work'],
        ['Start Break','Start Break'],
        ['End Break'  ,  'End Break'],
-       ['Note'       ,       'Note']]
+       ['Note'       ,       'Note'],
+       ['Holiday'    ,    'Holiday']]
     end
   end
 end

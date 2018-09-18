@@ -11,9 +11,31 @@
   <% end %>
 <% end %>
 
+<%= form_for @clock_period, url: holiday_hours_path do |f| %>
+
+<div class="modal" tabindex="-1" role="dialog" id="mynewModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        Select Date for Holiday Entries
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+            <%= f.datetime_field "start_date", { class: "form-control" } %>
+            <%= f.submit "Create Holiday Entries", class: "form-control" %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
+      <th></th>
       <th>User</th>
       <th>Total</th>
       <th>Links</th>
@@ -33,6 +55,7 @@
     <% week_rec = records_to_weeks(records) %>
     <% week_totals = calc_week_totals(week_rec) %>
     <tr>
+      <td><%= f.check_box "users", {:multiple => true}, user, nil %></td>
       <td><%= User.find(user).full_name %></td>
       <td><%= (week_totals.sum*4).round / 4.0 %> hrs</td>
       <td class="text-center">
@@ -49,4 +72,5 @@
     <% end %>
   </tbody>
 </table>
-
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> Create Holiday Shift for checked users </button>
+<% end %>

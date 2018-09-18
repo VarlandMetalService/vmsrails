@@ -1,8 +1,9 @@
 class Printing::PrintQueuesController < ApplicationController
   before_action :set_print_queue, only: [:show, :edit, :update, :destroy]
+  has_scope :with_search_term,    only: :index
 
   def index
-    @print_queues = Printing::PrintQueue.all
+    @print_queues = apply_scopes(Printing::PrintQueue).all
   end
 
   def show
@@ -17,6 +18,13 @@ class Printing::PrintQueuesController < ApplicationController
 
   def create
     @print_queue = Printing::PrintQueue.new(print_queue_params)
+    str = ""
+    params[:printing_print_queue][:options].each do |op|
+      if(op != "")
+        str << op << " "
+      end
+    end
+    @print_queue.options = str
     respond_to do |format|
       if @print_queue.save
         format.html { redirect_to printing_print_queues_path, notice: 'Print queue was successfully created.' }
@@ -54,6 +62,6 @@ class Printing::PrintQueuesController < ApplicationController
     end
 
     def print_queue_params
-      params.require(:printing_print_queue).permit(:printer, :options)
+      params.require(:printing_print_queue).permit(:printer, :options, :options => [])
     end
 end

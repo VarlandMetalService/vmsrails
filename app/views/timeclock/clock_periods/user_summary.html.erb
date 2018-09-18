@@ -1,15 +1,24 @@
-<h3>Manage <%= User.find(params[:user_id]).full_name %>'s Pay Period</h3>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> New </button>
-  <div class="btn-group-vertical", role="group">
+  <% @week_rec = records_to_weeks(@period_records) %>
+  <% @week_totals = calc_week_totals(@week_rec) %> 
 
+
+<div class="row mt-3">
+  <div class="col">
+    <h3>Manage <%= User.find(params[:user_id]).full_name %>'s Pay Period</h3>
+    <h4> Total hours: <%= @week_totals.sum %></h4>
+  </div>
+</div>
+  
+  <div class="btn-group", role="group">
     <%= link_to "Back",
                   timeclock_clock_period_path(params[:id]),
                   class: 'font-weight-bold btn btn-success',
                   title: 'Back',
                   data: { toggle: 'tooltip' } %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> New </button>
   </div>
 
-  <div class="modal" tabindex="-1" role="dialog" id="mynewModal">
+<div class="modal" tabindex="-1" role="dialog" id="mynewModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -27,56 +36,58 @@
     </div>
   </div>
 </div>
-  
-  
-  
-  <% @week_rec = records_to_weeks(@period_records) %>
-  <% @week_totals = calc_week_totals(@week_rec) %> 
-  <div class="row">
-    <% sun = @period.start_date %>
-      <table class="table table-fill table-bordered table-striped">
-        <thead class="thead-dark text-center">
-          <tr>
-              <th style="width: 5%">
-                <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>
-              <th style="width: 18%">
-                <%= (sun+1.days).strftime("%A") %><br><%= (sun+1.days).strftime("%m-%d")%></th>
-              <th style="width: 18%">
-                <%= (sun+2.days).strftime("%A") %><br><%= (sun+2.days).strftime("%m-%d")%></th>
-              <th style="width: 18%">
-                <%= (sun+3.days).strftime("%A") %><br><%= (sun+3.days).strftime("%m-%d")%></th>
-              <th style="width: 18%">
-                <%= (sun+4.days).strftime("%A") %><br><%= (sun+4.days).strftime("%m-%d")%></th>
-              <th style="width: 18%">
-                <%= (sun+5.days).strftime("%A") %><br><%= (sun+5.days).strftime("%m-%d")%></th>
-              <th style="width: 5%">
-                <%= (sun+6.days).strftime("%A") %><br><%= (sun+6.days).strftime("%m-%d")%></th>
-          </tr>
-        </thead> 
-        <thead class="thead-light text-center">
-          <tr>
-            <% @week_totals.each do |hours| %>
-              <th><%= (hours*4).round / 4.0 %> hrs</th>
-            <% end %>
-          </tr>    
-        </thead>
-        <tbody>
-          <tr class="table-secondary">
-            <% @week_rec.each do |rec| %>
-            <% rec = rec.sort_by{ |r| r[:timestamp]} %>
-              <td>
-                <table class="table table-fill" style="table-layout: fixed;">
-                  <thead></thead>
-                  <tbody>
-                    <% rec.each do |r| %>
-                      <%= render partial: 'calendar_entry', cached: :true, locals: { record: r} %>
-                    <% end %>
-                  </tbody>
-                </table>
-              </td>
-            <% end %>
-          </tr>
-        </tbody>
-      </table>        
-    </div>
+
+<div class="row p-3">
+  <% sun = @period.start_date %>
+    <table class="table table-fill table-bordered table-striped">
+      <thead class="thead-dark text-center">
+        <tr>
+            <th style="width: 5%">
+              <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>
+            <th style="width: 18%">
+              <%= (sun+1.days).strftime("%A") %><br>
+              <%= (sun+1.days).strftime("%m-%d")%></th>
+            <th style="width: 18%">
+              <%= (sun+2.days).strftime("%A") %><br>
+              <%= (sun+2.days).strftime("%m-%d")%></th>
+            <th style="width: 18%">
+              <%= (sun+3.days).strftime("%A") %><br>
+              <%= (sun+3.days).strftime("%m-%d")%></th>
+            <th style="width: 18%">
+              <%= (sun+4.days).strftime("%A") %><br>
+              <%= (sun+4.days).strftime("%m-%d")%></th>
+            <th style="width: 18%">
+              <%= (sun+5.days).strftime("%A") %><br>
+              <%= (sun+5.days).strftime("%m-%d")%></th>
+            <th style="width: 5%">
+              <%= (sun+6.days).strftime("%A") %><br>
+              <%= (sun+6.days).strftime("%m-%d")%></th>
+        </tr>
+      </thead> 
+      <thead class="thead-light text-center">
+        <tr>
+          <% @week_totals.each do |hours| %>
+            <th><%= (hours*4).round / 4.0 %> hrs</th>
+          <% end %>
+        </tr>    
+      </thead>
+      <tbody>
+        <tr class="table-secondary">
+          <% @week_rec.each do |rec| %>
+          <% rec = rec.sort_by{ |r| r[:timestamp]} %>
+            <td>
+              <table class="table table-fill" style="table-layout: fixed;">
+                <thead></thead>
+                <tbody>
+                  <% rec.each do |r| %>
+                    <%= render partial: 'calendar_entry', cached: :true, locals: { record: r} %>
+                  <% end %>
+                </tbody>
+              </table>
+            </td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>        
   </div>
+</div>

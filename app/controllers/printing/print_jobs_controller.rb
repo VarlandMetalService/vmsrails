@@ -1,7 +1,9 @@
 class Printing::PrintJobsController < ApplicationController
   before_action :set_print_job, 
     only: [:show, :edit, :update, :destroy, :send_print_cmd, :set_queue]
-  skip_before_action  :verify_authenticity_token
+    
+  skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user
   require "base64"
   has_scope :with_user
   has_scope :with_doc_type
@@ -24,10 +26,11 @@ class Printing::PrintJobsController < ApplicationController
 
   def create
     data = parse_data(params[:data])
-    @print_job = Printing::PrintJob.new(data.permit(:file, :user_id, :workstation_id, :document_type_id))
+    @print_job = Printing::PrintJob.new(data)
     respond_to do |format|
       if @print_job.save
-        set_queue(@print_job)
+        set_queue
+        send_print_cmd
         format.html { render :index, notice: 'Print job was successfully created.' }
         format.json { render :index, status: :created, location: @print_job }
       else
@@ -81,9 +84,10 @@ class Printing::PrintJobsController < ApplicationController
         end
       end
     end
-    applicable_rules.sort_by { |x| x[:weight] }
-    p.update_attribute(:print_queue_id, applicable_rules.first.id)
-    puts applicable_rules.first.id
+    applicable_rules = applicable_rules.sort_by { |x| -x[:weight] }
+    applicable_rules.each do |y|
+    end
+    p.update_attribute(:print_queue_id, applicable_rules.first.print_queue_id)
     respond_to do |format|
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
@@ -103,12 +107,16 @@ class Printing::PrintJobsController < ApplicationController
 
     # Parse incoming json into file/options
     def parse_data(dat)
-      data = JSON.parse(dat)
-      data.symbolize_keys!
-      data[:user_id] = User.find_by username: data[:user]
+      data = {}
+      temp = JSON.parse(dat)
+      temp.symbolize_keys!
+      temp[:file].gsub!(' ', '+')
+
+      data[:file] = temp[:file]
+      data[:user_id] = temp[:user]
+      # data[:user_id] = User.find_by username: temp[:user]
       # data[:workstation_id] = Workstation.find_by ip: request.remote_ip
-      data[:document_type_id] = DocumentType.find_by name: data[:document_type]
-      data[:file].gsub!(' ', '+')
+      # data[:document_type_id] = DocumentType.find_by name: temp[:document_type]  
       return data
     end
 end

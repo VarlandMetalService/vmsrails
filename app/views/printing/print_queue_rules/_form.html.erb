@@ -1,64 +1,62 @@
-<div class="form-group">
-<%= link_to fa_icon('arrow-left'),
-                          printing_print_queue_rules_path,
-                          method: :get,
-                          class: 'font-weight-bold btn btn-sm btn-danger',
-                          title: 'Back' %>
+<div class="container-fluid border p-3">
+
   <%= form_for @print_queue_rule do |f| %>
 
-  <div class="form-row mt-3">
+  <div class="form-row">
     <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> User: </span>
-        </div>
+      <div class="form-group">
+        <%= f.label 'User:' %>
         <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id]}), { include_blank: true }, { class: 'form-control' }%>
       </div>
     </div>
   </div>
 
-  <div class="form-row mt-3">
+  <div class="form-row">
     <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Print Queue: </span>
-        </div>
+      <div class="form-group">
+        <%= f.label "Print Queue:" %>
         <%= f.select :print_queue_id, options_for_select(Printing::PrintQueue.all.map { |q| [q.printer, q.id] }), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
     <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Weight: </span>
-        </div>
+      <div class="form-group">
+        <%= f.label "Weight:" %>
         <%= f.text_field :weight, class: 'form-control' %>
       </div>
     </div>
   </div>
 
-  <div class="form-row mt-3">
+  <div class="form-row">
     <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Workstation: </span>
-        </div>
+      <div class="form-group">
+        <%= f.label :Workstation %>
         <%= f.select :workstation_id, 
                 options_for_select(Workstation.all.map { |w| [w.name, w.id]}), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
     <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Document Type: </span>
-        </div>
+      <div class="form-group">
+        <%= f.label :Document_Type %>
         <%= f.select :document_type_id, options_for_select( DocumentType.all.map{ |d| [d.name, d.id] }), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
   </div>
 
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <%= f.submit "Save Print Queue Rule", class: "btn btn-primary"%>
+  <div class="row">
+    <div class="col-6">
+      <div class="btn-group" role="group">
+        <%= link_to fa_icon('arrow-left'),
+                            printing_print_queue_rules_path,
+                            method: :get,
+                            class: 'font-weight-bold btn btn-sm btn-secondary',
+                            title: 'Back' %>
+        <%= f.submit yield(:button_text), class: "btn btn-primary"%>    
+      </div>
+    </div>
+    <div class="col-6">
+      <small id="HelpBlock" class="form-text text-muted">
+          Leaving any of the fields blank will tell the system to ignore that field.
+      </small>
     </div>
   </div>
     

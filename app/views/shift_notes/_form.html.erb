@@ -1,4 +1,5 @@
-<%= form_with  model: @shift_note do |f| %>
+<div class="container-fluid border p-3">
+  <%= form_with  model: @shift_note do |f| %>
 
   <% users_array = User.all.map { |user| [user.full_name, user.id] } %>
 
@@ -34,7 +35,13 @@
     <%= f.trix_editor :message, class: "form-control", placeholder:
                                                         "Add note here..." %>
   </p>
-
-  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
-
-<% end %>
+  <div class="btn-group" role="group">
+      <%= link_to fa_icon('arrow-left'),
+                          shift_notes_path,
+                          method: :get,
+                          class: 'font-weight-bold btn btn-sm btn-secondary',
+                          title: 'Back' %>
+        <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

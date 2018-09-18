@@ -6,15 +6,16 @@ module Printing
       conditions = []
       parameters = {}
       term_index = 1
+
       search[:include].each do |t|
           key = "search#{term_index}"
-          conditions << "message LIKE :#{key}"
+          conditions << "printer LIKE :#{key}"
           parameters[key] = "%#{t}%"
           term_index += 1
       end
       search[:exclude].each do |t|
           key = "search#{term_index}"
-          conditions << "message NOT LIKE :#{key}"
+          conditions << "printer NOT LIKE :#{key}"
           parameters[key] = "%#{t}%"
           term_index += 1
       end
@@ -26,6 +27,17 @@ module Printing
       cmd << self.printer << " "
       cmd << self.options
       return cmd
+    end
+
+    def self.printer_options
+      [['Lexmark-T630', '-P Lexmark-T630 '],
+       ['Lexmark-T644', '-P Lexmark-T644 '],
+       ['MP-C3004ex'  , '-P MP-C3004ex ']]
+    end
+
+    def self.option_flags
+      [['Copies: (number)'   , '-# '],
+       ['Landscape: (blank)', '-o RIOrientOvr=Landscape ']]
     end
 
   end

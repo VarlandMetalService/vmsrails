@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     resources :clock_periods
     resources :reason_codes
   end
+
+  patch '/timeclock/holiday_hours', to:'timeclock/clock_records#holiday_hours', as: :holiday_hours
   
   resources :shift_notes do
     resources :comments, module: :shift_notes

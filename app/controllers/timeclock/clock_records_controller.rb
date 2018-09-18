@@ -61,6 +61,21 @@ module Timeclock
       end
     end
 
+    def holiday_hours
+      recs = []
+      params[:timeclock_clock_period][:users].each do |u|
+        rec = Timeclock::ClockRecord.new(:user_id => u, :record_type => 'Holiday', :timestamp => params[:timeclock_clock_period][:start_date])
+        rec.save
+        recs << rec
+      end
+      recs.each do |c|
+        set_or_create_period(c)
+      end
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: '') }
+        format.json { head :no_content }
+      end
+    end
     private
       # Select shift note by id.
       def set_clock_record
@@ -74,15 +89,15 @@ module Timeclock
 
       def set_or_create_period(cr)
         Timeclock::ClockPeriod.all.where(:finalized => false).each do |period|
-          if cr.timestamp.between?(period.start_date, period.end_date)
-            cr.clock_period_id = period.id
+          if (period.start_date...period.end_date).cover?(cr.timestamp)
+            cr.update_attribute(:clock_period_id, period.id)
           end
         end
         if cr.clock_period_id.blank?
           sun = cr.timestamp.beginning_of_day - cr.timestamp.wday.days
           period = Timeclock::ClockPeriod.create(                            :start_date => (sun + 7.hours), :end_date => (sun + 6.days + 7.hours),
             :finalized => false )
-            cr.clock_period_id = period.id
+            cr.update_attribute(:clock_period_id, period.id)
         end
       end
 

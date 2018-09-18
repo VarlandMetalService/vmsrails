@@ -1,28 +1,81 @@
-<%= link_to fa_icon('arrow-left'),
+<div class="container-fluid border p-3">
+  <%= form_for @print_queue do |f| %>
+
+    <div class="form-row">
+      <div class="col-12">
+        <div class="form-group">
+          
+          <%= f.label "Printer:"%>
+          <%= f.select :printer, options_for_select(Printing::PrintQueue.printer_options, @print_queue.printer ), {}, { class: "form-control" } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-12">
+        <div class="form-group">
+          <%= link_to fa_icon('plus-square'),
+                            "javascript:;",
+                            class: 'font-weight-bold btn btn-sm btn-success',
+                            id: "addNewOption",
+                            title: 'Add Option' %>
+          <%= f.label "Options:"%>
+        </div>
+      </div>
+      <div class="col-12">
+        <div id="option_area"></div>
+      </div>
+    </div>
+
+    <div class="btn-group" role="group">
+      <%= link_to fa_icon('arrow-left'),
                           printing_print_queues_path,
                           method: :get,
-                          class: 'font-weight-bold btn btn-sm btn-danger',
+                          class: 'font-weight-bold btn btn-sm btn-secondary',
                           title: 'Back' %>
-<div class="form-group">
-  <%= form_for @print_queue do |f| %>
-  <div class="form-row mt-3">
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Printer: </span>
+        <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+    </div>
+    
+    <div id="option_field" style="display: none;">
+      <div id="options" class="form-inline mb-3">
+        <div class="form-group">
+
+          <%= link_to fa_icon('times'), "javascript:;",
+            class: 'font-weight-bold btn btn-sm btn-danger',
+            id: "remove_option",
+            title: 'Delete Option' %>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> Flag: </span>
+            </div>
+            <%= f.select 'options', 
+              options_for_select(Printing::PrintQueue.option_flags),
+              { multiple: true, include_blank: true }, { name: "printing_print_queue[options][]", class: "form-control", id: "option_select" } %>
+          </div>
+    
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> Value: </span>
+            </div>
+            <%= f.text_field 'options', { name: "printing_print_queue[options][]", class: "form-control", id: "option_select", placeholder: "(Dependent on flag.)" } %>
+          </div>
+
         </div>
-        <%= f.text_field :printer, class: "form-control" %>
       </div>
     </div>
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Options: </span>
-        </div>
-        <%= f.text_field :options, class: "form-control" %>
-      </div>
-    </div>
-  </div>
-  <%= f.submit "Save Print Queue", class: "btn btn-primary" %>
+
   <% end %>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#addNewOption').on('click', function(){
+        $('#option_area').append($('#option_field').clone().html());
+      });
+
+      $('#option_area').on('click','#remove_option', function(){
+        $(this).closest('#options').remove();
+      });
+    });
+  </script>
 </div>

@@ -26,10 +26,10 @@
             <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
           </td> 
           <td>
-            <%= DocumentType.find(p.document_type_id).name %>
+            <%= DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
           </td>
           <td>
-            <%= Workstation.find(p.workstation_id).name %>
+            <%= Workstation.find(p.workstation_id).name unless p.workstation_id.blank? %>
           </td>
           <td>
             <%= p.file unless p.file.blank? %>

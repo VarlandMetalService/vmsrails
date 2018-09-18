@@ -1,6 +1,12 @@
-<% provide(:title, 'New Shift Note') %>
 <% provide(:button_text, "Create shift note") %> 
-<p id="notice"><%= notice %></p>
-<%= link_to 'Back', shift_notes_path, class:"btn btn-primary" %> <br> <br>
-<h2>New Shift Note:</h2>
-<%= render partial: 'form', locals: { notes: @shift_notes } %>
+<% provide(:title, 'New Shift Note') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">New Shift Note</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= render partial: 'form', locals: { notes: @shift_notes } %>
+  </div>
+</div>

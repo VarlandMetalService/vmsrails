@@ -1,1 +1,12 @@
-<%= render partial: 'form' %>
+<% provide(:title, 'New Print Queue Rule') %>
+<% provide(:button_text, 'Save New Print Queue Rule') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">New Print Queue Rule</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= render partial: 'form' %>
+  </div>
+</div>

@@ -1,1 +1,12 @@
-<%= render partial: 'form' %>
+<% provide(:title, 'Edit Print Queue') %>
+<% provide(:button_text, 'Save Print Queue')%>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0">Edit Print Queue</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= render partial: 'form' %>
+  </div>
+</div>

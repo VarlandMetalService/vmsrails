@@ -185,9 +185,13 @@
   </div>
   </div>
 </div>
-<div class="text-center">
-  <%= link_to 'Back', qc_rejected_parts_path, :class => "btn" %>
-  <%= f.submit "Submit Rejected Part Form" %>
+<div class="btn-group" role="group">
+    <%= link_to fa_icon('arrow-left'),
+                        qc_rejected_parts_path,
+                        method: :get,
+                        class: 'font-weight-bold btn btn-sm btn-secondary',
+                        title: 'Back' %>
+    <%= f.submit "Save Print Queue Rule", class: "btn btn-primary"%>
 </div>
 <% end %>
 

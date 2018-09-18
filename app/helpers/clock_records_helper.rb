@@ -68,7 +68,6 @@ module ClockRecordsHelper
     end
   end
 
-
   def calc_week_totals(week_rec)
     # seconds per hour
     sph = 3600
@@ -80,6 +79,9 @@ module ClockRecordsHelper
 
       day.each_with_index do |rec, i|
 
+        if rec.record_type == 'Holiday'
+          total += 8*3600
+        end
         if rec.record_type == 'Start Work' || rec.record_type == 'End Break'
           total -= seconds_since_day_start(rec.timestamp)
         end
