@@ -20,6 +20,7 @@ module Thickness
       respond_to do |format|
         format.html
         format.json { render :json => @blocks }
+        format.xlsx
       end
     end
   

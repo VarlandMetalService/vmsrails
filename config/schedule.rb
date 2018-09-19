@@ -27,6 +27,6 @@ every 1.day, at: '8:00 am' do
   rake "shift_notes:send_shift_notes_summary"
 end
 
-ever 1.day, do
+ever 1.day do
   rake "print_jobs:delete_old_print_jobs"
 end

@@ -8,7 +8,7 @@
     <div class="col-12">
       <h4>Proposition 65 Report for <%= @customer[:code] %></h4>
       <p>Analyzed <%= pluralize @customer[:parts].size, 'part specification' %>:<p>
-      <p><%= link_to fa_icon('file-excel-o', text: 'Download Spreadsheet'), { :format => :xlsx }, { :class => 'btn btn-sm btn-success text-light' } %></p>
+      <p><%= link_to fa_icon('file-excel-o', text: 'Download Spreadsheet (Broken)'), { :format => :xlsx }, { :class => 'btn btn-sm btn-success text-light' } %></p>
       <div class="table-responsive">
         <table class="table table-bordered">
           <thead>

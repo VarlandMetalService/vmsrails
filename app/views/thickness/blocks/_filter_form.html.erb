@@ -135,6 +135,9 @@
 
     <div class="row">
       <div class="col-12">
+        <div class="pull-left">
+          <%= link_to fa_icon('file-excel-o', text: 'Download Spreadsheet (Broken)'), { :format => :xlsx }, { :class => 'btn btn-sm btn-success text-light' } %>
+        </div>
         <div class="pull-right">
           <%= link_to 'Reset', blocks_url, class: 'btn btn-link text-white' %>
           <%= f.button fa_icon('filter', text: 'Filter'),

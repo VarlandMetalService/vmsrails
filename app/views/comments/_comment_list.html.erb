@@ -7,7 +7,6 @@
                             data: { confirm: 'Are you sure?' } %> 
     <% end %>
 
-    <class="text-center"> 
     <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
     <% if c.user.blank? %> 
         &nbsp;
@@ -22,7 +21,7 @@
     <br>
     <% if c.attachment? %>
     Attachments:
-    <a href="<%= c.attachment_url %>">
+    <a href="<%= c.attachment.url %>" target="blank">
         <%= image_tag(preview_or_default_image(c)) if c.attachment? %> 
     </a>
     <% end %>
