@@ -86,8 +86,6 @@ class Printing::PrintJobsController < ApplicationController
       end
     end
     applicable_rules = applicable_rules.sort_by { |x| -x[:weight] }
-    applicable_rules.each do |y|
-    end
     p.update_attribute(:print_queue_id, applicable_rules.first.print_queue_id)
     respond_to do |format|
       format.html { redirect_back(fallback_location: "") }

@@ -42,7 +42,7 @@
           <%= f.label :with_is_complete,
                       'View:' %>
           <%= f.select :with_is_complete,
-                options_for_select([['Only Failed', '' ],['All', 'true']], params[:with_is_complete]), {}, 
+                options_for_select([['Failed', '' ],['All', 'true']], params[:with_is_complete]), {}, 
                 { class: 'custom-select', onchange: 'this.form.submit();' }%>           
         </div>
       </div>
