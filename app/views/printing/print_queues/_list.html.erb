@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row mt-3">
   <div class="col">
-    <table class="table table-striped table-border">
+    <table class="table table-striped table-bordered">
       <thead class="thead-dark">
         <tr>
           <th>Printer</th>
@@ -15,17 +15,14 @@
           <td><%= p.options %></td>
           <td class="text-center">
             <div class="btn-group" role="group">
-              <%= link_to fa_icon('pencil'),
-                          edit_printing_print_queue_path(p),
-                          class: 'font-weight-bold btn btn-sm btn-warning',
-                          title: 'Edit Print Queue',
-                          data: { toggle: 'tooltip' } %>
               <%= link_to fa_icon('times'),
                           printing_print_queue_path(p),
                           method: :delete,
                           class: 'font-weight-bold btn btn-sm btn-danger',
                           title: 'Delete Print Queue',
-                          data: { confirm: 'Are you sure you want to delete this Print Queue?',                            toggle: 'tooltip' } %>
+                          data: { 
+                            confirm: 'Are you sure you want to delete this Print Queue?',                            
+                            toggle: 'tooltip' } %>
             </div>
           </td>
         </tr>

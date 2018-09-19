@@ -15,8 +15,6 @@
   </div>
 </div>
 
-<%= link_to "Back", timeclock_clock_periods_path, class: "btn btn-primary" %>
-
 <% @clock_period.clock_records.each do |record| %>
   <% if user_records[%Q[#{record.user.id}]].blank? %>
     <% array = [record] %>
@@ -86,7 +84,14 @@
     <% end %>
   </tbody>
 </table>
+<div class="btn-group">
+<%= link_to fa_icon('arrow-left'),
+                        timeclock_clock_periods_path,
+                        method: :get,
+                        class: 'font-weight-bold btn btn-sm btn-secondary',
+                        title: 'Back' %>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> Create Holiday Shift for checked users </button>
+</div>
 <% end %>
 
 

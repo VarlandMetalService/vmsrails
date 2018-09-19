@@ -9,9 +9,10 @@ class Printing::PrintJobsController < ApplicationController
   has_scope :with_doc_type
   has_scope :with_workstation
   has_scope :with_current_user
+  has_scope :with_is_complete
 
   def index
-    @print_jobs = apply_scopes(Printing::PrintJob).all
+    @print_jobs = apply_scopes(Printing::PrintJob).all.with_is_complete(params[:with_is_complete])
   end
 
   def show
@@ -114,6 +115,7 @@ class Printing::PrintJobsController < ApplicationController
 
       data[:file] = temp[:file]
       data[:user_id] = temp[:user]
+      data[:workstation_id] = temp[:ip_address] 
       # data[:user_id] = User.find_by username: temp[:user]
       # data[:workstation_id] = Workstation.find_by ip: request.remote_ip
       # data[:document_type_id] = DocumentType.find_by name: temp[:document_type]  

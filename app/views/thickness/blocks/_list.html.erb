@@ -1,4 +1,5 @@
-<% if notes.blank? %>
+<div class="col">
+  <% if notes.blank? %>
     <p class="text-danger">No results found.</p>
   <% else %>
     <p class="font-weight-bold">
@@ -6,7 +7,6 @@
       <%= paginate notes %>
     </p>
   <% end %>
-  
   <% @bbl.each do |t| %>
     <% cache t do %>
       <table class="table table-fill table-bordered table-striped">
