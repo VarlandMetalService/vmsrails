@@ -10,7 +10,6 @@
 server 'vms.varland.com', user: 'deploy', roles: %w{app db web}
 
 
-
 # role-based syntax
 # ==================
 
