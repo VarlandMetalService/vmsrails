@@ -6,5 +6,7 @@ module Printing
     scope :with_doc_type, ->(doc_type) { where("document_type_id = ?", doc_type) unless doc_type.nil? }
     scope :with_workstation, ->(workstation) { where("workstation_id = ?", workstation) unless workstation.nil? }
     scope :with_is_complete, ->(is_complete) { where("is_complete = false", is_complete) unless !is_complete.blank? }
+
+    default_scope { order("created_at DESC") }
   end
 end 

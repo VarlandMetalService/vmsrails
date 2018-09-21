@@ -2,15 +2,13 @@ class ShiftNotesController < ApplicationController
   include ApplicationHelper
   before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
 
-
-  has_scope :with_search_term,    only: :index
-  has_scope :with_timestamp,      only: :index
-  has_scope :with_shift_type,     only: :index
-  has_scope :with_shift_time,     only: :index
-  has_scope :with_dept,           only: :index
-  has_scope :with_user,           only: :index
-  has_scope :sorted_by,           only: :index
-
+  has_scope :with_search_term,   only: :index
+  has_scope :with_timestamp,     only: :index
+  has_scope :with_shift_type,    only: :index
+  has_scope :with_shift_time,    only: :index
+  has_scope :with_dept,          only: :index
+  has_scope :with_user,          only: :index
+  has_scope :sorted_by,          only: :index
 
   def index
     check_permission('shift_notes')

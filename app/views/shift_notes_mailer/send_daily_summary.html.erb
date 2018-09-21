@@ -1,59 +1,85 @@
+<div class="container-fluid">
 <% 3.times do |x| %>
     <% s = x+1 %>
     <% notes = @note_array.select {|na| na.shift_time == s } %>
     <% if notes.empty? %>
-    <h2>No new notes from <%= s.ordinalize %> shift.</h2>
+    <h3 class="text-center"><u>No new notes from <%= s.ordinalize %> shift.</u></h3>
     <% else %>
-        <h2><%= s.ordinalize %> shift notes:</h2>
-        <% notes.each do |n| %>
-            <div class="container-fluid" style="border:1px solid #cecece;">
-            <p>
-                <strong>Shift date:</strong>
-                <%= n.created_at.strftime('%m/%d/%y') %>  
-                <br>
-                <strong>Updated:</strong>
-                <%= n.updated_at %>
-                <br>
-                <strong>Entered by:</strong>
-                <%= n.user.full_name %>
-                <br>
-                <strong>Dept:</strong>
-                <%= n.dept %>
-
-                <strong>Shift type:</strong>
-                <%= n.shift_type %>
-
-                <strong>Shift time:</strong>
-                <%= n.shift_time %>
-            </p>
-            <strong>Message:</strong> <br>
-            <%=sanitize n.message %> <br>
-
-            <% if n.comments.empty? %>
-            <% else %>
-                <strong>Comments:</strong> <br>
-                <% n.comments.each do |c| %>
-                    <class="text-center"> 
-                    <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
-                    <% if c.user.blank? %> 
-                        &nbsp;
-                    <% else %> 
-                        <span class="badge badge-pill" style="color: 
-                        <%= c.user.avatar_text_color %>; 
-                        background-color: <%= c.user.avatar_bg_color %>;">
-                        <%= c.user.initials %> </span>:
-                    <% end %>
-                    <%= sanitize c.body %>
-                    <br>
-                    <% if c.attachment? %>
-                        Attachments:
-                        <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %> <br>
-                        </a>
-                    <% else %>
-                    <% end %>
-                <% end %>
-            <% end %>
+        <br>
+        <h3 class="text-center"><u>Notes From <%= s.ordinalize %> Shift:</u> (<%= notes.count %>)</h3>
+        <% notes.each do |note| %>
+            <div class="container">
+                <div class="card px-3 py-3" >
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="float-left">
+                                <strong>Date:</strong>
+                                <u><%= note.created_at.strftime('%m/%d/%y') %></u>
+                                <br>
+                                <strong>Author:</strong>
+                                <u><%= note.user.full_name %></u>
+                            </p>
+                            <p class="text-center">
+                                <strong>Dept:</strong>
+                                <u><%= note.dept %></u>
+                                <br>
+                            </p>
+                        </div>        
+                        <div class="col-4">
+                            <p class="float-right">
+                                <strong>Shift Time:</strong>
+                                <u><%= note.shift_time %></u>
+                                <br>
+                                <strong>Shift Type:</strong>
+                                <u><%= note.shift_type %></u>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <strong>Note:</strong>
+                            <p class="text-center">
+                                <%=sanitize note.message %>
+                                            <hr>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <% if note.comments.empty? %>
+                        <% else %>
+                            <strong>Comments:</strong><br>
+                            <% note.comments.each do |c| %>
+                                <div class="row">
+                                    <i><%= c.created_at.strftime('%m/%d/%y') %> </i><br>
+                                </div>
+                                <div class="row">
+                                    <div class="col-1">
+                                        <% if c.user.blank? %> 
+                                            &nbsp;
+                                        <% else %> 
+                                            <span class="badge badge-pill badge-info">
+                                            <%= c.user.initials %>: </span>
+                                        <% end %>
+                                    </div>
+                                    <div class="col-11">
+                                        <%= sanitize c.body %>
+                                    </div>
+                                </div>
+                                <br>
+                                <% if c.attachment? %>
+                                    Attachments:
+                                    <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url, size: "150" %>
+                                <% else %>
+                                <% end %>
+                                <hr>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
             </div>
+            <br>
         <% end %>
     <% end %>
 <% end %>
+</div>

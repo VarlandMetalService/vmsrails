@@ -21,7 +21,7 @@
           </td>
           <td><%= p.created_at.strftime("%m/%d @ %I:%M %p") %></td>
           <td>
-            <%= %Q[#{Printing::PrintQueue.find(p.print_queue_id).printer} #{Printing::PrintQueue.find(p.print_queue_id).options}] unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
+            <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
           </td>
           <td>
             <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
@@ -30,7 +30,7 @@
             <%= DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
           </td>
           <td>
-            <%= p.workstation_id  %>
+            <%= Workstation.find(p.workstation_id).name unless p.workstation_id.blank?  %>
           </td>
           <td class="text-center">
             <div class="btn-group" role="group">

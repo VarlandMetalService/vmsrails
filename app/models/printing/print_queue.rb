@@ -30,14 +30,13 @@ module Printing
     end
 
     def self.printer_options
-      [['Lexmark-T630', '-P Lexmark-T630 '],
-       ['Lexmark-T644', '-P Lexmark-T644 '],
-       ['MP-C3004ex'  , '-P MP-C3004ex ']]
+      [['Lexmark-T644', '-P Lexmark-T644'],
+       ['MP-C3004ex'  , '-P MP-C3004ex'  ]]
     end
 
     def self.option_flags
       [['Copies: (number)'   , '-# '],
-       ['Landscape: (blank)', '-o RIOrientOvr=Landscape ']]
+       ['Landscape: (blank)', '-o RIOrientOvr=Landscape']]
     end
 
   end

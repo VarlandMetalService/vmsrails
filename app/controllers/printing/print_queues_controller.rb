@@ -71,6 +71,6 @@ class Printing::PrintQueuesController < ApplicationController
     end
 
     def print_queue_params
-      params.require(:printing_print_queue).permit(:printer, :options, :options => [])
+      params.require(:printing_print_queue).permit(:name, :printer, :options, :options => [])
     end
 end

@@ -2,7 +2,7 @@ class ShiftNotesMailer < ApplicationMailer
     helper  :application
 
     default from: 'varlandmetalservice@gmail.com',
-            to: ['Shift Notes Recipients <dailyshiftnotes@varland.com>']
+            to: 'Shift Notes Recipients <dailyshiftnotes@varland.com>'
 
     def send_comments(user, commentable)
       @user = user
@@ -14,8 +14,8 @@ class ShiftNotesMailer < ApplicationMailer
               attachments.inline[@filename] = c.attachment.read
           end
       end
-      mail(subject: 'New shift note comment!',
-                      to: ["#{@user.full_name} <#{@user.email}>"])   
+      make_bootstrap_mail(subject: 'New shift note comment!',
+                      to: "#{@user.full_name} <#{@user.email}>")   
     end
 
     def send_note(note, group)
@@ -41,7 +41,7 @@ class ShiftNotesMailer < ApplicationMailer
         else
           return
       end
-      mail(subject: 'New Shift Note',
+      make_bootstrap_mail(subject: 'New Shift Note',
             to: recipient)
     end
 
@@ -55,6 +55,6 @@ class ShiftNotesMailer < ApplicationMailer
           end
         end
       end
-      mail(subject: 'Shift Note Summary!')
+      make_bootstrap_mail(subject: 'Shift Note Summary!')
     end
 end

@@ -62,13 +62,17 @@ class Printing::PrintJobsController < ApplicationController
   end
 
   def send_print_cmd
-    queue = Printing::PrintQueue.find(@print_job.print_queue_id)
-    cmd = "lpr "
-    cmd << queue.printer << " " << queue.options << " "
-    cmd << @print_job.file.current_path
-    @print_job.update_attribute(:is_complete,                                     system(cmd))
+    if @print_job.print_queue_id.blank?
+      @print_job.update_attribute(:is_complete, false)
+    else
+      queue = Printing::PrintQueue.find(@print_job.print_queue_id)
+      cmd = "lpr "
+      cmd << queue.printer << " " << queue.options << " "
+      cmd << @print_job.file.current_path
+      @print_job.update_attribute(:is_complete,                                     system(cmd))
+    end
     respond_to do |format|
-      format.html { redirect_back(fallback_location: "") }
+      format.html { redirect_back(fallback_location: "/print_jobs") }
       format.json { head :no_content }
     end
   end
@@ -87,7 +91,12 @@ class Printing::PrintJobsController < ApplicationController
     end
     applicable_rules = applicable_rules.sort_by { |x| -x[:weight] }
     
-    p.update_attribute(:print_queue_id, applicable_rules.first.print_queue_id)
+    if applicable_rules.blank?
+      p.update_attribute(:print_queue_id, nil)
+    else
+      p.update_attribute(:print_queue_id, applicable_rules.first.print_queue_id)
+    end
+     
     respond_to do |format|
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
@@ -113,11 +122,9 @@ class Printing::PrintJobsController < ApplicationController
       temp[:file].gsub!(' ', '+')
 
       data[:file] = temp[:file]
-      data[:user_id] = temp[:user]
-      data[:workstation_id] = temp[:ip_address] 
-      # data[:user_id] = User.find_by username: temp[:user]
-      # data[:workstation_id] = Workstation.find_by ip: request.remote_ip
-      # data[:document_type_id] = DocumentType.find_by name: temp[:document_type]  
+      data[:user_id] = User.find_by(username: temp[:user]).id unless User.find_by(username: temp[:user]).blank?
+      data[:workstation_id] = Workstation.find_by(ip_address: temp[:ip_address]).id unless Workstation.find_by(ip_address: temp[:ip_address]).blank?
+      data[:document_type_id] = DocumentType.find_by(name: temp[:document_type]).id unless DocumentType.find_by(name: temp[:document_type]).blank?
       return data
     end
 end

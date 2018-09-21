@@ -8,6 +8,12 @@ class ShiftNote < ApplicationRecord
     belongs_to :user, class_name: '::User', optional: true
     has_many :comments, as: :commentable, dependent: :destroy
    
+    # Validations
+    validates :user_id,    presence: true
+    validates :dept,       presence: true
+    validates :shift_time, presence: true
+    validates :shift_type, presence: true
+
     # Scoping.
     scope :with_timestamp, ->(timestamp) { where("created_at >= ?", timestamp) unless timestamp.nil? }
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }

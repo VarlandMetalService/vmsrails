@@ -27,6 +27,7 @@ Rails.application.configure do
   end
 
   # Set up emailing.
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp

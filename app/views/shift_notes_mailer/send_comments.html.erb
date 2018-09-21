@@ -1,48 +1,68 @@
-<div class="container-fluid" style="border:1px solid #cecece;">
-<p>
-    <strong>Shift date:</strong>
-    <%= @commentable.created_at.strftime('%m/%d/%y') %>  
-    <br>
-    <strong>Updated:</strong>
-    <%= @commentable.updated_at %>
-    <br>
-    <strong>Entered by:</strong>
-    <%= @commentable.user.full_name %>
-    <br>
-    <strong>Dept:</strong>
-    <%= @commentable.dept %>
-
-    <strong>Shift type:</strong>
-    <%= @commentable.shift_type %>
-
-    <strong>Shift time:</strong>
-    <%= @commentable.shift_time %>
-</p>
-<strong>Message:</strong> <br>
-<%=sanitize @commentable.message %> <br>
-
-<% if @commentable.comments.empty? %>
-<% else %>
-    <strong>Comments:</strong> <br>
-    <% @commentable.comments.each do |c| %>
-        <class="text-center"> 
-        <i><small> <%= c.created_at.strftime('%m/%d/%y') %> </i></small>
-        <% if c.user.blank? %> 
-            &nbsp;
-        <% else %> 
-            <span class="badge badge-pill" style="color: 
-            <%= c.user.avatar_text_color %>; 
-            background-color: <%= c.user.avatar_bg_color %>;">
-            <%= c.user.initials %> </span>:
-        <% end %>
-        <%= sanitize c.body %>
-        <br>
-        <% if c.attachment? %>
-            Attachments:
-            <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %> <br>
-            </a>
-        <% else %>
-        <% end %>
-    <% end %>
-<% end %>
+<div class="container">
+    <div class="card px-3 py-3" >
+        <div class="row">
+            <div class="col-8">
+                <p class="float-left">
+                    <strong>Date:</strong>
+                    <u><%= @commentable.created_at.strftime('%m/%d/%y') %></u>
+                    <br>
+                    <strong>Author:</strong>
+                    <u><%= @commentable.user.full_name %></u>
+                </p>
+                <p class="text-center">
+                    <strong>Dept:</strong>
+                    <u><%= @commentable.dept %></u>
+                    <br>
+                </p>
+            </div>        
+            <div class="col-4">
+                <p class="float-right">
+                    <strong>Shift Time:</strong>
+                    <u><%= @commentable.shift_time %></u>
+                    <br>
+                    <strong>Shift Type:</strong>
+                    <u><%= @commentable.shift_type %></u>
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12">
+                <strong>Note:</strong>
+                <p class="text-center">
+                    <%=sanitize @commentable.message %>
+                                <hr>
+                </p>
+            </div>
+        </div>
+        <div class="card-body">
+            <% if @commentable.comments.empty? %>
+            <% else %>
+                <strong>Comments:</strong><br>
+                <% @commentable.comments.each do |c| %>
+                    <div class="row">
+                        <i><sub><%= c.created_at.strftime('%m/%d/%y') %> </i></sub>
+                        <div class="col-1">
+                            <% if c.user.blank? %> 
+                                &nbsp;
+                            <% else %> 
+                                <span class="badge badge-pill badge-info">
+                                <%= c.user.initials %> </span>
+                            <% end %>
+                        </div>
+                        <div class="col-11">
+                            <%= sanitize c.body %>
+                        </div>
+                    </div>
+                    <br>
+                    <% if c.attachment? %>
+                        Attachments:
+                        <%= image_tag attachments[c.attachment.instance_variable_get('@file').filename].url %>
+                    <% else %>
+                    <% end %>
+                    <hr>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
 </div>

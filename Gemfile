@@ -55,6 +55,10 @@ gem 'rubyzip', '>= 1.2.1'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
 gem 'prawn'
+gem 'guard'
+gem 'guard-rspec'
+gem 'fuubar'
+gem 'bootstrap-email'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

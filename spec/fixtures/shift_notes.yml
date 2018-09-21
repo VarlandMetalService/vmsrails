@@ -1,0 +1,18 @@
+one:
+  id: 1
+  shift_time: 1
+  user_id: 59
+  dept: 3
+  shift_type: IT
+  message: testing!
+two:
+  id: 2
+  shift_time: 2
+  user_id: 59
+  dept: 3
+  shift_type: IT
+  message: testing!
+invalid:
+  id: 3
+  shift_time: ""
+  user_id: ""
