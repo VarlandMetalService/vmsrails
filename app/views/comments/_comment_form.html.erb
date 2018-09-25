@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <%= form_with model: [commentable, Comment.new] do |f| %>
 <% users_array = User.all.map{ |user| [user.full_name, user.id] } %>
     
@@ -23,4 +24,5 @@
         <%= f.submit "Create Comment", class: "btn btn-primary" %>
     </div>
 <% end %>
+</div>
 

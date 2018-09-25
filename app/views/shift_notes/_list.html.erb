@@ -10,49 +10,52 @@
     <% end %>
   </div>
 </div>
- <div class ="col">     
-    <table class="table table-bordered table-striped">
+ <div class="col">     
+    <table class="table table-bordered table-hover table-striped">
       <thead class="thead-dark">
         <tr>
-          <th>Date</th>
-          <th>Shift</th>
-          <th>By</th>
-          <th>Dept</th>
-          <th>Type</th>  
-          <th>Note</th>    
-          <th>Comments</th>
-          <th>Links</th>
+          <th class="col-3" colspan="2">Info</th>
+          <th class="col-4">Note</th>    
+          <th class="col-4">Comments</th>
+          <th class="col-1">Links</th>
         </tr>
       </thead>
       <tbody>
         <% notes.each do |n| %>
-          <tr>
-            <td class="text-center"> <%= n.updated_at.strftime('%m/%d/%y') %>  </td>
-
-            <td class="text-center"> <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
-              <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a> </td>
-          
-            <td class="text-center"> 
-              <% if n.user.blank? %>
-                &nbsp;
-              <% else %>
-                <span class="badge badge-pill" 
-                style="color: <%= n.user.avatar_text_color %>; 
-                background-color: <%= n.user.avatar_bg_color %>;">
-                <%= n.user.initials %>
-              <% end %> </span> </td> 
-
-            <td class="text-center"> <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
-              class="dept-filter font-weight-bold"><%= n.dept %></a> </td>
-
-            <td class="text-center"> <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
-              <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> </td>
+            <td>
+                Date:
+                <%= n.updated_at.strftime('%m/%d/%y') %>
+                <br> 
+                User:
+                <% if n.user.blank? %>
+                  &nbsp;
+                <% else %>
+                  <span class="badge badge-pill" 
+                    style="color: <%= n.user.avatar_text_color %>; 
+                    background-color: <%= n.user.avatar_bg_color %>;">
+                    <%= n.user.initials %> </span>
+                <% end %>
+                <br>
+              </td>
+              <td>
+                  Shift Time:
+                  <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
+                  <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a>
+                  <br>
+                  Shift Type:
+                  <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
+                  <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> 
+                  <br>
+                  Dept:
+                  <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
+                  class="dept-filter font-weight-bold"><%= n.dept %></a>
+            </td> 
 
             <td> <%=sanitize n.message %>  </td>
 
             <td> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
             
-            <td class="text-center"> 
+            <td class="col-1 text-center"> 
               <div class="btn-group-vertical", role="group">
                 <%= link_to fa_icon('eye'),
                               shift_note_path(n),
@@ -80,6 +83,6 @@
         <% end %>
       </tbody>
     </table>
-    <%= paginate notes %>
   </div>
+  <%= paginate notes %>
 </div>

@@ -14,8 +14,7 @@ class MaterialsController < ApplicationController
   has_scope :with_user, only: :vat_history_notes
   
   def vat_history_notes
-    @vat_history_notes = apply_scopes(Materials::VatHistoryNote).page(params[:page])
+    @vat_history_notes = apply_scopes(Materials::VatHistoryNote.includes(:user)).page(params[:page])
     @unpaged_vat_history_notes = apply_scopes(Materials::VatHistoryNote)
   end
-
 end

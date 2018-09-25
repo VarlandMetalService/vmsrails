@@ -200,3 +200,11 @@ trix-toolbar .trix-button-row {
   margin: 7.5px 7.5px 7.5px;
   list-style-type: none;
 }
+
+.tbody {
+  border: 1px solid black;
+  height: 500px;
+  width: 100%;
+  display: block;
+  overflow-y: scroll;
+}

@@ -10,7 +10,8 @@ class ShiftNotesController < ApplicationController
   has_scope :with_user,          only: :index
   has_scope :sorted_by,          only: :index
 
-  def index
+  def index 
+    
     check_permission('shift_notes')
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page]).includes(:comments, :user)
 

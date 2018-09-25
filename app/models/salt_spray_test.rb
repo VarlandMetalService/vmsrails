@@ -1,0 +1,2 @@
+class SaltSprayTest < ApplicationRecord
+end

@@ -1,0 +1,32 @@
+<% provide(:title, 'Shift Note') %>
+
+<div class="container-fluid p-2">
+  <p>
+    <strong>Shift date:</strong>
+    <%= note.created_at.strftime('%m/%d/%y') %>
+    <br>
+    <strong>Updated:</strong>
+    <%= note.updated_at %>
+    <br>
+    <strong>Entered by:</strong>
+    <%= note.user.full_name %>
+    <br>
+    <strong>Dept:</strong>
+    <%= note.dept %>
+
+    <strong>Shift type:</strong>
+    <%= note.shift_type %>
+
+    <strong>Shift time:</strong>
+    <%= note.shift_time %>
+  </p>
+  <strong>Message:</strong> <br>
+  <%=sanitize note.message %>
+  <br>
+  <hr>
+  <h5><strong>Comments:</h5></strong>
+    <%= render partial: "comments/comment_list", 
+           locals: {commentable: note} %>
+    <%= render partial: "comments/comment_form", 
+           locals: {commentable: note} %>
+</div>

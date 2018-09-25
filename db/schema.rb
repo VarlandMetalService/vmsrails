@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920145518) do
+ActiveRecord::Schema.define(version: 20180925180641) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -265,6 +265,30 @@ ActiveRecord::Schema.define(version: 20180920145518) do
     t.datetime "updated_at", null: false
     t.boolean "s2box"
     t.boolean "s3box"
+  end
+
+  create_table "salt_spray_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "so_num"
+    t.integer "load_num"
+    t.string "customer"
+    t.string "process_code"
+    t.string "part_num"
+    t.string "sub"
+    t.decimal "part_area", precision: 10
+    t.decimal "density", precision: 10
+    t.integer "white_spec"
+    t.integer "red_spec"
+    t.string "dept"
+    t.decimal "load_weight", precision: 10
+    t.integer "on_by"
+    t.datetime "on_at"
+    t.integer "off_by"
+    t.datetime "off_at"
+    t.integer "white_by"
+    t.datetime "white_at"
+    t.integer "red_by"
+    t.datetime "red_at"
+    t.integer "flagged_by"
   end
 
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

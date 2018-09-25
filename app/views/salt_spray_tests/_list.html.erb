@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th class="col-1"></th>
+        <th class="col-2">Shop Order</th>
+        <th class="col-3" colspan="2">Test</th>
+        <th class="col-2">Chromate | Topcoat</th>
+        <th class="col-2">White <div class="text-muted pull-right">(SPEC)</div></th>
+        <th class="col-2">Red <div class="text-muted pull-right">(SPEC)</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @salt_spray_tests.each do |s| %>
+      <tr>
+        <td><button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls=".multi-collapse"><%= fa_icon('minus-square')%></button></td>
+        <td>
+          <strong><%= s.so_num %></strong><small> - Load:<%= s.load_num %></small>
+          <br>
+          <div class="text-muted">
+            <%= s.customer %> - 
+            <%= s.part_num %>
+          </div>
+        </td>
+        <td>
+          <small><strong>Date:</small></strong>
+          <%= s.on_at %>
+          <div class="collapse multi-collapse">
+            <small><strong>By:</small></strong>
+            <%= User.find(s.on_by).full_name %>
+            <br>
+            <small><strong>Hours on:</small></strong>
+          </div>
+        </td>
+        <td>
+          <small><strong>Process:</small></strong>
+          <%= s.process_code %>
+          <div class="collapse multi-collapse">
+            <small><strong>Dept:</small></strong>
+            <%= s.dept %>
+            <br>
+            <small><strong>Part area - Density </small></strong>
+          </div>
+        </td>
+        <td>
+            Clear | 330
+        </td>
+        <td>
+          <div class="pull-right">(<%= s.white_spec %>)</div>
+          <small><strong class="pull-left">Hours til:</small></strong>
+          <div class="text-center">...</div>
+          <div class="collapse multi-collapse">
+            <small><strong>Date:</small></strong>
+            <%= s.white_at %>
+            <br>
+            <small><strong>By:</small></strong>
+            <%= User.find(s.white_by).full_name %>
+            <br>
+          </div>
+        </td>
+        <td>
+          <%= %>
+          <div class="pull-right">(<%= s.red_spec %>)</div>
+          <small><strong class="pull-left">Hours til:</small></strong>
+          <div class="text-center">...</div>
+          <div class="collapse multi-collapse">
+            <small><strong>Date:</small></strong>
+            <%= s.red_at %>
+            <br>
+            <small><strong>By:</small></strong>
+            <%= User.find(s.red_by).full_name %>
+            <br>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

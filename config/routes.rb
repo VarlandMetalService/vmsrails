@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :salt_spray_tests
+
   get 'printing/print_job(/:id)/send', to: 'printing/print_jobs#send_print_cmd'
 
   resources :employee_notes
