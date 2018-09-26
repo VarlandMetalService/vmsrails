@@ -3,7 +3,13 @@
     <%= form_with url: printing_print_queues_path,
                   class: 'bg-dark text-white border rounded p-3 mb-3',
                   method: 'get' do |f| %>
+    <p class="pull-right">
+        <button class="btn btn-warning btn-sm" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+            <%= fa_icon('minus-square') %>
+          </button>
+      </p>
     <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+    <div class="collapse" id="collapse">
     <div class="row">
       <div class="col">
         <div class="form-group">

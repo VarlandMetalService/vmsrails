@@ -12,6 +12,7 @@ $(document).on 'turbolinks:load', ->
         $(selector).val(value).closest('form').submit()
     return false
   $('[data-toggle="tooltip"]').tooltip()
+  
   $('.collapse-filters').click ->
     target = $(@)
     collapsed = target.hasClass('collapsed')

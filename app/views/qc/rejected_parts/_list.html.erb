@@ -1,9 +1,7 @@
-<% @rejected_parts.each do |p| %>
-
 <table class="table table-bordered table-striped">
   <thead class="thead-dark">
     <tr>
-      <th>Date</th>
+      <th colspan="2">Info</th>
       <th>S.O. #</th>
       <th>User</th>
       <th>Tags</th>
@@ -15,8 +13,10 @@
     </tr>
   </thead>
   <tbody>
+    <% @rejected_parts.each do |p| %>
     <tr>
       <td><%= p.date.strftime("%m-%d-%y") %></td>
+      <td></td>
       <td><%= p.so_num %></td>
       <td><%= User.find(p.user_id).full_name %></td>
       <td>
@@ -64,6 +64,8 @@
                       data: { toggle: 'tooltip' } %>
         </div>
       </td>
-<% end %>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 

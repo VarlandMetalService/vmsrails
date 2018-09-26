@@ -2,16 +2,22 @@
 <div class="container-span border p-1">
   <div class="text"><u>Section 1: Identification & Description</u></div>
   <div class="form-row mt-3">
-    <div class="col-5">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> VMS S.O. #: </span>
+    <div class="col-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> VMS S.O. #: </span>
+          </div>
+          <%= f.text_field :so_num, class: "form-control", 
+                                    placeholder: "Shop order number.",
+                                    id: "so_num" %>
+            <div class="invalid-feedback text-center">
+              Shop Order # required.
+            </div>
         </div>
-        <%= f.text_field :so_num, class: "form-control", 
-                                    placeholder: "Shop order number." %>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Rejected By: </span>
@@ -20,9 +26,12 @@
               User.all.map { |u| [u.full_name, u.id] }, 
               unless @rejected_part.user_id.blank?
                 [User.find(@rejected_part.user_id), @rejected_part.user_id] 
-              end),
+              end ),
                 { include_blank: true }, 
                 { class: "form-control" } %>
+          <div class="invalid-feedback text-center">
+            Rejected by required.
+          </div>
       </div>
     </div>
     <div class="col-4">
@@ -31,22 +40,41 @@
           <span class="input-group-text"> Date: </span>
         </div>
         <%= f.date_field :date, class: "form-control" %>
+        <div class="invalid-feedback text-center">
+          Date required.
+        </div>
       </div>
     </div>
   </div>
   <div class="form-row mt-3">
-    <div class="col-12">
+    <div class="col-6">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">Reject Tag #:</span>
         </div>
         <%= f.text_field :reject_tag_num, class: "form-control", 
                                     placeholder: "First rework on original S.O. is Reject Tag #1, second rework is Rejectect Tag #2, etc..." %>
+          <div class="invalid-feedback text-center">
+            Reject Tag # required.
+          </div>  
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Weight:</span>
+        </div>
+        <%= f.text_field :weight, class: "form-control", 
+                                    placeholder: "Weight." %>
+          <div class="invalid-feedback text-center">
+            Weight required.
+          </div>  
       </div>
     </div>
   </div>
-  <div class="form-row mt-3">
-    <div class="col-4">
+  
+  <div class="form-row mt-4">
+    <div class="col-6">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> From: </span>
@@ -56,13 +84,16 @@
               { class: "form-control", placeholder: "Shop Order Num" } %>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-6">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Defect/Problem: </span>
         </div>
         <%= f.text_field :defect, class: "form-control",
                                     placeholder: "What's wrong with it?" %>
+        <div class="invalid-feedback text-center">
+          Defect/Problem required.
+        </div>
       </div>
     </div>
   </div>
@@ -180,6 +211,9 @@
         </div>
         <%= f.text_area :cause, class: "form-control", 
                                          placeholder: "Investigate CAUSE asap after DEFECT is discovered/identified. Record ANY known information and circumstances related to the rework that may help identify the cause.", rows: "6" %>
+        <div class="invalid-feedback text-center">
+            Jesus Christ! Fill this in, cause is required...
+        </div>  
       </div>
     </div>
   </div>

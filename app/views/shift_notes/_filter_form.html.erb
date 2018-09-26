@@ -3,13 +3,14 @@
     <%= form_with url: shift_notes_path,
               class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
-      <p class="pull-right">
-        <button class="btn btn-warning btn-sm" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
-            <%= fa_icon('minus-square') %>
-          </button>
-      </p>
-      <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
-    <div class="collapse" id="collapse">
+      <p class="small font-weight-bold text-warning mb-0 text-uppercase">
+    <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
+      [ + ]
+    </a>
+    Filter Results
+  </p>
+
+  <div class="collapse mt-2" id="collapseFilters">
       <div class="row">
           <div class="col">
             <div class="form-group">

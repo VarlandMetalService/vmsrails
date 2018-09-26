@@ -2,7 +2,14 @@
               class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get',
               local: true do |f| %>
-  <p class="small font-weight-bold text-warning mb-2 text-uppercase">Filter Results</p>
+  <p class="small font-weight-bold text-warning mb-0 text-uppercase">
+    <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
+      [ + ]
+    </a>
+    Filter Results
+  </p>
+
+  <div class="collapse mt-2" id="collapseFilters">
   <div class="row">
     <div class="col-12">
       <div class="form-group">
@@ -55,3 +62,4 @@
     <% end %>
   <% end %>
 <% end %>
+</div>

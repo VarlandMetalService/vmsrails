@@ -14,15 +14,16 @@
 %>
 <%= form_with class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
+              
 
   <p class="small font-weight-bold text-warning mb-0 text-uppercase">
-    <a class="collapse-filters text-warning" data-toggle="collapse" href="#collapseFilters" role="button" aria-expanded="true" aria-controls="collapseFilters">
-      [ - ]
+    <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
+      [ + ]
     </a>
     Filter Results
   </p>
 
-  <div class="collapse show mt-2" id="collapseFilters">
+  <div class="collapse mt-2" id="collapseFilters">
     <div class="row">
       <div class="col">
         <div class="form-group">
