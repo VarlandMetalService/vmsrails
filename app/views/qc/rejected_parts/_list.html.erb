@@ -62,6 +62,12 @@
                       class: 'font-weight-bold btn btn-sm btn-dark',
                       title: 'Edit Rejected Part',
                       data: { toggle: 'tooltip' } %>
+          <%= link_to fa_icon('retweet'),
+                      qc_path(p),
+                      class: 'font-weight-bold btn btn-sm btn-warning',
+                      title: 'Reformat & print rejected part form',
+                      remote: true,
+                      data: { toggle: 'tooltip' } %>
         </div>
       </td>
     </tr>

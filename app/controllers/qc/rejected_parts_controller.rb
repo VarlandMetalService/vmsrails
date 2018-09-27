@@ -20,7 +20,8 @@ module Qc
       @rejected_part = RejectedPart.new(rejected_part_params)
       respond_to do |format|
         if @rejected_part.save
-          format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully created.'}
+          helpers.gen_pdf(@rejected_part)      
+          format.html { redirect_to qc_rejected_parts_path }
           format.json { render :show, status: :created, location: @rejected_part }
         else
             format.html { render :new }
@@ -49,7 +50,12 @@ module Qc
       end
     end
 
-    def create_pdf
+    def recreate_pdf
+      helpers.gen_pdf(RejectedPart.find(params[:id]))
+      respond_to do |format|
+        format.html { redirect_to qc_rejected_parts_path }
+        format.json { head :no_content }
+      end
     end
 
     private
@@ -59,7 +65,7 @@ module Qc
       end
 
       def rejected_part_params
-          params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box)
+          params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box, :weight)
       end
 
   end

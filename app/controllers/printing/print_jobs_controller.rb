@@ -19,19 +19,19 @@ class Printing::PrintJobsController < ApplicationController
   end
 
   def new
-    @print_job = Printing::PrintJob.new
+    @print_job = Printing::PrintJob.create
   end
 
   def edit
   end
 
   def create
-    data = parse_data(params[:data])
+    data = Printing::PrintJob.parse_data(params[:data])
     @print_job = Printing::PrintJob.new(data)
     respond_to do |format|
       if @print_job.save
-        set_queue
-        send_print_cmd
+        Printing::PrintJob.set_queue(@print_job)
+        Printing::PrintJob.send_print_cmd(@print_job)
         format.html { render :index, notice: 'Print job was successfully created.' }
         format.json { render :index, status: :created, location: @print_job }
       else
@@ -61,42 +61,16 @@ class Printing::PrintJobsController < ApplicationController
     end
   end
 
-  def send_print_cmd
-    if @print_job.print_queue_id.blank?
-      @print_job.update_attribute(:is_complete, false)
-    else
-      queue = Printing::PrintQueue.find(@print_job.print_queue_id)
-      cmd = "lpr "
-      cmd << queue.printer << " " << queue.options << " "
-      cmd << @print_job.file.current_path
-      @print_job.update_attribute(:is_complete,                                     system(cmd))
-    end
+  def set_queue
+    Printing::PrintJob.set_queue(Printing::PrintJob.find(params[:id]))
     respond_to do |format|
-      format.html { redirect_back(fallback_location: "/print_jobs") }
+      format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
     end
   end
 
-  def set_queue
-    p = @print_job
-    applicable_rules = []
-    Printing::PrintQueueRule.all.each do |r|
-      if r.user_id == p.user_id || r.user_id.blank?
-        if r.workstation_id == p.workstation_id || r.workstation_id.blank?
-          if r.document_type_id == p.document_type_id ||    r.document_type_id.blank?
-            applicable_rules << r
-          end
-        end
-      end
-    end
-    applicable_rules = applicable_rules.sort_by { |x| -x[:weight] }
-    
-    if applicable_rules.blank?
-      p.update_attribute(:print_queue_id, nil)
-    else
-      p.update_attribute(:print_queue_id, applicable_rules.first.print_queue_id)
-    end
-     
+  def send_print_cmd
+    Printing::PrintJob.send_print_cmd(@print_job)
     respond_to do |format|
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
@@ -112,19 +86,5 @@ class Printing::PrintJobsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def print_job_params
       params.require(:printing_print_job).permit(:file, :is_complete, :user_id, :workstation_id, :document_type_id)
-    end
-
-    # Parse incoming json into file/options
-    def parse_data(dat)
-      data = {}
-      temp = JSON.parse(dat)
-      temp.symbolize_keys!
-      temp[:file].gsub!(' ', '+')
-
-      data[:file] = temp[:file]
-      data[:user_id] = User.find_by(username: temp[:user]).id unless User.find_by(username: temp[:user]).blank?
-      data[:workstation_id] = Workstation.find_by(ip_address: temp[:ip_address]).id unless Workstation.find_by(ip_address: temp[:ip_address]).blank?
-      data[:document_type_id] = DocumentType.find_by(name: temp[:document_type]).id unless DocumentType.find_by(name: temp[:document_type]).blank?
-      return data
     end
 end

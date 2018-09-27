@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   scope module: 'qc', as: 'qc', path: 'qc' do
     resources :rejected_parts
-    get '/rejected_parts(/:id)/pdf', to: 'rejected_parts#create_pdf'
+    get '/rejected_parts(/:id)/pdf', to: 'rejected_parts#recreate_pdf'
   end
 
   # Printing Routes

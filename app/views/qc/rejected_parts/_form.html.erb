@@ -52,7 +52,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Reject Tag #:</span>
         </div>
-        <%= f.text_field :reject_tag_num, class: "form-control", 
+        <%= f.number_field :reject_tag_num, class: "form-control", 
                                     placeholder: "First rework on original S.O. is Reject Tag #1, second rework is Rejectect Tag #2, etc..." %>
           <div class="invalid-feedback text-center">
             Reject Tag # required.
@@ -64,7 +64,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Weight:</span>
         </div>
-        <%= f.text_field :weight, class: "form-control", 
+        <%= f.number_field :weight, class: "form-control", 
                                     placeholder: "Weight." %>
           <div class="invalid-feedback text-center">
             Weight required.
@@ -79,9 +79,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> From: </span>
         </div>
-        <%= f.select :from_tag, options_for_select( [['Original S.O', 'Original S.O'],
-                                                    ['Reject Tag # 1', 'Reject Tag # 1']] ), {},
-              { class: "form-control", placeholder: "Shop Order Num" } %>
+        <%= f.text_field :from_tag, class: "form-control",
+                                    placeholder: "Original S.O. or Reject Tag #X" %>
       </div>
     </div>
     <div class="col-6">
