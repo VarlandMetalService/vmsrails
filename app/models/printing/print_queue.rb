@@ -1,5 +1,7 @@
 module Printing
   class PrintQueue < ApplicationRecord
+    # Validations.
+    validates_presence_of :printer, :name
     scope :with_search_term, ->(term){
       unless term.blank?
       search = ApplicationController.helpers.split_search_terms(term)

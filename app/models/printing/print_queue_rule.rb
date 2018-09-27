@@ -1,5 +1,8 @@
 module Printing
   class PrintQueueRule < ApplicationRecord
+    # Validations.
+    validates_presence_of :print_queue_id
+
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }
     scope :with_doc_type, ->(doc_type) { where("document_type_id = ?", doc_type) unless doc_type.nil? }
     scope :with_workstation, ->(workstation) { where("workstation_id = ?", workstation) unless workstation.nil? }

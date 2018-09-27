@@ -5,8 +5,11 @@
   <div class="form-row">
     <div class="col-12">
       <div class="form-group">
-        <%= f.label 'User:' %>
-        <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id]}, @print_queue_rule.user_id ), { include_blank: true }, { class: 'form-control' }%>
+        <%= f.label "Print Queue:" %>
+        <%= f.select :print_queue_id, options_for_select(Printing::PrintQueue.all.map { |q| [q.name, q.id] }, @print_queue_rule.print_queue_id), { include_blank: true }, { class: 'form-control' } %>
+        <div class="invalid-feedback text-center">
+            Print Queue required.
+        </div> 
       </div>
     </div>
   </div>
@@ -14,8 +17,8 @@
   <div class="form-row">
     <div class="col-6">
       <div class="form-group">
-        <%= f.label "Print Queue:" %>
-        <%= f.select :print_queue_id, options_for_select(Printing::PrintQueue.all.map { |q| [q.name, q.id] }, @print_queue_rule.print_queue_id), { include_blank: true }, { class: 'form-control' } %>
+        <%= f.label 'User:' %>
+        <%= f.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id]}, @print_queue_rule.user_id ), { include_blank: true }, { class: 'form-control' }%>
       </div>
     </div>
     <div class="col-6">
