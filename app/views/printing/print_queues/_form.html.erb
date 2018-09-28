@@ -48,18 +48,16 @@
     <div id="option_field" style="display: none;">
       <div id="options" class="form-inline mb-3">
         <div class="form-group">
-
-          
-
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"> Flag: </span>
             </div>
+            
             <%= f.select 'options', 
               options_for_select(Printing::PrintQueue.option_flags),
               { multiple: true, include_blank: true }, { name: "printing_print_queue[options][]", class: "form-control", id: "option_select" } %>
           </div>
-    
+
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text"> Value: </span>

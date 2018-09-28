@@ -18,6 +18,9 @@ module Qc
 
     def create
       @rejected_part = RejectedPart.new(rejected_part_params)
+      @rejected_part.load_nums = RejectedPart.process_array(params[:qc_rejected_part][:load_nums]) unless params[:qc_rejected_part][:load_nums].blank?
+      @rejected_part.tank_nums = RejectedPart.process_array(params[:qc_rejected_part][:tank_nums]) unless params[:qc_rejected_part][:tank_nums].blank?
+      @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.save
           helpers.gen_pdf(@rejected_part)      
@@ -31,6 +34,9 @@ module Qc
     end
 
     def update
+      @rejected_part.load_nums = RejectedPart.process_array(params[:qc_rejected_part][:load_nums]) unless params[:qc_rejected_part][:load_nums].blank?
+      @rejected_part.tank_nums = RejectedPart.process_array(params[:qc_rejected_part][:tank_nums]) unless params[:qc_rejected_part][:tank_nums].blank?
+      @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.update(rejected_part_params)
           format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully updated.'}

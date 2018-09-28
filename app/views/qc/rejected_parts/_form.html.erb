@@ -65,7 +65,7 @@
           <span class="input-group-text">Weight:</span>
         </div>
         <%= f.number_field :weight, class: "form-control", 
-                                    placeholder: "Weight." %>
+                                    placeholder: "Weight in lbs." %>
           <div class="invalid-feedback text-center">
             Weight required.
           </div>  
@@ -79,8 +79,11 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> From: </span>
         </div>
-        <%= f.text_field :from_tag, class: "form-control",
-                                    placeholder: "Original S.O. or Reject Tag #X" %>
+        <%= f.select :from_tag, options_for_select(
+          [[   'Original S.O.', 'Original S.O.'], 
+           ['Reject Tag #:___', 'Reject Tag #:___']]), 
+          {}, 
+          { class: "form-control", placeholder: "Original S.O. or Reject Tag #X" } %>
       </div>
     </div>
     <div class="col-6">
@@ -97,101 +100,61 @@
     </div>
   </div>
 </div>
-
 <br>
-
-<div class="container-span border p-1">
-  <div class="text">
-    <%= f.check_box :s2box, id: "section2radio" %>
-    <u>Section 2: Approval Without Rework (rarely used) </u>
-  </div>
-  <div class="container-span", style="display:<% if @rejected_part.s2box == true %> ;<% else %> none;<% end %>", id="section2">
-  <div class="form-row mt-3">
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Loads Approved: </span>
-        </div>
-        <%= f.text_field :loads_approved, class: "form-control", 
-                                         placeholder: "Record loads approved.",
-                                         id: "section2loads_approved" %>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Approved By: </span>
-        </div>
-        <%= f.select :approved_by, options_for_select(
-              User.all.map { |u| [u.full_name, u.id] }, 
-                unless @rejected_part.user_id.blank?
-                  [User.find(@rejected_part.user_id), @rejected_part.user_id] 
-                end),
-                { include_blank: true }, 
-                { class: "form-control",                                      placeholder: "No RW approved by whom?",
-                  id: "section2approved_by" } %>
-      </div>
-    </div>
-  </div>
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Comments: </span>
-        </div>
-        <%= f.text_field :section2_comments, class: "form-control", 
-                                       placeholder: "Explain whats going on.",
-                                       id: "section2comments" %>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
-
-<br>
-
 <div class="container-span border p-1">
   <div class="text">
     <%= f.check_box :s3box, id: "section3radio" %>
     <u>Section 3: Load Specific Info (use if barrel or station are possible causes of the defect)</u>
   </div>
   <div class="container-span", style="display:<% if @rejected_part.s3box == true %> ;<% else %> none;<% end %>", id="section3">
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Load #(s): </span>
+    <div class="form-row mt-3">
+      <div class="col-12">
+        <div class="form-group">
+            <%= link_to fa_icon('plus-square'),
+                              "javascript:;",
+                              class: 'font-weight-bold btn btn-sm btn-success',
+                              id: "addNewOption",
+                              title: 'Add Option' %>
+            <%= f.label "Loads:"%>
         </div>
-        <%= f.text_field :load_nums, class: "form-control", 
-                                         placeholder: "Load#1, Load#2, Load#3...",
-                                         id: "section3load" %>
+      </div>
+      <div class="col-12">
+        <div id="option_area">
+          <div id="option_field" style="">
+            <div id="options" class="form-inline mb-3">
+              <div class="form-group">
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> Load #: </span>
+                  </div>
+                  <%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%>
+                </div>
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> Tank: </span>
+                  </div>
+                  <%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%>
+                </div>
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> Barrel: </span>
+                  </div>
+                  <%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%>
+                </div>
+
+                <%= link_to fa_icon('times'), "javascript:;",
+                  class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+                  id: "remove_option",
+                  title: 'Delete Option' %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Barrel #(s): </span>
-        </div>
-        <%= f.text_field :barrel_nums, class: "form-control", 
-                                       placeholder: "Barrel#1, Barrel#2, Barrel#3...",
-                                       id: "section3barrel" %>
-      </div>
-    </div>
-  </div>
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Tank/Station(s): </span>
-        </div>
-        <%= f.text_field :tank_nums, class: "form-control", 
-                                       placeholder: "Tank/Station#1, Tank/Station#2, Tank/Station#3...",
-                                       id: "section3tank" %>
-      </div>
-    </div>
-  </div>
   </div>
 </div>
 
@@ -229,25 +192,8 @@
 <% end %>
 
 <script type="text/javascript">
-  var section2radio = document.getElementById('section2radio')
-  var section2      = document.getElementById('section2')
   var section3radio = document.getElementById('section3radio')
   var section3      = document.getElementById('section3')
-
-  section2radio.addEventListener("click", function() {
-    if(section2radio.checked) {
-      section2.style['display'] = "";
-      document.getElementById('section2loads_approved').disabled = false;
-      document.getElementById('section2approved_by'   ).disabled = false;
-      document.getElementById('section2comments'      ).disabled = false;
-    }
-    else {
-      section2.style['display'] = "none";
-      document.getElementById('section2loads_approved').disabled = true;
-      document.getElementById('section2approved_by'   ).disabled = true;
-      document.getElementById('section2comments'      ).disabled = true;
-    } 
-  });
 
   section3radio.addEventListener("click", function() {
     if(section3radio.checked) {
@@ -264,3 +210,15 @@
     } 
   });
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('#addNewOption').on('click', function(){
+        $('#option_area').append($('#option_field').clone().html());
+      });
+
+      $('#option_area').on('click','#remove_option', function(){
+        $(this).closest('#options').remove();
+      });
+    });
+  </script>

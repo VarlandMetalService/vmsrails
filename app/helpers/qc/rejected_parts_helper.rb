@@ -6,19 +6,18 @@ module Qc::RejectedPartsHelper
                :current_page  => "1",
                :total_pages   => "1",
                :sec1_title    => "Section 1 - Identification & Description",
-               :sec1_flavour  => "<>(All information in this section MUST be filled out at the time of rejection.)</>",
+               :sec1_flavour  => "(All information in this section MUST be filled out at the time of rejection.)",
                :revision_date => "08/08/18 by Brian Mangold",
                :sec2_title    => "Section 2 - Approval without RW",
-               :sec2_flavour  => "<>(Rarely used.)</>",
+               :sec2_flavour  => "(Rarely used.)",
                :sec3_title    => "Section 3 - Load Specific Info",
-               :sec3_flavour  => "<>(Use if barrel or station are possible causes of defect.)</>"}
+               :sec3_flavour  => "(Use if barrel or station are possible causes of defect.)",
+               :sec4_title    => "Section 4 - Cause of Defect/Problem"}
     prev = 0
 
     pdf = Prawn::Document.new
       prev = pdf.cursor
-      pdf.fill_color 'FF0000'
-      pdf.fill_rectangle [-10,pdf.cursor+5], 560, 730
-      pdf.fill_color '000000'
+
       # Title.
       pdf.pad(5) { pdf.text "<strong>#{hash[:form_type]}</strong>", 
         :align => :center, 
@@ -119,40 +118,35 @@ module Qc::RejectedPartsHelper
       :size => 13,
       :inline_format => true } 
 
-      if rejected_part.s2box
-        prev = pdf.cursor
+      prev = pdf.cursor
 
-        # Section 2.
-        pdf.bounding_box([0, pdf.cursor], 
-          :width => pdf.bounds.right/3) do
+      # Section 2.
+      pdf.bounding_box([0, pdf.cursor], 
+        :width => pdf.bounds.right/3) do
 
-          pdf.pad(5) { pdf.text "Loads Approved: <strong>#{rejected_part.loads_approved}</strong>",
-            :align => :left,
-            :size => 12,
-            :inline_format => true }
-        end
-
-        pdf.move_cursor_to prev
-        
-        pdf.bounding_box([pdf.bounds.right/3, pdf.cursor], 
-          :width => pdf.bounds.right*2/3) do
-
-          pdf.pad(5) { pdf.text "Approved By: <strong>#{User.find(rejected_part.approved_by).full_name}</strong>",
-            :align => :left,
-            :size => 12,
-            :inline_format => true }
-        end
-
-        pdf.pad(5) { pdf.text "Comments: <strong>#{rejected_part.section2_comments}</strong>",
+        pdf.pad(5) { pdf.text "Loads Approved: <strong></strong>",
           :align => :left,
           :size => 12,
-          :inline_format => true}
-      else
-        pdf.pad(5) { pdf.text "Not used.",
-          :align => :left,
-          :size => 12,
-          :inline_format => true}
+          :inline_format => true }
       end
+
+      pdf.move_cursor_to prev
+      
+      pdf.bounding_box([pdf.bounds.right/3, pdf.cursor], 
+        :width => pdf.bounds.right*2/3) do
+
+        pdf.pad(5) { pdf.text "Approved By:",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+      end
+
+      pdf.pad(5) { pdf.text "Comments: <strong></strong>",
+        :align => :left,
+        :size => 12,
+        :inline_format => true}
+      pdf.move_down 40
+
 
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
@@ -160,7 +154,7 @@ module Qc::RejectedPartsHelper
       pdf.move_down 15
 
       # Section 3 header.
-      pdf.pad(5) { pdf.text "<u><strong>#{hash[:sec3_title]}</u></strong> <sup>#{hash[:sec3_flavour]}</sup>", 
+      pdf.pad(5) { pdf.text "<u><strong>#{hash[:sec3_title]}</u></strong> <sup> #{hash[:sec3_flavour]}</sup>", 
       :align => :left, 
       :size => 13,
       :inline_format => true } 
@@ -169,33 +163,31 @@ module Qc::RejectedPartsHelper
         prev = pdf.cursor
 
         # Section 3.
-        pdf.bounding_box([0, pdf.cursor], 
-          :width => pdf.bounds.right) do
-
           if rejected_part.load_nums.blank?
           else
-          pdf.pad(5) { pdf.text "Load   #'s: <strong>#{rejected_part.load_nums}</strong>",
-            :align => :left,
-            :size => 12,
-            :inline_format => true }
+            loads = rejected_part.load_nums.split(", ")
+            puts loads
+            tanks = rejected_part.tank_nums.split(", ")
+            puts tanks
+            barrels = rejected_part.barrel_nums.split(", ")
+            puts barrels
+
+            lvals = ["Load #:"]
+            tvals = ["Tank:"]
+            bvals = ['Barrel:']
+            count = loads.count
+
+            count.times do |i|
+              lvals << loads[i]
+              tvals << tanks[i]
+              bvals << barrels[i]
+            end
+
+
+            pdf.table( [lvals, tvals, bvals] )
+            pdf.move_down 10
           end
 
-          if rejected_part.barrel_nums.blank?
-          else
-          pdf.pad(5) { pdf.text "Barrel #'s: <strong>#{rejected_part.barrel_nums}</strong>",
-            :align => :left,
-            :size => 12,
-            :inline_format => true }
-          end
-
-          if rejected_part.tank_nums.blank?
-          else
-          pdf.pad(5) { pdf.text "Tank   #'s: <strong>#{rejected_part.tank_nums}</strong>",
-            :align => :left,
-            :size => 12,
-            :inline_format => true }
-          end
-        end
       else
         pdf.pad(5) { pdf.text "Not used.",
           :align => :left,
@@ -207,18 +199,48 @@ module Qc::RejectedPartsHelper
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'
       pdf.move_down 15
+      
 
-      pdf.pad(5) { pdf.text "Cause: <strong>#{rejected_part.cause}</strong>",
-        :align => :left,
-        :size => 12,
-        :inline_format => true}
+      # Section 4
+      pdf.pad(5) { pdf.text "<strong><u>#{hash[:sec4_title]}</strong></u>", 
+        :align => :left, 
+        :size => 13,
+        :inline_format => true }
 
+        prev = pdf.cursor
+
+      pdf.bounding_box([pdf.bounds.right/3, prev], 
+        :width => pdf.bounds.right*2/3) do
+          pdf.pad(5) { pdf.text "Cause: <strong>#{rejected_part.cause}</strong>",
+            :align => :left,
+            :size => 12,
+            :inline_format => true}
+        end
+      e = pdf.cursor
+      pdf.bounding_box([0, prev], 
+        :width => pdf.bounds.right/3) do
+          pdf.table([['Cleaning'        , "    "],
+                     ['Equipment'       , "    "],
+                     ['Operator Error'  , "    "],
+                     ['Procedure Wrong' , "    "],
+                     ['Solution Related', "    "],
+                     ['Wrong Process'   , "    "],
+                     ['Other'           , "    "]])
+        end
+
+      if e < prev
+        pdf.move_down 10
+      else 
+        pdf.move_cursor_to prev-10       
+      end
+      
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'
       
-      string = pdf.render_file("hello.pdf")
-      # string = pdf.render()
+      # string = pdf.render_file("hello.pdf")
+      string = pdf.render()
+
       raw_data = ""
       raw_data << "data:image/jpeg;base64,"
       raw_data << Base64.encode64(string)
@@ -227,6 +249,7 @@ module Qc::RejectedPartsHelper
       data = {}
       data[:file] = raw_data
       data[:user_id] = rejected_part.user_id
+      data[:document_type_id] = 8
       
       puts data
 
