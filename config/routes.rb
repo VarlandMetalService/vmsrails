@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     end
   end
  
-  root    'vms#home'
+  root :to => 'vms#home'
   
   get '/timeclock/login',  to: 'timeclock#login'
   post '/timeclock/login', to: 'sessions#timeclock_create'

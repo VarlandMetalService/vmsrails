@@ -3,17 +3,17 @@
     <thead class="thead-dark">
       <tr>
         <th class="col-1"></th>
-        <th class="col-2">Shop Order</th>
+        <th class="col-1">Shop Order</th>
         <th class="col-3" colspan="2">Test</th>
-        <th class="col-2">Chromate | Topcoat</th>
-        <th class="col-2">White <div class="text-muted pull-right">(SPEC)</div></th>
-        <th class="col-2">Red <div class="text-muted pull-right">(SPEC)</div></th>
+        <th class="col-1">Chromate | Topcoat</th>
+        <th class="col-3">White <div class="text-muted pull-right">(SPEC)</div></th>
+        <th class="col-3">Red <div class="text-muted pull-right">(SPEC)</div></th>
       </tr>
     </thead>
     <tbody>
       <% @salt_spray_tests.each do |s| %>
       <tr>
-        <td><button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls=".multi-collapse"><%= fa_icon('minus-square')%></button></td>
+        <td><button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse<%=s.id%>" aria-expanded="false" aria-controls=".multi-collapse<%=s.id%>"><%= fa_icon('minus-square')%></button></td>
         <td>
           <strong><%= s.so_num %></strong><small> - Load:<%= s.load_num %></small>
           <br>
@@ -24,8 +24,8 @@
         </td>
         <td>
           <small><strong>Date:</small></strong>
-          <%= s.on_at %>
-          <div class="collapse multi-collapse">
+          <%= s.on_at.strftime("%D") %>
+          <div class="collapse multi-collapse<%=s.id%>">
             <small><strong>By:</small></strong>
             <%= User.find(s.on_by).full_name %>
             <br>
@@ -35,7 +35,7 @@
         <td>
           <small><strong>Process:</small></strong>
           <%= s.process_code %>
-          <div class="collapse multi-collapse">
+          <div class="collapse multi-collapse<%=s.id%>">
             <small><strong>Dept:</small></strong>
             <%= s.dept %>
             <br>
@@ -43,27 +43,46 @@
           </div>
         </td>
         <td>
-            Clear | 330
+          Clear | 330
         </td>
         <td>
-          <div class="pull-right">(<%= s.white_spec %>)</div>
-          <small><strong class="pull-left">Hours til:</small></strong>
-          <div class="text-center">...</div>
-          <div class="collapse multi-collapse">
-            <small><strong>Date:</small></strong>
-            <%= s.white_at %>
-            <br>
-            <small><strong>By:</small></strong>
-            <%= User.find(s.white_by).full_name %>
-            <br>
+          <div class="form-row">
+            <div class="col-4">
+              <small><strong class="pull-left">Hours to:</small></strong> 
+              <%= ((s.white_at - s.on_at)/3600).to_i unless s.white_at.blank? %>
+              <br>
+              <div class="collapse multi-collapse<%=s.id%>">
+              <small><strong>By:</small></strong>
+              <%= User.find(s.white_by).full_name %>
+              <div class="text-muted">
+                <%= s.white_at.strftime("%D") unless s.white_at.blank? %>
+              </div>
+            </div>
+            </div>
+            <div class="col-4 text-center">
+              <% if s.white_at.blank? %>
+                ...
+              <% else %>
+                <% if ((s.white_at - s.on_at)/3600).to_i >= s.white_spec %>
+                  <%= fa_icon('check', {class: "text-success"}) %>
+                <% else %>
+                  <%= fa_icon('times', {class: "text-danger"}) %>
+                <% end %>    
+              <% end %>
+            </div>
+            <div class="col-4">
+              <div class="pull-right">
+                (<%= s.white_spec %>)
+              </div>
+            </div>
           </div>
         </td>
         <td>
           <%= %>
           <div class="pull-right">(<%= s.red_spec %>)</div>
-          <small><strong class="pull-left">Hours til:</small></strong>
+          <small><strong class="pull-left">Hours to:</small></strong>
           <div class="text-center">...</div>
-          <div class="collapse multi-collapse">
+          <div class="collapse multi-collapse<%=s.id%>">
             <small><strong>Date:</small></strong>
             <%= s.red_at %>
             <br>

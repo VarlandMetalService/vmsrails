@@ -1,6 +1,7 @@
 module Qc
   class RejectedPartsController < ApplicationController
     before_action :set_rejected_part, only: [:show, :edit, :update, :destroy, :create_pdf]
+    after_action :set_tag_nums, only: [:create, :edit, :update]
 
     def index
         @rejected_parts = RejectedPart.all
@@ -23,12 +24,13 @@ module Qc
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.save
+          set_tag_nums
           helpers.gen_pdf(@rejected_part)      
-          format.html { redirect_to qc_rejected_parts_path }
-          format.json { render :show, status: :created, location: @rejected_part }
+          format.html { redirect_to root_path }
+          format.json { redirect_back(fallback_location: root_url) }
         else
             format.html { render :new }
-            format.json { render json: @rejected_part.errors, status: :unprocessable_entity}
+            format.json { render json: @rejected_part.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -42,7 +44,7 @@ module Qc
           format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully updated.'}
           format.json { render :show, status: :ok, location: @rejected_part }
         else
-            format.html { render :edit }
+            format.html { render :new }
             format.json { render json: @rejected_part.errors, status: :unprocessable_entity}
         end
       end
@@ -72,6 +74,12 @@ module Qc
 
       def rejected_part_params
           params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box, :weight)
+      end
+
+      # Set From Tag and Reject Tag Num based on S.O. entries.
+      def set_tag_nums
+        tags = RejectedPart.all.where(:so_num == @rejected_part.so_num)
+        @rejected_part.update_attributes(:from_tag => (tags.count-1), :reject_tag_num => tags.count)
       end
 
   end

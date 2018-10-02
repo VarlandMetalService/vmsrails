@@ -52,6 +52,7 @@ module Printing
       temp[:file].gsub!(' ', '+')
 
       data[:file] = temp[:file]
+      data[:description] = temp[:description]
       data[:user_id] = User.find_by(username: temp[:user]).id unless User.find_by(username: temp[:user]).blank?
       data[:workstation_id] = Workstation.find_by(ip_address: temp[:ip_address]).id unless Workstation.find_by(ip_address: temp[:ip_address]).blank?
       data[:document_type_id] = DocumentType.find_by(name: temp[:document_type]).id unless DocumentType.find_by(name: temp[:document_type]).blank?

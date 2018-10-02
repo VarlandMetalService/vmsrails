@@ -85,6 +85,6 @@ class Printing::PrintJobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def print_job_params
-      params.require(:printing_print_job).permit(:file, :is_complete, :user_id, :workstation_id, :document_type_id)
+      params.require(:printing_print_job).permit(:file, :is_complete, :user_id, :workstation_id, :document_type_id, :description)
     end
 end

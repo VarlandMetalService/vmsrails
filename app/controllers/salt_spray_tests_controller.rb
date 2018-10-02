@@ -12,6 +12,7 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def show
+    @commentable = @rejected_part
   end
 
   def new

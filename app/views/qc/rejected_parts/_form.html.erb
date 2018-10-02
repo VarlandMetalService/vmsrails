@@ -50,13 +50,27 @@
     <div class="col-6">
       <div class="input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">Reject Tag #:</span>
+          <span class="input-group-text"> Defect/Problem: </span>
         </div>
-        <%= f.number_field :reject_tag_num, class: "form-control", 
-                                    placeholder: "First rework on original S.O. is Reject Tag #1, second rework is Rejectect Tag #2, etc..." %>
-          <div class="invalid-feedback text-center">
-            Reject Tag # required.
-          </div>  
+        <%= f.select :defect, 
+              options_for_select([['Adhesion'     , 'Adhesion'     ],
+                                  ['Alloy'        , 'Alloy'        ],
+                                  ['Appearance'   , 'Appearance'   ],
+                                  ['Arced'        , 'Arced'        ],
+                                  ['Built Up'     , 'Built Up'     ],
+                                  ['Chromate'     , 'Chromate'     ],
+                                  ['Coverage'     , 'Coverage'     ],
+                                  ['Not Clean'    , 'Not Clean'    ],
+                                  ['Other'        , 'Other'        ],
+                                  ['Post Dip'     , 'Post Dip'     ],
+                                  ['Thickness'    , 'Thickness'    ],
+                                  ['Wrong Process', 'Wrong Process']]), 
+              {}, 
+              { class: "form-control",
+                placeholder: "What's wrong with it?" } %>
+        <div class="invalid-feedback text-center">
+          Defect/Problem required.
+        </div>
       </div>
     </div>
     <div class="col-6">
@@ -73,34 +87,8 @@
     </div>
   </div>
   
-  <div class="form-row mt-4">
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> From: </span>
-        </div>
-        <%= f.select :from_tag, options_for_select(
-          [[   'Original S.O.', 'Original S.O.'], 
-           ['Reject Tag #:___', 'Reject Tag #:___']]), 
-          {}, 
-          { class: "form-control", placeholder: "Original S.O. or Reject Tag #X" } %>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Defect/Problem: </span>
-        </div>
-        <%= f.text_field :defect, class: "form-control",
-                                    placeholder: "What's wrong with it?" %>
-        <div class="invalid-feedback text-center">
-          Defect/Problem required.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <br>
+
 <div class="container-span border p-1">
   <div class="text">
     <%= f.check_box :s3box, id: "section3radio" %>
@@ -181,13 +169,18 @@
   </div>
   </div>
 </div>
+
+
+
+
+
 <div class="btn-group" role="group">
-    <%= link_to fa_icon('arrow-left'),
-                        qc_rejected_parts_path,
-                        method: :get,
-                        class: 'font-weight-bold btn btn-sm btn-secondary',
-                        title: 'Back' %>
-    <%= f.submit yield(:button_text), class: "btn btn-primary"%>
+  <%= link_to fa_icon('arrow-left'),
+                      root_path,
+                      method: :get,
+                      class: 'font-weight-bold btn btn-sm btn-secondary',
+                      title: 'Back' %>
+  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
 </div>
 <% end %>
 

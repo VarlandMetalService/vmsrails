@@ -89,12 +89,20 @@ module Qc::RejectedPartsHelper
         :size => 12,
         :inline_format => true }
 
+      if rejected_part.from_tag == '0'
+        pdf.pad(5) { pdf.text "From: <strong>Original S.O.</strong>",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+      else
+        pdf.pad(5) { pdf.text "From: <strong>Rejected Tag # #{rejected_part.from_tag}</strong>",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+      end
       
 
-      pdf.pad(5) { pdf.text "From: <strong>#{rejected_part.from_tag}</strong>",
-      :align => :left,
-      :size => 12,
-      :inline_format => true }
+      
 
       pdf.bounding_box([0, pdf.cursor], 
         :width => pdf.bounds.right*2/3) do
@@ -124,7 +132,7 @@ module Qc::RejectedPartsHelper
       pdf.bounding_box([0, pdf.cursor], 
         :width => pdf.bounds.right/3) do
 
-        pdf.pad(5) { pdf.text "Loads Approved: <strong></strong>",
+        pdf.pad(5) { pdf.text "Loads Approved:__________ <strong></strong>",
           :align => :left,
           :size => 12,
           :inline_format => true }
@@ -135,7 +143,7 @@ module Qc::RejectedPartsHelper
       pdf.bounding_box([pdf.bounds.right/3, pdf.cursor], 
         :width => pdf.bounds.right*2/3) do
 
-        pdf.pad(5) { pdf.text "Approved By:",
+        pdf.pad(5) { pdf.text "Approved By:__________________",
           :align => :left,
           :size => 12,
           :inline_format => true }
@@ -145,7 +153,7 @@ module Qc::RejectedPartsHelper
         :align => :left,
         :size => 12,
         :inline_format => true}
-      pdf.move_down 40
+      pdf.move_down 30
 
 
       pdf.stroke_color 'd3d3d3'
@@ -209,8 +217,8 @@ module Qc::RejectedPartsHelper
 
         prev = pdf.cursor
 
-      pdf.bounding_box([pdf.bounds.right/3, prev], 
-        :width => pdf.bounds.right*2/3) do
+      pdf.bounding_box([pdf.bounds.right/2, prev], 
+        :width => pdf.bounds.right/2) do
           pdf.pad(5) { pdf.text "Cause: <strong>#{rejected_part.cause}</strong>",
             :align => :left,
             :size => 12,
@@ -218,20 +226,29 @@ module Qc::RejectedPartsHelper
         end
       e = pdf.cursor
       pdf.bounding_box([0, prev], 
-        :width => pdf.bounds.right/3) do
+        :width => pdf.bounds.right/4) do
           pdf.table([['Cleaning'        , "    "],
+                     ['Customer Issue'  , "    "],
+                     ['Development'     , "    "],
                      ['Equipment'       , "    "],
                      ['Operator Error'  , "    "],
-                     ['Procedure Wrong' , "    "],
-                     ['Solution Related', "    "],
-                     ['Wrong Process'   , "    "],
-                     ['Other'           , "    "]])
-        end
-
-      if e < prev
-        pdf.move_down 10
+                     ['Opto'            , "    "],
+                     ['Part Related'    , "    "]])
+      end
+      pdf.bounding_box([pdf.bounds.right/4, prev],
+        :width => pdf.bounds.right/4) do
+        pdf.table([
+                     ['S.O. Procedure'  , "    "],
+                     ['Solution'        , "    "],
+                     ['Technique'       , "    "],
+                     ['Technology'      , "    "],
+                     ['Unknown'         , "    "],
+                     ['Wrong Process'   , "    "]])
+      end
+      if e < pdf.cursor
+        pdf.move_cursor_to e-30
       else 
-        pdf.move_cursor_to prev-10       
+        pdf.move_down 30      
       end
       
       pdf.stroke_color 'd3d3d3'
@@ -245,16 +262,12 @@ module Qc::RejectedPartsHelper
       raw_data << "data:image/jpeg;base64,"
       raw_data << Base64.encode64(string)
 
-
       data = {}
       data[:file] = raw_data
       data[:user_id] = rejected_part.user_id
       data[:document_type_id] = 8
-      
-      puts data
 
       printjob = Printing::PrintJob.new(data)
-      puts printjob
       if printjob.save
         Printing::PrintJob.set_queue(printjob)
         Printing::PrintJob.send_print_cmd(printjob)

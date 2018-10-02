@@ -5,6 +5,7 @@
         <tr>
           <th></th>
           <th>Timestamp</th>
+          <th>Description</th>
           <th>Print Queue</th>
           <th>User</th>
           <th>Doc Type</th>
@@ -20,6 +21,7 @@
                   (fa_icon ["check", "3x"]) : (fa_icon ["times", "3x"]) %>
           </td>
           <td><%= p.created_at.strftime("%m/%d @ %I:%M %p") %></td>
+          <td><%= p.description unless p.description.blank? %></td>
           <td>
             <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
           </td>
@@ -51,7 +53,7 @@
                           title: 'Download Print Job File',
                           data: { toggle: 'tooltip' } %>
               <%= link_to fa_icon('times'),
-                          printing_print_job_path(p),
+                          p,
                           method: :delete,
                           remote: true,
                           class: 'font-weight-bold btn btn-sm btn-danger',

@@ -1,11 +1,10 @@
 <% provide(:title, 'Print Queues') %>
 <div class="row mt-3">
-  <div class="col">
+  <div class="col-12">
     <h3 class="mb-0">Print Queues</h3>
+    <%= link_to fa_icon('plus', text: 'New Print Queue'), new_printing_print_queue_path, class:"float-right btn btn-warning font-weight-bold" %> 
   </div>
 </div>
-
-<%= link_to fa_icon('plus', text: 'New Print Queue'), new_printing_print_queue_path, class:"btn btn-warning font-weight-bold" %> 
 
 <div class="row">
   <div class="col">
