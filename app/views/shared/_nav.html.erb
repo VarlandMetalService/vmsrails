@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <%= link_to image_tag("logo2.png", alt: "Brand"), root_path, :class=>'navbar-brand' %>
 
@@ -77,7 +78,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" area-haspopup="true" aria-expanded="false">Prop65</a>
-        <form class="dropdown-menu text-center p-4" action="/queries/prop65" method="get"> <u>Proposition 65</u>
+        <form class="dropdown-menu text-center p-4 " action="/queries/prop65" method="get"> <u>Proposition 65</u>
         <%= form_for "", { class: "dropdown-menu p-4" } do |f| %>
           <div class="form-group">
             <%= f.text_field :customer, placeholder: "Customer Code" %>
@@ -111,3 +112,4 @@
       </ul>
     <% end %>
 </nav>
+</div>

@@ -224,3 +224,36 @@ trix-toolbar .trix-button-row {
     color: red;
   }
 }
+
+.carousel-item {
+  height: 100px;
+}
+
+.swipe-btn {
+  height: 80px;
+}
+
+.bar-step {
+  position:absolute;
+  margin-top:-20px;
+z-index:1;
+  font-size:12px;
+}
+
+.label-txt {
+  float: left;
+}
+
+.label-line {
+  float: right;
+  background: #000;
+  height:35px;
+width:1px;
+  margin-left: 5px;
+}
+
+.label-percent {
+  float: right;
+  margin-left: 5px;   
+}
+

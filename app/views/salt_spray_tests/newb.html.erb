@@ -1,0 +1,101 @@
+<div class="container-fluid">
+  <%= form_for @salt_spray_test do |f| %>
+  <div class="row mt-3">
+    <div class="col-4">
+        <div class="form-group">
+          <%= f.label "Shop Order #" %>
+          <%= f.text_field :so_num, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Load #" %>
+          <%= f.text_field :load_num, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Process Code" %>
+          <%= f.text_field :process, class: "form-control", name: "salt_spray_test[process][]" %>
+        </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+          <%= f.label "Customer" %>
+          <%= f.text_field :customer, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Part #" %>
+          <%= f.text_field :part_num, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Sub" %>
+          <%= f.text_field :sub, class: "form-control" %>
+        </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+          <%= f.label "Part Area" %>
+          <%= f.text_field :part_area, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Density" %>
+          <%= f.text_field :density, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Dept" %>
+          <%= f.text_field :dept, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label "Load Weight" %>
+          <%= f.text_field :load_weight, class: "form-control" %>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <div class="form-group">
+        <%= f.label "White Spec" %>
+        <%= f.text_field :white_spec, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "White By" %>
+        <%= f.text_field :white_by, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "White At" %>
+        <%= f.text_field :white_at, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <%= f.label "Red Spec" %>
+        <%= f.text_field :red_spec, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "Red By" %>
+        <%= f.text_field :red_by, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "Red At" %>
+        <%= f.text_field :red_at, class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <%= f.label "On by" %>
+        <%= f.text_field :on_by, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "On at" %>
+        <%= f.text_field :on_at, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "Off by" %>
+        <%= f.text_field :off_at, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label "Flagged By" %>
+        <%= f.text_field :flagged_by, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <%= f.submit %>
+  <% end %>
+</div>

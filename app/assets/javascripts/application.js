@@ -17,4 +17,5 @@
 //= require turbolinks
 //= require cocoon
 //= require trix
+//= require chartkick
 //= require_tree

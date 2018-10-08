@@ -1,11 +1,19 @@
 class SaltSprayTest < ApplicationRecord
+  serialize :process, Array
   # Associations.
-  has_many :comments, as: :commentable, dependent: :destroy
-  has_one :on_user   , class_name: "User"
-  has_one :off_user  , class_name: "User"
-  has_one :red_user  , class_name: "User"
-  has_one :white_user, class_name: "User"
+  
+  has_many   :comments, as: :commentable, dependent: :destroy
+  has_many   :salt_spray_test_checks, class_name: "SaltSprayTestCheck", dependent: :destroy
+  belongs_to :user, class_name: "User", foreign_key: "user_id"
+  accepts_nested_attributes_for :salt_spray_test_checks
 
   # Validations.
   validates_presence_of :so_num, :load_num
+
+  scope :with_process_code, ->(process_code) { where("process_code = ?", process_code) unless process_code.nil? }
+
+  def self.options_for_process_code
+    [['HN', 'HN'],
+     ['ZN', 'ZN']]
+  end
 end

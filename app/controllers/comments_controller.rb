@@ -4,9 +4,12 @@ class CommentsController < ApplicationController
     def create
         @comment = @commentable.comments.new comment_params
         if @comment.save
-            send_emails(@commentable)
+            if @commentable.class == ShiftNote
+                send_emails(@commentable)
+            else
+            end
             flash[:success] = "Comment created."
-            redirect_to shift_note_path(@commentable)
+            redirect_back(fallback_location: root_path)
         else
             flash[:failure] = "Comment creation failed."
         end

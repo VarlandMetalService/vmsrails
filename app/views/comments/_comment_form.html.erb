@@ -1,5 +1,5 @@
 <div class="container-fluid">
-<%= form_with model: [commentable, Comment.new] do |f| %>
+<%= form_for [commentable, Comment.new] do |f| %>
 <% users_array = User.all.map{ |user| [user.full_name, user.id] } %>
     
     <div class="form-row">
@@ -15,14 +15,22 @@
     <div class="form-row">
     <%= f.trix_editor :body, class: "form-control", placeholder: "Add a comment..." %>
     </div>
+    <br>
     <div class="btn-group" role="group">
       <%= link_to fa_icon('arrow-left'),
-                          shift_notes_path,
+                          session[:last_page],
                           method: :get,
                           class: 'font-weight-bold btn btn-sm btn-secondary',
                           title: 'Back' %>
-        <%= f.submit "Create Comment", class: "btn btn-primary" %>
+        <%= f.submit "Create Comment", class: "btn btn-info" %>
+    </div>
+    <div class="pull-right">
+        <% if commentable.is_a? SaltSprayTest %>
+            <button class="btn float-right" type="button" data-toggle="collapse" data-target="#collapseCommentsList<%=commentable.id%>" style="font-size: 14x;"><%= fa_icon('comments-o')%>
+          </button>
+        <% else %>
+        <% end %>
+        
     </div>
 <% end %>
 </div>
-

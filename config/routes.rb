@@ -23,7 +23,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :salt_spray_tests
+  resources :salt_spray_tests do
+    resources :comments, module: :salt_spray_tests
+    resources :salt_spray_test_checks
+  end
 
   get 'printing/print_job(/:id)/send', to: 'printing/print_jobs#send_print_cmd'
 

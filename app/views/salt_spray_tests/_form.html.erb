@@ -1,0 +1,61 @@
+<%= form_for @salt_spray_test do |f| %>
+
+<%= f.number_field :so_num %>
+<%= f.number_field :load_num %>
+<%= f.select :on_by, 
+      options_for_select(User.all.map { |u| [u.full_name, u.id] },                                               @salt_spray_test.on_by ),
+      {},
+      { class: "form-control" } %>
+
+<div class="form-row">
+  <div class="col-12">
+    <div class="form-group">
+      <%= link_to fa_icon('plus-square'),
+                        "javascript:;",
+                        class: 'font-weight-bold btn btn-sm btn-success',
+                        id: "addNewStep",
+                        title: 'Add Step' %>
+      <%= f.label "Process:"%>
+    </div>
+  </div>
+  <div class="col-12">
+    <div id="show_area"></div>
+  </div>
+</div>
+
+
+<div id="step" style="display: none;">
+  <div id="steps" class="form-inline mb-3">
+    <div class="form-group">
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Step: </span>
+        </div>
+        <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Process | Thickness" } %>
+      </div>
+
+      <%= link_to fa_icon('times'), "javascript:;",
+        class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+        id: "remove_step",
+        title: 'Delete Option' %>
+
+    </div>
+  </div>
+</div>
+<%= f.submit %>
+
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('#addNewStep').on('click', function(){
+        $('#show_area').append($('#step').clone().html());
+      });
+
+      $('#show_area').on('click','#remove_step', function(){
+        $(this).closest('#steps').remove();
+      });
+    });
+  </script>
+</div>

@@ -30,3 +30,9 @@ $(document).on 'turbolinks:load', ->
     sorted_by = $(@).data('sorted_by')
     $('select[name=sorted_by]').val(shift_type)
     $('select[name=sorted_by]').closest("form").submit()
+
+$(document).on 'turbolinks:load', ->
+  $('.process-code-filter').click ->
+    process_code = $(@).data('process-code')
+    $('select[name=with_process_code]').val(process_code)
+    $('select[name=with_process_code]').closest("form").submit()

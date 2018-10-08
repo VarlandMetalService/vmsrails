@@ -2,39 +2,39 @@
   <table class="table table-bordered table-striped table-hover">
     <thead class="thead-dark">
       <tr>
-        <th class="col-1"></th>
-        <th class="col-1">Shop Order</th>
-        <th class="col-3" colspan="2">Test</th>
-        <th class="col-1">Chromate | Topcoat</th>
-        <th class="col-3">White <div class="text-muted pull-right">(SPEC)</div></th>
-        <th class="col-3">Red <div class="text-muted pull-right">(SPEC)</div></th>
+        <th class="col-1 d-none d-sm-none d-md-none d-lg-table-cell"></th>
+        <th class="col-3">Shop Order</th>
+        <th class="col-2 d-none d-sm-none d-md-none d-lg-table-cell">Info</th>
+        <th class="col-2 d-none d-sm-none d-md-none d-lg-table-cell">Process</th>
+        <th class="col-6 text-center">Time</th>
       </tr>
     </thead>
     <tbody>
       <% @salt_spray_tests.each do |s| %>
       <tr>
-        <td><button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse<%=s.id%>" aria-expanded="false" aria-controls=".multi-collapse<%=s.id%>"><%= fa_icon('minus-square')%></button></td>
+        <td class="d-none d-sm-none d-md-none d-lg-table-cell text-center">
+          <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse<%=s.id%>" aria-expanded="false" aria-controls=".multi-collapse<%=s.id%>"><%= fa_icon('minus-square')%></button>
+        </td>
         <td>
-          <strong><%= s.so_num %></strong><small> - Load:<%= s.load_num %></small>
+          <strong class="pull-left"><%= s.so_num %></strong><small class="pull-right">Load:<%= s.load_num %></small>
           <br>
-          <div class="text-muted">
+          <div class="text-muted pull-left">
             <%= s.customer %> - 
             <%= s.part_num %>
           </div>
+          <div class="text-muted pull-right">
+            <%= s.on_at.strftime("%D") %><br>
+          </div>
         </td>
-        <td>
+        <td class="d-none d-sm-none d-md-none d-lg-table-cell">
           <small><strong>Date:</small></strong>
           <%= s.on_at.strftime("%D") %>
           <div class="collapse multi-collapse<%=s.id%>">
             <small><strong>By:</small></strong>
-            <%= User.find(s.on_by).full_name %>
+            <%= User.find(s.on_by).full_name unless s.on_by.blank? %>
             <br>
             <small><strong>Hours on:</small></strong>
           </div>
-        </td>
-        <td>
-          <small><strong>Process:</small></strong>
-          <%= s.process_code %>
           <div class="collapse multi-collapse<%=s.id%>">
             <small><strong>Dept:</small></strong>
             <%= s.dept %>
@@ -42,54 +42,43 @@
             <small><strong>Part area - Density </small></strong>
           </div>
         </td>
-        <td>
-          Clear | 330
+        <td class="d-none d-sm-none d-md-none d-lg-table-cell">
+          <% if s.process[1].blank? %>
+            <%= s.process[0] unless s.process.blank? %>
+          <% else %>
+            <% s.process.each do |p| %>
+              <%= p %>
+              <br>
+            <% end %>
+          <% end %>
+            <br>
         </td>
         <td>
           <div class="form-row">
-            <div class="col-4">
-              <small><strong class="pull-left">Hours to:</small></strong> 
-              <%= ((s.white_at - s.on_at)/3600).to_i unless s.white_at.blank? %>
-              <br>
-              <div class="collapse multi-collapse<%=s.id%>">
-              <small><strong>By:</small></strong>
-              <%= User.find(s.white_by).full_name %>
-              <div class="text-muted">
-                <%= s.white_at.strftime("%D") unless s.white_at.blank? %>
-              </div>
-            </div>
-            </div>
-            <div class="col-4 text-center">
-              <% if s.white_at.blank? %>
-                ...
-              <% else %>
-                <% if ((s.white_at - s.on_at)/3600).to_i >= s.white_spec %>
-                  <%= fa_icon('check', {class: "text-success"}) %>
-                <% else %>
-                  <%= fa_icon('times', {class: "text-danger"}) %>
-                <% end %>    
-              <% end %>
-            </div>
-            <div class="col-4">
-              <div class="pull-right">
-                (<%= s.white_spec %>)
-              </div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <%= %>
-          <div class="pull-right">(<%= s.red_spec %>)</div>
-          <small><strong class="pull-left">Hours to:</small></strong>
-          <div class="text-center">...</div>
-          <div class="collapse multi-collapse<%=s.id%>">
-            <small><strong>Date:</small></strong>
-            <%= s.red_at %>
-            <br>
-            <small><strong>By:</small></strong>
-            <%= User.find(s.red_by).full_name %>
-            <br>
-          </div>
+            <table class="table table-sm mb-0">
+              <thead>
+                <tr>
+                  <th class="col-4 text-center">Elapsed</th>
+                  <th class="col-4 text-center">White</th>
+                  <th class="col-4 text-center">Red</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td class="text-center">
+                      257
+                    </td>
+                    <td class="bg-success">
+                      <strong class="pull-left"><small>@:</small> 201</strong>
+                      <div class="pull-right"><small>Spec:</small>22</div>
+                    </td>
+                    <td class="bg-danger text-center">
+                      <strong class="pull-left"><small>@:</small>257</strong>
+                      <div class="pull-right"><small>Spec:</small>1000</div>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
         </td>
       </tr>
       <% end %>

@@ -2,9 +2,15 @@ class SaltSprayTestsController < ApplicationController
   include ApplicationHelper
   before_action :set_salt_spray_test, only: [:show, :edit, :update, :destroy]
 
+  # Notes: If spec is > 24 hours, measure in days (24 hour periods), display hours
+  # Need a mobile interface to mark tests On, OK, White, Red, Off 
+  # Cards, scrollable, toby's design
+
+  has_scope :with_process_code,     only: :index
 
   def index 
-    @salt_spray_tests = apply_scopes(SaltSprayTest).all.page(params[:page])
+    @salt_spray_tests = apply_scopes(SaltSprayTest).all.page(params[:page]).includes(:comments, :salt_spray_test_checks)
+    @check = SaltSprayTestCheck.new
     respond_to do |format|
       format.html
       format.json { render :json => @salt_spray_tests }
@@ -17,13 +23,15 @@ class SaltSprayTestsController < ApplicationController
 
   def new
     @salt_spray_test = SaltSprayTest.new
+    @check = @salt_spray_test.checks.build
   end
 
   def edit
   end
 
   def create
-    @salt_spray_test = SaltSprayTest.new(salt_spray_test_params) 
+    @salt_spray_test = SaltSprayTest.new(salt_spray_test_params)
+    @check = @salt_spray_test.checks.build
     if @salt_spray_test.save
       flash[:success] = "Salt spray test created."
       respond_to do |format|
@@ -39,7 +47,7 @@ class SaltSprayTestsController < ApplicationController
   def update
       if @salt_spray_test.update(salt_spray_test_params)
         flash[:success] = "Salt spray test updated."
-        redirect_to salt_spray_test_path(@salt_spray_test)
+        redirect_to salt_spray_tests_path
       else
         render 'edit'
       end
@@ -61,7 +69,7 @@ class SaltSprayTestsController < ApplicationController
 
     # Never trust parameters from the internet, only allow the white list.
     def salt_spray_test_params
-      params.require(:salt_spray_test).permit(:so_num, :load_num, :custoemr, :process_code, :part_num, :sub, :part_area, :density, :white_spec, :red_spec, :dept, :load_weight, :on_by, :on_at, :off_by, :off_at, :white_by, :white_at, :red_by, :red_at, :flagged_by)
+      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, { :checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => [] } )
     end
 
 end
