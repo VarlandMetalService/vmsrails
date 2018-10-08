@@ -2,10 +2,23 @@
 
 <%= f.number_field :so_num %>
 <%= f.number_field :load_num %>
-<%= f.select :on_by, 
-      options_for_select(User.all.map { |u| [u.full_name, u.id] },                                               @salt_spray_test.on_by ),
+<%= f.select :user_id, 
+      options_for_select(User.all.map { |u| [u.full_name, u.id] },                                               @current_user.id ),
       {},
       { class: "form-control" } %>
+
+
+<%= f.fields_for :salt_spray_test_checks do |ff| %>
+  <%= ff.hidden_field :c_type,  value: "ON" %>
+  <%= ff.hidden_field :date,    value: DateTime.now %>
+  <%= ff.hidden_field :user_id, value: @current_user.id %>
+<% end %>
+
+
+
+
+
+
 
 <div class="form-row">
   <div class="col-12">

@@ -242,18 +242,23 @@ z-index:1;
 
 .label-txt {
   float: left;
+  font-weight: bold;
 }
 
 .label-line {
   float: right;
   background: #000;
-  height:35px;
-width:1px;
+  height:60px;
+width:2px;
   margin-left: 5px;
 }
 
 .label-percent {
   float: right;
   margin-left: 5px;   
+}
+
+.bg-danger .text-muted {
+  color: white !important;
 }
 

@@ -6,7 +6,6 @@ class SaltSprayTestChecksController < ApplicationController
   # Need a mobile interface to mark tests On, OK, White, Red, Off 
   # Cards, scrollable, toby's design
 
-
   def index 
     @salt_spray_test_check = SaltSprayTestCheck.new(salt_spray_test_check_params)
     if @salt_spray_test_check.save
@@ -32,8 +31,11 @@ class SaltSprayTestChecksController < ApplicationController
   end
 
   def create
+    if params[:salt_spray_test_check][:c_type] == 'OFF'
+      SaltSprayTest.with_deleted.find(params[:salt_spray_test_id]).update_attribute(:deleted_at, Time.now )
+    end
     @salt_spray_test_check = SaltSprayTestCheck.new(salt_spray_test_check_params)
-    @salt_spray_test_check.salt_spray_test = SaltSprayTest.find(params[:salt_spray_test_id])
+    @salt_spray_test_check.salt_spray_test = SaltSprayTest.with_deleted.find(params[:salt_spray_test_id])
     if @salt_spray_test_check.save
       flash[:success] = "Check created."
       respond_to do |format|

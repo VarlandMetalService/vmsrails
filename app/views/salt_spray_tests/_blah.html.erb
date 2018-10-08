@@ -3,14 +3,11 @@
 
 <li>
   <div class="card fluid
-    <% if s.salt_spray_test_checks.blank? %> 
-    <% else %>
-      <% if (Time.now - s.salt_spray_test_checks.last.date)/3600 > 30 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
-      bg-danger
-      <% elsif (Time.now - s.salt_spray_test_checks.last.date)/3600 > 18 && s.salt_spray_test_checks.where(:c_type => "RED").blank?%>
-      bg-warning
-      <%# email? %>
-      <% end %>
+    <% if (Time.now - s.salt_spray_test_checks.last.date)/3600 > 36 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
+    bg-danger
+    <% elsif (Time.now - s.salt_spray_test_checks.last.date)/3600 > 18 && s.salt_spray_test_checks.where(:c_type => "RED").blank?%>
+    bg-warning
+    <%# email? %>
     <% end %>
   ">
     <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
@@ -19,10 +16,10 @@
           <div class="row mb-0">
             <div class="col-4">
               <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-              <span class="badge badge-warning badge-border float-left mr-2 mt-1" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
+              <span class="badge badge-warning badge-border float-left mr-2 mt-1" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
             </div>
             <div class="col-4">
-              <p class="text-center mb-1" style="font-size: 20px;"><strong><%= s.so_num %></strong></p>
+              <p class="text-center mb-1" style="font-size: 24px;"><strong><%= s.so_num %></strong></p>
               <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
               <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
             </div>
@@ -44,12 +41,22 @@
               <%= f.hidden_field :c_type, value: "OK" %>
               <%= f.hidden_field :date, value: DateTime.now %>
               <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
               <%= f.submit 'OK', 
-                    { class: "btn btn-primary swipe-btn btn-block", 
+                    { class: "btn btn-primary swipe-btn btn-block border", 
                        data: { 
                         confirm: 'Mark as OK?', 
                          toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>             
+                          title: 'Mark as OK' } } %>  
+              <% else %>
+              <%= f.submit 'OK', 
+                    { class: "btn btn-primary swipe-btn btn-block border",
+                      disabled: true, 
+                       data: { 
+                        confirm: 'Mark as OK?', 
+                         toggle: 'tooltip', 
+                          title: 'Mark as OK' } } %>  
+              <% end %>           
               <% end %>
             </div>
             <div class="col-3 px-1">
@@ -60,14 +67,14 @@
               <%= f.hidden_field :user_id, value: @current_user.id %>
               <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
               <%= f.submit 'White', 
-                      { class: "btn swipe-btn btn-block", 
+                      { class: "btn swipe-btn btn-block border", 
                        data: { 
                         confirm: 'Mark as WHITE?', 
                          toggle: 'tooltip', 
                           title: 'Mark as WHITE' } } %>
               <% else %>
               <%= f.submit 'White', 
-                      { class: "btn swipe-btn btn-block",
+                      { class: "btn swipe-btn btn-block border",
                         disabled: true, 
                        data: { 
                         confirm: 'Mark as WHITE?', 
@@ -84,14 +91,14 @@
               <%= f.hidden_field :user_id, value: @current_user.id %>
               <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
               <%= f.submit 'Red', 
-                      { class: "btn btn-danger swipe-btn btn-block", 
+                      { class: "btn btn-danger swipe-btn btn-block border", 
                        data: { 
                         confirm: 'Mark as RED?', 
                          toggle: 'tooltip', 
                           title: 'Mark as RED' } } %>
               <% else %>
               <%= f.submit 'Red', 
-                      { class: "btn btn-danger swipe-btn btn-block", 
+                      { class: "btn btn-danger swipe-btn btn-block border", 
                         disabled: true,
                        data: { 
                         confirm: 'Mark as RED?', 
@@ -106,12 +113,22 @@
               <%= f.hidden_field :c_type, value: "OFF" %>
               <%= f.hidden_field :date, value: DateTime.now %>
               <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
               <%= f.submit 'Off', 
-                      { class: "btn btn-success swipe-btn btn-block", 
+                      { class: "btn btn-success swipe-btn btn-block border", 
                        data: { 
                         confirm: 'Mark as OFF?', 
                          toggle: 'tooltip', 
                           title: 'Mark as OFF' } } %> 
+              <% else %>
+              <%= f.submit 'Off', 
+                      { class: "btn btn-success swipe-btn btn-block border",
+                        disabled: true, 
+                       data: { 
+                        confirm: 'Mark as OFF?', 
+                         toggle: 'tooltip', 
+                          title: 'Mark as OFF' } } %> 
+              <% end %>
               <% end %>  
             </div>
           </div>        
@@ -131,9 +148,9 @@
                   <% if x.blank? %>
                     <div class="label-percent"><%= s.red_spec/24 unless s.red_spec < 48 %> days</div>
                   <% elsif (x.first.date - s.created_at)/3600 < s.red_spec %>
-                    <span class="text-danger"><%= fa_icon("times") %></span>
+                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
                   <% else %>
-                    <span class="text-success"><%= fa_icon("check") %></span>
+                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
                   <% end %>
                 <div class="label-line"></div>
             </div>
@@ -145,51 +162,57 @@
                     <%= s.white_spec/24 unless s.white_spec < 48 %> days
                   <% elsif (x.first.date - s.created_at)/3600 < s.white_spec %>
                   <%= puts (x.first.date - s.created_at) %>
-                    <span class="text-danger"><%= fa_icon("times") %></span>
+                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
                   <% else %>
-                    <span class="text-success"><%= fa_icon("check") %></span>
+                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
                   <% end %>
                 </div>
                 <div class="label-line"></div>
             </div>
-                <% temp = "" %>
-                <% if s.salt_spray_test_checks.blank? %>
-                  <% temp = 0 %>
-                <% else %> 
-                <% temp = [(((s.salt_spray_test_checks.last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max %>
-                <% end %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info text-left" style="width:<%= temp*80 %>%;">
-            <strong><%= pluralize((((s.salt_spray_test_checks.last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
+            <% last = s.salt_spray_test_checks.last %>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
+            <strong style="font-size: 20px; margin-left: 10px; position: relative; z-index: 2;" class="text-warning"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
             </div>
           </div>
         </div>
 	    </div>
       <div class="card-body bg-white py-0">
-        <p class="card-text">
-          <div class="text-center"><u><%= s.so_num %> Info</u></div>
-          <div class="row">
-            <div class="col-6">
-                <ul style="list-style-type:none; padding-inline-start: 0px;">
-                  <li>Customer: <%= s.customer %></li>
-                  <li>Dept: <%= s.dept %></li>
-                  <li>Part ID: <%= s.part_tag %></li>
-                  <li>Sub ID: <%= s.sub_tag %></li>
-                  <li>Part Area: <%= s.part_area %></li>
-                  <li>Density: <%= s.part_density %></li>
-                  <li>Load Weight: <%= s.load_weight %></li>
-                </ul>
-            </div>
-            <div class="col-6">
-              <span class="text-center"><strong><u>History</u></strong></span>
+        <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info<%=s.id%>" role="tab" aria-controls="info" aria-selected="true">Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="history-tab" data-toggle="tab" href="#history<%=s.id%>" role="tab" aria-controls="history" aria-selected="false">History</a>
+          </li>
+        </ul>
+        <div class="card-text">
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
+              <div class="text-center"><u><%= s.so_num %> Info</u></div>
+              <ul style="list-style-type:none; padding-inline-start: 0px;">
+                <li>Customer: <%= s.customer %></li>
+                <li>Dept: <%= s.dept %></li>
+                <li>Part ID: <%= s.part_tag %></li>
+                <li>Sub ID: <%= s.sub_tag %></li>
+                <li>Part Area: <%= s.part_area %></li>
+                <li>Density: <%= s.part_density %></li>
+                <li>Load Weight: <%= s.load_weight %></li>
+                <li>White Spec: <%= s.white_spec/24 %> days.</li>
+                <li>Red Spec: <%= s.red_spec/24 %> days.</li>
+              </ul>
               <br>
+              <hr>
+            </div>
+            <div class="tab-pane fade" id="history<%=s.id%>" role="tabpanel" aria-labelledby="history-tab">
+              <div class="text-center"><strong><u>History</u></strong></div>
               <% s.salt_spray_test_checks.each do |c| %>
-                <%= c.c_type %> - <%= c.date.strftime("%D") %>
+                <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
                 <br>
               <% end %>
+              <hr>
             </div>
-          </div>
-                        <hr>
-        </p>
+          </div>    
+        </div>
       </div>
     </div>
 

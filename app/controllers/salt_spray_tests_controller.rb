@@ -3,13 +3,15 @@ class SaltSprayTestsController < ApplicationController
   before_action :set_salt_spray_test, only: [:show, :edit, :update, :destroy]
 
   # Notes: If spec is > 24 hours, measure in days (24 hour periods), display hours
-  # Need a mobile interface to mark tests On, OK, White, Red, Off 
-  # Cards, scrollable, toby's design
 
   has_scope :with_process_code,     only: :index
 
   def index 
-    @salt_spray_tests = apply_scopes(SaltSprayTest).all.page(params[:page]).includes(:comments, :salt_spray_test_checks)
+    if params[:with_deleted]
+      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").page(params[:page])
+    else
+    @salt_spray_tests = apply_scopes(SaltSprayTest).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").page(params[:page])
+    end
     @check = SaltSprayTestCheck.new
     respond_to do |format|
       format.html
@@ -18,12 +20,12 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def show
-    @commentable = @rejected_part
+    @commentable = @salt_spray_test
   end
 
   def new
     @salt_spray_test = SaltSprayTest.new
-    @check = @salt_spray_test.checks.build
+    @check = @salt_spray_test.salt_spray_test_checks.build
   end
 
   def edit
@@ -31,11 +33,10 @@ class SaltSprayTestsController < ApplicationController
 
   def create
     @salt_spray_test = SaltSprayTest.new(salt_spray_test_params)
-    @check = @salt_spray_test.checks.build
     if @salt_spray_test.save
       flash[:success] = "Salt spray test created."
       respond_to do |format|
-        format.html { redirect_to salt_spray_test_path(@salt_spray_test)}
+        format.html { redirect_to salt_spray_tests_path}
         format.json { render :json => @salt_spray_test }
       end
     else
@@ -45,6 +46,7 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def update
+      @check = SaltSprayTestCheck.new
       if @salt_spray_test.update(salt_spray_test_params)
         flash[:success] = "Salt spray test updated."
         redirect_to salt_spray_tests_path
@@ -56,7 +58,7 @@ class SaltSprayTestsController < ApplicationController
   def destroy
     @salt_spray_test.destroy
     respond_to do |format|
-      format.html { redirect_to salt_spray_tests_url, notice: 'Salt spray test was successfully destroyed.' }
+      format.html { redirect_to salt_spray_tests_path, notice: 'Salt spray test was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -68,8 +70,9 @@ class SaltSprayTestsController < ApplicationController
     end
 
     # Never trust parameters from the internet, only allow the white list.
+    # { :process => [] }
     def salt_spray_test_params
-      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, { :checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => [] } )
+      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, { :salt_spray_test_checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] } )
     end
 
 end

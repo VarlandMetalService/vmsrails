@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181005162007) do
+ActiveRecord::Schema.define(version: 20181008161517) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -292,10 +292,11 @@ ActiveRecord::Schema.define(version: 20181005162007) do
     t.string "sub_tag"
     t.string "part_area"
     t.string "part_density"
-    t.integer "white_spec"
-    t.integer "red_spec"
+    t.integer "white_spec", default: 0
+    t.integer "red_spec", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.time "deleted_at"
   end
 
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

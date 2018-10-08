@@ -14,36 +14,46 @@
       Filter Results
     </p>
 
-  <div class="container-fluid collapse mt-2" id="collapseFilters">
-    <div class="row">
-      <hr>
-      <div class="col">
-        <div class="form-group">
-          <%= f.label :with_process_code,
-                      'Process:'  %>
-          <%= f.select :with_process_code, 
-                        options_for_select(SaltSprayTest.options_for_process_code,
-                                          params[:with_process_code]),
-                        { include_blank: true },
-                        { class: 'custom-select',
-                          onchange: 'this.form.submit();' } %>
+    <div class="container-fluid collapse mt-2" id="collapseFilters">
+      <div class="row">
+        <hr>
+        <div class="col">
+          <div class="form-group">
+            <%= f.label :with_process_code,
+                        'Process:'  %>
+            <%= f.select :with_process_code, 
+                          options_for_select(SaltSprayTest.options_for_process_code,
+                                            params[:with_process_code]),
+                          { include_blank: true },
+                          { class: 'custom-select',
+                            onchange: 'this.form.submit();' } %>
+          </div>
         </div>
-      </div>
 
-      <div class="col">
-        <div class="form-group">
-          <%= f.label :with_user,
-                      'User:' %> 
-          <%= f.select :with_user,
-                        options_for_select([['1','1']]),
-                              { include_blank: true },                                     
-                              { class: 'custom-select',
-                              onchange: 'this.form.submit();' }%>
+        <div class="col">
+          <div class="form-group">
+            <%= f.label :with_user,
+                        'User:' %> 
+            <%= f.select :with_user,
+                          options_for_select( User.all.map { |u| [u.full_name, u.id]}, params[:with_user]),
+                                { include_blank: true },
+                                { class: 'custom-select',
+                                  onchange: 'this.form.submit();' }%>
+          </div>
         </div>
+        
+        <div class="col">
+          <div class="form-group">
+            <%= f.label :with_deleted,
+                        'Show Completed?:' %> 
+            <%= check_box_tag :with_deleted, true, params[:with_deleted],
+                                { onchange: 'this.form.submit();' }
+                                  %>
+          </div>
+        </div>
+
       </div>
     </div>
-      <% end %>
-      </div>
-    </div>
+    <% end %>
   </div>
 </div>
