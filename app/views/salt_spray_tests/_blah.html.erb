@@ -140,9 +140,9 @@
     <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
       <div class="card-header bg-white py-4">
         <div class="container-flex">
-          <div class="progress" style="height: 40px;">
-            <%# 80% is actually 100% %>
-            <div class="bar-step" style="left: 80%">
+          <div class="progress bg-dark" style="height: 40px;">
+            <%# 75% is actually 100% %>
+            <div class="bar-step" style="left: 75%">
                 <div class="label-txt">Red</div>
                   <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
                   <% if x.blank? %>
@@ -154,7 +154,7 @@
                   <% end %>
                 <div class="label-line"></div>
             </div>
-            <div class="bar-step" style="left: <%= 80*s.white_spec / s.red_spec %>%">
+            <div class="bar-step" style="left: <%= 75*s.white_spec / s.red_spec %>%">
                 <div class="label-txt">White</div>
                 <div class="label-percent">
                   <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
@@ -170,8 +170,8 @@
                 <div class="label-line"></div>
             </div>
             <% last = s.salt_spray_test_checks.last %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
-            <strong style="font-size: 20px; margin-left: 10px; position: relative; z-index: 2;" class="text-warning"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
+            <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
             </div>
           </div>
         </div>
