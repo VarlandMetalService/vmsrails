@@ -1,6 +1,7 @@
 class SaltSprayTestsController < ApplicationController
   include ApplicationHelper
   before_action :set_salt_spray_test, only: [:show, :edit, :update, :destroy]
+  before_action :detect_device_variant, only: :index
 
   # Notes: If spec is > 24 hours, measure in days (24 hour periods), display hours
 
@@ -15,6 +16,7 @@ class SaltSprayTestsController < ApplicationController
     @check = SaltSprayTestCheck.new
     respond_to do |format|
       format.html
+      format.html.mobile 
       format.json { render :json => @salt_spray_tests }
     end
   end
@@ -73,6 +75,10 @@ class SaltSprayTestsController < ApplicationController
     # { :process => [] }
     def salt_spray_test_params
       params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, { :salt_spray_test_checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] } )
+    end
+
+    def detect_device_variant
+      request.variant = :mobile if browser.device.mobile? ||                                               browser.device.tablet?
     end
 
 end

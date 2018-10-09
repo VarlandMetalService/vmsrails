@@ -59,6 +59,7 @@ gem 'guard-rspec'
 gem 'fuubar'
 gem 'bootstrap-email'
 gem 'chartkick'
+gem 'browser'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

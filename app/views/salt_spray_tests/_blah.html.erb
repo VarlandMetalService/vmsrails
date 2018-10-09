@@ -170,7 +170,7 @@
                 <div class="label-line"></div>
             </div>
             <% last = s.salt_spray_test_checks.last %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
             <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
             </div>
           </div>
