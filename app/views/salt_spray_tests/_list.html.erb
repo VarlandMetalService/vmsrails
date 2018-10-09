@@ -1,87 +1,106 @@
-<div class="container-fluid">
-  <table class="table table-bordered table-striped table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th class="col-1 d-none d-sm-none d-md-none d-lg-table-cell"></th>
-        <th class="col-3">Shop Order</th>
-        <th class="col-2 d-none d-sm-none d-md-none d-lg-table-cell">Info</th>
-        <th class="col-2 d-none d-sm-none d-md-none d-lg-table-cell">Process</th>
-        <th class="col-6 text-center">Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @salt_spray_tests.each do |s| %>
-      <tr>
-        <td class="d-none d-sm-none d-md-none d-lg-table-cell text-center">
-          <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse<%=s.id%>" aria-expanded="false" aria-controls=".multi-collapse<%=s.id%>"><%= fa_icon('minus-square')%></button>
-        </td>
-        <td>
-          <strong class="pull-left"><%= s.so_num %></strong><small class="pull-right">Load:<%= s.load_num %></small>
-          <br>
-          <div class="text-muted pull-left">
-            <%= s.customer %> - 
-            <%= s.part_num %>
-          </div>
-          <div class="text-muted pull-right">
-            <%= s.on_at.strftime("%D") %><br>
-          </div>
-        </td>
-        <td class="d-none d-sm-none d-md-none d-lg-table-cell">
-          <small><strong>Date:</small></strong>
-          <%= s.on_at.strftime("%D") %>
-          <div class="collapse multi-collapse<%=s.id%>">
-            <small><strong>By:</small></strong>
-            <%= User.find(s.on_by).full_name unless s.on_by.blank? %>
+<table class="table table-bordered table-striped table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th class="col-1">Links</th>
+      <th class="col-4">Shop Order</th>
+      <th class="col-3">Info</th>
+      <th class="col-4 text-center">Results</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @salt_spray_tests.each do |s| %>
+    <tr>
+      <td>
+      </td>
+      <td>
+        <div class="row">
+          <div class="col-6">
+            <strong class="pull-left" style="font-size: 20px;"> <%= s.so_num  %> </strong> 
+            <div class="text-muted d-inline px-2">  Load: <%= s.load_num %></div>
             <br>
-            <small><strong>Hours on:</small></strong>
-          </div>
-          <div class="collapse multi-collapse<%=s.id%>">
-            <small><strong>Dept:</small></strong>
-            <%= s.dept %>
-            <br>
-            <small><strong>Part area - Density </small></strong>
-          </div>
-        </td>
-        <td class="d-none d-sm-none d-md-none d-lg-table-cell">
-          <% if s.process[1].blank? %>
-            <%= s.process[0] unless s.process.blank? %>
-          <% else %>
-            <% s.process.each do |p| %>
-              <%= p %>
+            <div class="pull-left">
+              <%= s.customer %> - 
+              <%= s.part_tag %>
               <br>
+              <div class="text-muted">
+                <%= s.salt_spray_test_checks.first.date.strftime("%D") %>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+          </div>
+        </div>
+      </td>
+      <td>
+        <small><strong>Date:</small></strong>
+        <br>test<br>
+        <%= s.salt_spray_test_checks.first.date.strftime("%D") %>
+        <div class="collapse multi-collapse<%=s.id%>">
+          <small><strong>By:</small></strong>
+          <%= User.find(s.user_id).full_name unless s.user_id.blank? %>
+          <br>
+          <small><strong>Hours on:</small></strong>
+        </div>
+        <div class="collapse multi-collapse<%=s.id%>">
+          <small><strong>Dept:</small></strong>
+          <%= s.dept %>
+          <br>
+          <small><strong>Part area - Density </small></strong>
+        </div>
+      </td>
+      <td>
+        <div class="container-flex">
+          <div class="text-left"><button class="btn btn-sm" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>"><%= fa_icon('list', text: "History")%></button></div>
+          <div class="progress bg-dark mt-0 mr-3" style="height: 40px;">
+            <%# 75% is actually 100% %>
+            <div class="bar-step" style="left: 95%">
+                <div class="label-txt">Red</div>
+                  <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
+                  <% if x.blank? %>
+                    <div class="label-percent"><%= s.red_spec/24 unless s.red_spec < 48 %> days</div>
+                  <% elsif (x.first.date - s.created_at)/3600 < s.red_spec %>
+                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+                  <% else %>
+                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
+                  <% end %>
+                <div class="label-line"></div>
+            </div>
+            <div class="bar-step" style="left: <%= 66 + 29*(s.white_spec.to_f/s.red_spec.to_f).to_f %>%;">
+                <div class="label-txt">White</div>
+                <div class="label-percent">
+                  <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
+                  <% if x.blank? %>
+                    <%= s.white_spec/24 unless s.white_spec < 48 %> days
+                  <% elsif (x.first.date - s.created_at)/3600 < s.white_spec %>
+                  <%= puts (x.first.date - s.created_at) %>
+                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+                  <% else %>
+                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
+                  <% end %>
+                </div>
+                <div class="label-line"></div>
+            </div>
+            <% last = s.salt_spray_test_checks.last %>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= [(((last.date - s.created_at)/60.minutes).to_f / s.red_spec.to_f), 0.10].max*100 %>%;">
+            <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
+            </div>
+          </div>
+          <div class="collapse checks-collapse<%=s.id%>">
+            <% x = s.salt_spray_test_checks.in_groups(3, false) %>
+              <div class="row">
+            <% x.each do |g| %>
+              <div class="col-4">
+              <% g.each do |c| %>
+                <%= c.date.strftime("%D") %> - <%= c.c_type %>
+                <br>
+              <% end %>
+              </div>
             <% end %>
-          <% end %>
-            <br>
-        </td>
-        <td>
-          <div class="form-row">
-            <table class="table table-sm mb-0">
-              <thead>
-                <tr>
-                  <th class="col-4 text-center">Elapsed</th>
-                  <th class="col-4 text-center">White</th>
-                  <th class="col-4 text-center">Red</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <td class="text-center">
-                      257
-                    </td>
-                    <td class="bg-success">
-                      <strong class="pull-left"><small>@:</small> 201</strong>
-                      <div class="pull-right"><small>Spec:</small>22</div>
-                    </td>
-                    <td class="bg-danger text-center">
-                      <strong class="pull-left"><small>@:</small>257</strong>
-                      <div class="pull-right"><small>Spec:</small>1000</div>
-                    </td>
-                </tr>
-              </tbody>
-            </table>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

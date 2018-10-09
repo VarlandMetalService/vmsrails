@@ -1,7 +1,7 @@
 class Printing::PrintJobsController < ApplicationController
   before_action :set_print_job, 
     only: [:show, :edit, :update, :destroy, :send_print_cmd, :set_queue]
-    
+      
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user
   require "base64"
