@@ -32,8 +32,12 @@ module Printing
     end
 
     def self.printer_options
-      [['Lexmark-T644', '-P Lexmark-T644'],
-       ['MP-C3004ex'  , '-P MP-C3004ex'  ]]
+      [['Office Ricoh'    , '-P Office_Ricoh'],
+       ["Sales' Lexmark"  , '-P Sales_Lexmark_T644'],
+       ["Gail's Lexmark"  , '-P Gail_Lexmark_T630'],
+       ["Production Dell" , '-P Production_Dell_C3760dn'],
+       ["Shipping Lexmark", '-P Shipping_Lexmark_T630'],
+       ["Shipping Ricoh"  , '-P Shipping_Ricoh']]
     end
 
     def self.option_flags
