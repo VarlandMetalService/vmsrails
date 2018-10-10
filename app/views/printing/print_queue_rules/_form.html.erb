@@ -34,13 +34,13 @@
       <div class="form-group">
         <%= f.label :Workstation %>
         <%= f.select :workstation_id, 
-                options_for_select(Workstation.all.map { |w| [w.name, w.id]}, @print_queue_rule.workstation_id), { include_blank: true }, { class: 'form-control' } %>
+                options_for_select(Printing::Workstation.all.map { |w| [w.name, w.id]}, @print_queue_rule.workstation_id), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
     <div class="col-6">
       <div class="form-group">
         <%= f.label :Document_Type %>
-        <%= f.select :document_type_id, options_for_select( DocumentType.all.map{ |d| [d.name, d.id] }, @print_queue_rule.document_type_id), { include_blank: true }, { class: 'form-control' } %>
+        <%= f.select :document_type_id, options_for_select(Printing::DocumentType.all.map{ |d| [d.name, d.id] }, @print_queue_rule.document_type_id), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
   </div>

@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(version: 20181010130743) do
     t.string "name"
   end
 
-  create_table "printers_tables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "printers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.string "command"
   end

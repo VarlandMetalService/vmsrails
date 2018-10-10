@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">          
           <%= f.label "Printer:"%>
-          <%= f.select :printer, options_for_select(Printing::PrintQueue.printer_options, @print_queue.printer ), {}, { class: "form-control" } %>
+          <%= f.select :printer, options_for_select(Printing::Printer.all.map { |p| [p.name, p.command] }, @print_queue.printer ), {}, { class: "form-control" } %>
           <div class="invalid-feedback text-center">
             Printer required.
           </div> 

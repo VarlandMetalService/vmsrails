@@ -28,7 +28,7 @@
           <%= f.label :with_workstation,
                       'Workstation:' %>
           <%= f.select :with_workstation,
-                options_for_select(Workstation.all.map { |u| [u.name, u.id] }, params[:with_workstation]),
+                options_for_select(Printing::Workstation.all.map { |u| [u.name, u.id] }, params[:with_workstation]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%>           
         </div>
@@ -39,7 +39,7 @@
           <%= f.label :with_doc_type,
                       'Document Type:' %>
           <%= f.select :with_doc_type,
-                options_for_select(DocumentType.all.map { |u| [u.name, u.id] }, params[:with_doc_type]),
+                options_for_select(Printing::DocumentType.all.map { |u| [u.name, u.id] }, params[:with_doc_type]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%>           
         </div>
