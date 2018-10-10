@@ -3,7 +3,7 @@ class SaltSprayTest < ApplicationRecord
   # Associations.
   
   has_many   :comments, as: :commentable, dependent: :destroy
-  has_many   :salt_spray_test_checks, class_name: "SaltSprayTestCheck", dependent: :destroy
+  has_many   :salt_spray_test_checks, class_name: "SaltSprayTestCheck", dependent: :destroy 
   belongs_to :user, class_name: "User", foreign_key: "user_id"
   accepts_nested_attributes_for :salt_spray_test_checks
 
@@ -15,5 +15,9 @@ class SaltSprayTest < ApplicationRecord
   def self.options_for_process_code
     [['HN', 'HN'],
      ['ZN', 'ZN']]
+  end
+
+  def self.not_recently
+    preload(:salt_spray_test_checks).select { |s| s.salt_spray_test_checks.all? {|c| ((Time.now - c.date) > 4.hours) }}
   end
 end
