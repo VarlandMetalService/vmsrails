@@ -1,71 +1,71 @@
 <div class="container-fluid px-0">
-<div class="row">
-  <div class="col">
-    <table class="table table-striped table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th class="d-none d-lg-table-cell"></th>
-          <th>Timestamp</th>
-          <th class="d-none d-lg-table-cell">Description</th>
-          <th>Print Queue</th>
-          <th class="d-none d-lg-table-cell">User</th>
-          <th class="d-none d-lg-table-cell">Doc Type</th>
-          <th class="d-none d-lg-table-cell">Workstation</th>
-          <th class="text-center">Links</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @print_jobs.each do |p| %>
-        <tr>
-          <td class="text-center text-light d-none d-lg-table-cell <%= p.is_complete ? 'bg-success' : 'bg-danger' %>">
-            <%= p.is_complete ? 
-                  (fa_icon ["check", "3x"]) : (fa_icon ["times", "3x"]) %>
-          </td>
-          <td><%= p.created_at.strftime("%m/%d @ %I:%M %p") %></td>
-          <td class="d-none d-lg-table-cell"><%= p.description unless p.description.blank? %></td>
-          <td>
-            <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
-          </td>
-          <td class="d-none d-lg-table-cell">
-            <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
-          </td> 
-          <td class="d-none d-lg-table-cell">
-            <%= DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
-          </td>
-          <td class="d-none d-lg-table-cell">
-            <%= Workstation.find(p.workstation_id).name unless p.workstation_id.blank?  %>
-          </td>
-          <td class="text-center align-middle">
-            <div class="btn-group" role="group">
-              <%= link_to fa_icon('share'),
-                                send_print_cmd_printing_print_jobs_path(:id => p.id),
-                                class: 'font-weight-bold btn btn-sm btn-success',
-                                title: 'Send Print Job',
-                                data: { toggle: 'tooltip' } %>
-              <%= link_to fa_icon('retweet'),
-                          set_queue_printing_print_jobs_path(:id => p.id),
-                          class: 'font-weight-bold btn btn-sm btn-warning',
-                          title: 'Recalculate Print Queue',
-                          data: { toggle: 'tooltip' } %>
-              <%= link_to fa_icon('download'),
-                          p.file.url,
-                          target: :blank,
-                          class: 'font-weight-bold btn btn-sm btn-primary',
-                          title: 'Download Print Job File',
-                          data: { toggle: 'tooltip' } %>
-              <%= link_to fa_icon('times'),
-                          p,
-                          method: :delete,
-                          remote: true,
-                          class: 'font-weight-bold btn btn-sm btn-danger',
-                          title: 'Delete Print Job',
-                          data: { confirm: 'Are you sure you want to delete this Print Job?',                            toggle: 'tooltip' } %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="d-none d-lg-table-cell"></th>
+            <th>Timestamp</th>
+            <th class="d-none d-lg-table-cell">Description</th>
+            <th>Print Queue</th>
+            <th class="d-none d-lg-table-cell">User</th>
+            <th class="d-none d-lg-table-cell">Doc Type</th>
+            <th class="d-none d-lg-table-cell">Workstation</th>
+            <th class="text-center">Links</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @print_jobs.each do |p| %>
+          <tr>
+            <td class="text-center text-light d-none d-lg-table-cell <%= p.is_complete ? 'bg-success' : 'bg-danger' %>">
+              <%= p.is_complete ? 
+                    (fa_icon ["check", "3x"]) : (fa_icon ["times", "3x"]) %>
+            </td>
+            <td><%= p.created_at.strftime("%m/%d @ %I:%M %p") %></td>
+            <td class="d-none d-lg-table-cell"><%= p.description unless p.description.blank? %></td>
+            <td>
+              <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
+            </td> 
+            <td class="d-none d-lg-table-cell">
+              <%= DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
+            </td>
+            <td class="d-none d-lg-table-cell">
+              <%= Workstation.find(p.workstation_id).name unless p.workstation_id.blank?  %>
+            </td>
+            <td class="text-center align-middle">
+              <div class="btn-group" role="group">
+                <%= link_to fa_icon('share'),
+                                  send_print_cmd_printing_print_jobs_path(:id => p.id),
+                                  class: 'font-weight-bold btn btn-sm btn-success',
+                                  title: 'Send Print Job',
+                                  data: { toggle: 'tooltip' } %>
+                <%= link_to fa_icon('retweet'),
+                            set_queue_printing_print_jobs_path(:id => p.id),
+                            class: 'font-weight-bold btn btn-sm btn-warning',
+                            title: 'Recalculate Print Queue',
+                            data: { toggle: 'tooltip' } %>
+                <%= link_to fa_icon('download'),
+                            p.file.url,
+                            target: :blank,
+                            class: 'font-weight-bold btn btn-sm btn-primary',
+                            title: 'Download Print Job File',
+                            data: { toggle: 'tooltip' } %>
+                <%= link_to fa_icon('times'),
+                            p,
+                            method: :delete,
+                            remote: true,
+                            class: 'font-weight-bold btn btn-sm btn-danger',
+                            title: 'Delete Print Job',
+                            data: { confirm: 'Are you sure you want to delete this Print Job?',                            toggle: 'tooltip' } %>
+              </div>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </div>

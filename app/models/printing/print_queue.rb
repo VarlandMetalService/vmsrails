@@ -37,7 +37,8 @@ module Printing
        ["Gail's Lexmark"  , '-P Gail_Lexmark_T630'],
        ["Production Dell" , '-P Production_Dell_C3760dn'],
        ["Shipping Lexmark", '-P Shipping_Lexmark_T630'],
-       ["Shipping Ricoh"  , '-P Shipping_Ricoh']]
+       ["Shipping Ricoh"  , '-P Shipping_Ricoh'],
+       ["Richard's Dell"  , '-P Richard_Dell_C3760dn']]
     end
 
     def self.option_flags
