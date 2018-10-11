@@ -9,7 +9,7 @@ class SaltSprayTestsController < ApplicationController
 
   def index 
     if params[:with_deleted]
-      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").page(params[:page])
+      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     else
     @salt_spray_tests = apply_scopes(SaltSprayTest).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").not_recently
     end

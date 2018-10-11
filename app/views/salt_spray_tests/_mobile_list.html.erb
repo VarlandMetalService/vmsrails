@@ -16,18 +16,18 @@
           <div class="row mb-0">
             <div class="col-4">
               <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-              <span class="badge badge-warning badge-border float-left mr-2 mt-1" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
+              <span class="badge badge-warning badge-border float-left mr-2 mt-2" style="font-size: 30px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
             </div>
             <div class="col-4">
-              <p class="text-center mb-1" style="font-size: 24px;"><strong><%= s.so_num %></strong></p>
+              <p class="text-center mb-1" style="font-size: 22px;"><strong><%= s.so_num %></strong></p>
               <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
               <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
             </div>
             <div class="col-4">
-              <button class="btn btn-block float-right" type="button" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 14x;">
+              <button class="btn btn-block float-right" type="button" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 12px;">
               <%= fa_icon('commenting')%>
               </button>
-              <button class="btn btn-block mb-1 float-right" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 14px;">
+              <button class="btn btn-block mb-1 float-right" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 12px;">
               <%= fa_icon('info')%>
               </button>
             </div>
@@ -205,10 +205,17 @@
             </div>
             <div class="tab-pane fade" id="history<%=s.id%>" role="tabpanel" aria-labelledby="history-tab">
               <div class="text-center"><strong><u>History</u></strong></div>
-              <% s.salt_spray_test_checks.each do |c| %>
-                <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
-                <br>
-              <% end %>
+              <% x = s.salt_spray_test_checks.in_groups(2, false ) %>
+                <div class="row">
+                <% x.each do |g| %>
+                  <div class="col-6">
+                  <% g.each do |c| %>
+                    <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
+                    <br>
+                  <% end %>
+                  </div>
+                <% end %>
+                </div>
               <hr>
             </div>
           </div>    
