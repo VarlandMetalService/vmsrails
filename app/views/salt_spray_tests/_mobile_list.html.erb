@@ -3,9 +3,9 @@
 
 <li>
   <div class="card fluid
-    <% if (Time.now - s.salt_spray_test_checks.last.date)/3600 > 36 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
+    <% if (Time.now - s.salt_spray_test_checks.last.date)/60.minutes > 36 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
     bg-danger
-    <% elsif (Time.now - s.salt_spray_test_checks.last.date)/3600 > 18 && s.salt_spray_test_checks.where(:c_type => "RED").blank?%>
+    <% elsif (Time.now - s.salt_spray_test_checks.last.date)/60.minutes > 18 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
     bg-warning
     <%# email? %>
     <% end %>
@@ -137,41 +137,51 @@
     </div>
 
     <%# Info collapsable %>
+    <% specs = format_spec(s) %>
     <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
       <div class="card-header bg-white py-4">
         <div class="container-flex">
           <div class="progress bg-dark" style="height: 40px;">
             <%# 75% is actually 100% %>
-            <div class="bar-step" style="left: 75%">
-                <div class="label-txt">Red</div>
-                  <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
-                  <% if x.blank? %>
-                    <div class="label-percent"><%= s.red_spec/24 unless s.red_spec < 48 %> days</div>
-                  <% elsif (x.first.date - s.created_at)/3600 < s.red_spec %>
-                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
-                  <% else %>
-                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
-                  <% end %>
-                <div class="label-line"></div>
+            <div class="bar-step" style="left: 75%; overflow:hidden;">
+                <div class="label-txt">
+                  Red
+                  <div class="label-line"></div>
+                </div>
+                <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
+                <% if x.blank? %>
+                  <div class="label-percent"><%= specs[1] %></div>
+                <% elsif (x.first.date - s.created_at)/60.minutes < s.red_spec %>
+                  <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+                <% else %>
+                  <span class="label-percent text-success"><%= fa_icon("check") %></span>
+                <% end %>
             </div>
             <div class="bar-step" style="left: <%= 75*s.white_spec / s.red_spec %>%">
-                <div class="label-txt">White</div>
+                <div class="label-txt">
+                  White
+                  <div class="label-line"></div>
+                </div>
                 <div class="label-percent">
                   <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
                   <% if x.blank? %>
-                    <%= s.white_spec/24 unless s.white_spec < 48 %> days
-                  <% elsif (x.first.date - s.created_at)/3600 < s.white_spec %>
-                  <%= puts (x.first.date - s.created_at) %>
+                    <%= specs[0] %>
+                  <% elsif (x.first.date - s.created_at)/60.minutes < s.white_spec %>
                     <span class="label-percent text-danger"><%= fa_icon("times") %></span>
                   <% else %>
                     <span class="label-percent text-success"><%= fa_icon("check") %></span>
                   <% end %>
                 </div>
-                <div class="label-line"></div>
             </div>
-            <% last = s.salt_spray_test_checks.last %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= [(((last.date - s.created_at)/60.minutes) / s.red_spec), 0.10].max*100 %>%;">
-            <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2"><%= pluralize((((last.date - s.created_at)/24.hours).round ), 'day')unless s.salt_spray_test_checks.blank?%></strong>
+            <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes) / s.red_spec)*100 %>%;">
+            <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2">
+              <% if specs[3] == 'day' %>
+              <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+              <% else %>
+              <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+              <% end %>
+            </strong>
             </div>
           </div>
         </div>
@@ -197,8 +207,8 @@
                 <li>Part Area: <%= s.part_area %></li>
                 <li>Density: <%= s.part_density %></li>
                 <li>Load Weight: <%= s.load_weight %></li>
-                <li>White Spec: <%= s.white_spec/24 %> days.</li>
-                <li>Red Spec: <%= s.red_spec/24 %> days.</li>
+                <li>White Spec: <%= specs[0] %></li>
+                <li>Red Spec: <%= specs[1]%></li>
               </ul>
               <br>
               <hr>

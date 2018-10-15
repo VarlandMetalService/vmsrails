@@ -36,10 +36,16 @@ class SaltSprayTestsController < ApplicationController
   def create
     @salt_spray_test = SaltSprayTest.new(salt_spray_test_params)
     if @salt_spray_test.save
-      flash[:success] = "Salt spray test created."
-      respond_to do |format|
-        format.html { redirect_to salt_spray_tests_path}
-        format.json { render :json => @salt_spray_test }
+      if call_api(@salt_spray_test.so_num)
+        respond_to do |format|
+          format.html { redirect_to salt_spray_tests_path }
+          format.json { render :json => @salt_spray_test }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to edit_salt_spray_test_path(@salt_spray_test) }
+          format.json { render :json => @salt_spray_test }
+        end
       end
     else
       render :action => 'new'
@@ -48,13 +54,20 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def update
-      @check = SaltSprayTestCheck.new
-      if @salt_spray_test.update(salt_spray_test_params)
-        flash[:success] = "Salt spray test updated."
-        redirect_to salt_spray_tests_path
-      else
-        render 'edit'
-      end
+    @check = SaltSprayTestCheck.new
+    if @salt_spray_test.update(salt_spray_test_params)
+      flash[:success] = "Salt spray test updated."
+      redirect_to salt_spray_tests_path
+    else
+      render 'edit'
+    end
+  end
+
+  def manual_entry
+    @salt_spray_test = SaltSprayTest.find(params[:format])
+    if @salt_spray_test.update(salt_spray_test_params)
+      flash[:success] = "Salt spray test updated."
+    end
   end
 
   def destroy
@@ -81,5 +94,8 @@ class SaltSprayTestsController < ApplicationController
       request.variant = :mobile if browser.device.mobile? ||                                               browser.device.tablet?
     end
 
+    def call_api(so_num)
+      return false
+    end
 end
 

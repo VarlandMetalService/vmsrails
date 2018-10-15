@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     resources :print_queues
     resources :print_queue_rules
   end
-
   scope module: 'printing', as: 'printing' do
     resources :print_jobs do
       collection do
@@ -22,6 +21,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
 
   resources :salt_spray_tests do
     resources :comments, module: :salt_spray_tests

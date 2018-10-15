@@ -1,12 +1,35 @@
 <%= form_for @salt_spray_test do |f| %>
+<div class="container-fluid border p-2">
+  <u>Shop Order Details</u>
+  <div class="form-row mt-3">
+    <div class="col-12">
+       <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> VMS S.O. #: </span>
+          </div>
+           <%= f.number_field :so_num, class: "form-control" %>
+            <div class="invalid-feedback text-center">
+              Shop Order # required.
+            </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> Load #: </span>
+          </div>
+           <%= f.number_field :load_num, class: "form-control" %>
+            <div class="invalid-feedback text-center">
+              Load # required.
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= f.number_field :so_num %>
-<%= f.number_field :load_num %>
-<%= f.select :user_id, 
-      options_for_select(User.all.map { |u| [u.full_name, u.id] },                                               @current_user.id ),
-      {},
-      { class: "form-control" } %>
-
+<%= f.hidden_field :user_id, value: @current_user.id %>
 
 <%= f.fields_for :salt_spray_test_checks do |ff| %>
   <%= ff.hidden_field :c_type,  value: "ON" %>
@@ -14,50 +37,44 @@
   <%= ff.hidden_field :user_id, value: @current_user.id %>
 <% end %>
 
-
-
-
-
-
-
-<div class="form-row">
-  <div class="col-12">
-    <div class="form-group">
-      <%= link_to fa_icon('plus-square'),
-                        "javascript:;",
-                        class: 'font-weight-bold btn btn-sm btn-success',
-                        id: "addNewStep",
-                        title: 'Add Step' %>
-      <%= f.label "Process:"%>
-    </div>
+<div class="container-fluid border p-2">
+  <u>Process Steps</u>
+  <div class="form-group float-right">
+    <%= link_to fa_icon('plus-square'),
+          "javascript:;",
+          class: 'font-weight-bold btn btn-sm btn-success',
+          id: "addNewStep",
+          title: 'Add Step' %>
   </div>
-  <div class="col-12">
-    <div id="show_area"></div>
+  <div class="col-12 px-0">
+    <div id="show_area" class=""></div>
   </div>
-</div>
-
-
-<div id="step" style="display: none;">
-  <div id="steps" class="form-inline mb-3">
-    <div class="form-group">
-
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Step: </span>
+  <div id="step" style="display: none;">
+    <div id="steps" class="">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> Step: </span>
+          </div>
+          <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Process | Thickness" } %>
+          <%= link_to fa_icon('times'), "javascript:;",
+          class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+          id: "remove_step",
+          title: 'Delete Option' %>
         </div>
-        <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Process | Thickness" } %>
       </div>
-
-      <%= link_to fa_icon('times'), "javascript:;",
-        class: 'font-weight-bold btn btn-sm btn-danger ml-1',
-        id: "remove_step",
-        title: 'Delete Option' %>
-
     </div>
   </div>
 </div>
-<%= f.submit %>
 
+<div class="btn-group" role="group">
+  <%= link_to fa_icon('arrow-left'),
+                      salt_spray_tests_path,
+                      method: :get,
+                      class: 'font-weight-bold btn btn-sm btn-secondary',
+                      title: 'Back' %>
+  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
+</div>
 <% end %>
 
 <script type="text/javascript">

@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
         @comment = @commentable.comments.new comment_params
         if @comment.save
             if @commentable.class == ShiftNote
-                send_emails(@commentable)
+                # send_emails(@commentable)
             else
             end
             flash[:success] = "Comment created."
@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
         private
 
             def comment_params
-                params.require(:comment).permit(:body, :attachment, :user_id)
+                params.require(:comment).permit(:body, :user_id, { attachment:[]} )
             end
 
             def send_emails(commentable)

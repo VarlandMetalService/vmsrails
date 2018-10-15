@@ -1,21 +1,20 @@
 <table class="table table-bordered table-striped table-hover">
   <thead class="thead-dark">
     <tr>
-      <th class="col-xl-3 col-lg-4 col-md-6 col-sm-6 d-md-table-cell d-xs-none d-xs-none">Shop Order</th>
-      <th class="col-xl-3 col-lg-4 d-lg-table-cell d-md-none d-sm-none d-xs-none">Process</th>
-      <th class="col-xl-6 col-lg-4 col-md-6 col-sm-6 d-md-table-cell d-xs-none d-xs-none">Results (hours)</th>
+      <th class="col-xl-3 col-lg-4 col-md-4 col-sm-6">Shop Order</th>
+      <th class="col-xl-2 col-lg-2 col-md-2 d-md-table-cell d-none">Part</th>
+      <th class="col-xl-3 col-lg-2 col-md-2 d-md-table-cell d-none">Process</th>
+      <th class="col-xl-4 col-lg-4 col-md-4 col-sm-6">Results (hours)</th>
+      
     </tr>
   </thead>
   <tbody>
     <% @salt_spray_tests.each do |s| %>
+    <% specs = format_spec(s) %>
     <tr>
       <td class="d-md-table-cell d-xs-none">
         <div class="row">
           <div class="col-12">
-            <div class="pull-right">
-              <button class="btn btn-sm" type="button" data-toggle="collapse" data-target=".info-collapse<%=s.id%>"><%= fa_icon('info')%></button>
-              Dept: <%= s.dept %>
-            </div>
             <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
               <span class="badge badge-warning badge-border float-left mr-2" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span>
             </a>
@@ -31,29 +30,28 @@
               <br>
               <div class="text-muted">
                 <%= s.salt_spray_test_checks.first.date.strftime("%D") %>
+                  <strong> - Dept: <%= s.dept %></strong>
               </div>
             </div>
-          </div>
+          </div>  
+        </div>
+      </td>
+      <td class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">
+        <div class="row">
           <div class="col-12">
-            <div class="collapse info-collapse<%=s.id%>">
-              <div class="row">
-                <div class="col-12">
-                  <small><strong>
-                  Part Area:   <%= s.part_area unless s.part_area.blank? %><br>
-                  Density:     <%= s.part_density unless s.part_density.blank?%><br>
-                  Load Weight: <%= s.load_weight unless s.load_weight.blank?%><br>
-                  </strong></small>
-                </div>
-              </div>
-            </div>
+            <small><strong>
+            Part Area:   <%= s.part_area unless s.part_area.blank? %><br>
+            Density:     <%= s.part_density unless s.part_density.blank?%><br>
+            Load Weight: <%= s.load_weight unless s.load_weight.blank?%><br>
+            </strong></small>
           </div>
         </div>
       </td>
-      <td class="d-sm-none d-md-none d-lg-table-cell d-sm-none d-xs-none">
+      <td class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">
           <small><strong>By:</small></strong>
           <%= User.find(s.user_id).full_name unless s.user_id.blank? %>
           <br>
-          <p class="float-left border mr-2">
+          <p class="float-left border px-1 py-1 mb-0">
                 Process Step 1 <br>
                 Process Step 2 <br>
           </p>
@@ -63,11 +61,42 @@
           <div class="text-left"><button class="btn btn-sm" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>"><%= fa_icon('list', text: "History")%></button></div>
           
           <div class="progress bg-light" style="height: 30px;">
-            <div class="progress-bar bg-secondary" role="progressbar" style="width: <%= 100*(s.white_spec.to_f/s.red_spec.to_f) %>%"><p class="text-right mr-1" style="margin-top: 12.5px;"><%= s.white_spec %></p></div>
-            <div class="progress-bar bg-dark" role="progressbar" style="width:  <%= 100 - 100*(s.white_spec.to_f/s.red_spec.to_f) %>%"><p class="text-right mr-1" style="margin-top: 12.5px;"><%= s.red_spec %></p></div>
+            <div class="progress-bar bg-secondary" role="progressbar" style="width: <%= 100*(s.white_spec.to_f/s.red_spec.to_f) %>%">
+            <p class="text-right mr-1" style="margin-top: 12.5px;">
+              <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
+                <% if x.blank? %>
+                  <%= specs[0] %>
+                <% elsif (x.first.date - s.created_at)/60.minutes < s.white_spec %>
+                  <%= specs[0] %>
+                  <span class="label-percent text-danger float-right"><%= fa_icon("times") %></span>
+                <% else %>
+                  <%= specs[0] %>
+                  <span class="label-percent text-success float-right"><%= fa_icon("check") %></span>
+                <% end %>
+            </p></div>
+            <div class="progress-bar bg-dark" role="progressbar" style="width:  <%= 100 - 100*(s.white_spec.to_f/s.red_spec.to_f) %>%">
+            <p class="text-right mr-1" style="margin-top: 12.5px;">
+              <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
+              <% if x.blank? %>
+                <%= specs[1] %>
+              <% elsif (x.first.date - s.created_at)/60.minutes < s.red_spec %>
+                 <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+              <% else %>
+                <span class="label-percent text-success"><%= fa_icon("check") %></span>
+              <% end %>
+            </p></div>
           </div>
           <div class="progress bg-dark" style="height: 25px; margin-top: -5px;">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: <%= 100*((Time.now - s.salt_spray_test_checks.first.date)/60.minutes).to_f/s.red_spec.to_f %>%;"><strong class="text-right text-dark mr-1" style="font-size: 1.5rem;"><%= ((Time.now - s.salt_spray_test_checks.first.date)/60.minutes).round %></strong></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: <%= 100*((Time.now - s.salt_spray_test_checks.first.date)/60.minutes).to_f/s.red_spec.to_f %>%;">
+              <strong class="text-right text-dark mr-1" style="font-size: 1.5rem; position: absolute;"><span class="badge badge-warning progress-bar-striped progress-bar-animated" style="height: 25px;">
+                <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
+                <% if specs[3] == 'day' %>
+                <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3]) unless s.salt_spray_test_checks.blank? %>
+                <% else %>
+                <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3]) unless s.salt_spray_test_checks.blank? %>
+                <% end %></span>
+            </strong>
+            </div>
           </div>
           <div class="collapse checks-collapse<%=s.id%>">
             <% x = s.salt_spray_test_checks.in_groups(3, false) %>
@@ -79,7 +108,7 @@
                 <br>
               <% end %> 
               </div>
-            <% end %><div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <% end %>
             </div>
           </div>
         </div>

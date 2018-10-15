@@ -1,8 +1,9 @@
 <%= form_for @rejected_part do |f| %>
+<%# Section 1 %>
 <div class="container-span border p-1">
   <div class="text"><u>Section 1: Identification & Description</u></div>
   <div class="form-row mt-3">
-    <div class="col-4">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -17,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Rejected By: </span>
@@ -34,7 +35,7 @@
           </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Date: </span>
@@ -47,7 +48,7 @@
     </div>
   </div>
   <div class="form-row mt-3">
-    <div class="col-6">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Defect/Problem: </span>
@@ -73,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">Weight:</span>
@@ -86,10 +87,11 @@
       </div>
     </div>
   </div>
-  
+</div>
+
 <br>
 
-<div class="container-span border p-1">
+<div class="container-flex border p-1">
   <div class="text">
     <%= f.check_box :s3box, id: "section3radio" %>
     <u>Section 3: Load Specific Info (use if barrel or station are possible causes of the defect)</u>
@@ -109,34 +111,42 @@
       <div class="col-12">
         <div id="option_area">
           <div id="option_field" style="">
-            <div id="options" class="form-inline mb-3">
+            <div id="options" class="form-row mb-3">
               <div class="form-group">
-
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> Load #: </span>
+                <div class="form-row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> Load #: </span>
+                      </div>
+                      <%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%>
+                    </div>
                   </div>
-                  <%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%>
-                </div>
 
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> Tank: </span>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> Tank: </span>
+                      </div>
+                      <%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%>
+                    </div>
                   </div>
-                  <%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%>
-                </div>
 
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> Barrel: </span>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> Barrel: </span>
+                      </div>
+                      <%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%>
+                    </div>
                   </div>
-                  <%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%>
-                </div>
 
-                <%= link_to fa_icon('times'), "javascript:;",
-                  class: 'font-weight-bold btn btn-sm btn-danger ml-1',
-                  id: "remove_option",
-                  title: 'Delete Option' %>
+                  <div class="col-1">
+                    <%= link_to fa_icon('times'), "javascript:;",
+                      class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+                      id: "remove_option",
+                      title: 'Delete Option' %>
+                  </div>
               </div>
             </div>
           </div>
@@ -144,6 +154,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <br>
@@ -170,9 +181,7 @@
   </div>
 </div>
 
-
-
-
+<br>
 
 <div class="btn-group" role="group">
   <%= link_to fa_icon('arrow-left'),
