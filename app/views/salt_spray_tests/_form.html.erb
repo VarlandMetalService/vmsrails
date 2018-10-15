@@ -56,7 +56,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> Step: </span>
           </div>
-          <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Process | Thickness" } %>
+          <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Enter each step individually!" } %>
           <%= link_to fa_icon('times'), "javascript:;",
           class: 'font-weight-bold btn btn-sm btn-danger ml-1',
           id: "remove_step",

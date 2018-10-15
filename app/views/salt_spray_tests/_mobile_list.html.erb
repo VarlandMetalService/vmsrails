@@ -143,7 +143,7 @@
         <div class="container-flex">
           <div class="progress bg-dark" style="height: 40px;">
             <%# 75% is actually 100% %>
-            <div class="bar-step" style="left: 75%; overflow:hidden;">
+            <div class="bar-step clearfix" style="left: 75%; overflow:hidden;">
                 <div class="label-txt">
                   Red
                   <div class="label-line"></div>
@@ -157,7 +157,7 @@
                   <span class="label-percent text-success"><%= fa_icon("check") %></span>
                 <% end %>
             </div>
-            <div class="bar-step" style="left: <%= 75*s.white_spec / s.red_spec %>%">
+            <div class="bar-step clearfix" style="left: <%= 75*s.white_spec / s.red_spec %>%">
                 <div class="label-txt">
                   White
                   <div class="label-line"></div>

@@ -1,5 +1,6 @@
 class SaltSprayTest < ApplicationRecord
   acts_as_paranoid
+  serialize :process, Array
   # Associations.
   
   has_many   :comments, as: :commentable, dependent: :destroy

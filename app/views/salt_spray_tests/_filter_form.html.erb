@@ -1,59 +1,53 @@
-<div class="row mt-3">
-  <div class="col">
-    <div class="pull-right align-center mt-2 mr-2" style="align-items:center; display: flex;">
+<%= form_with url: salt_spray_tests_path,
+      class: 'bg-dark text-white border rounded px-3 py-2 mb-3 mt-3',
+      method: 'get' do |f| %>
+
+<div class="form-row">
+  <div class="col-12">
+    <div class="pull-right align-middle mt-1">
       <%= link_to 'Reset', salt_spray_tests_url, class: 'btn btn-link text-white' %>
       <%= link_to fa_icon('plus', text: 'New Test' ),new_salt_spray_test_path, class:"btn btn-warning font-weight-bold text-dark"  %>     
     </div>
-    <%= form_with url: salt_spray_tests_path,
-              class: 'bg-dark text-white border rounded p-3 mb-3',
-              method: 'get' do |f| %>
-    <p class="small font-weight-bold text-warning mb-0 text-uppercase">
-      <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
+    <div class="form-group pull-right mb-0" style="margin-top: 10px">
+      <%= f.label :with_deleted,
+                  'Show All?:' %> 
+      <%= check_box_tag :with_deleted, true, params[:with_deleted],
+                          { onchange: 'this.form.submit();', class:"align-middle" }
+                            %>
+    </div>
+    <p class="small font-weight-bold text-warning mb-0 text-uppercase" style="margin-top: 10px;">
+      <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button">
       [ - ]
       </a>
-      Filter Results
     </p>
-
-    <div class="container-fluid collapse mt-2" id="collapseFilters">
-      <div class="row">
-        <hr>
-        <div class="col">
-          <div class="form-group">
-            <%= f.label :with_process_code,
-                        'Process:'  %>
-            <%= f.select :with_process_code, 
-                          options_for_select(SaltSprayTest.options_for_process_code,
-                                            params[:with_process_code]),
-                          { include_blank: true },
-                          { class: 'custom-select',
-                            onchange: 'this.form.submit();' } %>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <%= f.label :with_user,
-                        'User:' %> 
-            <%= f.select :with_user,
-                          options_for_select( User.all.map { |u| [u.full_name, u.id]}, params[:with_user]),
-                                { include_blank: true },
-                                { class: 'custom-select',
-                                  onchange: 'this.form.submit();' }%>
-          </div>
-        </div>
-        
-        <div class="col">
-          <div class="form-group">
-            <%= f.label :with_deleted,
-                        'Show All?:' %> 
-            <%= check_box_tag :with_deleted, true, params[:with_deleted],
-                                { onchange: 'this.form.submit();' }
-                                  %>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <% end %>
   </div>
 </div>
+
+<div class="container-fluid collapse" id="collapseFilters">
+    <div class="form-row">
+    <div class="col-6">
+      <div class="form-group">
+        <%= f.label :with_process_code,
+                    'Process:'  %>
+        <%= f.select :with_process_code, 
+              options_for_select(SaltSprayTest.options_for_process_code,
+                                params[:with_process_code]),
+              { include_blank: true },
+              { class: 'custom-select',
+                onchange: 'this.form.submit();' } %>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <%= f.label :with_user,
+                    'User:' %> 
+        <%= f.select :with_user,
+              options_for_select( User.all.map { |u| [u.full_name, u.id]}, params[:with_user]),
+                { include_blank: true },
+                { class: 'custom-select',
+                  onchange: 'this.form.submit();' }%>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

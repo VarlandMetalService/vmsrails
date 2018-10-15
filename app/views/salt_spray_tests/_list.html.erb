@@ -52,8 +52,17 @@
           <%= User.find(s.user_id).full_name unless s.user_id.blank? %>
           <br>
           <p class="float-left border px-1 py-1 mb-0">
-                Process Step 1 <br>
-                Process Step 2 <br>
+            <% if s.process.blank? %>
+              No process entered.
+            <% else %>
+              <% s.process.each_with_index do |k,p| %>
+                <%= p %>
+                <% if k == s.process.count %>
+                <% else %>
+                <br> 
+                <% end %>
+              <% end %>
+            <% end %>
           </p>
       </td>
       <td class="d-md-table-cell d-xs-none">

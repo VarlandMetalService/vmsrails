@@ -18,6 +18,8 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+set :output, "log/cron_log.log"
+env :PATH, ENV['PATH']
 
 every 5.minutes do
   rake "dept_info:update_google_documents"
@@ -27,3 +29,6 @@ every 1.day, at: '8:00 am' do
   rake "shift_notes:send_shift_notes_summary"
 end
 
+every 1.day at: '6:00 am' do 
+  rake "delete:old_records"
+end
