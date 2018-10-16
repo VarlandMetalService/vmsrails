@@ -63,6 +63,7 @@ class QueriesController < ApplicationController
     end
     @dates.symbolize_keys!
     remove_nav_xs
+    auto_refresh 60
   end
 
 end
