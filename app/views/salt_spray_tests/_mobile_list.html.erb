@@ -12,11 +12,11 @@
   ">
     <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
-        <div class="card-header carousel-item active">
+        <div class="card-header carousel-item active py-2">
           <div class="row mb-0">
             <div class="col-4">
               <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-              <span class="badge badge-warning badge-border float-left mr-2 mt-2" style="font-size: 30px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
+              <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
             </div>
             <div class="col-4">
               <p class="text-center mb-1" style="font-size: 22px;"><strong><%= s.so_num %></strong></p>
@@ -24,11 +24,11 @@
               <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
             </div>
             <div class="col-4">
-              <button class="btn btn-block float-right" type="button" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 12px;">
-              <%= fa_icon('commenting')%>
-              </button>
-              <button class="btn btn-block mb-1 float-right" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 12px;">
+              <button class="btn btn-block float-right" style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 11px;">
               <%= fa_icon('info')%>
+              </button>
+              <button class="btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
+              <%= fa_icon('commenting')%>
               </button>
             </div>
           </div>
@@ -199,6 +199,20 @@
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
               <div class="text-center"><u><%= s.so_num %> Info</u></div>
+               <div class="float-right text-center border px-1 py-1 mb-0">
+                <% if s.process.blank? %>
+                  No process entered.
+                <% else %>
+                  <u>Process</u><br>
+                  <% s.process.each_with_index do |k,p| %>
+                    <%= k %>
+                    <% if p == s.process.count-1 %>
+                    <% else %>
+                    <br> 
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
               <ul style="list-style-type:none; padding-inline-start: 0px;">
                 <li>Customer: <%= s.customer %></li>
                 <li>Dept: <%= s.dept %></li>

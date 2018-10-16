@@ -1,18 +1,20 @@
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
-      <th class="col-xl-3 col-lg-4 col-md-4 col-sm-6">Shop Order</th>
-      <th class="col-xl-2 col-lg-2 col-md-2 d-md-table-cell d-none">Part</th>
-      <th class="col-xl-3 col-lg-2 col-md-2 d-md-table-cell d-none">Process</th>
-      <th class="col-xl-4 col-lg-4 col-md-4 col-sm-6">Results (hours)</th>
-      
+      <th class="col-lg-3 col-md-6 col-sm-6">Shop Order</th>
+      <th class="col-lg-2 d-lg-table-cell d-none">Part</th>
+      <th class="col-lg-1 d-lg-table-cell d-none">Process</th>
+      <th class="col-lg-2 d-lg-table-cell d-none">User</th>
+      <th class="col-lg-3 col-md-5 col-sm-5">Results</th>
+      <th class="col-1"></th>
     </tr>
   </thead>
   <tbody>
     <% @salt_spray_tests.each do |s| %>
     <% specs = format_spec(s) %>
     <tr>
-      <td class="d-md-table-cell d-xs-none">
+      <%# Shop Order %>
+      <td class="d-md-table-cell d-xs-none" style="overflow-x: hidden;">
         <div class="row">
           <div class="col-12">
             <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
@@ -21,104 +23,213 @@
             <strong class="pull-left" style="font-size: 20px;">
               <%= s.so_num  %> 
             </strong>
-            <div class="text-muted d-inline px-2">  Load: <%= s.load_num %></div>
             <br>
+            <div class="text-muted">
+              Load: <%= s.load_num %>
+              <br>  
+              Dept: <%= s.dept %>
+            </div>
             <div class="pull-left">
               <%= s.customer %> - 
               <%= s.part_tag %> 
               <%= s.sub_tag unless s.sub_tag.blank? %>
-              <br>
-              <div class="text-muted">
-                <%= s.salt_spray_test_checks.first.date.strftime("%D") %>
-                  <strong> - Dept: <%= s.dept %></strong>
-              </div>
             </div>
           </div>  
         </div>
       </td>
-      <td class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">
+      <%# Part %>
+      <td class="d-none d-lg-table-cell">
         <div class="row">
           <div class="col-12">
-            <small><strong>
             Part Area:   <%= s.part_area unless s.part_area.blank? %><br>
             Density:     <%= s.part_density unless s.part_density.blank?%><br>
             Load Weight: <%= s.load_weight unless s.load_weight.blank?%><br>
-            </strong></small>
           </div>
         </div>
       </td>
-      <td class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">
-          <small><strong>By:</small></strong>
-          <%= User.find(s.user_id).full_name unless s.user_id.blank? %>
-          <br>
-          <p class="float-left border px-1 py-1 mb-0">
-            <% if s.process.blank? %>
-              No process entered.
+      <%# Process %>
+      <td class="d-none d-lg-table-cell">
+        <% if s.process.blank? %>
+          No process entered.
+        <% else %>
+          <% s.process.each_with_index do |k,p| %>
+            <%="#{p+1}: #{k}" unless k.blank? %>
+            <% if p == s.process.count-1 %>
             <% else %>
-              <% s.process.each_with_index do |k,p| %>
-                <%= p %>
-                <% if k == s.process.count %>
-                <% else %>
-                <br> 
-                <% end %>
-              <% end %>
+            <br> 
             <% end %>
-          </p>
+          <% end %>
+        <% end %>
       </td>
-      <td class="d-md-table-cell d-xs-none">
-        <div class="container-flex">
-          <div class="text-left"><button class="btn btn-sm" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>"><%= fa_icon('list', text: "History")%></button></div>
-          
-          <div class="progress bg-light" style="height: 30px;">
-            <div class="progress-bar bg-secondary" role="progressbar" style="width: <%= 100*(s.white_spec.to_f/s.red_spec.to_f) %>%">
-            <p class="text-right mr-1" style="margin-top: 12.5px;">
-              <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
-                <% if x.blank? %>
-                  <%= specs[0] %>
-                <% elsif (x.first.date - s.created_at)/60.minutes < s.white_spec %>
-                  <%= specs[0] %>
-                  <span class="label-percent text-danger float-right"><%= fa_icon("times") %></span>
-                <% else %>
-                  <%= specs[0] %>
-                  <span class="label-percent text-success float-right"><%= fa_icon("check") %></span>
-                <% end %>
-            </p></div>
-            <div class="progress-bar bg-dark" role="progressbar" style="width:  <%= 100 - 100*(s.white_spec.to_f/s.red_spec.to_f) %>%">
-            <p class="text-right mr-1" style="margin-top: 12.5px;">
-              <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
-              <% if x.blank? %>
-                <%= specs[1] %>
-              <% elsif (x.first.date - s.created_at)/60.minutes < s.red_spec %>
-                 <span class="label-percent text-danger"><%= fa_icon("times") %></span>
-              <% else %>
-                <span class="label-percent text-success"><%= fa_icon("check") %></span>
-              <% end %>
-            </p></div>
+      <%# User %>
+      <td class="d-none d-lg-table-cell">
+        <small><strong>By:</small></strong>
+          <%= User.find(s.user_id).full_name unless s.user_id.blank? %><br>
+          <div class="text-muted">
+            <%= s.salt_spray_test_checks.first.date.strftime("%D") unless s.salt_spray_test_checks.blank? %>
           </div>
-          <div class="progress bg-dark" style="height: 25px; margin-top: -5px;">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: <%= 100*((Time.now - s.salt_spray_test_checks.first.date)/60.minutes).to_f/s.red_spec.to_f %>%;">
-              <strong class="text-right text-dark mr-1" style="font-size: 1.5rem; position: absolute;"><span class="badge badge-warning progress-bar-striped progress-bar-animated" style="height: 25px;">
-                <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
-                <% if specs[3] == 'day' %>
-                <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3]) unless s.salt_spray_test_checks.blank? %>
+          White Spec:  <%= specs[0] %><br>
+          Red Spec:    <%= specs[1] %>
+      </td>
+      <td class="d-md-table-cell d-xs-none px-0">
+        <div class="container-flex mt-3" style="position: relative;">
+          <div class="progress bg-dark mr-1 ml-1" style="height: 40px;">
+            <%# 75% is actually 100% %>
+            <button class="btn btn-dark" style="height: 40px;" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>">
+            <%= fa_icon('list') %>
+          </button>
+            <div class="bar-step clearfix" style="left: 80%; overflow:hidden;">
+                <div class="label-txt">
+                  Red
+                  <div class="label-line"></div>
+                </div>
+                <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
+                <% if x.blank? %>
+                  <div class="label-percent"><%= specs[1] %></div>
+                <% elsif (x.first.date - s.created_at)/60.minutes < s.red_spec %>
+                  <span class="label-percent text-danger"><%= fa_icon("times") %></span>
                 <% else %>
-                <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3]) unless s.salt_spray_test_checks.blank? %>
-                <% end %></span>
+                  <span class="label-percent text-success"><%= fa_icon("check") %></span>
+                <% end %>
+            </div>
+            <div class="bar-step clearfix" style="left: <%= 80*s.white_spec / s.red_spec %>%">
+                <div class="label-txt">
+                  White
+                  <div class="label-line"></div>
+                </div>
+                <div class="label-percent">
+                  <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
+                  <% if x.blank? %>
+                    <%= specs[0] %>
+                  <% elsif (x.first.date - s.created_at)/60.minutes < s.white_spec %>
+                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+                  <% else %>
+                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
+                  <% end %>
+                </div>
+            </div>
+            <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes) / s.red_spec)*100 %>%;">
+            <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
+              <% if specs[3] == 'day' %>
+              <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+              <% else %>
+              <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+              <% end %>
             </strong>
             </div>
           </div>
+          
           <div class="collapse checks-collapse<%=s.id%>">
             <% x = s.salt_spray_test_checks.in_groups(3, false) %>
-              <div class="row">
-            <% x.each do |g| %>
-              <div class="col-4">
-              <% g.each do |c| %>
-                <%= c.date.strftime("%D") %> - <%= c.c_type %>
-                <br>
-              <% end %> 
-              </div>
-            <% end %>
+            <div class="row">
+              <% x.each do |g| %>
+                <div class="col-4">
+                  <% g.each do |c| %>
+                    <%= c.date.strftime("%D") %> - <%= c.c_type %>
+                    <br>
+                  <% end %> 
+                </div>
+              <% end %>
             </div>
+          </div>
+      </td>
+      <td class="px-0">
+        <div class="dropleft text-center">
+          <button class="btn btn-secondary dropdown-toggle mt-3 btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="height: 40px;"><%= fa_icon('check-square-o')%></button>
+          <div class="dropdown-menu">
+            <%# OK %>
+            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+              <%= f.hidden_field :c_type, value: "OK" %>
+              <%= f.hidden_field :date, value: DateTime.now %>
+              <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+              <%= f.submit 'OK', 
+                    { class: "btn btn-primary btn-sm dropdown-item", 
+                        data: { 
+                        confirm: 'Mark as OK?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as OK' } } %>  
+              <% else %>
+              <%= f.submit 'OK', 
+                    { class: "btn btn-primary btn-sm dropdown-item",
+                      disabled: true, 
+                        data: { 
+                        confirm: 'Mark as OK?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as OK' } } %>  
+              <% end %>           
+            <% end %>
+            <%# WHITE %>
+            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+              <%= f.hidden_field :c_type, value: "WHITE" %>
+              <%= f.hidden_field :date, value: DateTime.now %>
+              <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
+              <%= f.submit 'White', 
+                      { class: "btn btn-sm dropdown-item", 
+                        data: { 
+                        confirm: 'Mark as WHITE?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as WHITE' } } %>
+              <% else %>
+              <%= f.submit 'White', 
+                      { class: "btn btn-sm dropdown-item",
+                        disabled: true, 
+                        data: { 
+                        confirm: 'Mark as WHITE?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as WHITE' } } %>
+              <% end %>             
+            <% end %> 
+            <%# RED %>
+            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+              <%= f.hidden_field :c_type, value: "RED" %>
+              <%= f.hidden_field :date, value: DateTime.now %>
+              <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
+              <%= f.submit 'Red', 
+                      { class: "btn btn-danger btn-sm dropdown-item", 
+                        data: { 
+                        confirm: 'Mark as RED?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as RED' } } %>
+              <% else %>
+              <%= f.submit 'Red', 
+                      { class: "btn btn-danger btn-sm dropdown-item", 
+                        disabled: true,
+                        data: { 
+                        confirm: 'Mark as RED?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as RED' } } %>
+                <% end %>
+            <% end %>
+            <%# OFF %> 
+            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+              <%= f.hidden_field :c_type, value: "OFF" %>
+              <%= f.hidden_field :date, value: DateTime.now %>
+              <%= f.hidden_field :user_id, value: @current_user.id %>
+              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+              <%= f.submit 'Off', 
+                      { class: "btn btn-success btn-sm dropdown-item", 
+                        data: { 
+                        confirm: 'Mark as OFF?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as OFF' } } %> 
+              <% else %>
+              <%= f.submit 'Off', 
+                      { class: "btn btn-success btn-sm dropdown-item",
+                        disabled: true, 
+                        data: { 
+                        confirm: 'Mark as OFF?', 
+                          toggle: 'tooltip', 
+                          title: 'Mark as OFF' } } %> 
+              <% end %>
+            <% end %>
           </div>
         </div>
       </td>

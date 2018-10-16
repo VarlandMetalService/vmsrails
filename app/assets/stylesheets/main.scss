@@ -234,28 +234,30 @@ trix-toolbar .trix-button-row {
 }
 
 .bar-step {
-  position:absolute;
+  position: absolute;
   margin-top:-20px;
-z-index:1;
+  z-index:1;
   font-size:12px;
 }
 
 .label-txt {
   float: left;
   font-weight: bold;
+  color: #000;
 }
 
 .label-line {
   float: right;
   background: #000;
   height:60px;
-width:2px;
+  width:2px;
   margin-left: 5px;
 }
 
 .label-percent {
   float: left;
-  margin-left: 5px;  
+  margin-left: 5px;
+  color: #000;
 }
 
 .bg-danger .text-muted {
