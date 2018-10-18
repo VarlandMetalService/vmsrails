@@ -1,9 +1,9 @@
 <table class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
-      <th class="col-lg-3 col-md-6 col-sm-6">Shop Order</th>
+      <th class="col-lg-2 col-md-6 col-sm-6">Shop Order</th>
       <th class="col-lg-2 d-lg-table-cell d-none">Part</th>
-      <th class="col-lg-1 d-lg-table-cell d-none">Process</th>
+      <th class="col-lg-2 d-lg-table-cell d-none">Process</th>
       <th class="col-lg-2 d-lg-table-cell d-none">User</th>
       <th class="col-lg-3 col-md-5 col-sm-5">Results</th>
       <th class="col-1"></th>
@@ -65,9 +65,8 @@
       <td class="d-none d-lg-table-cell">
         <small><strong>By:</small></strong>
           <%= User.find(s.user_id).full_name unless s.user_id.blank? %><br>
-          <div class="text-muted">
-            <%= s.salt_spray_test_checks.first.date.strftime("%D") unless s.salt_spray_test_checks.blank? %>
-          </div>
+          <small><strong>On:</small></strong>
+            <%= s.salt_spray_test_checks.first.date.strftime("%D") unless s.salt_spray_test_checks.blank? %><br>
           White Spec:  <%= specs[0] %><br>
           Red Spec:    <%= specs[1] %>
       </td>
@@ -121,10 +120,10 @@
           </div>
           
           <div class="collapse checks-collapse<%=s.id%>">
-            <% x = s.salt_spray_test_checks.in_groups(3, false) %>
+            <% x = s.salt_spray_test_checks.in_groups(2, false) %>
             <div class="row">
               <% x.each do |g| %>
-                <div class="col-4">
+                <div class="col-6">
                   <% g.each do |c| %>
                     <%= c.date.strftime("%D") %> - <%= c.c_type %>
                     <br>
@@ -134,105 +133,140 @@
             </div>
           </div>
       </td>
-      <td class="px-0">
-        <div class="dropleft text-center">
-          <button class="btn btn-secondary dropdown-toggle mt-3 btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="height: 40px;"><%= fa_icon('check-square-o')%></button>
-          <div class="dropdown-menu">
-            <%# OK %>
-            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "OK" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-              <%= f.submit 'OK', 
-                    { class: "btn btn-primary btn-sm dropdown-item", 
-                        data: { 
-                        confirm: 'Mark as OK?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-              <% else %>
-              <%= f.submit 'OK', 
-                    { class: "btn btn-primary btn-sm dropdown-item",
-                      disabled: true, 
-                        data: { 
-                        confirm: 'Mark as OK?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-              <% end %>           
-            <% end %>
-            <%# WHITE %>
-            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "WHITE" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
-              <%= f.submit 'White', 
-                      { class: "btn btn-sm dropdown-item", 
-                        data: { 
-                        confirm: 'Mark as WHITE?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as WHITE' } } %>
-              <% else %>
-              <%= f.submit 'White', 
-                      { class: "btn btn-sm dropdown-item",
-                        disabled: true, 
-                        data: { 
-                        confirm: 'Mark as WHITE?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as WHITE' } } %>
-              <% end %>             
-            <% end %> 
-            <%# RED %>
-            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "RED" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
-              <%= f.submit 'Red', 
-                      { class: "btn btn-danger btn-sm dropdown-item", 
-                        data: { 
-                        confirm: 'Mark as RED?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as RED' } } %>
-              <% else %>
-              <%= f.submit 'Red', 
-                      { class: "btn btn-danger btn-sm dropdown-item", 
-                        disabled: true,
-                        data: { 
-                        confirm: 'Mark as RED?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as RED' } } %>
+      <td class="px-0 text-center align-middle">
+        <div class="btn-group-vertical " role="group">
+            <div class="dropleft text-center">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"><%= fa_icon('check-square-o')%></button>
+              <div class="dropdown-menu">
+                <%# OK %>
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                  <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                  <%= f.hidden_field :c_type, value: "OK" %>
+                  <%= f.hidden_field :date, value: DateTime.now %>
+                  <%= f.hidden_field :user_id, value: @current_user.id %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+                  <%= f.submit 'OK', 
+                        { class: "btn btn-primary btn-sm dropdown-item", 
+                            data: { 
+                            confirm: 'Mark as OK?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as OK' } } %>  
+                  <% else %>
+                  <%= f.submit 'OK', 
+                        { class: "btn btn-primary btn-sm dropdown-item",
+                          disabled: true, 
+                            data: { 
+                            confirm: 'Mark as OK?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as OK' } } %>  
+                  <% end %>           
                 <% end %>
-            <% end %>
-            <%# OFF %> 
-            <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "OFF" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-              <%= f.submit 'Off', 
-                      { class: "btn btn-success btn-sm dropdown-item", 
-                        data: { 
-                        confirm: 'Mark as OFF?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OFF' } } %> 
-              <% else %>
-              <%= f.submit 'Off', 
-                      { class: "btn btn-success btn-sm dropdown-item",
-                        disabled: true, 
-                        data: { 
-                        confirm: 'Mark as OFF?', 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OFF' } } %> 
-              <% end %>
-            <% end %>
+                <%# WHITE %>
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                  <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                  <%= f.hidden_field :c_type, value: "WHITE" %>
+                  <%= f.hidden_field :date, value: DateTime.now %>
+                  <%= f.hidden_field :user_id, value: @current_user.id %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
+                  <%= f.submit 'White', 
+                          { class: "btn btn-sm dropdown-item", 
+                            data: { 
+                            confirm: 'Mark as WHITE?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as WHITE' } } %>
+                  <% else %>
+                  <%= f.submit 'White', 
+                          { class: "btn btn-sm dropdown-item",
+                            disabled: true, 
+                            data: { 
+                            confirm: 'Mark as WHITE?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as WHITE' } } %>
+                  <% end %>             
+                <% end %> 
+                <%# RED %>
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                  <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                  <%= f.hidden_field :c_type, value: "RED" %>
+                  <%= f.hidden_field :date, value: DateTime.now %>
+                  <%= f.hidden_field :user_id, value: @current_user.id %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
+                  <%= f.submit 'Red', 
+                          { class: "btn btn-danger btn-sm dropdown-item", 
+                            data: { 
+                            confirm: 'Mark as RED?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as RED' } } %>
+                  <% else %>
+                  <%= f.submit 'Red', 
+                          { class: "btn btn-danger btn-sm dropdown-item", 
+                            disabled: true,
+                            data: { 
+                            confirm: 'Mark as RED?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as RED' } } %>
+                    <% end %>
+                <% end %>
+                <%# OFF %> 
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                  <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                  <%= f.hidden_field :c_type, value: "OFF" %>
+                  <%= f.hidden_field :date, value: DateTime.now %>
+                  <%= f.hidden_field :user_id, value: @current_user.id %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+                  <%= f.submit 'Off', 
+                          { class: "btn btn-success btn-sm dropdown-item", 
+                            data: { 
+                            confirm: 'Mark as OFF?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as OFF' } } %> 
+                  <% else %>
+                  <%= f.submit 'Off', 
+                          { class: "btn btn-success btn-sm dropdown-item",
+                            disabled: true, 
+                            data: { 
+                            confirm: 'Mark as OFF?', 
+                              toggle: 'tooltip', 
+                              title: 'Mark as OFF' } } %> 
+                  <% end %>
+                <% end %>
+                <% if @access_level >= 2 %>
+                <%= link_to fa_icon('times', text: "Delete Test"),
+                      salt_spray_test_path(s),
+                      method: :delete,
+                      class: 'text-danger btn btn-sm dropdown-item',
+                      title: 'Delete Salt Spray Test',
+                      data: { confirm: 'Are you sure you want to delete this test?',                            toggle: 'tooltip' } %>
+                <% end %>
+              </div>
+            </div>
+            <button class="btn btn-dark" style="margin-top: -2px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
+                <%= fa_icon('commenting')%>
+            </button>
+          </div>
+      </td>
+      <div class="modal fade" id="modalComments<%=s.id%>" tabindex="-1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
+              <div class="collapse" id="collapseCommentsList<%=s.id%>">
+                <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
           </div>
         </div>
-      </td>
+      </div>
     </tr>
     <% end %>
   </tbody>

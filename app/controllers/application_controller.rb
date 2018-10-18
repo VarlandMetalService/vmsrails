@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     @body_classes << 'no-nav-xs'
   end
 
+  def remove_nav
+    @body_classes << 'no-nav'
+  end
+
   def reference_user
     @current_user = helpers.current_user
   end

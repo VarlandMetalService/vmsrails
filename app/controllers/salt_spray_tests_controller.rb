@@ -8,6 +8,7 @@ class SaltSprayTestsController < ApplicationController
   has_scope :with_process_code,     only: :index
 
   def index 
+    check_permission('salt_spray_tests')
     if params[:with_deleted]
       @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     else
@@ -16,13 +17,14 @@ class SaltSprayTestsController < ApplicationController
     @check = SaltSprayTestCheck.new
     respond_to do |format|
       format.html
-      format.html.mobile 
+      format.html.mobile render layout: "mobile"
       format.json { render :json => @salt_spray_tests }
     end
   end
 
   def show
     @commentable = @salt_spray_test
+    SaltSprayTestMailer.send_test(@salt_spray_test).deliver_now
   end
 
   def new

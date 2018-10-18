@@ -13,7 +13,7 @@
         </div>
     </div>    
     <div class="btn-group" role="group">
-      <%= link_to fa_icon('arrow-left'),
+      <%# link_to fa_icon('arrow-left'),
                           session[:last_page],
                           method: :get,
                           class: 'font-weight-bold btn btn-sm btn-secondary align-middle',
@@ -23,7 +23,8 @@
     
     <div class="pull-right">
         <% if commentable.is_a? SaltSprayTest %>
-            <button class="btn float-right" type="button" data-toggle="collapse" data-target="#collapseCommentsList<%=commentable.id%>" style="font-size: 14x;"><%= fa_icon('comments-o')%>
+            <button class="btn float-right" type="button"
+            data-toggle="collapse" data-target="#collapseCommentsList<%=commentable.id%>" style="font-size: 14x; background-color: #DDDDDD; border-color: #dee2e6;""><%= fa_icon('comments-o')%>
           </button>
         <% else %>
         <% end %>

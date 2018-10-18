@@ -41,6 +41,7 @@ class ShiftNotesMailer < ApplicationMailer
         else
           return
       end
+      recipient = 'Richard Legacy <richard.legacy@varland.com>'
       make_bootstrap_mail(subject: 'New Shift Note',
             to: recipient)
     end

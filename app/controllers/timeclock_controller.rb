@@ -9,6 +9,7 @@ class TimeclockController < ApplicationController
     end
 
     def login
+      remove_nav
       if @current_user.blank?
       else
         redirect_to timeclock_url

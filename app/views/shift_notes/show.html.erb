@@ -1,7 +1,8 @@
 <% provide(:title, 'Shift Note') %>
-
 <div class="container-fluid p-2">
   <p>
+    <%= link_to fa_icon('backward'), shift_notes_path,
+          class: 'font-weight-bold btn btn-sm btn-secondary' %>
     <strong>Shift date:</strong>
     <%= @shift_note.created_at.strftime('%m/%d/%y') %>
     <br>

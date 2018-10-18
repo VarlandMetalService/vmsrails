@@ -20,6 +20,13 @@
   }
 }
 
+.no-nav {
+  padding-top: 0 !important;
+  .navbar {
+    display: none;
+  }
+}
+
 body {
   padding-top: 57px;
 }

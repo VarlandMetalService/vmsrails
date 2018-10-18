@@ -5,6 +5,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
                     <p class="lead text-center">
+                        <h3><div class="text-center" id="clockd"></div></h3>
                         <div class="container text-center", id="user-prompt">
                             Select employee from dropdown or enter number and click "enter."
                         </div>
@@ -20,9 +21,9 @@
                             ["#{u.employee_number} - #{u.full_name}", u.employee_number] }), { include_blank: true }, { class: "form-control form-control-lg", 
                                                         id: "employee-dropdown" } %>
                         <br>
-                        <%= f.text_field :user_num, 
+                        <%= f.number_field :user_num, 
                             { class: "form-control form-control-lg text-center", id: "user-manual-entry", maxlength: 3 }  %>
-                        <%= f.text_field :pin_num, 
+                        <%= f.password_field :pin_num, 
                             { class: "form-control text-center form-control-lg", 
                                  id: "pin-entry", maxlength: 4, 
                               style: "display: none;" }  %>
@@ -30,7 +31,6 @@
                 </div>
                 <div class="w-100"></div>
                 <div class="col-xs-12 col-sm-6 offset-sm-3">
-                    <br>
                     <div class="form-group", id="user-numpad-field">            
                         <div class="button-container">
                             <ul class="buttons">
@@ -113,8 +113,6 @@
     </div>
 </div>
 <% end %>
-
-<body onload="startTime()">
    
 <script type="text/javascript">
     var one   = document.getElementById('one-pin-button');
@@ -292,7 +290,8 @@
 </script>
 
 <script type="text/javascript">
-function startTime() {
+window.onload = function startTime() {
+    x = "AM"
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
@@ -300,12 +299,19 @@ function startTime() {
     var d = today.toDateString();
     m = checkTime(m);
     s = checkTime(s);
-    document.getElementById('clock').innerHTML =
-    d + " - " + h + ":" + m + ":" + s;
+    if (h > 12) {x = "PM"};
+    h = checkHours(h);
+    document.getElementById('clockd').innerHTML =
+    d + " - " + h + ":" + m + ":" + s + " " + x;
     var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+function checkHours(i) {
+    if (i < 10) {i = "0" + i};
+    if (i > 12) {i = i - 12 };
     return i;
 }
 </script>

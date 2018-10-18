@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+
+
+    <title><%= page_title %></title>
+
+    <%= csrf_meta_tags %>
+
+    <% if @auto_refresh_delay %>
+      <meta http-equiv="refresh" content="<%= @auto_refresh_delay %>">
+    <% end %>
+
+    <%= stylesheet_link_tag     'application',
+                                media: 'all',
+                                'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+    <%= javascript_include_tag  'application',
+                                'data-turbolinks-track': 'reload' %>
+
+  </head>
+
+  <body class="<%= @body_classes.join ' ' %>">
+
+    <%= render "shared/nav" %>
+    <div class="container-fluid">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </div>
+
+  </body>
+
+</html>

@@ -16,14 +16,14 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+       <div class="form-group">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"> White Spec: </span>
+            <span class="input-group-text"> Process Code: </span>
           </div>
-          <%= f.number_field :white_spec, class: "form-control" %>
+          <%= f.select :process_code, options_for_select(SaltSprayTest.options_for_process_code, @salt_spray_test.process_code), {},  { class: "form-control" } %>
           <div class="invalid-feedback text-center">
-            White Spec required.
+            Process Code required.
           </div>
         </div>
       </div>
@@ -33,11 +33,11 @@
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"> Process Code: </span>
+            <span class="input-group-text"> White Spec: </span>
           </div>
-          <%= f.select :process_code, options_for_select(SaltSprayTest.options_for_process_code, @salt_spray_test.process_code), {},  { class: "form-control" } %>
+          <%= f.number_field :white_spec, class: "form-control" %>
           <div class="invalid-feedback text-center">
-            Process Code required.
+            White Spec required.
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> Load Weight: </span>
           </div>
-          <%= f.number_field :load_weight, class: "form-control" %>
+          <%= f.number_field :load_weight, class: "form-control", :step => 0.001 %>
           <div class="invalid-feedback text-center">
             Load Weight required.
           </div>
@@ -74,7 +74,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> Area: </span>
           </div>
-          <%= f.number_field :part_area, class: "form-control" %>
+          <%= f.number_field :part_area, class: "form-control", :step => 0.001  %>
           <div class="invalid-feedback text-center">
             Area required.
           </div>
@@ -85,7 +85,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> Density: </span>
           </div>
-          <%= f.number_field :part_density, class: "form-control" %>
+          <%= f.number_field :part_density, class: "form-control", :step => 0.001  %>
           <div class="invalid-feedback text-center">
             Density required.
           </div>

@@ -1,0 +1,155 @@
+<% s = @salt_spray_test %>
+<% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
+<% specs = format_spec(s) %>
+
+<table class="table table-sm" style="width: 320px;">
+  <caption>
+    <u><strong>SO #: </strong><%= s.so_num %> - load <%= s.load_num %></u>
+  </caption>
+  <tbody>
+    <tr>
+      <td colspan="3">
+        <div class="text-center" style="width: 50%; float: left;">
+          <strong>Customer</strong><br><%= s.customer %>
+        </div>
+        <div class="text-center" style="width: 50%; float: right;">
+          <strong>Part</strong><br><%= s.part_tag %> <%= s.sub_tag %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center"><strong>Load Weight </strong><br><%= s.load_weight %></td>
+      <td class="text-center"><strong>Part Area </strong><br><%= s.part_area %></td>
+      <td class="text-center"><strong>Density </strong><br><%= s.part_density %></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <div class="text-center" style="width: 50%; float: left;">
+          <strong>Process</strong><br><%= s.process_code %>
+        </div>
+        <div class="text-center" style="width: 50%; float: right;">
+          <strong>Dept</strong><br><%= s.dept %>
+        </div>
+      </td>
+    </tr>
+  <% if s.process.blank? %>
+    <tr>
+      <td colspan="3" class="text-center">No process steps entered.</td>
+    </tr>
+  <% else %>
+    <% s.process.each_with_index do |k,p| %>
+    <% if k.blank? %>
+    <% else %>
+    <tr>
+      <td colspan="3"><%="#{p+1}: #{k}" unless k.blank? %></td>    
+    </tr>
+    <% end %>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<table class="table table-sm" style="width: 320px;">
+  <caption>
+    <u>Test duration:
+    <% if specs[3] == 'day' %>
+      <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+    <% else %>
+      <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+    <% end %></u>
+  </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th class="text-right">Spec</th>
+      <th class="text-right">Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>White:</td>
+      <td class="text-right"><%= specs[0] %></td>
+      <td class="text-right">
+        <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
+          ...
+        <% else %>
+          <% if specs[3] == 'day' %>
+            <%= pluralize((((s.salt_spray_test_checks.where(:c_type => 'WHITE').first.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+          <% else %>
+            <%= pluralize((((s.salt_spray_test_checks.where(:c_type => 'WHITE').first.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Red:</td>
+      <td class="text-right"><%= specs[1] %></td>
+      <td class="text-right">
+        <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
+          ...
+        <% else %>
+          <% if specs[3] == 'day' %>
+            <%= pluralize((((s.salt_spray_test_checks.where(:c_type => 'RED').first.date - s.created_at)/24.hours).round ), specs[3]) unless s.salt_spray_test_checks.blank? %>
+          <% else %>
+            <%= pluralize((((s.salt_spray_test_checks.where(:c_type => 'RED').first.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<% if s.comments.blank? %>
+<% else %>
+  <table class="table table-sm" style="width: 320px;">
+    <caption><u>Comments:</u></caption>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>User</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% s.comments.each do |c| %>
+      <tr>
+        <td><%= c.created_at.strftime('%m/%d/%y') %></td>
+        <td><%= User.find(c.user_id).initials %></td>
+        <td><%= sanitize c.body %></td>
+      </tr>
+      <% if c.attachment? %>
+        <% c.attachment.each do |f| %>
+        <tr>
+          <td colspan="3"><%= image_tag attachments[f.instance_variable_get('@file').filename].url, size: '320' %></td>
+        </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+  <br>
+<% end %>
+
+<table sortable="true" class="table table-sm" style="width: 320px;">
+  <caption><u>Check Log</u></caption>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>User</th>
+      <th>Mark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% s.salt_spray_test_checks.each do |c| %>
+    <tr>
+      <td><%= c.date.strftime("%D") %></td>
+      <td><%= User.find(c.user_id).initials %></td>
+      <td><%= c.c_type %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -39,6 +39,7 @@ class SaltSprayTestChecksController < ApplicationController
     if @salt_spray_test_check.save
       flash[:success] = "Check created."
       respond_to do |format|
+        format.js {render inline: "location.reload();" }
         format.html { redirect_to salt_spray_tests_path}
         format.json { render :json => @salt_spray_test }
       end

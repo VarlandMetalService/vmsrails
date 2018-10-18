@@ -30,8 +30,8 @@
             </div>
             <div class="col-4 mb-2">
                 <% if c.attachment? %>
-                <% c.attachment.each do |f| %>
                 <%= fa_icon "paperclip" %>:
+                <% c.attachment.each do |f| %>
                 <a href="<%= f.url %>" target="blank">
                     <%= image_tag(f.url(:thumb)) if !f.blank? %> 
                 </a>

@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Rejected By: </span>
@@ -35,7 +35,7 @@
           </div>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mt-3">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Date: </span>
@@ -47,8 +47,9 @@
       </div>
     </div>
   </div>
+
   <div class="form-row mt-3">
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pb-2">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Defect/Problem: </span>
@@ -74,7 +75,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">Weight:</span>
@@ -100,17 +101,58 @@
     <div class="form-row mt-3">
       <div class="col-12">
         <div class="form-group">
-            <%= link_to fa_icon('plus-square'),
-                              "javascript:;",
-                              class: 'font-weight-bold btn btn-sm btn-success',
-                              id: "addNewOption",
-                              title: 'Add Option' %>
-            <%= f.label "Loads:"%>
+          <%= link_to fa_icon('plus-square'),
+                            "javascript:;",
+                            class: 'font-weight-bold btn btn-sm btn-success',
+                            id: "addNewOption",
+                            title: 'Add Option' %>
+          <%= f.label "Loads:"%>
         </div>
       </div>
       <div class="col-12">
         <div id="option_area">
-          <div id="option_field" style="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="container-span border p-1">
+  <div class="text">
+    <u>Section 4: Cause of Defect/Problem</u>
+  </div>
+  <div class="container-span", id="section4">
+    <div class="form-row mt-3">
+      <div class="col-12">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> Cause: </span>
+          </div>
+          <%= f.text_area :cause, class: "form-control", 
+                placeholder: "Investigate CAUSE asap after DEFECT is discovered/identified. Record ANY known information and circumstances related to the rework that may help identify the cause.", rows: "6" %>
+          <div class="invalid-feedback text-center">
+              Cause required.
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="btn-group" role="group">
+  <%= link_to fa_icon('arrow-left'),
+                      root_path,
+                      method: :get,
+                      class: 'font-weight-bold btn btn-sm btn-secondary',
+                      title: 'Back' %>
+  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
+</div>
+
+
+<div id="option_field" style="display: none;">
             <div id="options" class="form-row mb-3">
               <div class="form-group">
                 <div class="form-row">
@@ -148,51 +190,11 @@
                       title: 'Delete Option' %>
                   </div>
               </div>
-            </div>
+            
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<br>
-
-<div class="container-span border p-1">
-  <div class="text">
-    <u>Section 4: Cause of Defect/Problem</u>
-  </div>
-  <div class="container-span", id="section4">
-  <div class="form-row mt-3">
-    <div class="col-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Cause: </span>
-        </div>
-        <%= f.text_area :cause, class: "form-control", 
-              placeholder: "Investigate CAUSE asap after DEFECT is discovered/identified. Record ANY known information and circumstances related to the rework that may help identify the cause.", rows: "6" %>
-        <div class="invalid-feedback text-center">
-            Cause required.
-        </div>  
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
-
-<br>
-
-<div class="btn-group" role="group">
-  <%= link_to fa_icon('arrow-left'),
-                      root_path,
-                      method: :get,
-                      class: 'font-weight-bold btn btn-sm btn-secondary',
-                      title: 'Back' %>
-  <%= f.submit yield(:button_text), class: "btn btn-primary"%>
-</div>
 <% end %>
-
 <script type="text/javascript">
   var section3radio = document.getElementById('section3radio')
   var section3      = document.getElementById('section3')

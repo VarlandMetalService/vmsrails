@@ -1,5 +1,6 @@
+<div class="container-fluid">
 <div class="row p-3">
-  <div class="col">
+  <div class="col d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">
     <% if notes.blank? %>
       <p class="text-danger">No results found.</p>
     <% else %>
@@ -15,9 +16,9 @@
       <thead class="thead-dark">
         <tr>
           <th class="col-3" colspan="2">Info</th>
-          <th class="col-4">Note</th>    
-          <th class="col-4">Comments</th>
-          <th class="col-1">Links</th>
+          <th class="col-4 d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">Note</th>    
+          <th class="col-4 d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">Comments</th>
+          <th class="col-1 d-table-cell">Links</th>
         </tr>
       </thead>
       <tbody>
@@ -51,25 +52,25 @@
                   class="dept-filter font-weight-bold"><%= n.dept %></a>
             </td> 
 
-            <td> <%=sanitize n.message %>  </td>
+            <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%=sanitize n.message %>  </td>
 
-            <td> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
+            <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
             
-            <td class="col-1 text-center"> 
-              <div class="btn-group-vertical", role="group">
+            <td class="text-center align-middle"> 
+              <div class="btn-group " role="group">
                 <%= link_to fa_icon('eye'),
                               shift_note_path(n),
                               class: 'font-weight-bold btn btn-sm btn-success',
                               title: 'View Shift Note',
                               data: { toggle: 'tooltip' } %>
-                <% if @access_level >= 2 %>
+                <% if @access_level >= 0 %>
                 <%= link_to fa_icon('pencil'),
                             edit_shift_note_path(n),
                             class: 'font-weight-bold btn btn-sm btn-warning',
                             title: 'Edit Shift Note',
                             data: { toggle: 'tooltip' } %>
                 <% end %>
-                <% if @access_level >= 3 %>
+                <% if @access_level >= 0 %>
                 <%= link_to fa_icon('times'),
                             shift_note_path(n),
                             method: :delete,
@@ -85,4 +86,5 @@
     </table>
   </div>
   <%= paginate notes %>
+</div>
 </div>

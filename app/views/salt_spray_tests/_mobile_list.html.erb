@@ -1,6 +1,5 @@
-<ul style="list-style-type:none; padding-inline-start: 0px;">
+<ul class="px-0 py-0" style="list-style-type:none;">
   <% @salt_spray_tests.each do |s| %>
-
 <li>
   <div class="card fluid
     <% if (Time.now - s.salt_spray_test_checks.last.date)/60.minutes > 36 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
@@ -13,7 +12,7 @@
     <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
         <div class="card-header carousel-item active py-2">
-          <div class="row mb-0">
+          <div class="form-row mb-0">
             <div class="col-4">
               <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
               <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
@@ -24,10 +23,10 @@
               <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
             </div>
             <div class="col-4">
-              <button class="btn btn-block float-right" style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 11px;">
+              <button class="accord btn btn-block float-right" style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 11px;">
               <%= fa_icon('info')%>
               </button>
-              <button class="btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
+              <button class="accord btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
               <%= fa_icon('commenting')%>
               </button>
             </div>
@@ -36,7 +35,7 @@
         <div class="card-header carousel-item">
           <div class="row">
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "OK" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -60,17 +59,17 @@
               <% end %>
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "WHITE" %>
               <%= f.hidden_field :date, value: DateTime.now %>
               <%= f.hidden_field :user_id, value: @current_user.id %>
               <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
               <%= f.submit 'White', 
-                      { class: "btn swipe-btn btn-block border", 
-                       data: { 
-                        confirm: 'Mark as WHITE?', 
-                         toggle: 'tooltip', 
+                      { class: "btn swipe-btn btn-block border",
+                        data: { 
+                          confirm: 'Mark as WHITE?', 
+                          toggle: 'tooltip', 
                           title: 'Mark as WHITE' } } %>
               <% else %>
               <%= f.submit 'White', 
@@ -84,7 +83,7 @@
               <% end %> 
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "RED" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -108,7 +107,7 @@
               <% end %> 
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "OFF" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -135,7 +134,6 @@
         </div>
       </div>
     </div>
-
     <%# Info collapsable %>
     <% specs = format_spec(s) %>
     <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
@@ -157,7 +155,7 @@
                   <span class="label-percent text-success"><%= fa_icon("check") %></span>
                 <% end %>
             </div>
-            <div class="bar-step clearfix" style="left: <%= 75*s.white_spec / s.red_spec %>%">
+            <div class="bar-step clearfix" style="left: <%=(s.white_spec.to_f/s.red_spec.to_f)*75 %>%;">
                 <div class="label-txt">
                   White
                   <div class="label-line"></div>
@@ -174,7 +172,7 @@
                 </div>
             </div>
             <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes) / s.red_spec)*100 %>%;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at).to_f/60.minutes).to_f / s.red_spec.to_f)*75 %>%;">
             <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2">
               <% if specs[3] == 'day' %>
               <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
@@ -225,7 +223,6 @@
                 <li>Red Spec: <%= specs[1]%></li>
               </ul>
               <br>
-              <hr>
             </div>
             <div class="tab-pane fade" id="history<%=s.id%>" role="tabpanel" aria-labelledby="history-tab">
               <div class="text-center"><strong><u>History</u></strong></div>
@@ -240,13 +237,11 @@
                   </div>
                 <% end %>
                 </div>
-              <hr>
             </div>
           </div>    
         </div>
       </div>
     </div>
-
     <%# Comments collapsable %>
     <div class="collapse bg-white" id="collapseComments<%=s.id%>">
       <div class="card-header bg-white">
@@ -268,10 +263,10 @@ $(".carousel").on("touchstart", function(event){
         var xClick = event.originalEvent.touches[0].pageX;
     $(this).one("touchmove", function(event){
         var xMove = event.originalEvent.touches[0].pageX;
-        if( Math.floor(xClick - xMove) > 7 ){
+        if( Math.floor(xClick - xMove) > 5 ){
             $(this).carousel('next');
         }
-        else if( Math.floor(xClick - xMove) < -7 ){
+        else if( Math.floor(xClick - xMove) < -5 ){
             $(this).carousel('prev');
         }
     });
@@ -279,4 +274,9 @@ $(".carousel").on("touchstart", function(event){
             $(this).off("touchmove");
     });
 });
+jQuery('.accord').click( function(e) {
+    jQuery('.collapse').collapse('hide');
+});
 </script>
+
+
