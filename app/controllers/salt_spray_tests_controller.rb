@@ -1,11 +1,10 @@
 class SaltSprayTestsController < ApplicationController
   include ApplicationHelper
-  before_action :set_salt_spray_test, only: [:show, :edit, :update, :destroy]
+  before_action :set_salt_spray_test,   only: [:show, :edit, :update, :destroy]
   before_action :detect_device_variant, only: :index
+  has_scope :with_process_code,         only: :index
 
   # Notes: If spec is > 24 hours, measure in days (24 hour periods), display hours
-
-  has_scope :with_process_code,     only: :index
 
   def index 
     check_permission('salt_spray_tests')
@@ -24,7 +23,7 @@ class SaltSprayTestsController < ApplicationController
 
   def show
     @commentable = @salt_spray_test
-    SaltSprayTestMailer.send_test(@salt_spray_test).deliver_now
+    SaltSprayTestMailer.send_test(@salt_spray_test).deliver_later
   end
 
   def new
@@ -77,6 +76,21 @@ class SaltSprayTestsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to salt_spray_tests_path, notice: 'Salt spray test was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def send_test
+    if params[:email_sales]
+      SaltSprayTestMailer.send_test(SaltSprayTest.find(params[:email_sales]), "Sales <richard.legacy@varland.com>").deliver_later
+      params.delete :email_sales
+    end
+    if params[:email_management]
+      SaltSprayTestMailer.send_test(SaltSprayTest.find(params[:email_management]), "Management <richard.legacy@varland.com>").deliver_later
+      params.delete :email_management
+    end
+    respond_to do |format|
+      flash[:success] = 'Email sent.'
+      format.html { redirect_to salt_spray_tests_path }
     end
   end
 

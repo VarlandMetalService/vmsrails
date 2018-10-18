@@ -5,7 +5,7 @@ class SaltSprayTestMailer < ApplicationMailer
   default from: 'varlandmetalservice@gmail.com',
             to: 'Shift Notes Recipients <dailyshiftnotes@varland.com>'
 
-  def send_test(s)
+  def send_test(s, recipient)
     @salt_spray_test = s
     s.comments.each do |c|
       if c.attachment?
@@ -15,6 +15,6 @@ class SaltSprayTestMailer < ApplicationMailer
         end
       end
     end
-    make_bootstrap_mail(subject: 'Salt Spray Test', to: "Richard Legacy <richard.legacy@varland.com>", locals: { :s => s })
+    make_bootstrap_mail(subject: 'Salt Spray Test', to: recipient, locals: { :s => s })
   end
 end

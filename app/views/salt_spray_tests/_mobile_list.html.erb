@@ -192,6 +192,15 @@
           <li class="nav-item">
             <a class="nav-link" id="history-tab" data-toggle="tab" href="#history<%=s.id%>" role="tab" aria-controls="history" aria-selected="false">History</a>
           </li>
+          <li class="nav-item float-right" style="margin-left: 65px;">
+            <div class="dropdown" role="button">
+              <button class="nav-link dropdown-toggle btn-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; background-color: #ffffff">Share</button>
+              <div class="dropdown-menu">
+                <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
+                <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
+              </div>
+            </div>
+          </li>
         </ul>
         <div class="card-text">
           <div class="tab-content" id="myTabContent">

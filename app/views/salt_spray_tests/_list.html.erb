@@ -136,7 +136,7 @@
       <td class="px-0 text-center align-middle">
         <div class="btn-group-vertical " role="group">
             <div class="dropleft text-center">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"><%= fa_icon('check-square-o')%></button>
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 51px;"><%= fa_icon('check-square-o')%></button>
               <div class="dropdown-menu">
                 <%# OK %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -240,9 +240,16 @@
                 <% end %>
               </div>
             </div>
-            <button class="btn btn-dark" style="margin-top: -2px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
+            <button class="btn btn-dark" style="margin-top: -3px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
                 <%= fa_icon('commenting')%>
             </button>
+            <div class="dropleft text-center" role="button">
+              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px;"><%= fa_icon('share')%></button>
+              <div class="dropdown-menu">
+                <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
+                <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
+              </div>
+            </div>
           </div>
       </td>
       <div class="modal fade" id="modalComments<%=s.id%>" tabindex="-1">
@@ -262,7 +269,6 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
