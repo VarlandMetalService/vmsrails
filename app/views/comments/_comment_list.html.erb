@@ -1,45 +1,40 @@
-<div class="container-flex">
-    <% if commentable.comments.blank? %>
-    No comments to display...maybe you should leave one!
-    <% else %>
-    <div class="row p-3">
-        <% commentable.comments.each do |c| %>
-            <% if (params[:action] == 'edit' && (commentable.is_a? ShiftNote)) %>
-                <%= link_to '(Delete)', 
-                    shift_note_comment_path(commentable, c), 
-                    method: :delete,
-                    data: { confirm: 'Are you sure?' } %> 
-            <% end %>
 
-            <div class="col-3 mb-2">
-                <% if c.user.blank? %> 
-                &nbsp;
-                <% else %> 
-                    <span class="badge badge-pill" style="color: 
-                    <%= c.user.avatar_text_color %>; 
+  <% if commentable.comments.blank? %>
+    No comments to display...maybe you should leave one!
+  <% else %>
+    <table class="table" style="width: 100%; max-width: 400px; margin: 0 auto;" >
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>User</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% commentable.comments.each do |c| %>
+        <tr>
+          <td><%= c.created_at.strftime('%D') %></td>
+          <td>
+              <% if c.user.blank? %>
+                  &nbsp;
+                <% else %>
+                  <span class="badge badge-pill" 
+                    style="color: <%= c.user.avatar_text_color %>; 
                     background-color: <%= c.user.avatar_bg_color %>;">
                     <%= c.user.initials %> </span>
-                <% end %>:
-                <br>
-                <i><small class="text-muted" style="font-size: 12px;"><%= c.created_at.strftime('%D') %> </i></small>
-            </div>
-            <div class="col-5 mb-2">
-                <div class="float-left">
-                <%= sanitize c.body %>
-                </div>
-            </div>
-            <div class="col-4 mb-2">
-                <% if c.attachment? %>
-                <%= fa_icon "paperclip" %>:
-                <% c.attachment.each do |f| %>
-                <a href="<%= f.url %>" target="blank">
-                    <%= image_tag(f.url(:thumb)) if !f.blank? %> 
-                </a>
                 <% end %>
-                <% end %>
-            </div>
+          </td>
+          <td><%= sanitize c.body %></td>
+        </tr>
+        <% if c.attachment? %>
+          <% c.attachment.each do |f| %>
+            <tr>
+              <td colspan="3" class="text-center px-0"><a href="<%= f.url %>" target="_blank"><%= image_tag(f.url, size: '320') if !f.blank? %></a></td>
+            </tr>
+          <% end %>
         <% end %>
-    </div>
-    <% end %>
-</div>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 

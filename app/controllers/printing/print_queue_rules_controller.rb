@@ -23,9 +23,11 @@ class Printing::PrintQueueRulesController < ApplicationController
     @print_queue_rule = Printing::PrintQueueRule.new(print_queue_rule_params)
     respond_to do |format|
       if @print_queue_rule.save
-        format.html { redirect_to printing_print_queue_rules_path, notice: 'Print queue rule was successfully created.' }
+        flash [:success] = "Print queue rule created."
+        format.html { redirect_to printing_print_queue_rules_path }
         format.json { render :index, status: :created, location: @print_queue_rule }
       else
+        flash[:danger] = "Print queue rule creation failed."
         format.html { render :new }
         format.json { render json: @print_queue_rule.errors, status: :unprocessable_entity }
       end

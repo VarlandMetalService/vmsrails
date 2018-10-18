@@ -32,7 +32,8 @@ class Printing::PrintJobsController < ApplicationController
       if @print_job.save
         Printing::PrintJob.set_queue(@print_job)
         Printing::PrintJob.send_print_cmd(@print_job)
-        format.html { render :index, notice: 'Print job was successfully created.' }
+        flash[:success] = 'Print job was created.'
+        format.html { render :index }
         format.json { render :index, status: :created, location: @print_job }
       else
         format.html { render :new }
@@ -44,7 +45,8 @@ class Printing::PrintJobsController < ApplicationController
   def update
     respond_to do |format|
       if @print_job.update(print_job_params)
-        format.html { redirect_to printing_print_jobs_path, notice: 'Print job was successfully updated.' }
+        flash[:success] = 'Print job was updated.'
+        format.html { redirect_to printing_print_jobs_path }
         format.json { render :index, status: :ok, location: @print_job }
       else
         format.html { render :edit }
@@ -56,7 +58,8 @@ class Printing::PrintJobsController < ApplicationController
   def destroy
     @print_job.destroy
     respond_to do |format|
-      format.html { redirect_to printing_print_jobs_url, notice: 'Print job was successfully destroyed.' }
+      flash[:danger] = 'Print job was destroyed'
+      format.html { redirect_to printing_print_jobs_url }
       format.json { head :no_content }
     end
   end
@@ -64,6 +67,7 @@ class Printing::PrintJobsController < ApplicationController
   def set_queue
     Printing::PrintJob.set_queue(Printing::PrintJob.find(params[:id]))
     respond_to do |format|
+      flash[:success] = "Print queue set to #{Printing::PrintQueue.find(Printing::PrintJob.find(params[:id]).print_queue_id).name}"
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
     end
@@ -72,6 +76,11 @@ class Printing::PrintJobsController < ApplicationController
   def send_print_cmd
     Printing::PrintJob.send_print_cmd(@print_job)
     respond_to do |format|
+      if @print_job.is_complete
+        flash[:success] = "Print job successfully printed."
+      else
+        flash[:danger] = "Print job failed to print"
+      end
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
     end

@@ -39,6 +39,7 @@ class SaltSprayTestsController < ApplicationController
     if @salt_spray_test.save
       if call_api(@salt_spray_test.so_num)
         respond_to do |format|
+          flash[:success] = "Salt spray test created."
           format.html { redirect_to salt_spray_tests_path }
           format.json { render :json => @salt_spray_test }
         end
@@ -74,7 +75,8 @@ class SaltSprayTestsController < ApplicationController
   def destroy
     @salt_spray_test.destroy
     respond_to do |format|
-      format.html { redirect_to salt_spray_tests_path, notice: 'Salt spray test was successfully destroyed.' }
+      flash[:danger] = 'Salt spray test destroyed.'
+      format.html { redirect_to salt_spray_tests_path }
       format.json { head :no_content }
     end
   end
@@ -83,13 +85,14 @@ class SaltSprayTestsController < ApplicationController
     if params[:email_sales]
       SaltSprayTestMailer.send_test(SaltSprayTest.find(params[:email_sales]), "Sales <richard.legacy@varland.com>").deliver_later
       params.delete :email_sales
+      flash[:success] = 'Email sent.'
     end
     if params[:email_management]
       SaltSprayTestMailer.send_test(SaltSprayTest.find(params[:email_management]), "Management <richard.legacy@varland.com>").deliver_later
       params.delete :email_management
+      flash[:success] = 'Email sent.'
     end
     respond_to do |format|
-      flash[:success] = 'Email sent.'
       format.html { redirect_to salt_spray_tests_path }
     end
   end

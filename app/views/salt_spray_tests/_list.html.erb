@@ -1,11 +1,11 @@
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" style="white-space: nowrap; overflow: hidden;">
   <thead class="thead-dark">
     <tr>
-      <th class="col-lg-2 col-md-6 col-sm-6">Shop Order</th>
+      <th class="col-lg-2 col-md-5 col-sm-5">Shop Order</th>
       <th class="col-lg-2 d-lg-table-cell d-none">Part</th>
       <th class="col-lg-2 d-lg-table-cell d-none">Process</th>
       <th class="col-lg-2 d-lg-table-cell d-none">User</th>
-      <th class="col-lg-3 col-md-5 col-sm-5">Results</th>
+      <th class="col-lg-3 col-md-6 col-sm-6">Results</th>
       <th class="col-1"></th>
     </tr>
   </thead>
@@ -14,7 +14,7 @@
     <% specs = format_spec(s) %>
     <tr>
       <%# Shop Order %>
-      <td class="d-md-table-cell d-xs-none" style="overflow-x: hidden;">
+      <td class="d-md-table-cell d-xs-none">
         <div class="row">
           <div class="col-12">
             <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
@@ -70,8 +70,9 @@
           White Spec:  <%= specs[0] %><br>
           Red Spec:    <%= specs[1] %>
       </td>
-      <td class="d-md-table-cell d-xs-none px-0">
-        <div class="container-flex mt-3" style="position: relative;">
+      <%# Progress %>
+      <td class="d-md-table-cell d-xs-none px-0 align-middle">
+        <div class="container-flex" style="position: relative;">
           <div class="progress bg-dark mr-1 ml-1" style="height: 40px;">
             <%# 75% is actually 100% %>
             <button class="btn btn-dark" style="height: 40px;" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>">
@@ -133,10 +134,11 @@
             </div>
           </div>
       </td>
+      <%# Links %>
       <td class="px-0 text-center align-middle">
         <div class="btn-group-vertical " role="group">
             <div class="dropleft text-center">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 51px;"><%= fa_icon('check-square-o')%></button>
+              <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 40px;"><%= fa_icon('check-square-o')%></button>
               <div class="dropdown-menu">
                 <%# OK %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -230,21 +232,13 @@
                               title: 'Mark as OFF' } } %> 
                   <% end %>
                 <% end %>
-                <% if @access_level >= 2 %>
-                <%= link_to fa_icon('times', text: "Delete Test"),
-                      salt_spray_test_path(s),
-                      method: :delete,
-                      class: 'text-danger btn btn-sm dropdown-item',
-                      title: 'Delete Salt Spray Test',
-                      data: { confirm: 'Are you sure you want to delete this test?',                            toggle: 'tooltip' } %>
-                <% end %>
               </div>
             </div>
-            <button class="btn btn-dark" style="margin-top: -3px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
+            <button class="btn btn-sm btn-dark" style="margin-top: -3px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
                 <%= fa_icon('commenting')%>
             </button>
             <div class="dropleft text-center" role="button">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px;"><%= fa_icon('share')%></button>
+              <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; width: 40px;"><%= fa_icon('share')%></button>
               <div class="dropdown-menu">
                 <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
                 <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
@@ -252,28 +246,31 @@
             </div>
           </div>
       </td>
-      <div class="modal fade" id="modalComments<%=s.id%>" tabindex="-1">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
-              <div class="collapse" id="collapseCommentsList<%=s.id%>">
-                <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </tr>
     <% end %>
   </tbody>
 </table>
+
+<% @salt_spray_tests.each do |s| %>
+  <div class="modal fade" id="modalComments<%=s.id%>" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
+          <div class="collapse text-center" id="collapseCommentsList<%=s.id%>">
+            <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

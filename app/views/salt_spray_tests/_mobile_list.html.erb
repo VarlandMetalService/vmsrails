@@ -256,7 +256,7 @@
       <div class="card-header bg-white">
         <%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
       </div>
-      <div class="card-body py-0">           
+      <div class="card-body py-0 px-1">           
         <div class="collapse" id="collapseCommentsList<%=s.id%>">
           <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
         </div>
