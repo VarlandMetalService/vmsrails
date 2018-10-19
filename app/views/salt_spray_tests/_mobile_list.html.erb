@@ -138,51 +138,8 @@
     <% specs = format_spec(s) %>
     <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
       <div class="card-header bg-white py-4">
-        <div class="container-flex">
-          <div class="progress bg-dark" style="height: 40px;">
-            <%# 75% is actually 100% %>
-            <div class="bar-step clearfix" style="left: 75%; overflow:hidden;">
-                <div class="label-txt">
-                  Red
-                  <div class="label-line"></div>
-                </div>
-                <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
-                <% if x.blank? %>
-                  <div class="label-percent"><%= specs[1] %></div>
-                <% elsif (x.first.date - s.created_at)/60.minutes < s.red_spec %>
-                  <span class="label-percent text-danger"><%= fa_icon("times") %></span>
-                <% else %>
-                  <span class="label-percent text-success"><%= fa_icon("check") %></span>
-                <% end %>
-            </div>
-            <div class="bar-step clearfix" style="left: <%=(s.white_spec.to_f/s.red_spec.to_f)*75 %>%;">
-                <div class="label-txt">
-                  White
-                  <div class="label-line"></div>
-                </div>
-                <div class="label-percent">
-                  <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
-                  <% if x.blank? %>
-                    <%= specs[0] %>
-                  <% elsif (x.first.date - s.created_at)/60.minutes < s.white_spec %>
-                    <span class="label-percent text-danger"><%= fa_icon("times") %></span>
-                  <% else %>
-                    <span class="label-percent text-success"><%= fa_icon("check") %></span>
-                  <% end %>
-                </div>
-            </div>
-            <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at).to_f/60.minutes).to_f / s.red_spec.to_f)*75 %>%;">
-            <strong style="font-size: 25px; position: absolute; z-index: 4;" class="text-warning ml-2">
-              <% if specs[3] == 'day' %>
-              <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
-              <% else %>
-              <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
-              <% end %>
-            </strong>
-            </div>
-          </div>
-        </div>
+        <%= render partial: 'progress_bar', 
+                    locals: { :s => s, :specs => specs, :type => "mobile" } %>
 	    </div>
       <div class="card-body bg-white py-0">
         <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
@@ -192,13 +149,11 @@
           <li class="nav-item">
             <a class="nav-link" id="history-tab" data-toggle="tab" href="#history<%=s.id%>" role="tab" aria-controls="history" aria-selected="false">History</a>
           </li>
-          <li class="nav-item float-right" style="margin-left: 65px;">
-            <div class="dropdown" role="button">
-              <button class="nav-link dropdown-toggle btn-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; background-color: #ffffff">Share</button>
-              <div class="dropdown-menu">
-                <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
-                <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
-              </div>
+          <li class="nav-item dropdown" style="margin-left: 60px;">
+            <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" >Share</a>
+            <div class="dropdown-menu">
+              <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
+              <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
             </div>
           </li>
         </ul>
@@ -251,15 +206,11 @@
         </div>
       </div>
     </div>
+    
     <%# Comments collapsable %>
     <div class="collapse bg-white" id="collapseComments<%=s.id%>">
-      <div class="card-header bg-white">
-        <%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
-      </div>
-      <div class="card-body py-0 px-1">           
-        <div class="collapse" id="collapseCommentsList<%=s.id%>">
-          <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
-        </div>
+      <div class="card-body py-2 px-1">           
+        <%= render partial: 'comments/comment_combo', locals: { :s => s }%>
       </div>
     </div>
   </div>

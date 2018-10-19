@@ -22,13 +22,9 @@
     </div>
     
     <div class="pull-right">
-        <% if commentable.is_a? SaltSprayTest %>
-            <button class="btn float-right" type="button"
+        <button class="btn float-right" type="button"
             data-toggle="collapse" data-target="#collapseCommentsList<%=commentable.id%>" style="font-size: 14x; background-color: #DDDDDD; border-color: #dee2e6;""><%= fa_icon('comments-o')%>
-          </button>
-        <% else %>
-        <% end %>
-        
+        </button>
     </div>
 <% end %>
 </div>

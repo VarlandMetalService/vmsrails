@@ -1,0 +1,50 @@
+<div class="container-flex" style="position: relative;">
+  <div class="progress bg-dark mr-1 ml-1" style="height: 40px;">
+    <%# 75% is actually 100% %>
+    <% if type == "desktop" %>
+      <button class="btn btn-dark" style="height: 40px;" type="button" data-toggle="collapse" data-target=".checks-collapse<%=s.id%>">
+        <%= fa_icon('list') %>
+      </button>
+    <% end %>
+    <div class="bar-step clearfix" style="left: 78%; overflow:hidden;">
+        <div class="label-txt">
+          Red
+          <div class="label-line"></div>
+        </div>
+        <% x = s.salt_spray_test_checks.where(:c_type => 'RED') %>
+        <% if x.blank? %>
+          <div class="label-percent"><%= specs[1] %></div>
+        <% elsif (x.first.date - s.created_at).to_f/60.minutes < s.red_spec %>
+          <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+        <% else %>
+          <span class="label-percent text-success"><%= fa_icon("check") %></span>
+        <% end %>
+    </div>
+    <div class="bar-step clearfix" style="left: <%= 78*(s.white_spec.to_f/s.red_spec) %>%">
+        <div class="label-txt">
+          White
+          <div class="label-line"></div>
+        </div>
+        <div class="label-percent">
+          <% x = s.salt_spray_test_checks.where(:c_type => 'WHITE') %>
+          <% if x.blank? %>
+            <%= specs[0] %>
+          <% elsif (x.first.date - s.created_at).to_f/60.minutes < s.white_spec %>
+            <span class="label-percent text-danger"><%= fa_icon("times") %></span>
+          <% else %>
+            <span class="label-percent text-success"><%= fa_icon("check") %></span>
+          <% end %>
+        </div>
+    </div>
+    <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes).to_f / s.red_spec)*78 %>%;">
+    <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
+      <% if specs[3] == 'day' %>
+      <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+      <% else %>
+      <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+      <% end %>
+    </strong>
+    </div>
+  </div>
+</div>

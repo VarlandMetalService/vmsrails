@@ -13,7 +13,6 @@ class ShiftNotesController < ApplicationController
   def index 
     check_permission('shift_notes')
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page]).includes(:comments, :user)
-
     respond_to do |format|
       format.html
       format.json { render :json => @shift_notes }
@@ -21,6 +20,7 @@ class ShiftNotesController < ApplicationController
   end
 
   def show
+    check_permission('shift_notes')
   end
 
   def new
@@ -28,6 +28,7 @@ class ShiftNotesController < ApplicationController
   end
 
   def edit
+    check_permission('shift_notes')
   end
 
   def create

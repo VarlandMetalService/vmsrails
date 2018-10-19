@@ -56,21 +56,21 @@
 
             <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
             
-            <td class="text-center align-middle"> 
-              <div class="btn-group " role="group">
+            <td class="text-center"> 
+              <div class="btn-group-vertical" role="group">
                 <%= link_to fa_icon('eye'),
                               shift_note_path(n),
                               class: 'font-weight-bold btn btn-sm btn-success',
                               title: 'View Shift Note',
                               data: { toggle: 'tooltip' } %>
-                <% if @access_level >= 0 %>
+                <% if @access_level >= 2 %>
                 <%= link_to fa_icon('pencil'),
                             edit_shift_note_path(n),
                             class: 'font-weight-bold btn btn-sm btn-warning',
                             title: 'Edit Shift Note',
                             data: { toggle: 'tooltip' } %>
                 <% end %>
-                <% if @access_level >= 0 %>
+                <% if @access_level >= 3 %>
                 <%= link_to fa_icon('times'),
                             shift_note_path(n),
                             method: :delete,

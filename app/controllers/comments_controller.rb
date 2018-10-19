@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
     end
 
     def destroy
-        @comment = @commentable.comments.find(params[:id])
+        @comment = Comment.find(params[:id])
         @comment.destroy
         respond_to do |format|
             format.html { redirect_to edit_shift_note_path(@commentable), notice: 'Comment was successfully destroyed.' }

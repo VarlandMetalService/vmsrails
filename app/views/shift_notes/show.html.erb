@@ -1,8 +1,11 @@
 <% provide(:title, 'Shift Note') %>
-<div class="container-fluid p-2">
+<div style="max-width: 600px; margin: 0 auto;" class="py-4">
   <p>
-    <h4><strong><%= link_to fa_icon('backward'), shift_notes_path,
-          class: 'font-weight-bold btn btn-sm btn-secondary' %> Note:</strong></h4>
+    <h4><strong>
+      <%= link_to fa_icon('backward'), shift_notes_path,
+          class: 'font-weight-bold btn btn-sm btn-secondary' %> 
+      Note:
+    </strong></h4>
     <strong>Shift date:</strong>
     <%= @shift_note.created_at.strftime('%m/%d/%y') %>
     <br>
@@ -21,15 +24,9 @@
     <strong>Shift time:</strong>
     <%= @shift_note.shift_time %>
   </p>
-  <strong>Message:</strong> <br>
-  <%=sanitize @shift_note.message %>
-  <br>
-  <hr>
-    <div class="col-3">
-  <h5><strong>Comments:</h5></strong>
-    <%= render partial: "comments/comment_list", 
-           locals: {commentable: @shift_note} %>
-    <%= render partial: "comments/comment_form", 
-           locals: {commentable: @shift_note} %>
-           </div>
+    <strong>Message:</strong> <br>
+    <%=sanitize @shift_note.message %>
+    <hr>
+    <%= render partial: 'comments/comment_combo', 
+                locals: { :s => @shift_note }%>
 </div>
