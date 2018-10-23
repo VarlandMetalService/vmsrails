@@ -7,14 +7,16 @@
       <h5 class="card-title text-center">
         <%= form.select :record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, @clock_record.record_type), {}, { class: "form-control" }  %></h5>
       <p class="card-text text-center input-group">
-        <% if params[:id].blank? %>
-          <%= form.select :user_id, options_for_select(User.all.map{ |u| [u.full_name, u.id]}), {}, { class: "form-control" } %>
+        <% if params[:user_id].blank? %>
+          <%= form.select :user_id, 
+          options_for_select(User.all.map{ |u| [u.full_name, u.id]}), {}, { class: "form-control" } %>8
         <% else %>
           <%= form.hidden_field :user_id, value: params[:user_id] %>
         <% end %>
       </p>
     </div>
   </div>
+  <br>
   <div class="text-center">
   <%= form.submit "Submit", class: "btn btn-primary" %>
   </div>

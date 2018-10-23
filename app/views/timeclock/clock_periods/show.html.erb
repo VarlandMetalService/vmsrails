@@ -1,20 +1,14 @@
-<% user_records = {} %>
 <% provide(:title, 'Period Users') %>
 <div class="row mt-3">
   <div class="col">
-    <h3 class="mb-0">Employees for
+    <h3 class="mb-0">Employee Records for
         <%= @clock_period.start_date.strftime("%m/%d/%y") %> 
       - <%= @clock_period.end_date.strftime("%m/%d/%y") %>
     </h3>
   </div>
 </div>
-<div class="row mt-3">
-  <div class="col">
-    <h3 class="mb-0">
-      </h3>
-  </div>
-</div>
 
+<% user_records = {} %>
 <% @clock_period.clock_records.each do |record| %>
   <% if user_records[%Q[#{record.user.id}]].blank? %>
     <% array = [record] %>
@@ -24,96 +18,123 @@
   <% end %>
 <% end %>
 
-<%= form_for @clock_period, url: holiday_hours_path do |f| %>
+<div class="container-flex mt-4">
+  <div class="row">
+    <div class="col-3 text-center">
+      <div class="card btn-block border-dark bg-dark">
+        <div class="card-body bg-dark text-light text-center pb-0">
+          <h5 class="card-title text-center">Actions</h5>
+          <hr style="border-color: #ffc107;">
+        </div>
+        <ul class="list-group list-group-flush bg-dark text-white">
+          <li class="list-group-item bg-dark">
+            <a data-toggle="modal" data-target="#newRecordModal" style="cursor: pointer;">
+              New Clock Record
+            </a>
+          </li>
+          <li class="list-group-item bg-dark">
+            <a data-toggle="modal" data-target="#HolidayRecordModal" style="cursor: pointer;">Create Holiday Shifts
+            </a>
+            </li>
+          <li class="list-group-item bg-dark">Close Period</li>
+        </ul>
+        <hr class="mr-3 ml-3" style="border-color: #ffc107;">
+      </div>
+    </div>
+    <div class="col-9">
+      <table class="table">
+        <caption>*Indicates a record that has been edited, click to edit any record.</caption>
+        <thead>
+          <tr>
+            <th style="width: 1%;" class="text-right">Hours</th>
+            <th style="width: 1%;"></th>
+            <th>User</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% user_records.each do |user, records| %>
+          <%# setup %>
+            <%= render partial: "cal_entry", locals: { :user => user, :records => records } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-<div class="modal" tabindex="-1" role="dialog" id="mynewModal">
+<div class="modal fade" id="newRecordModal" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header text-center">
-        Select Date for Holiday Entries
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Clock Record</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>
-            <%= f.datetime_field "start_date", { class: "form-control" } %>
-            <%= f.submit "Create Holiday Entries", class: "form-control" %>
-        </p>
+        <% @clock_record = Timeclock::ClockRecord.new %>
+        <%= render partial: "/timeclock/clock_records/form", locals: { } %>
       </div>
     </div>
   </div>
 </div>
-<table class="table table-striped table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th><%= f.check_box "users", { :name => 'test', :multiple => true, id: 'check_all', :checked => false }, nil, nil %><sub>(all)</sub></th>
-      <th>User</th>
-      <th>Total</th>
-      <th>Links</th>
-      <th>Sun - <%=  @clock_period.start_date.strftime("%m/%d") %></th>
-      <th>Mon - <%= (@clock_period.start_date + 1.day).strftime("%m/%d") %></th>
-      <th>Tue - <%= (@clock_period.start_date + 2.day).strftime("%m/%d") %></th>
-      <th>Wed - <%= (@clock_period.start_date + 3.day).strftime("%m/%d") %></th>
-      <th>Thu - <%= (@clock_period.start_date + 4.day).strftime("%m/%d") %></th>
-      <th>Fri - <%= (@clock_period.start_date + 5.day).strftime("%m/%d") %></th>
-      <th>Sat - <%= (@clock_period.start_date + 6.day).strftime("%m/%d") %></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% user_records.each do |user, records| %>
-    <% week_rec = nil %>
-    <% week_totals = nil %>
-    <% week_rec = records_to_weeks(records) %>
-    <% week_totals = calc_week_totals(week_rec) %>
-    <tr>
-      <td><%= f.check_box "users", {:multiple => true}, user, nil %></td>
-      <td><%= User.find(user).full_name %></td>
-      <td><%= (week_totals.sum*4).round / 4.0 %> hrs</td>
-      <td class="text-center">
-        <%= link_to fa_icon('eye'),
-            user_summary_path(:id => @clock_period.id, :user_id => user),
-            :action => :user_summary, 
-            data: {turbolinks: false}, 
-            class: "font-weight-bold btn btn-sm btn-success" %>
-      </td>
-      <% week_totals.each do |hours| %>
-      <th><%= (hours*4).round / 4.0 %> hrs</th>
-      <% end %>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-<div class="btn-group">
-<%= link_to fa_icon('arrow-left'),
-                        timeclock_clock_periods_path,
-                        method: :get,
-                        class: 'font-weight-bold btn btn-sm btn-secondary',
-                        title: 'Back' %>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mynewModal"> Create Holiday Shift for checked users </button>
+
+<div class="modal fade" id="HolidayRecordModal" tabindex="-1" role="dialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Holiday Records</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for @clock_record do |form| %>
+        <div class="card text-center" style="">
+            <div class="card-header bg-dark text-white">
+              <strong><%= form.datetime_field :timestamp, class: "form-control" %></strong>
+            </div>
+            <div class='card-body text-light bg-light'>
+              <h5 class="card-title text-center">
+                <%= form.hidden_field :record_type, value: "Holiday" %></h5>
+              <p class="card-text text-center input-group text-dark">
+                <%= check_box_tag("Select All", nil, false, id: "check_all")%>
+                  All
+                <div class="row text-dark text-left">
+                  <% User.all.in_groups(2, false).each do |group| %>
+                    <div class="col-6">
+                      <% group.each do |user| %>
+                        <%= form.check_box(:user_id, { :multiple => true, class: "checkbox" }, user.id, nil) %>
+                        <%= user.full_name %><br>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </p>
+            </div>
+          </div>
+          <br>
+          <div class="text-center">
+          <%= form.submit "Submit", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-<% end %>
-
 
 <script type="text/javascript">
-  var check_all = document.getElementById('check_all')
-  check_all.addEventListener("click", function() {
-    if(check_all.checked) {
-      var cbxs = $('input[type="checkbox"]');
-      cbxs.prop("checked", !cbxs.prop("checked"));
-    }
-    else {
-      var cbxs = $('input[type="checkbox"]');
-      cbxs.prop("checked", !cbxs.prop("checked"));
-    }
-  })
-</script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('#check_all').on("click", function(){
-    var cbxs = $('input[type="checkbox"]');
-    cbxs.prop("checked", !cbxs.prop("checked"));
-    });
-  });
-</script>
+$(document).ready(function(){
+   $('#check_all').on("click", function() {
+     // grouping all the checkbox using the classname
+     var checkboxes = $(".checkbox");
+     // check whether checkboxes are selected.
+     if(checkboxes.prop("checked")){
+        // if they are selected, unchecking all the checkbox
+        checkboxes.prop("checked",false);
+     } else {
+        // if they are not selected, checking all the checkbox
+        checkboxes.prop("checked",true);
+     }
+   });
+});</script>

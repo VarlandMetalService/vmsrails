@@ -1,96 +1,26 @@
-<div class="row">
-
-<% sun = DateTime.now - DateTime.now.wday%>
-
-<% sun_rec ||= [] %>
-<% mon_rec ||= [] %>
-<% tue_rec ||= [] %>
-<% wed_rec ||= [] %>
-<% thu_rec ||= [] %>
-<% fri_rec ||= [] %>
-<% sat_rec ||= [] %>
-<% week_total = 0 %>
-
-<% @period_records.each do |record| %>
-  <% if record.timestamp.strftime("%A") == 'Sunday' %>
-    <% sun_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Monday' %>
-    <% mon_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Tuesday' %>
-    <% tue_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Wednesday' %>
-    <% wed_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Thursday' %>
-    <% thu_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Friday' %>
-    <% fri_rec << record %>
-  <% end %>
-  <% if record.timestamp.strftime("%A") == 'Saturday' %>
-    <% sat_rec << record %>
-  <% end %>
-<% end %>
-
-<% week_rec ||= [sun_rec, mon_rec, tue_rec, wed_rec, thu_rec, fri_rec, sat_rec] %>
-
-  <div class="col">
-    <table class="table table-fill table-bordered table-striped">
-      <thead class="thead-dark text-center">
-        <tr>
-            <th style="width: 5%">
-              <%= ( sun ).strftime("%A") %><br><%= ( sun ).strftime("%m-%d") %></th>
-            <th style="width: 18%">
-              <%= (sun+1).strftime("%A") %><br><%= (sun+1).strftime("%m-%d")%></th>
-            <th style="width: 18%">
-              <%= (sun+2).strftime("%A") %><br><%= (sun+2).strftime("%m-%d")%></th>
-            <th style="width: 18%">
-              <%= (sun+3).strftime("%A") %><br><%= (sun+3).strftime("%m-%d")%></th>
-            <th style="width: 18%">
-              <%= (sun+4).strftime("%A") %><br><%= (sun+4).strftime("%m-%d")%></th>
-            <th style="width: 18%">
-              <%= (sun+5).strftime("%A") %><br><%= (sun+5).strftime("%m-%d")%></th>
-            <th style="width: 5%">
-              <%= (sun+6).strftime("%A") %><br><%= (sun+6).strftime("%m-%d")%></th>
-        </tr>
-      </thead> 
-      <thead class="thead-light text-center">
-        <tr>
-        <% week_rec.each do |day| %>
-          <th>
-            <% total = 0 %>
-            <% day.each do |mon| %>
-              <% if mon.record_type == 'End Work' || mon.record_type == 'Start Break' %>
-                <% total += mon.timestamp.to_i %>
-              <% else %>
-                <% total = total - mon.timestamp.to_i %>
-              <% end %>
-            <% end %>
-              <%= total/3600 hours %>
-              <% week_total += total/3600 %>
-          </th>
-          <% end %>
-        </tr>    
-      </thead>
-      <tbody>
-        <tr class="table-secondary">
-        <% week_rec.each do |rec| %>
-          <td>
-            <table class="table table-fill">
-              <thead></thead>
-              <tbody>
-                <% rec.each do |r| %>
-                      <%= render partial: 'calendar_entry', cached: :true, locals: { record: r} %>
-                <% end %>
-              </tbody>
-            </table>
-          </td>
-        <% end %>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>         
+<% week_totals = calc_week_totals(week_recs)%>
+<table class="table">
+  <caption></caption>
+  <thead>
+    <tr>
+      <th class="col-1 text-center">Date</th>
+      <th class="col-1 text-right">Hours</th>
+      <th class="col-10">Punches</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% week_recs.each_with_index do |day_rec, i| %>
+    <%= render partial: 'calendar_row', 
+          locals: { :hours => (week_totals[i]*4).round/4.0, :recs => day_rec } unless day_rec[2].blank? %>
+    <% end %>
+    <tr>
+      <td class="text-center"><strong>Total:</strong></td>
+      <td class="text-right"><%= week_totals.sum %></td>
+      <td class="text-muted">
+        * Click "Details" to see more info about edited punch.
+        <br>
+        ** Some values may be wrong until all punches are recorded for a given day.
+      </td>
+    </tr>
+  </tbody>
+</table>

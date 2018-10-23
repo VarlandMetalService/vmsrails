@@ -4,7 +4,6 @@ module Timeclock
     belongs_to :clock_period, class_name: 'Timeclock::ClockPeriod', required: false
     belongs_to :user, class_name: 'User'
     accepts_nested_attributes_for :clock_edit
-    # belongs_to :period, class_name: 'Timeclock::Period', optional: true
     self.table_name = "clock_records"
 
     # Validations.

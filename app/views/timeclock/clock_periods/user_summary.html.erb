@@ -1,5 +1,8 @@
-  <% @week_rec = records_to_weeks(@period_records) %>
-  <% @week_totals = calc_week_totals(@week_rec) %> 
+  <% week_rec = records_to_weeks(@period_records) %>
+  <% @week_totals = calc_week_totals(week_rec) %> 
+   <% week_rec.each_with_index do |c, i| %>
+    <% c.slice!(0..1) %>
+  <% end %>
 
 <div class="row mt-3">
   <div class="col">
@@ -72,8 +75,8 @@
       </thead>
       <tbody>
         <tr class="table-secondary">
-          <% @week_rec.each do |rec| %>
-          <% rec = rec.sort_by{ |r| r[:timestamp]} %>
+          <% week_rec.each do |rec| %>
+          <%# rec = rec.sort_by{ |r| r[:timestamp]} %>
             <td>
               <table class="table table-fill" style="table-layout: fixed;">
                 <thead></thead>

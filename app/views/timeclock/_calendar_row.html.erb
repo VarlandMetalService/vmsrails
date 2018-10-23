@@ -1,0 +1,49 @@
+
+<tr>
+  <td class="text-center align-middle"><%= recs[0] %><br><%= recs[1] %></td>
+  <% recs.slice!(0, 2) %>
+  <td class="text-right align-middle"><%= number_with_precision(hours, precision: 2) %></td>
+  <td>
+    <table class="table table-sm mb-0 mt-0 py-0">
+      <tbody>
+    <% recs.each do |r| %>
+        <tr class="form-row" style="background-color:
+          <% if r.record_type == "Start Work" %>
+          #dff0d8;">
+          <% elsif  r.record_type == "Start Break" %>
+          #cceeff;">
+          <% elsif r.record_type == "End Break" %>
+          #f6e7a3;">
+          <% elsif r.record_type == "End Work" %> 
+          #f2dede;">
+          <% end %>
+          <td style="width: 50%;">
+            <%= r.timestamp.strftime("%I:%M %p")%> - <%= r.record_type %>
+          </td>
+          <td style="width: 50%;">
+            <% if r.clock_edit.blank? %>
+            <% else %>
+            <%= Timeclock::ReasonCode.find(r.clock_edit.reason_id).description %>
+            <a class="text-dark collapsed d-inline float-right" data-toggle="collapse" href="#collapseEdit<%=r.id%>" role="button">
+              <%= fa_icon("caret-down", text: "Details")%>
+            </a>
+            <% end %>
+        </td>
+        </tr>
+         <%# Dropdown here? %>
+          <% if r.clock_edit.blank? %>
+          <% else %>
+          <tr class="collapse" id="collapseEdit<%=r.id%>">
+            <td>
+            <%= r.clock_edit.note %><br>
+            <footer class="blockquote-footer p-0 text-dark float-right"> Edited by: <%= User.find(r.clock_edit.user_id).initials %> @
+                <%= r.clock_edit.updated_at.strftime("%I:%M %p on %m/%d/%y") %>
+            </footer>
+            </td>
+            </tr>
+          <% end %>
+    <% end %>
+    </tbody>
+    </table>
+  </td>
+</tr>

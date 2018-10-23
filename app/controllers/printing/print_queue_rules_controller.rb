@@ -23,7 +23,7 @@ class Printing::PrintQueueRulesController < ApplicationController
     @print_queue_rule = Printing::PrintQueueRule.new(print_queue_rule_params)
     respond_to do |format|
       if @print_queue_rule.save
-        flash [:success] = "Print queue rule created."
+        flash[:success] = "Print queue rule created."
         format.html { redirect_to printing_print_queue_rules_path }
         format.json { render :index, status: :created, location: @print_queue_rule }
       else

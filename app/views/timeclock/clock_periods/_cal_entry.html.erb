@@ -1,0 +1,80 @@
+<% week_recs = records_to_weeks(records) %>
+<% week_totals = calc_week_totals(week_recs) %>
+<tr>
+  <td colspan="1" class="text-right"><%= number_with_precision(week_totals.sum, precision: 2) %></td>
+  <td colspan="1">
+    <button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#collapse<%=user%>">
+      <%= fa_icon("calendar") %>
+    </button>
+  </td>
+  <td><%= User.find(user).full_name %></td>
+  
+</tr>
+<tr class="collapse" id ="collapse<%=user%>">
+  <td colspan="12">
+    <div class="form-row">
+    <% week_recs.each do |day_recs| %>
+      <div class="col text-center">
+        <%= day_recs[0] %><br>
+        <u><%= day_recs[1] %></u><br>
+        <% day_recs.slice!(0,2) %>
+        <% day_recs.each do |rec| %>
+<span class="text-dark badge d-block my-1 mx-1" data-toggle="modal" data-target="#modal<%= rec.id %>" style=" cursor: pointer; background-color:
+          <% if rec.record_type == "Start Work" %>
+            #dff0d8;">
+          <% elsif  rec.record_type == "Start Break" %>
+            #cceeff;">
+          <% elsif rec.record_type == "End Break" %>
+            #f6e7a3;">
+          <% elsif rec.record_type == "End Work" %> 
+            #f2dede;">
+          <% elsif rec.record_type == "Holiday" %> 
+            #f8f9fa;">
+          <% else %>'
+          ;">
+          <% end %>
+            <% if rec.clock_edit.blank? %>
+            <% else %>
+            *
+            <% end %>
+            <%= rec.record_type %><br>
+            <%= rec.timestamp.strftime("%I:%M %p")%><br>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="w-100"><hr class="mb-1 mt-1"></div>
+    <% week_recs.each_with_index do |day_recs, i|%>
+      <div class="col text-center"><%= number_with_precision(week_totals[i], precision: 2) %></div>
+    <% end %>
+  </td>
+</tr>
+
+<% week_recs.each do |day_recs| %>
+  <% day_recs.each do |record| %>
+    <div class="modal" tabindex="-1" role="dialog" id="modal<%= record.id %>">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="text-center">Edit Record</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mt-0">
+            <p>
+              <% if record.clock_edit.blank? %>
+                <% @clock_edit = Timeclock::ClockEdit.new %>
+                <% @clock_edit.clock_record = Timeclock::ClockRecord.find(record.id) %>
+                <%= render partial: 'timeclock/clock_edits/form', locals: { :rid => record.id } %>
+              <% else %>
+                <% @clock_edit = record.clock_edit %>
+                <%= render partial: 'timeclock/clock_edits/form', locals: { :rid => record.id } %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

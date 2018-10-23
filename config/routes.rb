@@ -40,6 +40,10 @@ Rails.application.routes.draw do
     resources :reason_codes
   end
 
+  get  '/timeclock/login',  to: 'timeclock#login'
+  post '/timeclock/login',  to: 'sessions#timeclock_create'
+  get  '/timeclock',        to: 'timeclock#punch'
+  get  '/timeclock/clock_periods(/:id)/user(/:user_id)', to: 'timeclock/clock_periods#user_summary', as: :user_summary, action: :get 
   patch '/timeclock/holiday_hours', to:'timeclock/clock_records#holiday_hours', as: :holiday_hours
   
   resources :shift_notes do
@@ -69,14 +73,10 @@ Rails.application.routes.draw do
  
   root :to => 'vms#home'
   
-  get '/timeclock/login',  to: 'timeclock#login'
-  post '/timeclock/login', to: 'sessions#timeclock_create'
-  get '/timeclock',        to: 'timeclock#work'
-  get '/timeclock/clock_periods(/:id)/user(/:user_id)', to: 'timeclock/clock_periods#user_summary', as: :user_summary, action: :get 
-
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'
   delete  '/logout',  to: 'sessions#destroy'
+  get     '/logout',  to: 'sessions#destroy'
 
   get     '/queries/promise_list',                  to: 'queries#promise_list'
   get     '/queries/receipts',                      to: 'queries#receipts'

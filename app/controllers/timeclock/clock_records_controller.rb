@@ -3,7 +3,7 @@ module Timeclock
     before_action :set_clock_record, only: [:show, :edit, :update, :destroy]
 
     def index
-      @clock_records = Timeclock::ClockRecord.all
+      @clock_records = Timeclock::ClockRecord.all.includes(:user, :reason_code)
       @clock_record = Timeclock::ClockRecord.new
       @clock_edit = @clock_record.build_clock_edit
       respond_to do |format|
@@ -24,23 +24,42 @@ module Timeclock
     end
 
     def create
-      @clock_record = ClockRecord.new(clock_record_params)
-      @clock_record.record_type = params["record_type"] unless params["record_type"].blank?
-      round_minutes(@clock_record)
-      if(ClockRecord.all.where(@current_user.id == :user_id).exists? &&@clock_record.timestamp == ClockRecord.all.where(@current_user.id == :user_id).last.timestamp)
-        @clock_record.timestamp += 1.minute
-      end
-      set_or_create_period(@clock_record)
-      if @clock_record.save
-        flash[:success] = "Clock record created."
+      if !params[:timeclock_clock_record][:user_id][2].blank?
+        params[:timeclock_clock_record][:user_id].each do |user|
+          if user == ""
+          else
+          @clock_record = ClockRecord.new(
+            :timestamp => params[:timeclock_clock_record][:timestamp],
+            :record_type => params[:timeclock_clock_record][:record_type],
+            :user_id => user)
+            round_minutes(@clock_record)
+            set_or_create_period(@clock_record)
+            @clock_record.save
+          end
+        end
+        flash[:success] = "#{params[:timeclock_clock_record][:user_id].count - 1 } Holiday Records created!"
         respond_to do |format|
-          format.html { redirect_back(fallback_location: '') }
-          format.json { render :json => @clock_record }
+          format.html { redirect_back(fallback_location: "")}
         end
       else
-        render :action => 'new'
-        Rails.logger.info(@clock_record.errors.inspect)
-      end 
+        @clock_record = ClockRecord.new(clock_record_params)
+        @clock_record.record_type = params["record_type"] unless params["record_type"].blank?
+        round_minutes(@clock_record)
+        if(ClockRecord.all.where(@current_user.id == :user_id).exists? &&@clock_record.timestamp == ClockRecord.all.where(@current_user.id == :user_id).last.timestamp)
+          @clock_record.timestamp += 1.minute
+        end
+        set_or_create_period(@clock_record)
+        if @clock_record.save
+          flash[:success] = "Clock record created."
+          respond_to do |format|
+            format.html { redirect_back(fallback_location: '') }
+            format.json { render :json => @clock_record }
+          end
+        else
+          render :action => 'new'
+          Rails.logger.info(@clock_record.errors.inspect)
+        end 
+      end
     end
 
     def update
@@ -55,6 +74,7 @@ module Timeclock
 
     def destroy
       @clock_record.destroy
+      flash[:danger] = "Record destroyed."
       respond_to do |format|
         format.html { redirect_back(fallback_location: '') }
         format.json { head :no_content }

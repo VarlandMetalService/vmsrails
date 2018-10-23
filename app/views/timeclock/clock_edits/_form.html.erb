@@ -22,8 +22,8 @@
     <%= form.hidden_field :clock_record_id, value: @clock_edit.clock_record.id %>
   <% end %>
 
-  <div class="card text-center" style="">
-    <div class="card-header bg-dark text-white">
+  <div class="card text-center mt-0">
+    <div class="card-header bg-dark text-white mt-0">
       <strong><%= form.datetime_field :clock_record_timestamp, class: "form-control" %></strong>
     </div>
     <div class='card-body text-light <%= Timeclock.color_options["#{record.record_type}"] %>'>
@@ -48,7 +48,7 @@
   <%= form.hidden_field :user_id, value: @current_user.id  %>
   <%= form.hidden_field :ip_address, value: request.remote_ip %>
   <div class="text-center">
-  <%= link_to 'Destroy', record, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-  <%= form.submit "Submit", class: "btn btn-primary" %>
+  <%= link_to 'Destroy', record, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+  <%= form.submit "Submit", class: "btn btn-primary", remote: true %>
   </div>
 <% end %>

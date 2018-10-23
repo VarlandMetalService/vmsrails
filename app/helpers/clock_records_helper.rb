@@ -1,13 +1,14 @@
 module ClockRecordsHelper
 
   def records_to_weeks(period_records)
-    sun_rec = [] 
-    mon_rec = [] 
-    tue_rec = [] 
-    wed_rec = [] 
-    thu_rec = [] 
-    fri_rec = [] 
-    sat_rec = []
+    sun = period_records.last.timestamp - period_records.last.timestamp.wday
+    sun_rec = ['Sunday'   , (sun        ).strftime("%m-%d")]
+    mon_rec = ['Monday'   , (sun + 1.day).strftime("%m-%d")]
+    tue_rec = ['Tuesday'  , (sun + 2.day).strftime("%m-%d")]
+    wed_rec = ['Wednesday', (sun + 3.day).strftime("%m-%d")]
+    thu_rec = ['Thursday' , (sun + 4.day).strftime("%m-%d")]
+    fri_rec = ['Friday'   , (sun + 5.day).strftime("%m-%d")]
+    sat_rec = ['Saturday' , (sun + 6.day).strftime("%m-%d")]
     period_records.sort_by{ |key| key[:timestamp]} 
     period_records.reverse
     period_records.each do |record|
@@ -18,7 +19,7 @@ module ClockRecordsHelper
           else
             sun_rec << record
           end
-        when'Monday'
+        when 'Monday'
           if record.timestamp.strftime("%H").to_i < 7
             sun_rec << record
           else
@@ -74,7 +75,8 @@ module ClockRecordsHelper
     start = nil
     week_totals = []
     
-    week_rec.each do |day|
+    week_rec.each do |days|
+      day = days.slice(2, days.count-2)
       total = 0
 
       day.each_with_index do |rec, i|
