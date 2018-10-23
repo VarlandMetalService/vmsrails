@@ -42,9 +42,9 @@ module Printing
     end
 
     def self.option_flags
-      [['Copies: (number)'   , '-# '],
-       ['Landscape: (blank)', '-o RIOrientOvr=Landscape']]
+      [['Copies: (number)'  , '-# '],
+       ['Landscape: (blank)', '-o RIOrientOvr=Landscape'],
+       ['Stapled: (blank)'  , '-o StapleLocation=UpperLeft' ]]
     end
-
   end
 end
