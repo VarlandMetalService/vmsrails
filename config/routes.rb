@@ -42,9 +42,9 @@ Rails.application.routes.draw do
 
   get  '/timeclock/login',  to: 'timeclock#login'
   post '/timeclock/login',  to: 'sessions#timeclock_create'
-  get  '/timeclock',        to: 'timeclock#punch'
-  get  '/timeclock/clock_periods(/:id)/user(/:user_id)', to: 'timeclock/clock_periods#user_summary', as: :user_summary, action: :get 
-  patch '/timeclock/holiday_hours', to:'timeclock/clock_records#holiday_hours', as: :holiday_hours
+
+  get  '/timeclock',        to: 'timeclock#punch' 
+  get '/timeclock/on_clock', to: 'timeclock#on_clock'
   
   resources :shift_notes do
     resources :comments, module: :shift_notes
@@ -93,6 +93,8 @@ Rails.application.routes.draw do
     resources :users
     resources :permissions
   end
+
+  patch 'timeclock', to: 'timeclock#update_pin', as: :update_pin
   
   namespace :dept_info do
     resources :folders

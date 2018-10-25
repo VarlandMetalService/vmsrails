@@ -2,7 +2,7 @@ module Admin
   class UsersController < ApplicationController
 
     skip_before_action  :authenticate_user
-    before_action :authenticate_admin
+    before_action :authenticate_admin, except: :update_pin
 
     has_scope :by_name,
               only: :index

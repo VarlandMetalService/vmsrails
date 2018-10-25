@@ -1,17 +1,28 @@
 <% week_recs = records_to_weeks(records) %>
 <% week_totals = calc_week_totals(week_recs) %>
-<tr>
-  <td colspan="1" class="text-right"><%= number_with_precision(week_totals.sum, precision: 2) %></td>
-  <td colspan="1">
+<% count = 0 %>
+<% records.each do |r| %>
+  <% if r.record_type == "Holiday" %>
+  <% else %>
+    <% count = count + 1 %>
+  <% end %>
+<% end %>
+<tr class="
+  <% if count % 2 == 0 %>
+    ">
+  <% else %>
+  bg-warning">
+  <% end %>
+  <td colspan="1" class="text-right align-middle"><%= number_with_precision(week_totals.sum, precision: 2) %></td>
+  <td colspan="1" class="align-middle">
     <button class="btn btn-sm" type="button" data-toggle="collapse" data-target="#collapse<%=user%>">
       <%= fa_icon("calendar") %>
     </button>
   </td>
   <td><%= User.find(user).full_name %></td>
-  
 </tr>
-<tr class="collapse" id ="collapse<%=user%>">
-  <td colspan="12">
+<tr class="collapse out" id ="collapse<%=user%>">
+  <td colspan="12" class="align-middle">
     <div class="form-row">
     <% week_recs.each do |day_recs| %>
       <div class="col text-center">
@@ -19,7 +30,7 @@
         <u><%= day_recs[1] %></u><br>
         <% day_recs.slice!(0,2) %>
         <% day_recs.each do |rec| %>
-<span class="text-dark badge d-block my-1 mx-1" data-toggle="modal" data-target="#modal<%= rec.id %>" style=" cursor: pointer; background-color:
+        <span class="text-dark badge d-block my-1 mx-1" data-toggle="modal" data-target="#modal<%= rec.id %>" style=" cursor: pointer; background-color:
           <% if rec.record_type == "Start Work" %>
             #dff0d8;">
           <% elsif  rec.record_type == "Start Break" %>
@@ -30,7 +41,7 @@
             #f2dede;">
           <% elsif rec.record_type == "Holiday" %> 
             #f8f9fa;">
-          <% else %>'
+          <% else %>
           ;">
           <% end %>
             <% if rec.clock_edit.blank? %>

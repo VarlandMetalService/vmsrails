@@ -1,11 +1,8 @@
-function logout() {
-  $.ajax({
-    url: "/logout",
-    type: 'DELETE'
-  });
-}
+$( document ).on('turbolinks:load', function() {
+    startTime();
+})
 
-  window.onload = function startTime() {
+   function startTime() {
     y = "AM"
     var today = new Date();
     var h = today.getHours();
@@ -44,6 +41,10 @@ function logout() {
     h = checkHours(h);
     document.getElementById('clock').innerHTML =
     x + " " + t + "/" + d + " - " + h + ":" + m + ":" + s + " " + y;
+    var timeclock = document.getElementById('clockx');
+    if(timeclock == null){}
+    else {
+        document.getElementById('clockx').innerHTML = x + " " + t + "/" + d + " - " + h + ":" + m + ":" + s + " " + y;}
     var t = setTimeout(startTime, 500);
   }
   function padTime(i) {

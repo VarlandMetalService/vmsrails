@@ -1,5 +1,5 @@
 class Timeclock::ClockPeriodsController < ApplicationController
-  before_action :set_clock_period, only: [:show, :edit, :update, :destroy]
+  before_action :set_clock_period, only: [ :edit, :update, :destroy]
 
   # GET /timeclock/clock_periods
   # GET /timeclock/clock_periods.json
@@ -10,6 +10,7 @@ class Timeclock::ClockPeriodsController < ApplicationController
   # GET /timeclock/clock_periods/1
   # GET /timeclock/clock_periods/1.json
   def show
+    @timeclock_clock_period = Timeclock::ClockPeriod.includes(:clock_records).includes(:users).includes(:clock_edits).find(params[:id])
   end
 
   # GET /timeclock/clock_periods/new
@@ -19,11 +20,6 @@ class Timeclock::ClockPeriodsController < ApplicationController
 
   # GET /timeclock/clock_periods/1/edit
   def edit
-  end
-
-  def user_summary
-    @period_records = Timeclock::ClockRecord.all.where("user_id = #{params[:user_id]}").where("clock_period_id = #{params[:id]}")
-    @period = Timeclock::ClockPeriod.find(params[:id])
   end
 
   # POST /timeclock/clock_periods
@@ -69,11 +65,11 @@ class Timeclock::ClockPeriodsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_clock_period
-      @clock_period = Timeclock::ClockPeriod.find(params[:id])
+      @timeclock_clock_period = Timeclock::ClockPeriod.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def timeclock_clock_period_params
-      params.fetch(:timeclock_clock_period, {})
+      params.require(:timeclock_clock_period).permit(:finalized)
     end
 end

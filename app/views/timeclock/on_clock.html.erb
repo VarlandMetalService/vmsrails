@@ -1,0 +1,31 @@
+<div class="container-fluid mt-4">
+  <%= link_to fa_icon("step-backward", text: "Back"), timeclock_path, class: "text-dark" %>
+  <div class="row">
+    <% @groups.each do |g| %>
+    <div class="col-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <div class="card  mt-2 mb-2" >
+        <div class="card-body bg-dark text-light">
+          <h5 class="card-title text-center"><%= g[0] %></h5>
+          <p class="card-text">
+            <table class="table" style="border-bottom: 1px solid #e9ecef;">
+              <tbody>
+                <% @users.where("employee_number >= #{g[1]}").where("employee_number <= #{g[2]}").each do |u| %>
+                <tr>
+                  <td>
+                    <% if u.clock_records.last.record_type == "Start Break"%>
+                      <%= fa_icon("cutlery", class: "text-warning")%>
+                    <% end %>
+                    <%= u.full_name %>
+                  </td>
+                  <td class="text-right"><%= u.clock_records.where(record_type: "Start Work").last.timestamp.strftime("%I:%M %p") %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </p>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

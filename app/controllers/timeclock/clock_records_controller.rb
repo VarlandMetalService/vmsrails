@@ -51,6 +51,11 @@ module Timeclock
         set_or_create_period(@clock_record)
         if @clock_record.save
           flash[:success] = "Clock record created."
+          if @clock_record.record_type == "Start Work"
+            @clock_record.user.update_attribute(:is_clockedin, true)
+          elsif @clock_record.record_type == "End Work"
+            @clock_record.user.update_attribute(:is_clockedin, false)
+          end
           respond_to do |format|
             format.html { redirect_back(fallback_location: '') }
             format.json { render :json => @clock_record }

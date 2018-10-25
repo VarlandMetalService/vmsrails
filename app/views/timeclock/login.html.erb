@@ -1,13 +1,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <%= form_with model: @session, id:"form" do |f| %>
 <div class="container-fluid">
-    <div class= "row">
+    <div class= "row text-center">
         <div class="col-xs-12 col-sm-12" style="display: block;">
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
                     <p class="lead text-center">
-                        <h3><div class="text-center" id="clockd"></div></h3>
-                        <div class="container text-center", id="user-prompt">
+                        <h3><div class="text-center" id="clockx"></div></h3>
+                        <div class="container text-center", id="user-prompt" style="font-size: 22px;">
                             Select employee from dropdown or enter number and click "enter."
                         </div>
                         <div class="container text-center", id="pin-prompt", style="display: none;">
@@ -22,12 +22,22 @@
                             ["#{u.employee_number} - #{u.full_name}", u.employee_number] }), { include_blank: true }, { class: "form-control form-control-lg", 
                                                         id: "employee-dropdown" } %>
                         <br>
-                        <%= f.number_field :user_num, 
-                            { class: "form-control form-control-lg text-center", id: "user-manual-entry", maxlength: 3 }  %>
-                        <%= f.password_field :pin_num, 
+                        <div class="input-group">
+                            <%= f.number_field :user_num, 
+                                { class: "form-control form-control-lg text-center", id: "user-manual-entry", maxlength: 3, autofocus: "autofocus" }  %>
+                            <div class="invalid-feedback text-center" style="font-size: 22px;">
+                                Invalid employee #.
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <%= f.password_field :pin_num, 
                             { class: "form-control text-center form-control-lg", 
                                  id: "pin-entry", maxlength: 4, 
                               style: "display: none;" }  %>
+                            <div class="invalid-feedback text-center" style="font-size: 22px;">
+                                Invalid PIN.
+                            </div>
+                        </div>  
                     </div>
                 </div>
                 <div class="w-100"></div>
@@ -111,6 +121,13 @@
                 </div>
             </div>
         </div>
+        <div class="btn-group" role="group" style="margin: 0 auto;">
+            <%= link_to fa_icon('refresh'), timeclock_login_path,
+                    { class: 'btn btn-lg bg-secondary text-white' } %>
+            <%= link_to fa_icon('users', text: "Clocked in right now?"),
+                    timeclock_on_clock_path,
+                    { class: 'btn btn-lg bg-dark text-white' } %>
+        </div>
     </div>
 </div>
 <% end %>
@@ -180,9 +197,11 @@
         }
     });
     enter.addEventListener("click", function() {
+        pin.classList.remove("is-invalid")
         if(pin.value.length == 4) {
             document.getElementById('form').submit();
         }
+        setTimeout(function(){pin.classList.add("is-invalid")}, 250)
     });
     del.addEventListener("click", function() {
         if(pin.value.length > 0) {
@@ -205,7 +224,14 @@
     var enter    = document.getElementById('enter-button');
     var del      = document.getElementById('del-button');
     var user     = document.getElementById('user-manual-entry');
-    var dropdown = document.getElementById('employee-dropdown')
+    var dropdown = document.getElementById('employee-dropdown');
+    document.addEventListener('keyup', function (event) { 
+        if (event.which == 13 || event.keyCode == 13) {
+            if (document.getElementById('user-numpad-field').style['display'] == 'none') 
+            { document.getElementById('enter-pin-button').click(); }
+            else { enter.click(); }
+        }
+    });    
     one.addEventListener("click", function() {
         if(user.value.length < 3) {
             user.value = (user.value + '1');
@@ -257,7 +283,9 @@
         }
     });
     enter.addEventListener("click", function() {
-        if(user.value.length == 3 ) {
+      for (i = 0; i < dropdown.length; ++i){
+        user.classList.remove("is-invalid")
+        if (dropdown.options[i].value == user.value){
             document.getElementById('pin-prompt').style['display'] = '';
             document.getElementById('user-prompt').style['display'] = 'none';
             document.getElementById('user-numpad-field').style['display'] = 'none';
@@ -266,11 +294,9 @@
             user.disabled = true;
             user.style['display'] = "none";
             document.getElementById("pin-entry").style['display'] = "";
-            document.getElementById("pin-entry").style['display'] = "";
-            document.getElementById("pin-entry").style['display'] = "";
-            
+            document.getElementById('pin-entry').focus();
         }
-        else if(dropdown.value != 'nil') {
+        else if(dropdown.selectedIndex != '0') {
             document.getElementById('pin-prompt').style['display'] = '';
             document.getElementById('user-prompt').style['display'] = 'none';
             document.getElementById('user-numpad-field').style['display'] = 'none';
@@ -278,9 +304,10 @@
             user.disabled = true;
             user.style['display'] = "none";
             document.getElementById("pin-entry").style['display'] = "";
-            document.getElementById("pin-entry").style['display'] = "";
-            document.getElementById("pin-entry").style['display'] = "";
+            document.getElementById('pin-entry').focus();
         }
+        else { user.classList.add("is-invalid")}
+    }
 
     });
     del.addEventListener("click", function() {
@@ -288,32 +315,4 @@
             user.value = user.value.substr(0, user.value.length-1)
         }
     });
-</script>
-
-<script type="text/javascript">
-    document.ready( startTime());
-    function startTime() {
-    x = "AM"
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    var d = today.toDateString();
-    m = checkTime(m);
-    s = checkTime(s);
-    if (h > 12) {x = "PM"};
-    h = checkHours(h);
-    document.getElementById('clockd').innerHTML =
-    d + " - " + h + ":" + m + ":" + s + " " + x;
-    var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-}
-function checkHours(i) {
-    if (i < 10) {i = "0" + i};
-    if (i > 12) {i = i - 12 };
-    return i;
-}
 </script>
