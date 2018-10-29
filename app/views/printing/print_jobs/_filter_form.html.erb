@@ -61,7 +61,7 @@
       </div>
       <div class="col">
         <div class="pull-right">
-          <%= link_to 'Reset', printing_print_jobs_url, class: 'btn btn-link text-white' %>
+          <%= link_to 'Reset', printing_print_jobs_url(:reset => 1), class: 'btn btn-link text-white' %>
           <%= f.button fa_icon('filter', text: 'Filter'),
                         class: 'btn btn-sm btn-warning font-weight-bold',
                         type: 'submit' %>

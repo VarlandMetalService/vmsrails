@@ -12,6 +12,7 @@ class Printing::PrintJobsController < ApplicationController
   has_scope :with_is_complete
 
   def index
+    manage_filter_state
     @print_jobs = apply_scopes(Printing::PrintJob).all.with_is_complete(params[:with_is_complete])
   end
 
@@ -95,5 +96,42 @@ class Printing::PrintJobsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def print_job_params
       params.require(:printing_print_job).permit(:file, :is_complete, :user_id, :workstation_id, :document_type_id, :description)
+    end
+
+    def manage_filter_state
+      if params[:reset]
+        cookies[:with_user] = ""
+        cookies[:with_doc_type] = ""
+        cookies[:with_workstation] = ""
+      else
+        if params[:with_user]
+          cookies[:with_user] = { value: params[:with_user], expires: 1.day.from_now }
+        else
+          if cookies[:with_user]
+            params[:with_user] = cookies[:with_user]
+          end
+        end
+        if params[:with_doc_type]
+          cookies[:with_doc_type] = { value: params[:with_doc_type], expires: 1.day.from_now }
+        else
+          if cookies[:with_doc_type]
+            params[:with_doc_type] = cookies[:with_doc_type]
+          end
+        end
+        if params[:with_workstation]
+          cookies[:with_workstation] = { value: params[:with_workstation], expires: 1.day.from_now }
+        else
+          if cookies[:with_workstation]
+            params[:with_workstation] = cookies[:with_workstation]
+          end
+        end
+        if params[:with_is_complete]
+          cookies[:with_is_complete] = { value: params[:with_is_complete], expires: 1.day.from_now }
+        else
+          if cookies[:with_is_complete]
+            params[:with_is_complete] = cookies[:with_is_complete]
+          end
+        end
+      end
     end
 end
