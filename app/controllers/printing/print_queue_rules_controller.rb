@@ -1,11 +1,12 @@
 class Printing::PrintQueueRulesController < ApplicationController
   before_action :set_print_queue_rule, only: [:show, :edit, :update, :destroy]
-  after_action :set_weight, only: [:create, :new]
+  after_action :set_weight, only: [:create, :update]
   has_scope :with_user
   has_scope :with_doc_type
   has_scope :with_workstation
 
   def index
+    manage_filter_state
     @print_queue_rules = apply_scopes(Printing::PrintQueueRule).all
   end
 
@@ -37,7 +38,8 @@ class Printing::PrintQueueRulesController < ApplicationController
   def update
     respond_to do |format|
       if @print_queue_rule.update(print_queue_rule_params)
-        format.html { redirect_to printing_print_queue_rules_path, notice: 'Print queue_rule was successfully updated.' }
+        flash[:success] = "Print queue rule updated successfully."
+        format.html { render :index }
         format.json { render :index, status: :ok, location: @print_queue_rule }
       else
         format.html { render :edit }
@@ -49,8 +51,10 @@ class Printing::PrintQueueRulesController < ApplicationController
   def destroy
     @print_queue_rule.destroy
     respond_to do |format|
-      format.html { redirect_to printing_print_queue_rules_url, notice: 'Print queue rule was successfully destroyed.' }
+      flash[:success] = 'Print queue rule was successfully destroyed.'
+      format.html { redirect_to printing_print_queue_rules_path }
       format.json { head :no_content }
+
     end
   end
 
@@ -64,15 +68,45 @@ class Printing::PrintQueueRulesController < ApplicationController
     end
 
     def set_weight
-      if @print_queue_rule.weight.blank?
-        if @print_queue_rule.workstation_id.blank?
-          if @print_queue_rule.user_id.blank?
-            @print_queue_rule.update_attribute(:weight, 1)
-          else
-            @print_queue_rule.update_attribute(:weight, 3)
-          end
+      temp = 0
+      if !@print_queue_rule.workstation_id.blank?
+          temp += 5
+      end
+      if !@print_queue_rule.user_id.blank?
+          temp += 3
+      end
+      if !@print_queue_rule.document_type_id.blank?
+          temp += 1
+      end
+      @print_queue_rule.update_attribute(:weight, temp)
+    end
+
+    def manage_filter_state
+      if params[:reset]
+        cookies[:with_user] = ""
+        cookies[:with_doc_type] = ""
+        cookies[:with_workstation] = ""
+      else
+        if params[:with_user]
+          cookies[:with_user] = { value: params[:with_user], expires: 1.day.from_now }
         else
-          @print_queue_rule.update_attribute(:weight, 5) 
+          if cookies[:with_user]
+            params[:with_user] = cookies[:with_user]
+          end
+        end
+        if params[:with_doc_type]
+          cookies[:with_doc_type] = { value: params[:with_doc_type], expires: 1.day.from_now }
+        else
+          if cookies[:with_doc_type]
+            params[:with_doc_type] = cookies[:with_doc_type]
+          end
+        end
+        if params[:with_workstation]
+          cookies[:with_workstation] = { value: params[:with_workstation], expires: 1.day.from_now }
+        else
+          if cookies[:with_workstation]
+            params[:with_workstation] = cookies[:with_workstation]
+          end
         end
       end
     end

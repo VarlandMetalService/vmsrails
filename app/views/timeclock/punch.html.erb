@@ -49,15 +49,15 @@
           </ul>
           <hr class="mr-3 ml-3" style="border-color: #ffc107;">
           <ul class="list-group list-group-flush bg-dark">
-              <li class="list-group-item bg-dark text-white text-center">
+              <li class="list-group-item bg-dark text-white text-center" title="See who's clocked in right now.">
                 <%= link_to fa_icon('users', text: "Clocked in right now?"),
                       timeclock_on_clock_path,
                       class: 'bg-dark text-white' %>
               </li>
               <li class="list-group-item bg-dark text-white text-center">
-                <a class='bg-dark text-white' data-toggle="modal" style="cursor: pointer;"data-target="#changePinModal"> <%= fa_icon('lock', text: "Change your PIN") %></a>
+                <a class='bg-dark text-white' data-toggle="modal" style="cursor: pointer;"data-target="#changePinModal" title="Change your PIN."> <%= fa_icon('lock', text: "Change your PIN") %></a>
               </li>
-              <li class="list-group-item bg-dark text-white text-center">
+              <li class="list-group-item bg-dark text-white text-center" title="Logout.">
                 <%= link_to fa_icon('sign-out', text: "Logout"), logout_path, class: 'bg-dark text-white' %>
               </li>
           </ul>
@@ -84,21 +84,30 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_for :update_pin, method: "patch" do |f| %>
+        <%= form_for :update_pin, method: "patch", :remote => true, :html => { :id => "pin_form" } do |f| %>
           <div class="container text-center" style="margin: 0 auto; width: 200px;">
             <div class="form-group">
               <%= f.label "Current PIN:", class: "form-label" %>
-              <%= f.password_field :pin, { class: "form-control", maxlength: 4 } %>
+              <%= f.password_field :pin, { class: "form-control", maxlength: 4, id: "pin" } %>
+              <div class="invalid-feedback">
+                PINS must match.
+              </div>
             </div>
             <div class="form-group">
               <%= f.label "Verify PIN:", class: "form-label" %>
-              <%= f.password_field :pin2, { class: "form-control", maxlength: 4 } %>
+              <%= f.password_field :pin2, { class: "form-control", maxlength: 4, id: "pin2" } %>
+              <div class="invalid-feedback">
+                PINS must match.
+              </div>
             </div>
             <div class="form-group">
               <%= f.label "New PIN:", class: "form-label" %>
-              <%= f.password_field :new_pin, { class: "form-control", maxlength: 4 } %>
+              <%= f.password_field :new_pin, { class: "form-control", maxlength: 4, id: "new_pin" } %>
+              <div class="invalid-feedback">
+                New PIN cannot be blank and must be 4 digits.
+              </div>
             </div>
-            <%= f.submit "Submit", class: "form-button" %>
+            <button type="button" id="pin_submit" class="btn">Submit</button>
           </div>
         <% end %>
       </div>
@@ -111,17 +120,46 @@
     $( document ).on('turbolinks:load',function(){
       StartTimers();
     });
+
+    //Change pin validations.
+    var pin_submit = document.getElementById("pin_submit");
+    var pin = document.getElementById("pin");
+    var pin2 = document.getElementById("pin2");
+    var new_pin = document.getElementById("new_pin");
+
+    pin_submit.addEventListener("click", function(){
+      pin.classList.remove("is-invalid");
+      pin2.classList.remove("is-invalid");
+      new_pin.classList.remove("is-invalid");
+      if(pin.value != pin2.value){
+        pin.classList.add("is-invalid");
+        pin2.classList.add("is-invalid");
+      }
+      if(new_pin.value.length < 4){
+        new_pin.classList.add("is-invalid");
+      }
+      if (new_pin.classList.contains("is-invalid")||
+              pin.classList.contains("is-invalid")||
+             pin2.classList.contains("is-invalid")){
+
+      }
+      else {
+        var form = document.getElementById("pin_form");
+        Rails.fire(form, 'submit');
+      }
+    });
+    
     // Set timeout variables.
     var timoutNow = 10000;
     var timeoutTimer;
 
     // Start timers.
-    function StartTimers() {
+    function StartTimerss() {
         timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
     };
 
     // Reset timers.
-    function ResetTimers() {
+    function ResetTimerss() {
         clearTimeout(timeoutTimer);
         StartTimers();
     };

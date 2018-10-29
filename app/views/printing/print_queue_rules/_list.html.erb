@@ -21,6 +21,7 @@
           <td><%= Printing::DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %></td>
           <td class="text-center">
             <div class="btn-group", role="group">
+              <%= hidden_field_tag :with_user, params[:with_user] %>
                 <%= link_to fa_icon('pencil'),
                             edit_printing_print_queue_rule_path(p),
                             class: 'font-weight-bold btn btn-sm btn-warning',
