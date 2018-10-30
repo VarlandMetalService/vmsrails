@@ -24,6 +24,7 @@ class ShiftNotesController < ApplicationController
   end
 
   def new
+    check_permission('shift_notes')
     @shift_note = ShiftNote.new(created_at: prod_date, shift_time: prod_shift)
   end
 
@@ -32,6 +33,7 @@ class ShiftNotesController < ApplicationController
   end
 
   def create
+    check_permission('shift_notes')
     @shift_note = ShiftNote.new(shift_note_params) 
     if @shift_note.save
       flash[:success] = "Shift note created."
