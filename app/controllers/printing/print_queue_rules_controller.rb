@@ -42,7 +42,7 @@ class Printing::PrintQueueRulesController < ApplicationController
         format.html { render :index }
         format.json { render :index, status: :ok, location: @print_queue_rule }
       else
-        format.html { render :edit }
+        format.html { render :index }
         format.json { render json: @print_queue_rule.errors, status: :unprocessable_entity }
       end
     end

@@ -3,7 +3,8 @@ module ClockRecordsHelper
   def records_to_weeks(period_records)
     if period_records.blank?
     else
-      sun = period_records.last.timestamp - period_records.last.timestamp.wday
+      sun = period_records.last.timestamp.beginning_of_day 
+      sun = sun - sun.wday.day
       sun_rec = ['Sunday'   , (sun        ).strftime("%m-%d")]
       mon_rec = ['Monday'   , (sun + 1.day).strftime("%m-%d")]
       tue_rec = ['Tuesday'  , (sun + 2.day).strftime("%m-%d")]
@@ -11,7 +12,7 @@ module ClockRecordsHelper
       thu_rec = ['Thursday' , (sun + 4.day).strftime("%m-%d")]
       fri_rec = ['Friday'   , (sun + 5.day).strftime("%m-%d")]
       sat_rec = ['Saturday' , (sun + 6.day).strftime("%m-%d")]
-      period_records.sort_by{ |key| key[:timestamp]} 
+      period_records.sort_by{ |key| key[:timestamp]}
       period_records.reverse
       period_records.each do |record|
         case record.timestamp.strftime("%A")

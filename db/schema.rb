@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181024142143) do
+ActiveRecord::Schema.define(version: 20181030123037) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -262,7 +262,7 @@ ActiveRecord::Schema.define(version: 20181024142143) do
     t.string "defect"
     t.string "loads_approved"
     t.integer "approved_by"
-    t.text "section2_comments"
+    t.string "cause_category"
     t.string "load_nums"
     t.string "barrel_nums"
     t.string "tank_nums"

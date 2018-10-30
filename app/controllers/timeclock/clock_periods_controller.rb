@@ -10,7 +10,7 @@ class Timeclock::ClockPeriodsController < ApplicationController
   # GET /timeclock/clock_periods/1
   # GET /timeclock/clock_periods/1.json
   def show
-    @timeclock_clock_period = Timeclock::ClockPeriod.includes(:clock_records).includes(:users).includes(:clock_edits).find(params[:id])
+    @timeclock_clock_period = Timeclock::ClockPeriod.find(params[:id])
   end
 
   # GET /timeclock/clock_periods/new

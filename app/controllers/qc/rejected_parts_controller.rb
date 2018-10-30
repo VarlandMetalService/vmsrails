@@ -73,7 +73,7 @@ module Qc
       end
 
       def rejected_part_params
-          params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :section2_comments, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box, :weight)
+          params.require(:qc_rejected_part).permit(:so_num, :user_id, :date, :reject_tag_num, :from_tag, :defect, :loads_approved, :approved_by, :cause_category, :load_nums, :barrel_nums, :tank_nums, :cause,    :s2box, :s3box, :weight)
       end
 
       # Set From Tag and Reject Tag Num based on S.O. entries.

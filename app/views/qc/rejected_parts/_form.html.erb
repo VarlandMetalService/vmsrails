@@ -125,6 +125,32 @@
       <div class="col-12">
         <div class="input-group">
           <div class="input-group-prepend">
+            <span class="input-group-text"> Category: </span>
+          </div>
+          <%= f.select :cause_category, 
+                options_for_select([['Cleaning'      , 'Cleaning'      ],
+                                    ['Customer Issue', 'Customer Issue'],
+                                    ['Development'   , 'Development'   ],
+                                    ['Equipment'     , 'Equipment'     ],
+                                    ['Operator Error', 'Operator Error'],
+                                    ['Opto'          , 'Opto'          ],
+                                    ['Part Related'  , 'Part Related'  ],
+                                    ['S.O. Procedure', 'S.O. Procedure'],
+                                    ['Solution'      , 'Solution'      ],
+                                    ['Technique'     , 'Technique'     ],
+                                    ['Technology'    , 'Technology'    ],
+                                    ['Unknown'       , 'Unknown'       ],
+                                    ['Wrong Process' , 'Wrong Process' ]]), 
+                {  }, 
+                { class: "form-control", 
+                  placeholder: "Choose a category" } %>
+          <div class="invalid-feedback text-center">
+              Cause required.
+          </div>  
+        </div>
+        <br>
+        <div class="input-group">
+          <div class="input-group-prepend">
             <span class="input-group-text"> Cause: </span>
           </div>
           <%= f.text_area :cause, class: "form-control", 

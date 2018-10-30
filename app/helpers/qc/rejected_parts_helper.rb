@@ -215,36 +215,21 @@ module Qc::RejectedPartsHelper
         :size => 13,
         :inline_format => true }
 
-        prev = pdf.cursor
+      pdf.pad(5) { pdf.text "Category: <strong><u>#{rejected_part.cause_category}</strong></u>", 
+        :align => :left, 
+        :size => 12,
+        :inline_format => true }
 
-      pdf.bounding_box([pdf.bounds.right/2, prev], 
-        :width => pdf.bounds.right/2) do
+      prev = pdf.cursor
+
+      pdf.bounding_box([0, prev], 
+        :width => pdf.bounds.right) do
           pdf.pad(5) { pdf.text "Cause: <strong>#{rejected_part.cause}</strong>",
             :align => :left,
             :size => 12,
             :inline_format => true}
         end
       e = pdf.cursor
-      pdf.bounding_box([0, prev], 
-        :width => pdf.bounds.right/4) do
-          pdf.table([['Cleaning'        , "    "],
-                     ['Customer Issue'  , "    "],
-                     ['Development'     , "    "],
-                     ['Equipment'       , "    "],
-                     ['Operator Error'  , "    "],
-                     ['Opto'            , "    "],
-                     ['Part Related'    , "    "]])
-      end
-      pdf.bounding_box([pdf.bounds.right/4, prev],
-        :width => pdf.bounds.right/4) do
-        pdf.table([
-                     ['S.O. Procedure'  , "    "],
-                     ['Solution'        , "    "],
-                     ['Technique'       , "    "],
-                     ['Technology'      , "    "],
-                     ['Unknown'         , "    "],
-                     ['Wrong Process'   , "    "]])
-      end
       if e < pdf.cursor
         pdf.move_cursor_to e-30
       else 
