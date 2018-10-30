@@ -32,7 +32,7 @@
             <% end %>
           </td>
           <td><%= sanitize c.body unless c.body.blank? %></td>
-          <% if c.attachment? %>
+          <% if c.attachment.exists? %>
           <td>
             <button class="btn btn-block float-right" style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target=".multi-collapse<%=c.id%>" style="font-size: 11px;">
                 <%= fa_icon('paperclip')%>
@@ -40,7 +40,7 @@
           </td>
           <% end %>
         </tr>
-        <% if c.attachment? %>
+        <% if c.attachment.exists? %>
           <% c.attachment.each do |f| %>
             <tr class="collapse multi-collapse<%=c.id%> bg-white">
               <td colspan="3" class="text-center px-0">
