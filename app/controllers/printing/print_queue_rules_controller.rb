@@ -40,7 +40,7 @@ class Printing::PrintQueueRulesController < ApplicationController
       if @print_queue_rule.update(print_queue_rule_params)
         flash[:success] = "Print queue rule updated successfully."
         format.html { render :index }
-        format.json { render :index, status: :ok, location: @print_queue_rule }
+        format.json { render :index }
       else
         format.html { render :index }
         format.json { render json: @print_queue_rule.errors, status: :unprocessable_entity }

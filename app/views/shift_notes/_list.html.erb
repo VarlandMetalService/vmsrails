@@ -25,7 +25,7 @@
         <% notes.each do |n| %>
             <td>
                 Date:
-                <%= n.updated_at.strftime('%m/%d/%y') %>
+                <%= n.updated_at.strftime('%m/%d/%y') unless n.updated_at.blank? %>
                 <br> 
                 User:
                 <% if n.user.blank? %>
@@ -40,19 +40,19 @@
               </td>
               <td>
                   Shift Time:
-                  <a href='#' data-shift_time="<%= n.shift_time %>" title="Filter by shift time 
-                  <%= n.shift_time %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a>
+                  <a href='#' data-shift_time="<%= n.shift_time unless n.shift_time.blank? %>" title="Filter by shift time 
+                  <%= n.shift_time unless n.shift_time.blank? %>" class="shift_time-filter font-weight-bold"> <%= n.shift_time %></a>
                   <br>
                   Shift Type:
-                  <a href="#" data-shift_type="<%= n.shift_type %>" title="Filter by shift type
-                  <%= n.shift_type %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type %></a> 
+                  <a href="#" data-shift_type="<%= n.shift_type unless n.shift_type.blank? %>" title="Filter by shift type
+                  <%= n.shift_type unless n.shift_type.blank? %>" class="shift_type-filter font-weight-bold"> <%= n.shift_type unless n.shift_type.blank? %></a> 
                   <br>
                   Dept:
-                  <a href="#" data-dept="<%= n.dept %>" title="Filter by department <%= n.dept %>" 
-                  class="dept-filter font-weight-bold"><%= n.dept %></a>
+                  <a href="#" data-dept="<%= n.dept unless n.dept.blank? %>" title="Filter by department <%= n.dept unless n.dept.blank? %>" 
+                  class="dept-filter font-weight-bold"><%= n.dept unless n.dept.blank? %></a>
             </td> 
 
-            <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%=sanitize n.message %>  </td>
+            <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%=sanitize n.message unless n.message.blank? %>  </td>
 
             <td class="d-xl-table-cell d-lg-table-cell d-md-table-cell d-none"> <%= render partial: "comments/comment_list", locals: {commentable: n} %> </td> 
             
