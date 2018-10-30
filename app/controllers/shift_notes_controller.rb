@@ -13,15 +13,6 @@ class ShiftNotesController < ApplicationController
   def index 
     check_permission('shift_notes')
     @shift_notes = apply_scopes(ShiftNote).all.page(params[:page]).includes(:comments, :user)
-    @shift_notes.each do |note|
-      if note.comments?
-        note.comments.each do |c|
-          if c.attachment?
-            c.update_attribute(:attachment, %Q["#{c.attachment}"])
-          end
-        end
-      end
-    end
     respond_to do |format|
       format.html
       format.json { render :json => @shift_notes }
