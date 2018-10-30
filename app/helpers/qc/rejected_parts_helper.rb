@@ -250,7 +250,8 @@ module Qc::RejectedPartsHelper
       data = {}
       data[:file] = raw_data
       data[:user_id] = rejected_part.user_id
-      data[:document_type_id] = 8
+      data[:document_type_id] = 4
+      data[:description] = "RP ##{rejected_part.so_num}"
 
       printjob = Printing::PrintJob.new(data)
       if printjob.save
