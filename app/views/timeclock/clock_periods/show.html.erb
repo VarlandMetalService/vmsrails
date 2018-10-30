@@ -100,36 +100,33 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_for @clock_record do |form| %>
-        <div class="card text-center" style="">
-            <div class="card-header bg-dark text-white">
-              <strong><%= form.datetime_field :timestamp, class: "form-control" %></strong>
-            </div>
-            <div class='card-body text-light bg-light'>
-              <h5 class="card-title text-center">
-                <%= form.hidden_field :record_type, value: "Holiday" %></h5>
-              <p class="card-text text-center input-group text-dark">
-                <%= check_box_tag("Select All", nil, false, id: "check_all")%>
-                  All
-                <div class="row text-dark text-left">
-                  <% User.all.in_groups(2, false).each do |group| %>
-                    <div class="col-6">
-                      <% group.each do |user| %>
-                        <%= form.check_box(:user_id, { :multiple => true, class: "checkbox" }, user.id, nil) %>
-                        <%= user.full_name %><br>
-                      <% end %>
-                    </div>
+      <%= form_for @clock_record do |form| %>
+          <%= form.hidden_field :record_type, value: "Holiday" %>
+          <div class="form-group">
+            <%= form.label "Timestamp:" %>
+            <%= form.datetime_field :timestamp, class: "form-control" %>
+          </div>
+          <p class="card-text text-center input-group text-dark">
+            <%= check_box_tag("Select All", nil, false, id: "check_all")%>
+              All
+            <div class="row text-dark text-left">
+              <% User.all.in_groups(2, false).each do |group| %>
+                <div class="col-6">
+                  <% group.each do |user| %>
+                    <%= form.check_box(:user_id, { :multiple => true, class: "checkbox" }, user.id, nil) %>
+                    <%= user.full_name %><br>
                   <% end %>
                 </div>
-              </p>
+              <% end %>
             </div>
-          </div>
-          <br>
-          <div class="text-center">
-          <%= form.submit "Submit", class: "btn btn-primary" %>
-          </div>
-        <% end %>
+          </p>
       </div>
+      <div class="modal-footer">
+        <div style="margin: 0 auto;">
+          <%= form.submit "Submit", class: "btn btn-primary" %>
+        </div>
+      </div>
+      <% end %>
     </div>
   </div>
 </div>

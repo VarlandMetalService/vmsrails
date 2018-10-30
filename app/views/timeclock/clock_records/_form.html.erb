@@ -1,23 +1,18 @@
 <%= form_for @clock_record do |form| %>
-<div class="card text-center" style="">
-    <div class="card-header bg-dark text-white">
-      <strong><%= form.datetime_field :timestamp, class: "form-control" %></strong>
-    </div>
-    <div class='card-body text-light <%= Timeclock.color_options["#{@clock_record.record_type}"] %>'>
-      <h5 class="card-title text-center">
-        <%= form.select :record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, @clock_record.record_type), {}, { class: "form-control" }  %></h5>
-      <p class="card-text text-center input-group">
-        <% if params[:user_id].blank? %>
-          <%= form.select :user_id, 
-          options_for_select(User.all.map{ |u| [u.full_name, u.id]}), {}, { class: "form-control" } %>8
-        <% else %>
-          <%= form.hidden_field :user_id, value: params[:user_id] %>
-        <% end %>
-      </p>
-    </div>
+  <div class="form-group">
+    <%= form.label "Timestamp:"%>
+    <%= form.datetime_field :timestamp, class: "form-control" %>
   </div>
-  <br>
-  <div class="text-center">
-  <%= form.submit "Submit", class: "btn btn-primary" %>
+  <div class="form-group">
+    <%= form.label "Record Type:" %>
+    <%= form.select :record_type, options_for_select(Timeclock::ClockRecord.options_for_record_type, @clock_record.record_type), {}, { class: "form-control" }  %>
+  </div>
+  <div class="form-group">
+    <%= form.label "User:" %>
+    <%= form.select :user_id, 
+    options_for_select(User.all.map{ |u| [u.full_name, u.id]}, params[:user_id]), {}, { class: "form-control" } %>
+  </div> 
+  <div class="text-center" style="margin: 0 auto;">
+    <%= form.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

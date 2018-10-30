@@ -45,9 +45,6 @@ module Timeclock
         @clock_record = ClockRecord.new(clock_record_params)
         @clock_record.record_type = params["record_type"] unless params["record_type"].blank?
         round_minutes(@clock_record)
-        if(ClockRecord.all.where(@current_user.id == :user_id).exists? &&@clock_record.timestamp == ClockRecord.all.where(@current_user.id == :user_id).last.timestamp)
-          @clock_record.timestamp += 1.minute
-        end
         set_or_create_period(@clock_record)
         if @clock_record.save
           flash[:success] = "Clock record created."
