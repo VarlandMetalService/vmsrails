@@ -9,9 +9,9 @@ class SaltSprayTestsController < ApplicationController
   def index 
     check_permission('salt_spray_tests')
     if params[:with_deleted]
-      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
+      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     else
-    @salt_spray_tests = apply_scopes(SaltSprayTest).all.includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").not_recently
+    @salt_spray_tests = apply_scopes(SaltSprayTest).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").not_recently
     end
     @check = SaltSprayTestCheck.new
     respond_to do |format|

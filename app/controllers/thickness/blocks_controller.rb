@@ -15,8 +15,8 @@ module Thickness
     has_scope :with_rework,       only: :index
 
     def index
-      @blocks = Thickness::Block.all    
-      @bbl = apply_scopes(@blocks).page(params[:page]).includes(:checks).order('updated_at DESC')
+      @blocks = Thickness::Block.all
+      @bbl = apply_scopes(@blocks).includes(:checks).page(params[:page]).order('updated_at DESC')
       respond_to do |format|
         format.html
         format.json { render :json => @blocks }

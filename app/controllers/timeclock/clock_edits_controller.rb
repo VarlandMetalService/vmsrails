@@ -2,30 +2,15 @@ module Timeclock
   class ClockEditsController < ApplicationController
     before_action :set_clock_edit, only: [:show, :edit, :update, :destroy]
 
-    # GET /clock_edits
-    # GET /clock_edits.json
-    def index
-      @clock_edits = ClockEdit.all
-    end
-
-    # GET /clock_edits/1
-    # GET /clock_edits/1.json
-    def show
-    end
-
-    # GET /clock_edits/new
     def new
       @clock_edit = ClockEdit.new
       @clock_edit.clock_record = ClockRecord.find(params["rid"])
     end
 
-    # GET /clock_edits/1/edit
     def edit
       @clock_edit.clock_record = ClockRecord.find(@clock_edit.clock_record_id)
     end
 
-    # POST /clock_edits
-    # POST /clock_edits.json
     def create
       @clock_edit = ClockEdit.new(clock_edit_params)
       respond_to do |format|
@@ -41,8 +26,6 @@ module Timeclock
       end
     end
 
-    # PATCH/PUT /clock_edits/1
-    # PATCH/PUT /clock_edits/1.json
     def update
       respond_to do |format|
         if @clock_edit.update(clock_edit_params)
@@ -56,8 +39,6 @@ module Timeclock
       end
     end
 
-    # DELETE /clock_edits/1
-    # DELETE /clock_edits/1.json
     def destroy
       @clock_edit.destroy
       respond_to do |format|

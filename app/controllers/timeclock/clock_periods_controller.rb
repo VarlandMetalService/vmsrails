@@ -4,7 +4,7 @@ class Timeclock::ClockPeriodsController < ApplicationController
   # GET /timeclock/clock_periods
   # GET /timeclock/clock_periods.json
   def index
-    @timeclock_clock_periods = Timeclock::ClockPeriod.all
+    @timeclock_clock_periods = Timeclock::ClockPeriod.includes(:clock_records)
   end
 
   # GET /timeclock/clock_periods/1

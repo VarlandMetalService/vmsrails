@@ -3,7 +3,7 @@ class SaltSprayTestMailer < ApplicationMailer
   add_template_helper(SaltSprayTestsHelper)
 
   default from: 'varlandmetalservice@gmail.com',
-            to: 'Shift Notes Recipients <dailyshiftnotes@varland.com>'
+            to: 'Richard Legacy <richard.legacy@varland.com>'
 
   def send_test(s, recipient)
     @salt_spray_test = s

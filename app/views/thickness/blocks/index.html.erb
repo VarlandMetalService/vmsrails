@@ -11,6 +11,7 @@
 </div>
 
 <div class="row">
-  <%= render partial: 'list', locals: { notes: @bbl,
-          term: params[:with_search_term] } %>
+  <div class="col-12">
+  <%= render partial: '2list', locals: { notes: @bbl, term: params[:with_search_term] } %>
+  </div>
 </div>

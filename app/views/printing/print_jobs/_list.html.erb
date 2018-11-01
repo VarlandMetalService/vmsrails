@@ -17,22 +17,22 @@
         <tbody>
           <% @print_jobs.each do |p| %>
           <tr>
-            <td class="text-center text-light d-none d-lg-table-cell <%= p.is_complete ? 'bg-success' : 'bg-danger' %>">
+            <td class="align-middle text-center text-light d-none d-lg-table-cell <%= p.is_complete ? 'bg-success' : 'bg-danger' %>">
               <%= p.is_complete ? 
                     (fa_icon ["check", "3x"]) : (fa_icon ["times", "3x"]) %>
             </td>
-            <td><%= p.created_at.strftime("%m/%d @ %I:%M %p") unless p.created_at.blank? %></td>
-            <td class="d-none d-lg-table-cell"><%= p.description unless p.description.blank? %></td>
-            <td>
+            <td class="align-middle"><%= p.created_at.strftime("%m/%d @ %I:%M %p") unless p.created_at.blank? %></td>
+            <td class="d-none d-lg-table-cell align-middle"><%= p.description unless p.description.blank? %></td>
+            <td class="align-middle">
               <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
             </td>
-            <td class="d-none d-lg-table-cell">
+            <td class="d-none d-lg-table-cell align-middle">
               <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
             </td> 
-            <td class="d-none d-md-table-cell">
+            <td class="d-none d-md-table-cell align-middle">
               <%= Printing::DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
             </td>
-            <td class="d-none d-lg-table-cell">
+            <td class="d-none d-lg-table-cell align-middle">
               <%= Printing::Workstation.find(p.workstation_id).name unless p.workstation_id.blank? %>
             </td>
             <td class="text-center align-middle">

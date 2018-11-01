@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover" style="white-space: nowrap; overflow: hidden;">
+<table class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
       <th class="col-lg-2 col-md-5 col-sm-5">Shop Order</th>
@@ -14,7 +14,7 @@
     <% specs = format_spec(s) %>
     <tr>
       <%# Shop Order %>
-      <td class="d-md-table-cell d-xs-none">
+      <td class="d-md-table-cell d-xs-none" style="white-space: nowrap; overflow: hidden;">
         <div class="row">
           <div class="col-12">
             <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
@@ -93,9 +93,9 @@
       <%# Links %>
       <td class="px-0 text-center align-middle">
         <div class="btn-group-vertical " role="group">
-            <div class="dropleft text-center">
+            <div class="dropleft text-center" data-boundary="viewport">
               <button class="btn btn-sm btn-dark text-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 40px;"><%= fa_icon('check-square-o')%></button>
-              <div class="dropdown-menu">
+              <div class="dropdown-menu" data-boundary="viewport">
                 <%# OK %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
                   <%= f.hidden_field :salt_spray_test_id, value: s.id %>
@@ -125,7 +125,7 @@
                   <%= f.hidden_field :c_type, value: "WHITE" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? && s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
                   <%= f.submit 'White', 
                           { class: "btn btn-sm dropdown-item", 
                             data: { 
@@ -148,7 +148,7 @@
                   <%= f.hidden_field :c_type, value: "RED" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
+                  <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank?  && s.salt_spray_test_checks.where(:c_type => 'OFF').blank?%>
                   <%= f.submit 'Red', 
                           { class: "btn btn-danger btn-sm dropdown-item", 
                             data: { 

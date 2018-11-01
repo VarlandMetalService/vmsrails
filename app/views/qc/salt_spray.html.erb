@@ -7,7 +7,7 @@
 
 <%= form_for :salt_spray, url: 'qc/salt_spray' do |f| %>
 <div class="container-fluid border p-3">
-<div class="form-row mt-3 form-group">
+<div class="form-row mt-3">
   <div class="col-6">
     <div class="form-group input-group">
       <%= f.label "pH", "pH: ", class: "col-form-label" %>
@@ -54,7 +54,7 @@
   </thead>
   <tbody>
     <tr>
-      <td class="text-center"> Volume: </td>
+      <td class="text-center align-middle"> Volume: </td>
       <td>
         <div class="input-group">
           <%= f.text_field :salt_cabtemp, class: "form-control" %> 
@@ -73,7 +73,7 @@
       </td>
     </tr>
     <tr>
-      <td class="text-center"> Time: </td>
+      <td class="text-center align-middle"> Time: </td>
       <td>
         <div class="input-group">
           <%= f.text_field :salt_add, class: "form-control" %>   
@@ -99,7 +99,7 @@
   </thead>
   <tbody>
     <tr>
-      <td class="text-center"> Adds: </td>
+      <td class="text-center align-middle"> Adds: </td>
       <td>
         <div class="input-group">
           <%= f.text_field :di_add, class: "form-control" %> 

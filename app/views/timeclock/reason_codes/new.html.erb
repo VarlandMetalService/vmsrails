@@ -1,5 +1,12 @@
-<h1>New Timeclock Reason Code</h1>
-
-<%= render 'form', timeclock_reason_code: @timeclock_reason_code %>
-
-<%= link_to 'Back', timeclock_reason_codes_path %>
+<% provide(:button_text, "Create reason code") %> 
+<% provide(:title, 'New Reason Code') %>
+<div class="row mt-3">
+  <div class="col">
+    <h3 class="mb-0"><%= yield(:title)%></h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <%= render 'form', timeclock_reason_code: @timeclock_reason_code %>
+    <%= link_to 'Back', timeclock_reason_codes_path %>
+</div>
