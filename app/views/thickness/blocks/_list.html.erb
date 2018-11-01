@@ -1,14 +1,116 @@
 <table class="table">
-  <thead>
+  <thead class="thead-dark">
     <tr>
-      <th>Info</th>
+      <th>Block</th>
+      <th>
+        <div class="form-row">
+          <div class="col-7">
+          Load
+          </div>
+          <div class="col-5 pl-3">
+          Part
+          </div>
+        </div>
+      </th>
+      <th>Checks</th>
     </tr>
   </thead>
   <tbody>
+    <% @bbl.each do |b| %>
     <tr>
       <td>
-        
+        <div class="form-row">
+          <div class="col-3 border-right">
+            <strong><%= b.so_num %></strong>
+            <% if !b.is_rework %>
+              <div class="text-danger d-inline">
+                RW
+              </div>
+            <% end %>
+            <br>
+            <div class="text-muted">
+              Load: <%= b.load_num %><br>
+              Block: <%= b.block_num %><br>
+            </div>
+            <%= b.checks.first.check_timestamp.strftime("%m/%d/%y") %>
+          </div>
+          <div class="col-9 border-left pl-3">
+            <%= User.find_by(employee_number: b.user_id ).full_name %><br>
+            Directory: <%= b.directory %><br>
+            Product: <%= b.product %><br>
+            Application: <%= b.application %>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="form-row">
+          <% if b.customer.blank? %>
+            <div class="col-12 text-center">
+              Customer info (from API) unavailable.
+            </div>
+          <% else %>
+
+            <div class="col-7 border-right ">
+              Load Weight: <%= b.load_weight %><br>
+              Piece Weight: <%= b.piece_weight %><br>
+              Part Area: <%= b.part_area %>
+              
+            </div>
+            <div class="col-5 border-left pl-3">
+              <strong class="text-center"><%= b.customer %></strong> -
+              <div class="text-muted d-inline">
+                <%= b.process %><br>
+              </div>
+              <%= b.part %> <%= b.sub %><br>
+              Density: <%=((b.piece_weight.to_f/32.2)/(b.part_area.to_f*b.checks.first.thickness)).round(2)%>
+            </div>
+          </div>
+        <% end %>
+      </td>
+      <td>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Count</th>
+              <th>Mean</th>
+              <th>Min</th>
+              <th>Max</th>
+            </tr>
+            <tr class="collapse" id="<%= b.id %>checks">
+              <th></th>
+              <th>Date</th>
+              <th class="text-right">Thickness</th>
+              <th>Alloy %</th>
+              <th class="text-center">Coordinates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% b.checks.each do |c| %>
+            <tr class="collapse" id="<%= b.id %>checks">
+              <td><%= c.check_num %></td>
+              <td class="text-center">
+               <%= c.check_timestamp.strftime("%D") %></td>
+              <td class="text-right"><%= number_with_precision(c.thickness, precision: 5) %></td>
+              <td><%= c.alloy_percentage %></td>
+              <td>
+                <div class="row">
+                  <div class="col-4">
+                    X: <%= number_with_precision(c.x, precision: 3) %>
+                  </div>
+                  <div class="col-4">
+                    Y: <%= number_with_precision(c.y, precision: 3) %>
+                  </div>
+                  <div class="col-4">
+                    Z: <%= number_with_precision(c.z, precision: 3) %>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
       </td>
     </tr>
+    <% end %>
   </tbody>
 </table>

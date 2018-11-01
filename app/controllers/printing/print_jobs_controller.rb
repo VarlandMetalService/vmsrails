@@ -13,7 +13,7 @@ class Printing::PrintJobsController < ApplicationController
 
   def index
     manage_filter_state
-    @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue).with_is_complete(params[:with_is_complete])
+    @print_jobs = apply_scopes(Printing::PrintJob).all.with_is_complete(params[:with_is_complete])
   end
 
   def show
@@ -37,7 +37,7 @@ class Printing::PrintJobsController < ApplicationController
         format.html { render :index }
         format.json { render :index, status: :created, location: @print_job }
       else
-        format.html { render :new }
+        format.html { render :index }
         format.json { render json: @print_job.errors, status: :unprocessable_entity }
       end
     end
