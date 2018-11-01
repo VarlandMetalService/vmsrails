@@ -13,7 +13,7 @@ class DeptInfoController < ApplicationController
     @folders = DeptInfo::Folder.all.includes( {children: [:children, :documents, :parent] }, :documents, :parent ).roots
     @newest  = DeptInfo::Document.includes(:folders, :parent).unscoped.changed_after(6.months.ago).order(updated_at: :desc).limit(20)
     if params[:with_search_term] || params[:changed_after] || params[:changed_before]
-      @search_results = apply_scopes(DeptInfo::Document).all.includes(:folders)
+      @search_results = apply_scopes(DeptInfo::Document)
     end
   end
 
