@@ -4,13 +4,13 @@ class Timeclock::ClockPeriodsController < ApplicationController
   # GET /timeclock/clock_periods
   # GET /timeclock/clock_periods.json
   def index
-    @timeclock_clock_periods = Timeclock::ClockPeriod.includes(:clock_records)
+    @timeclock_clock_periods = Timeclock::ClockPeriod.includes( { clock_records: [:clock_edit, :user]} )
   end
 
   # GET /timeclock/clock_periods/1
   # GET /timeclock/clock_periods/1.json
   def show
-    @timeclock_clock_period = Timeclock::ClockPeriod.find(params[:id])
+    @timeclock_clock_period = Timeclock::ClockPeriod.includes( :clock_records, { clock_records: [:clock_edit, :user]} ).find(params[:id])
   end
 
   # GET /timeclock/clock_periods/new

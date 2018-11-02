@@ -1,4 +1,4 @@
-<%= render partial: 'comments/comment_form', locals: { :commentable => s }%>
+<%= render partial: 'comments/comment_form', locals: { :commentable => s, :combo => true }%>
 <div class="collapse text-center mt-2" id="collapseCommentsList<%=s.id%>">
     <%= render partial: 'comments/comment_list', locals: { :commentable => s }%>
 </div>

@@ -5,7 +5,10 @@
     <h3 class="mb-0">Payroll Periods</h3>
   </div>
   <div class="pull-right mr-3">
-    <%= link_to fa_icon("external-link", text: "Manage Reason Codes"), timeclock_reason_codes_path, 
+    <%= link_to fa_icon('users', text: "Clocked in right now?"),
+                      timeclock_on_clock_path,
+                      class: 'btn bg-dark text-white' %>
+      <%= link_to fa_icon("external-link", text: "Manage Reason Codes"), timeclock_reason_codes_path, 
       class: "btn bg-dark text-light" %>
   </div>
 </div>

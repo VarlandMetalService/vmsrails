@@ -6,13 +6,13 @@
 </div>
 <div class="row mt-3">
   <div class="col-12" id="filter_form">
-    <%= render partial: 'filter_form', locals: { notes: @shift_notes, show: true } %>
+    <%= render partial: 'filter_form', locals: { notes: @shift_notes, show: false } %>
   </div>
 </div>
 
 <div class="row px-3" id="shift_notes">
   <div class="col">
-    <%= render partial: 'list', locals: { notes: @shift_notes,
-                                      term: params[:with_search_term] } %>
+    <%= render partial: 'mobile_list', locals: { notes: @shift_notes,
+                                       term: params[:with_search_term] } %>
     </div>
 </div>

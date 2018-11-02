@@ -1,7 +1,11 @@
 # Create logger that ignores messages containing “CACHE”
 class CacheFreeLogger < ::Logger
   def debug(message, *args, &block)
-    super unless message.include? 'CACHE'
+    if message.include? 'CACHE' 
+    elsif message.include? 'base64'
+    else
+      super
+    end
   end
 end
 

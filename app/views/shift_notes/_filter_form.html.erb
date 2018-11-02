@@ -13,7 +13,11 @@
     Filter Results
   </p>
 
-  <div class="show mt-2" id="collapseFilters">
+  <div class="collapse mt-2 
+    <% if show == true %>
+      show
+    <% end %>
+    " id="collapseFilters">
       <div class="row">
           <div class="col">
             <div class="form-group">

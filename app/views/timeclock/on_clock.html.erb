@@ -1,5 +1,4 @@
 <div class="container-fluid mt-4">
-  <%= link_to fa_icon("step-backward", text: "Back"), timeclock_path, class: "text-dark" %>
   <div class="row">
     <% @groups.each do |g| %>
     <div class="col-4 col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -17,7 +16,7 @@
                     <% end %>
                     <%= u.full_name %>
                   </td>
-                  <td class="text-right"><%= u.clock_records.where(record_type: "Start Work").last.timestamp.strftime("%I:%M %p") %></td>
+                  <td class="text-right"><%= u.clock_records.where(record_type: "Start Work").last.timestamp.strftime("%I:%M %p") unless u.clock_records.where(record_type: "Start Work").blank? %></td>
                 </tr>
                 <% end %>
               </tbody>

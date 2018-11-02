@@ -5,9 +5,8 @@ class CommentsController < ApplicationController
     def create
         @comment = @commentable.comments.new comment_params
         if @comment.save
-            if @commentable.class == ShiftNote
-                # send_emails(@commentable)
-            else
+            if @comment.commentable_type == 'ShiftNote'
+                ShiftNotesMailer.send_note(@commentable, @commentable.shift_type).deliver_later
             end
             flash[:success] = "Comment created."
             redirect_back(fallback_location: root_path)
@@ -26,27 +25,8 @@ class CommentsController < ApplicationController
     end
 
         private
-
-            def comment_params
-                params.require(:comment).permit(:body, :user_id, { attachment:[]} )
-            end
-
-            def send_emails(commentable)
-                @commentable = commentable
-                @user = @commentable.user
-                recipient_array = Array.new
-                recipient_array << @user
-
-                ShiftNotesMailer.send_comments(@user, @commentable).deliver_now
-
-                @commentable.comments.each do |c|
-                    @user = c.user
-                    if recipient_array.include?(@user)
-                    else
-                        ShiftNotesMailer.send_comments(@user, @commentable).deliver_now
-                        recipient_array << @user
-                    end
-                end 
-            end
+        def comment_params
+            params.require(:comment).permit(:body, :user_id, { attachment:[]} )
+        end
 end
 

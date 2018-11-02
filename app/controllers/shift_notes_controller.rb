@@ -1,6 +1,7 @@
 class ShiftNotesController < ApplicationController
   include ApplicationHelper
   before_action :set_shift_note, only: [:show, :edit, :update, :destroy]
+  before_action :detect_device_variant, only: :index
 
   has_scope :with_search_term,   only: :index
   has_scope :with_timestamp,     only: :index
@@ -15,6 +16,7 @@ class ShiftNotesController < ApplicationController
     @shift_notes = apply_scopes(ShiftNote).includes(:comments, :user).all.page(params[:page])
     respond_to do |format|
       format.html
+      format.html.mobile render layout: "mobile"
       format.json { render :json => @shift_notes }
     end
   end
@@ -75,6 +77,10 @@ class ShiftNotesController < ApplicationController
     def shift_note_params
       params.require(:shift_note).permit(:id, :shift_time, :shift_type, :dept, 
                                          :user_id, :message, :created_at)
+    end
+
+    def detect_device_variant
+      request.variant = :mobile if browser.device.mobile? ||                                               browser.device.tablet?
     end
 end
 

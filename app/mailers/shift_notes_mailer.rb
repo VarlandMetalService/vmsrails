@@ -5,17 +5,7 @@ class ShiftNotesMailer < ApplicationMailer
             to: 'Shift Notes Recipients <dailyshiftnotes@varland.com>'
 
     def send_comments(user, commentable)
-      @user = user
-      @commentable = commentable
-
-      @commentable.comments.each do |c|
-          if c.attachment?
-              @filename = c.attachment.instance_variable_get('@file').filename
-              attachments.inline[@filename] = c.attachment.read
-          end
-      end
-      make_bootstrap_mail(subject: 'New shift note comment!',
-                      to: "#{@user.full_name} <#{@user.email}>")   
+      send_note(commentable, 'IT')
     end
 
     def send_note(note, group)
@@ -42,7 +32,7 @@ class ShiftNotesMailer < ApplicationMailer
           return
       end
       recipient = 'Richard Legacy <richard.legacy@varland.com>'
-      make_bootstrap_mail(subject: 'New Shift Note',
+      make_bootstrap_mail(subject: 'Shift Note',
             to: recipient)
     end
 

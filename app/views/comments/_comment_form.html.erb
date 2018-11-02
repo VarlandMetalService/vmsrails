@@ -6,10 +6,10 @@
         </div>
     </div>        
     <div class="form-row">
-    <%= f.trix_editor :body, class: "form-control", placeholder: "Add a comment..." %>
+    <%= f.text_area :body, class: "form-control", placeholder: "Add a comment..." %>
         <div class="form-group col">  
-                <%= f.label :Attachment , class:"col-form-label" %>       
-                <%= f.file_field :attachment, :multiple => true, class: "form-control-file", name: "comment[attachment][]" %>
+            <%= f.label :Attachment , class:"col-form-label" %>       
+            <%= f.file_field :attachment, :multiple => true, class: "form-control-file", name: "comment[attachment][]" %>
         </div>
     </div>    
     <div class="btn-group" role="group">
@@ -21,10 +21,12 @@
       <%= f.submit "Create Comment", class: "btn btn-primary" %>
     </div>
     
+    <% if combo == true %>
     <div class="pull-right">
         <button class="btn float-right" type="button"
             data-toggle="collapse" data-target="#collapseCommentsList<%=commentable.id%>" style="font-size: 14x; background-color: #DDDDDD; border-color: #dee2e6;""><%= fa_icon('comments-o')%>
         </button>
     </div>
+    <% end %>
 <% end %>
 </div>

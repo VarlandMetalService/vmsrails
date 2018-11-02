@@ -2,6 +2,9 @@ module Printing
   class PrintJob < ApplicationRecord
     mount_base64_uploader :file, PrintJobUploader, file_name: -> (u) { u.created_at }
 
+    belongs_to :document_type, optional: true
+    belongs_to :print_queue, optional: true
+
     validates_presence_of :file
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }
     scope :with_doc_type, ->(doc_type) { where("document_type_id = ?", doc_type) unless doc_type.nil? }
