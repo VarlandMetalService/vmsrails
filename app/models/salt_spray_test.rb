@@ -15,31 +15,41 @@ class SaltSprayTest < ApplicationRecord
 
   def self.options_for_process_code
     [["BR - Brass",                              'BR'],
-     ["BT - Bright Acid Tin",                    'BT'],
-     ["CD - Cadmium",                            'CD'],
-     ["CL - Clean",                              'CL'],
-     ["CU - Copper",                             'CU'],
-     ["HN - Zinc-Nickel, High Nickel",           'HN'],
-     ["HP - High Phos Electroless Nickel",       'HP'],
-     ["LN - Zing-Nickel, Low Nickel",            'LN'],
-     ["MP - Mid Phos Electroless Nickel",        'MP'],
-     ["MT - Matte Acid Tin",                     'MT'],
-     ["NI - Nickel",                             'NI'],
-     ["PA - Passivate",                          'PA'],
      ["SBR - Strip + Brass",                    'SBR'],
+
+     ["BT - Bright Acid Tin",                    'BT'],
      ["SBT - Strip + Bright Acid Tin",          'SBT'],
+
+     ["CD - Cadmium",                            'CD'],
      ["SCD - Strip + Cadmium",                  'SCD'],
+
+     ["CU - Copper",                             'CU'],
      ["SCU - Strip + Copper",                   'SCU'],
+
+     ["HN - Zinc-Nickel, High Nickel",           'HN'],
+     ["LN - Zing-Nickel, Low Nickel",            'LN'],
      ["SHN - Strip + Zinc-Nickel, High Nickel", 'SHN'],
      ["SLN - Strip + Zinc-Nickel, Low Nickel",  'SLN'],
+
+     ["MP - Mid Phos Electroless Nickel",        'MP'],
+     ["PA - Passivate",                          'PA'],
+     ["HP - High Phos Electroless Nickel",       'HP'],
+     ["CL - Clean",                              'CL'],
+
+     ["MT - Matte Acid Tin",                     'MT'],
      ["SMT - Strip + Matte Acid Tin",           'SMT'],
+
+     ["NI - Nickel",                             'NI'],
      ["SNI - Strip + Nickel",                   'SNI'],
-     ["STZ - Strip + Tin-Zinc",                 'STZ'],
-     ["SZF - Strip + Zinc-Iron",                'SZF'],
-     ["SZN - Strip + Zinc",                     'SZN'],
+
      ["TZ - Tin-Zinc",                           'TZ'],
+     ["STZ - Strip + Tin-Zinc",                 'STZ'],
+
      ["ZF - Zinc-Iron",                          'ZF'],
-     ["ZN - Zinc",                               'ZN']]
+     ["SZF - Strip + Zinc-Iron",                'SZF'],
+
+     ["ZN - Zinc",                               'ZN'],
+     ["SZN - Strip + Zinc",                     'SZN']]
   end
 
   def self.not_recently

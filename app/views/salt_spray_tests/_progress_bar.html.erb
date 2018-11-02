@@ -6,6 +6,8 @@
         <%= fa_icon('list') %>
       </button>
     <% end %>
+    <% if s.red_spec == 0 %>
+    <% else %>
     <div class="bar-step clearfix" style="left: 78%; overflow:hidden;">
         <div class="label-txt">
           Red
@@ -20,6 +22,9 @@
           <span class="label-percent text-success"><%= fa_icon("check") %></span>
         <% end %>
     </div>
+    <% end %>
+    <% if s.white_spec = 0 %>
+    <% else %>
     <div class="bar-step clearfix" style="left: <%= 78*(s.white_spec.to_f/s.red_spec) %>%">
         <div class="label-txt">
           White
@@ -36,6 +41,7 @@
           <% end %>
         </div>
     </div>
+    <% end %>
     <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
     <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes).to_f / s.red_spec)*78 %>%;">
     <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
