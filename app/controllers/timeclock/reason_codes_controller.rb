@@ -1,6 +1,6 @@
 module Timeclock
   class Timeclock::ReasonCodesController < ApplicationController
-    before_action :set_reason_code, only: [:show, :edit, :update, :destroy]
+    before_action :set_timeclock_reason_code, only: [:show, :edit, :update, :destroy]
 
     # GET /timeclock/reason_codes
     # GET /timeclock/reason_codes.json
@@ -25,11 +25,11 @@ module Timeclock
     # POST /timeclock/reason_codes
     # POST /timeclock/reason_codes.json
     def create
-      @reason_code = Timeclock::ReasonCode.new(reason_code_params)
-
+      @reason_code = Timeclock::ReasonCode.new(timeclock_reason_code_params)
       respond_to do |format|
         if @reason_code.save
-          format.html { redirect_to @reason_code, notice: 'Reason code was successfully created.' }
+          flash[:success] = "Reason code created."
+          format.html { redirect_to timeclock_reason_codes_path }
           format.json { render :show, status: :created, location: @reason_code }
         else
           format.html { render :new }
@@ -42,7 +42,7 @@ module Timeclock
     # PATCH/PUT /timeclock/reason_codes/1.json
     def update
       respond_to do |format|
-        if @reason_code.update(reason_code_params)
+        if @reason_code.update(timeclock_reason_code_params)
           format.html { redirect_to @reason_code, notice: 'Reason code was successfully updated.' }
           format.json { render :show, status: :ok, location: @reason_code }
         else
@@ -70,7 +70,7 @@ module Timeclock
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def timeclock_reason_code_params
-        params.require(:timeclock_reason_code).permit(:description, :requires_note)
+        params.require(:timeclock_reason_code).permit(:description)
       end
   end
 end
