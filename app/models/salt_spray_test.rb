@@ -46,6 +46,22 @@ class SaltSprayTest < ApplicationRecord
     end
   end
 
+  def self.options_for_process_code_filter 
+    [['Brass (BR, SBR)',                       'BR'],
+     ['Bright Acid Tin (BT, SBT)',             'BT'],
+     ['Cadmium (CD, SCD)',                     'CD'],
+     ['Copper (CU, SCU)',                      'CU'],
+     ['Electroless Nickel (HP, MP, SHP, SMP)', 'HP'],
+     ['Matte Acide Tin (MT, SMT)',             'MT'],
+     ['Nickel (NI, SNI)',                      'NI'],
+     ['Zinc (ZN, SZN)',                        'ZN'],
+     ['Zinc-Iron (ZF, SZF)',                   'ZF'],
+     ['Zinc-Nickel (HN, LN, SHN, SLN)',        'HN'],
+     ['Tin-Zinc (TZ, STZ)',                    'TZ'],
+     ['Passivate (PA)',                        'PA'],
+     ['CLEAN (CL)',                            'CL']]
+  end
+
   def self.options_for_process_code
     [["BR - Brass",                              'BR'],
      ["SBR - Strip + Brass",                    'SBR'],
