@@ -1,14 +1,7 @@
 <ul class="px-0 py-0" style="list-style-type:none;">
   <% @salt_spray_tests.each do |s| %>
 <li>
-  <div class="card fluid
-    <% if (Time.now - s.salt_spray_test_checks.last.date)/60.minutes > 36 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
-    bg-danger
-    <% elsif (Time.now - s.salt_spray_test_checks.last.date)/60.minutes > 18 && s.salt_spray_test_checks.where(:c_type => "RED").blank? %>
-    bg-warning
-    <%# email? %>
-    <% end %>
-  ">
+  <div class="card fluid">
     <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
         <div class="card-header carousel-item active py-2">

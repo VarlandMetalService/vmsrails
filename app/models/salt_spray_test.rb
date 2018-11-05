@@ -59,7 +59,7 @@ class SaltSprayTest < ApplicationRecord
      ['Zinc-Nickel (HN, LN, SHN, SLN)',        'HN'],
      ['Tin-Zinc (TZ, STZ)',                    'TZ'],
      ['Passivate (PA)',                        'PA'],
-     ['CLEAN (CL)',                            'CL']]
+     ['Clean (CL)',                            'CL']]
   end
 
   def self.options_for_process_code
