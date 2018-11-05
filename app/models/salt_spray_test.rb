@@ -11,7 +11,40 @@ class SaltSprayTest < ApplicationRecord
   # Validations.
   validates_presence_of :so_num, :load_num
 
-  scope :with_process_code, ->(process_code) { where("process_code = ?", process_code) unless process_code.nil? }
+  scope :with_process_code, ->(process_code) { where("process_code in #{process_group(process_code)}") unless process_code.nil? }
+
+  def self.process_group(pc)
+    return case pc
+      when 'BR' then "('BR', 'SBR')"
+      when 'SBR'then "('BR', 'SBR')"
+      when 'BT' then "('BT', 'SBT')"
+      when 'SBT'then "('BT', 'SBT')"
+      when 'CD' then "('CD', 'SCD')"
+      when 'SCD'then "('CD', 'SCD')"
+      when 'CU' then "('CU', 'SCU')"
+      when 'SCU'then "('CU', 'SCU')"
+      when 'MT' then "('MT', 'SMT')"
+      when 'SMT'then "('MT', 'SMT')"
+      when 'NI' then "('NI', 'SNI')"
+      when 'SNI'then "('NI', 'SNI')"
+      when 'TZ' then "('TZ', 'STZ')"
+      when 'STZ'then "('TZ', 'STZ')"
+      when 'ZF' then "('ZF', 'SZF')"
+      when 'SZF'then "('ZF', 'SZF')"
+      when 'ZN' then "('ZN', 'SZN')"
+      when 'SZN'then "('ZN', 'SZN')"
+      when 'HN' then "('HN', 'LN', 'SHN', 'SLN')"
+      when 'LN' then "('HN', 'LN', 'SHN', 'SLN')"
+      when 'SHN'then "('HN', 'LN', 'SHN', 'SLN')"
+      when 'SLN'then "('HN', 'LN', 'SHN', 'SLN')"
+      when 'HP' then "('HP', 'MP', 'SHP', 'SMP')"
+      when 'MP' then "('HP', 'MP', 'SHP', 'SMP')"
+      when 'SHP'then "('HP', 'MP', 'SHP', 'SMP')"
+      when 'SMP'then "('HP', 'MP', 'SHP', 'SMP')"
+      when 'PA' then "('PA')"
+      when 'CL' then "('CL')"
+    end
+  end
 
   def self.options_for_process_code
     [["BR - Brass",                              'BR'],
@@ -31,10 +64,11 @@ class SaltSprayTest < ApplicationRecord
      ["SHN - Strip + Zinc-Nickel, High Nickel", 'SHN'],
      ["SLN - Strip + Zinc-Nickel, Low Nickel",  'SLN'],
 
-     ["MP - Mid Phos Electroless Nickel",        'MP'],
-     ["PA - Passivate",                          'PA'],
      ["HP - High Phos Electroless Nickel",       'HP'],
-     ["CL - Clean",                              'CL'],
+     ["MP - Mid Phos Electroless Nickel",        'MP'],
+     ["SHP - Strip + High Phos Nickel",         'SHP'],
+     ["SMP - Strip + Mid Phos Nickel",          'SMP'],
+
 
      ["MT - Matte Acid Tin",                     'MT'],
      ["SMT - Strip + Matte Acid Tin",           'SMT'],
@@ -49,7 +83,12 @@ class SaltSprayTest < ApplicationRecord
      ["SZF - Strip + Zinc-Iron",                'SZF'],
 
      ["ZN - Zinc",                               'ZN'],
-     ["SZN - Strip + Zinc",                     'SZN']]
+     ["SZN - Strip + Zinc",                     'SZN'],
+    
+    
+     ["PA - Passivate",                          'PA'],
+
+     ["CL - Clean",                              'CL']]
   end
 
   def self.not_recently
