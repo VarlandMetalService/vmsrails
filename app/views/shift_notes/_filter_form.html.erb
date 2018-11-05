@@ -19,7 +19,7 @@
     <% end %>
     " id="collapseFilters">
       <div class="row">
-          <div class="col">
+          <div class="col-4">
             <div class="form-group">
               <%= f.label :with_dept,
                           'Department:'  %>
@@ -30,9 +30,6 @@
                             { class: 'custom-select',
                               onchange: 'this.form.submit();' } %>
             </div>
-          </div>
-
-          <div class="col">
             <div class="form-group">
               <%= f.label :with_user,
                           'User:' %> 
@@ -46,18 +43,7 @@
             </div>
           </div>
 
-          <div class="col">
-            <div class="form-group">
-              <%= f.label :with_timestamp,
-                          'From Date:' %>
-              <%= f.date_field :with_timestamp,
-                              class: 'form-control',
-                              onchange: 'this.form.submit();',
-                              value: params[:with_timestamp] %>            
-            </div>
-          </div>
-
-          <div class="col">
+          <div class="col-4">
             <div class="form-group">
               <%= f.label :with_shift_type,
                           'Shift Type:' %> 
@@ -68,9 +54,6 @@
                                   { class: 'custom-select',
                                   onchange: 'this.form.submit();' }%>
             </div>
-          </div>
-
-          <div class="col">
             <div class="form-group">
               <%= f.label :with_shift_time,
                           'Shift Time:' %> 
@@ -83,7 +66,15 @@
             </div>
           </div>
           
-          <div class="col">
+          <div class="col-4">
+            <div class="form-group">
+              <%= f.label :with_timestamp,
+                          'From Date:' %>
+              <%= f.date_field :with_timestamp,
+                              class: 'form-control',
+                              onchange: 'this.form.submit();',
+                              value: params[:with_timestamp] %>            
+            </div>
             <div class="form-group">
               <%= f.label :sorted_by,
                           'Sort By:'  %>

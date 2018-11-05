@@ -48,12 +48,10 @@ module Timeclock
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_clock_edit
         @clock_edit = ClockEdit.find(params[:id])
       end
 
-      # Never trust parameters from the scary internet, only allow the white list through.
       def clock_edit_params
         params.require(:timeclock_clock_edit).permit(:clock_record_id, :user_id, :ip_address, :reason_id, :deleted_at, :note, :clock_record_record_type)
       end

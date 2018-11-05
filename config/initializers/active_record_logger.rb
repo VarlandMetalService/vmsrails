@@ -1,8 +1,8 @@
-# Create logger that ignores messages containing “CACHE”
+# Create logger that ignores messages containing “CACHE” and "base64"
 class CacheFreeLogger < ::Logger
   def debug(message, *args, &block)
     if message.include? 'CACHE' 
-    elsif message.include? 'base64'
+    elsif message.include? 'PrintJobsController#create'
     else
       super
     end

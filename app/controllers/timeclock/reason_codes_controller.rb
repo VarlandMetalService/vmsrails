@@ -2,28 +2,20 @@ module Timeclock
   class Timeclock::ReasonCodesController < ApplicationController
     before_action :set_timeclock_reason_code, only: [:show, :edit, :update, :destroy]
 
-    # GET /timeclock/reason_codes
-    # GET /timeclock/reason_codes.json
     def index
       @reason_codes = Timeclock::ReasonCode.all
     end
 
-    # GET /timeclock/reason_codes/1
-    # GET /timeclock/reason_codes/1.json
     def show
     end
 
-    # GET /timeclock/reason_codes/new
     def new
       @reason_code = Timeclock::ReasonCode.new
     end
 
-    # GET /timeclock/reason_codes/1/edit
     def edit
     end
 
-    # POST /timeclock/reason_codes
-    # POST /timeclock/reason_codes.json
     def create
       @reason_code = Timeclock::ReasonCode.new(timeclock_reason_code_params)
       respond_to do |format|
@@ -38,8 +30,6 @@ module Timeclock
       end
     end
 
-    # PATCH/PUT /timeclock/reason_codes/1
-    # PATCH/PUT /timeclock/reason_codes/1.json
     def update
       respond_to do |format|
         if @reason_code.update(timeclock_reason_code_params)
@@ -52,8 +42,6 @@ module Timeclock
       end
     end
 
-    # DELETE /timeclock/reason_codes/1
-    # DELETE /timeclock/reason_codes/1.json
     def destroy
       @timeclock_reason_code.destroy
       respond_to do |format|
@@ -63,12 +51,10 @@ module Timeclock
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_timeclock_reason_code
         @timeclock_reason_code = Timeclock::ReasonCode.find(params[:id])
       end
 
-      # Never trust parameters from the scary internet, only allow the white list through.
       def timeclock_reason_code_params
         params.require(:timeclock_reason_code).permit(:description)
       end

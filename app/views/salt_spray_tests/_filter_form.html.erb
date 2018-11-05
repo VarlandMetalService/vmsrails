@@ -5,7 +5,7 @@
 <div class="form-row">
   <div class="col-12">
     <div class="pull-right align-middle mt-1">
-      <%= link_to 'Reset', salt_spray_tests_url, class: 'btn btn-link text-white' %>
+      
       <%= link_to fa_icon('plus', text: 'New Test' ), new_salt_spray_test_path, class:"btn btn-warning font-weight-bold text-dark" %>     
     </div>
     <p class="small font-weight-bold text-warning mb-0 text-uppercase" style="margin-top: 10px;">
@@ -30,6 +30,9 @@
               { class: 'custom-select',
                 onchange: 'this.form.submit();' } %>
       </div>
+      <div class="pull-left">
+        <%= link_to 'Reset', salt_spray_tests_url, class: 'pl-0 btn btn-link text-white' %>
+      </div>
     </div>
     <div class="col-6">
       <div class="form-group">
@@ -41,6 +44,7 @@
                 { class: 'custom-select',
                   onchange: 'this.form.submit();' }%>
       </div>
+      
       <div class="form-group pull-right mb-0" style="margin-top: 10px">
       <%= f.label :with_deleted,
                   'Show All?:' %> 
