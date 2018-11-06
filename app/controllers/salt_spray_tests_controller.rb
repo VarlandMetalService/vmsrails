@@ -1,6 +1,6 @@
 class SaltSprayTestsController < ApplicationController
   include ApplicationHelper
-  before_action :set_salt_spray_test,   only: [:show, :edit, :update, :destroy]
+  before_action :set_salt_spray_test,   only: [:show, :edit, :update, :destroy, :finalized]
   before_action :detect_device_variant, only: :index
   has_scope :with_process_code,         only: :index
 
@@ -11,7 +11,11 @@ class SaltSprayTestsController < ApplicationController
     if params[:with_deleted]
       @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     else
-    @salt_spray_tests = apply_scopes(SaltSprayTest).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc").not_recently
+      @salt_spray_tests = apply_scopes(SaltSprayTest).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
+    end
+    if params[:recently]
+    else
+      @salt_spray_tests = @salt_spray_tests.not_recently
     end
     @check = SaltSprayTestCheck.new
     respond_to do |format|
@@ -45,7 +49,7 @@ class SaltSprayTestsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { redirect_to edit_salt_spray_test_path(@salt_spray_test) }
+          format.html { redirect_to edit_salt_spray_test_path(@salt_spray_test)}
           format.json { render :json => @salt_spray_test }
         end
       end
@@ -97,6 +101,9 @@ class SaltSprayTestsController < ApplicationController
     end
   end
 
+  def finalized
+  end
+
   private
     # Select Salt spray test by id.
     def set_salt_spray_test
@@ -106,7 +113,7 @@ class SaltSprayTestsController < ApplicationController
     # Never trust parameters from the internet, only allow the white list.
     # { :process => [] }
     def salt_spray_test_params
-      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, { :salt_spray_test_checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => []} )
+      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, :is_sample, :sample_code, { :salt_spray_test_checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => []} )
     end
 
     def detect_device_variant

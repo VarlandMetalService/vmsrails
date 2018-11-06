@@ -11,7 +11,20 @@
               <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
             </div>
             <div class="col-4">
-              <p class="text-center mb-1" style="font-size: 22px;"><strong><%= s.so_num %></strong></p>
+              <% if s.is_sample? || !s.is_sample.blank? %>
+                
+                <p class="text-center mb-1" style="font-size: 16px;">
+                  <strong>
+                    <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
+                  </strong>
+                </p>
+              <% else %>
+                <p class="text-center mb-1" style="font-size: 20px;">
+                  <strong>
+                    <%= s.so_num %>
+                  </strong>
+                </p>
+              <% end %>
               <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
               <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
             </div>
@@ -28,7 +41,7 @@
         <div class="card-header carousel-item">
           <div class="row">
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "OK" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -37,7 +50,7 @@
               <%= f.submit 'OK', 
                     { class: "btn btn-primary swipe-btn btn-block border", 
                        data: { 
-                        confirm: 'Mark as OK?', 
+                        confirm: "Mark #{s.so_num} as OK?", 
                          toggle: 'tooltip', 
                           title: 'Mark as OK' } } %>  
               <% else %>
@@ -45,14 +58,14 @@
                     { class: "btn btn-primary swipe-btn btn-block border",
                       disabled: true, 
                        data: { 
-                        confirm: 'Mark as OK?', 
+                        confirm: "Mark #{s.so_num} as OK?", 
                          toggle: 'tooltip', 
                           title: 'Mark as OK' } } %>  
               <% end %>           
               <% end %>
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "WHITE" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -61,7 +74,7 @@
               <%= f.submit 'White', 
                       { class: "btn swipe-btn btn-block border",
                         data: { 
-                          confirm: 'Mark as WHITE?', 
+                          confirm: "Mark #{s.so_num} as WHITE?", 
                           toggle: 'tooltip', 
                           title: 'Mark as WHITE' } } %>
               <% else %>
@@ -76,7 +89,7 @@
               <% end %> 
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "RED" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -85,7 +98,7 @@
               <%= f.submit 'Red', 
                       { class: "btn btn-danger swipe-btn btn-block border", 
                        data: { 
-                        confirm: 'Mark as RED?', 
+                        confirm: "Mark #{s.so_num} as RED?", 
                          toggle: 'tooltip', 
                           title: 'Mark as RED' } } %>
               <% else %>
@@ -100,7 +113,7 @@
               <% end %> 
             </div>
             <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id), :remote => true do |f| %>
+              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
               <%= f.hidden_field :salt_spray_test_id, value: s.id %>
               <%= f.hidden_field :c_type, value: "OFF" %>
               <%= f.hidden_field :date, value: DateTime.now %>
@@ -109,7 +122,7 @@
               <%= f.submit 'Off', 
                       { class: "btn btn-success swipe-btn btn-block border", 
                        data: { 
-                        confirm: 'Mark as OFF?', 
+                        confirm: "Mark #{s.so_num} as OFF?", 
                          toggle: 'tooltip', 
                           title: 'Mark as OFF' } } %> 
               <% else %>
@@ -155,7 +168,7 @@
             <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
               <div class="text-center"><u><%= s.so_num %> Info</u></div>
                <div class="float-right text-center border px-1 py-1 mb-0">
-                <% if s.process.blank? %>
+                <% if s.process.blank? || s.process == "" %>
                   No process entered.
                 <% else %>
                   <u>Process</u><br>

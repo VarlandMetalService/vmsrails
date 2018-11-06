@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030123037) do
+ActiveRecord::Schema.define(version: 20181105170109) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -302,6 +302,8 @@ ActiveRecord::Schema.define(version: 20181030123037) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "deleted_at"
+    t.boolean "is_sample"
+    t.integer "sample_code"
   end
 
   create_table "shift_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

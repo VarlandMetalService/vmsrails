@@ -1,0 +1,17 @@
+<div class="text-center" style="margin: 0 auto;">
+  <br><br>
+  Is this test completed?
+  <br>
+  <%= link_to fa_icon('times', text: "NO"),
+        salt_spray_tests_path,
+        class: 'font-weight-bold btn btn-sm btn-danger',
+        title: 'View Shift Note',
+        data: { toggle: 'tooltip' } %>
+  <%= link_to fa_icon('check', text: "YES"),
+        salt_spray_test_path(@salt_spray_test),
+        method: :delete,
+        class: 'font-weight-bold btn btn-sm btn-success',
+        title: 'Delete Shift Note',
+        data: { confirm: 'Are you sure you want to finalize this salt spray test?',
+                 toggle: 'tooltip' } %>
+</div>

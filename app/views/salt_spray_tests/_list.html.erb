@@ -21,7 +21,11 @@
               <span class="badge badge-warning badge-border float-left mr-2" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span>
             </a>
             <strong class="pull-left" style="font-size: 20px;">
+              <% if s.is_sample? || !s.is_sample.blank? %>
+                <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
+              <% else %>
               <%= s.so_num  %> 
+              <% end %>
             </strong>
             <br>
             <div class="text-muted">
@@ -129,7 +133,7 @@
                   <%= f.submit 'White', 
                           { class: "btn btn-sm dropdown-item", 
                             data: { 
-                            confirm: 'Mark as WHITE?', 
+                            confirm: "Mark #{s.so_num} as WHITE?", 
                               toggle: 'tooltip', 
                               title: 'Mark as WHITE' } } %>
                   <% else %>
@@ -152,7 +156,7 @@
                   <%= f.submit 'Red', 
                           { class: "btn btn-danger btn-sm dropdown-item", 
                             data: { 
-                            confirm: 'Mark as RED?', 
+                            confirm: "Mark #{s.so_num} as RED?", 
                               toggle: 'tooltip', 
                               title: 'Mark as RED' } } %>
                   <% else %>
@@ -175,7 +179,7 @@
                   <%= f.submit 'Off', 
                           { class: "btn btn-success btn-sm dropdown-item", 
                             data: { 
-                            confirm: 'Mark as OFF?', 
+                            confirm: "Mark #{s.so_num} as OFF?", 
                               toggle: 'tooltip', 
                               title: 'Mark as OFF' } } %> 
                   <% else %>

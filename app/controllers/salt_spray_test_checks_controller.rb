@@ -31,22 +31,34 @@ class SaltSprayTestChecksController < ApplicationController
   end
 
   def create
-    if params[:salt_spray_test_check][:c_type] == 'OFF'
-      SaltSprayTest.with_deleted.find(params[:salt_spray_test_id]).update_attribute(:deleted_at, Time.now )
-    end
-    @salt_spray_test_check = SaltSprayTestCheck.new(salt_spray_test_check_params)
-    @salt_spray_test_check.salt_spray_test = SaltSprayTest.with_deleted.find(params[:salt_spray_test_id])
-    if @salt_spray_test_check.save
-      flash[:success] = "Check created."
-      respond_to do |format|
-        format.js {render inline: "location.reload();" }
-        format.html { redirect_to salt_spray_tests_path}
-        format.json { render :json => @salt_spray_test }
+    if SaltSprayTest.with_deleted.find(params[:salt_spray_test_id]).deleted_at.blank?
+      if params[:salt_spray_test_check][:c_type] == 'OFF'
+        SaltSprayTest.with_deleted.find(params[:salt_spray_test_id]).update_attribute(:deleted_at, Time.now )
+      end
+      @salt_spray_test_check = SaltSprayTestCheck.new(salt_spray_test_check_params)
+      @salt_spray_test_check.salt_spray_test = SaltSprayTest.with_deleted.find(params[:salt_spray_test_id])
+      if @salt_spray_test_check.save
+        flash[:success] = "Check created."
+        respond_to do |format|
+          format.js {render inline: "location.reload();" }
+          if @salt_spray_test_check.c_type == "WHITE" || 
+            @salt_spray_test_check.c_type == "RED"
+            format.html { redirect_to salt_spray_finalized_path(@salt_spray_test_check.salt_spray_test.id)}
+          else
+            format.html { redirect_to salt_spray_tests_path }
+          end
+          format.json { render :json => @salt_spray_test }
+        end
+      else
+        render :action => 'new'
+        Rails.logger.info(@salt_spray_test.errors.inspect)
       end
     else
-      render :action => 'new'
-      Rails.logger.info(@salt_spray_test.errors.inspect)
-    end 
+      flash[:danger] = "Cannot mark an already deleted test." 
+      respond_to do |format|
+        format.html { redirect_to salt_spray_tests_path }
+      end
+    end
   end
 
   def update

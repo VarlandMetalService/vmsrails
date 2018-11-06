@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :salt_spray_test_checks
   end
   post 'send_salt_spray_test', to: 'salt_spray_tests#send_test', as: :send_salt_spray_test
+  get 'salt_spray_test(/:id)/finalized', to: 'salt_spray_tests#finalized', as: :salt_spray_finalized
 
   get 'printing/print_job(/:id)/send', to: 'printing/print_jobs#send_print_cmd'
 

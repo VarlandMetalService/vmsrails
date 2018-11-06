@@ -43,13 +43,17 @@
         </div>
     </div>
     <% end %>
-    <% last = s.salt_spray_test_checks.last unless s.salt_spray_test_checks.blank? %>
-    <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last.date - s.created_at)/60.minutes).to_f / s.red_spec)*75 %>%;">
+    <% if s.salt_spray_test_checks.blank? %>
+      <% last = Time.now() %>
+    <% else %>
+      <% last = s.salt_spray_test_checks.last.date %>
+    <% end %>
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last - s.created_at)/60.minutes).to_f / s.red_spec)*75 %>%;">
     <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
       <% if specs[3] == 'day' %>
-      <%= pluralize((((last.date - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+        <%= pluralize((((last - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
       <% else %>
-      <%= pluralize((((last.date - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+        <%= pluralize((((last - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
       <% end %>
     </strong>
     </div>
