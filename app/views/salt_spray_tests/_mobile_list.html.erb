@@ -11,7 +11,7 @@
                 <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
               </div>
               <div class="col-4">
-                <% if s.is_sample? || !s.is_sample.blank? %>
+                <% if s.is_sample? || !s.sample_code.blank? %>
                   <p class="text-center mb-1" style="font-size: 16px;">
                     <strong>
                       <%= fa_icon("flask", 
@@ -33,7 +33,7 @@
                 <%= fa_icon('info')%>
                 </button>
                 <button class="accord btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
-                <%= fa_icon('commenting')%>
+                <%= fa_icon('commenting', text: s.comments.length)%>
                 </button>
               </div>
             </div>
@@ -52,7 +52,7 @@
                         data: { 
                           confirm: "Mark #{s.so_num} as OK?", 
                           toggle: 'tooltip', 
-                            title: 'Mark as OK' } } %>  
+                          title: 'Mark as OK' } } %>  
                 <% else %>
                 <%= f.submit 'ok', 
                       { class: "btn btn-primary swipe-btn btn-block border",
@@ -60,7 +60,7 @@
                         data: { 
                           confirm: "Mark #{s.so_num} as OK?", 
                           toggle: 'tooltip', 
-                            title: 'Mark as OK' } } %>  
+                          title: 'Mark as OK' } } %>  
                 <% end %>           
                 <% end %>
               </div>
@@ -81,9 +81,9 @@
                 <%= f.submit 'white', 
                         { class: "btn swipe-btn btn-block border",
                           disabled: true, 
-                        data: { 
-                          confirm: 'Mark as WHITE?', 
-                          toggle: 'tooltip', 
+                          data: { 
+                            confirm: 'Mark as WHITE?', 
+                            toggle: 'tooltip', 
                             title: 'Mark as WHITE' } } %>
                 <% end %>             
                 <% end %> 
