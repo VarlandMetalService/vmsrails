@@ -2,16 +2,21 @@
   <br><br>
   Is this test completed?
   <br>
-  <%= link_to fa_icon('times', text: "NO"),
+  <%= form_for [@salt_spray_test, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: @salt_spray_test.id) do |f| %>
+      <%= f.hidden_field :salt_spray_test_id, value: @salt_spray_test.id %>
+      <%= f.hidden_field :c_type, value: "OFF" %>
+      <%= f.hidden_field :date, value: DateTime.now %>
+      <%= f.hidden_field :user_id, value: @current_user.id %>
+      <%= link_to "NO",
         salt_spray_tests_path,
         class: 'font-weight-bold btn btn-sm btn-danger',
         title: 'View Shift Note',
         data: { toggle: 'tooltip' } %>
-  <%= link_to fa_icon('check', text: "YES"),
-        salt_spray_test_path(@salt_spray_test),
-        method: :delete,
-        class: 'font-weight-bold btn btn-sm btn-success',
-        title: 'Delete Shift Note',
-        data: { confirm: 'Are you sure you want to finalize this salt spray test?',
-                 toggle: 'tooltip' } %>
+      <%= f.submit "YES", 
+      { class: "btn btn-sm btn-success", 
+      data: { 
+            confirm: "Mark #{@salt_spray_test.so_num} as OFF?", 
+            toggle: 'tooltip', 
+            title: 'Mark as OFF' } } %>
+<% end %>
 </div>

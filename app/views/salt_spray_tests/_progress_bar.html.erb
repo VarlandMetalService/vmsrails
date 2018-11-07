@@ -6,10 +6,10 @@
         <%= fa_icon('list') %>
       </button>
     <% end %>
-    <% if s.red_spec == 0 %>
+    <% if s.red_spec == 0 || s.red_spec.blank? %>
       <% s.red_spec = 4*s.white_spec %>
     <% else %>
-    <div class="bar-step clearfix" style="left: 75%; overflow:hidden;">
+      <div class="bar-step clearfix" style="left: 75%; overflow:hidden;">
         <div class="label-txt">
           Red
           <div class="label-line"></div>
@@ -22,11 +22,11 @@
         <% else %>
           <span class="label-percent text-success"><%= fa_icon("check") %></span>
         <% end %>
-    </div>
+      </div>
     <% end %>
     <% if s.white_spec == 0 %>
     <% else %>
-    <div class="bar-step clearfix" style="left: <%= 75*(s.white_spec.to_f/s.red_spec) %>%">
+      <div class="bar-step clearfix" style="left: <%= 75*(s.white_spec.to_f/s.red_spec) %>%">
         <div class="label-txt">
           White
           <div class="label-line"></div>
@@ -41,21 +41,17 @@
             <span class="label-percent text-success"><%= fa_icon("check") %></span>
           <% end %>
         </div>
-    </div>
+      </div>
     <% end %>
-    <% if s.salt_spray_test_checks.blank? %>
-      <% last = Time.now() %>
-    <% else %>
-      <% last = s.salt_spray_test_checks.last.date %>
-    <% end %>
+    <% last = Time.now() %>
     <div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width:<%= (((last - s.created_at)/60.minutes).to_f / s.red_spec)*75 %>%;">
-    <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
-      <% if specs[3] == 'day' %>
-        <%= pluralize((((last - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
-      <% else %>
-        <%= pluralize((((last - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
-      <% end %>
-    </strong>
+      <strong style="font-size: 27px; position: absolute; z-index: 4;" class="text-warning ml-1">
+        <% if specs[3] == 'day' %>
+          <%= pluralize((((last - s.created_at)/24.hours).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+        <% else %>
+          <%= pluralize((((last - s.created_at)/60.minutes).round ), specs[3])unless s.salt_spray_test_checks.blank? %>
+        <% end %>
+      </strong>
     </div>
   </div>
 </div>

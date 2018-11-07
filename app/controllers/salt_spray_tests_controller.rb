@@ -8,6 +8,7 @@ class SaltSprayTestsController < ApplicationController
 
   def index 
     check_permission('salt_spray_tests')
+    manage_filter_state
     if params[:with_deleted]
       @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     else
@@ -69,13 +70,6 @@ class SaltSprayTestsController < ApplicationController
     end
   end
 
-  def manual_entry
-    @salt_spray_test = SaltSprayTest.find(params[:format])
-    if @salt_spray_test.update(salt_spray_test_params)
-      flash[:success] = "Salt spray test updated."
-    end
-  end
-
   def destroy
     @salt_spray_test.destroy
     respond_to do |format|
@@ -102,12 +96,13 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def finalized
+    @check = @salt_spray_test.salt_spray_test_checks.build
   end
 
   private
     # Select Salt spray test by id.
     def set_salt_spray_test
-      @salt_spray_test = SaltSprayTest.find(params[:id])
+      @salt_spray_test = SaltSprayTest.with_deleted.find(params[:id])
     end
 
     # Never trust parameters from the internet, only allow the white list.
@@ -122,6 +117,28 @@ class SaltSprayTestsController < ApplicationController
 
     def call_api(so_num)
       return false
+    end
+
+    def manage_filter_state
+      if params[:reset]
+        cookies[:with_user] = ""
+        cookies[:with_process_code] = ""
+      else
+        if params[:with_user]
+          cookies[:with_user] = { value: params[:with_user], expires: 1.day.from_now }
+        else
+          if cookies[:with_user]
+            params[:with_user] = cookies[:with_user]
+          end
+        end
+        if params[:with_process_code]
+          cookies[:with_process_code] = { value: params[:with_process_code], expires: 1.day.from_now }
+        else
+          if cookies[:with_process_code]
+            params[:with_process_code] = cookies[:with_process_code]
+          end
+        end
+      end
     end
 end
 

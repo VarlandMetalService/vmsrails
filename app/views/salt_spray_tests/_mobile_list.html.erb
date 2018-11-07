@@ -1,239 +1,245 @@
 <ul class="px-0 py-0" style="list-style-type:none;">
   <% @salt_spray_tests.each do |s| %>
-<li>
-  <div class="card fluid">
-    <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
-      <div class="carousel-inner">
-        <div class="card-header carousel-item active py-2">
-          <div class="form-row mb-0">
-            <div class="col-4">
-              <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-              <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
-            </div>
-            <div class="col-4">
-              <% if s.is_sample? || !s.is_sample.blank? %>
-                
-                <p class="text-center mb-1" style="font-size: 16px;">
-                  <strong>
-                    <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
-                  </strong>
-                </p>
-              <% else %>
-                <p class="text-center mb-1" style="font-size: 20px;">
-                  <strong>
-                    <%= s.so_num %>
-                  </strong>
-                </p>
-              <% end %>
-              <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
-              <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
-            </div>
-            <div class="col-4">
-              <button class="accord btn btn-block float-right" style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 11px;">
-              <%= fa_icon('info')%>
-              </button>
-              <button class="accord btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
-              <%= fa_icon('commenting')%>
-              </button>
+  <li>
+    <div class="card fluid">
+      <div id="carouselExample<%=s.id%>" class="carousel slide" data-interval="false">
+        <div class="carousel-inner">
+          <div class="card-header carousel-item active py-2">
+            <div class="form-row mb-0">
+              <div class="col-4">
+                <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
+                <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
+              </div>
+              <div class="col-4">
+                <% if s.is_sample? || !s.is_sample.blank? %>
+                  <p class="text-center mb-1" style="font-size: 16px;">
+                    <strong>
+                      <%= fa_icon("flask", 
+                            text: %Q[#{s.so_num} - #{s.sample_code}]) %>
+                    </strong>
+                  </p>
+                <% else %>
+                  <p class="text-center mb-1" style="font-size: 20px;">
+                    <strong>
+                      <%= s.so_num %>
+                    </strong>
+                  </p>
+                <% end %>
+                <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
+                <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
+              </div>
+              <div class="col-4">
+                <button class="accord info btn btn-block float-right " style="background-color: #DDDDDD; border-color: #dee2e6;" type="button" data-toggle="collapse" data-target="#collapseInfo<%=s.id%>" style="font-size: 11px;">
+                <%= fa_icon('info')%>
+                </button>
+                <button class="accord btn btn-block float-right"  type="button" style="background-color: #DDDDDD; border-color: #dee2e6;" data-toggle="collapse" data-target="#collapseComments<%=s.id%>" style="font-size: 11px;">
+                <%= fa_icon('commenting')%>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-header carousel-item">
-          <div class="row">
-            <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "OK" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-              <%= f.submit 'OK', 
-                    { class: "btn btn-primary swipe-btn btn-block border", 
-                       data: { 
-                        confirm: "Mark #{s.so_num} as OK?", 
-                         toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-              <% else %>
-              <%= f.submit 'OK', 
-                    { class: "btn btn-primary swipe-btn btn-block border",
-                      disabled: true, 
-                       data: { 
-                        confirm: "Mark #{s.so_num} as OK?", 
-                         toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-              <% end %>           
-              <% end %>
-            </div>
-            <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "WHITE" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
-              <%= f.submit 'White', 
-                      { class: "btn swipe-btn btn-block border",
+          <div class="card-header carousel-item" id="carousel_buttons">
+            <div class="row">
+              <div class="col-3 px-1">
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                <%= f.hidden_field :c_type, value: "OK" %>
+                <%= f.hidden_field :date, value: DateTime.now %>
+                <%= f.hidden_field :user_id, value: @current_user.id %>
+                <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+                <%= f.submit 'OK', 
+                      { class: "btn btn-primary swipe-btn btn-block border", 
                         data: { 
-                          confirm: "Mark #{s.so_num} as WHITE?", 
+                          confirm: "Mark #{s.so_num} as OK?", 
                           toggle: 'tooltip', 
-                          title: 'Mark as WHITE' } } %>
-              <% else %>
-              <%= f.submit 'White', 
-                      { class: "btn swipe-btn btn-block border",
-                        disabled: true, 
-                       data: { 
-                        confirm: 'Mark as WHITE?', 
-                         toggle: 'tooltip', 
-                          title: 'Mark as WHITE' } } %>
-              <% end %>             
-              <% end %> 
-            </div>
-            <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "RED" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
-              <%= f.submit 'Red', 
-                      { class: "btn btn-danger swipe-btn btn-block border", 
-                       data: { 
-                        confirm: "Mark #{s.so_num} as RED?", 
-                         toggle: 'tooltip', 
-                          title: 'Mark as RED' } } %>
-              <% else %>
-              <%= f.submit 'Red', 
-                      { class: "btn btn-danger swipe-btn btn-block border", 
-                        disabled: true,
-                       data: { 
-                        confirm: 'Mark as RED?', 
-                         toggle: 'tooltip', 
-                          title: 'Mark as RED' } } %>
-              <% end %>
-              <% end %> 
-            </div>
-            <div class="col-3 px-1">
-              <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
-              <%= f.hidden_field :salt_spray_test_id, value: s.id %>
-              <%= f.hidden_field :c_type, value: "OFF" %>
-              <%= f.hidden_field :date, value: DateTime.now %>
-              <%= f.hidden_field :user_id, value: @current_user.id %>
-              <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-              <%= f.submit 'Off', 
-                      { class: "btn btn-success swipe-btn btn-block border", 
-                       data: { 
-                        confirm: "Mark #{s.so_num} as OFF?", 
-                         toggle: 'tooltip', 
-                          title: 'Mark as OFF' } } %> 
-              <% else %>
-              <%= f.submit 'Off', 
-                      { class: "btn btn-success swipe-btn btn-block border",
-                        disabled: true, 
-                       data: { 
-                        confirm: 'Mark as OFF?', 
-                         toggle: 'tooltip', 
-                          title: 'Mark as OFF' } } %> 
-              <% end %>
-              <% end %>  
-            </div>
-          </div>        
-        </div>
-      </div>
-    </div>
-    <%# Info collapsable %>
-    <% specs = format_spec(s) %>
-    <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
-      <div class="card-header bg-white py-4">
-        <%= render partial: 'progress_bar', 
-                    locals: { :s => s, :specs => specs, :type => "mobile" } %>
-	    </div>
-      <div class="card-body bg-white py-0">
-        <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info<%=s.id%>" role="tab" aria-controls="info" aria-selected="true">Info</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="history-tab" data-toggle="tab" href="#history<%=s.id%>" role="tab" aria-controls="history" aria-selected="false">History</a>
-          </li>
-          <li class="nav-item dropdown" style="margin-left: 60px;">
-            <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" >Share</a>
-            <div class="dropdown-menu">
-              <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
-              <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
-            </div>
-          </li>
-        </ul>
-        <div class="card-text">
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
-              <div class="text-center"><u><%= s.so_num %> Info</u></div>
-               <div class="float-right text-center border px-1 py-1 mb-0">
-                <% if s.process.blank? || s.process == "" %>
-                  No process entered.
+                            title: 'Mark as OK' } } %>  
                 <% else %>
-                  <u>Process</u><br>
-                  <% s.process.each_with_index do |k,p| %>
-                    <%= k %>
-                    <% if p == s.process.count-1 %>
-                    <% else %>
-                    <br> 
-                    <% end %>
-                  <% end %>
+                <%= f.submit 'ok', 
+                      { class: "btn btn-primary swipe-btn btn-block border",
+                        disabled: true, 
+                        data: { 
+                          confirm: "Mark #{s.so_num} as OK?", 
+                          toggle: 'tooltip', 
+                            title: 'Mark as OK' } } %>  
+                <% end %>           
                 <% end %>
               </div>
-              <ul style="list-style-type:none; padding-inline-start: 0px;">
-                <li>Customer: <%= s.customer %></li>
-                <li>Dept: <%= s.dept %></li>
-                <li>Part ID: <%= s.part_tag %></li>
-                <li>Sub ID: <%= s.sub_tag %></li>
-                <li>Part Area: <%= s.part_area %></li>
-                <li>Density: <%= s.part_density %></li>
-                <li>Load Weight: <%= s.load_weight %></li>
-                <li>White Spec: <%= specs[0] %></li>
-                <li>Red Spec: <%= specs[1]%></li>
-              </ul>
-              <br>
-            </div>
-            <div class="tab-pane fade" id="history<%=s.id%>" role="tabpanel" aria-labelledby="history-tab">
-              <div class="text-center"><strong><u>History</u></strong></div>
-              <% x = s.salt_spray_test_checks.in_groups(2, false ) %>
-                <div class="row">
-                <% x.each do |g| %>
-                  <div class="col-6">
-                  <% g.each do |c| %>
-                    <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
-                    <br>
+              <div class="col-3 px-1">
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                <%= f.hidden_field :c_type, value: "WHITE" %>
+                <%= f.hidden_field :date, value: DateTime.now %>
+                <%= f.hidden_field :user_id, value: @current_user.id %>
+                <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
+                <%= f.submit 'WHITE', 
+                        { class: "btn swipe-btn btn-block border",
+                          data: { 
+                            confirm: "Mark #{s.so_num} as WHITE?", 
+                            toggle: 'tooltip', 
+                            title: 'Mark as WHITE' } } %>
+                <% else %>
+                <%= f.submit 'white', 
+                        { class: "btn swipe-btn btn-block border",
+                          disabled: true, 
+                        data: { 
+                          confirm: 'Mark as WHITE?', 
+                          toggle: 'tooltip', 
+                            title: 'Mark as WHITE' } } %>
+                <% end %>             
+                <% end %> 
+              </div>
+              <div class="col-3 px-1">
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                <%= f.hidden_field :c_type, value: "RED" %>
+                <%= f.hidden_field :date, value: DateTime.now %>
+                <%= f.hidden_field :user_id, value: @current_user.id %>
+                <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
+                <%= f.submit 'RED', 
+                        { class: "btn btn-danger swipe-btn btn-block border", 
+                        data: { 
+                          confirm: "Mark #{s.so_num} as RED?", 
+                          toggle: 'tooltip', 
+                            title: 'Mark as RED' } } %>
+                <% else %>
+                <%= f.submit 'red', 
+                        { class: "btn btn-danger swipe-btn btn-block border", 
+                          disabled: true,
+                        data: { 
+                          confirm: 'Mark as RED?', 
+                          toggle: 'tooltip', 
+                            title: 'Mark as RED' } } %>
+                <% end %>
+                <% end %> 
+              </div>
+              <div class="col-3 px-1">
+                <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
+                <%= f.hidden_field :salt_spray_test_id, value: s.id %>
+                <%= f.hidden_field :c_type, value: "OFF" %>
+                <%= f.hidden_field :date, value: DateTime.now %>
+                <%= f.hidden_field :user_id, value: @current_user.id %>
+                <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
+                <%= f.submit 'OFF', 
+                        { class: "btn btn-success swipe-btn btn-block border", 
+                        data: { 
+                          confirm: "Mark #{s.so_num} as OFF?", 
+                          toggle: 'tooltip', 
+                            title: 'Mark as OFF' } } %> 
+                <% else %>
+                <%= f.submit "off", 
+                        { class: "btn btn-success swipe-btn btn-block border text-strikethrough",
+                          disabled: true, 
+                        data: { 
+                          confirm: 'Mark as OFF?', 
+                          toggle: 'tooltip', 
+                            title: 'Mark as OFF' } } %> 
+                <% end %>
+                <% end %>  
+              </div>
+            </div>        
+          </div>
+        </div>
+      </div>
+      <%# Info collapsable %>
+      <% specs = format_spec(s) %>
+      <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
+        <div class="card-header bg-white py-4">
+          <%= render partial: 'progress_bar', 
+                      locals: { :s => s, :specs => specs, :type => "mobile" } %>
+        </div>
+        <div class="card-body bg-white py-0">
+          <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info<%=s.id%>" role="tab" aria-controls="info" aria-selected="true">Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="history-tab" data-toggle="tab" href="#history<%=s.id%>" role="tab" aria-controls="history" aria-selected="false">History</a>
+            </li>
+            <li class="nav-item dropdown" style="margin-left: 60px;">
+              <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" >Share</a>
+              <div class="dropdown-menu">
+                <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
+                <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
+              </div>
+            </li>
+          </ul>
+          <div class="card-text">
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
+                <div class="text-center">
+                <u><strong>
+                  <% if s.sample_code.blank? %>
+                    <%= s.so_num %>
+                  <% else %>
+                    <%= fa_icon('flask')%><%= s.so_num %> - <%= s.sample_code %>
+                  <% end %>
+                </strong></u></div>
+                <div class="float-right text-center border px-1 py-1 mb-0">
+                  <% if s.process.blank? || s.process[0].blank?  %>
+                    No process entered.
+                  <% else %>
+                    <u>Process</u><br>
+                    <% s.process.each_with_index do |k,p| %>
+                      <%= k %>
+                      <% if p == s.process.count-1 %>
+                      <% else %>
+                      <br> 
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+                <ul style="list-style-type:none; padding-inline-start: 0px;">
+                  <li>Customer: <%= s.customer %></li>
+                  <li>Dept: <%= s.dept %></li>
+                  <li>Part ID: <%= s.part_tag %></li>
+                  <li>Sub ID: <%= s.sub_tag %></li>
+                  <li>Part Area: <%= s.part_area %></li>
+                  <li>Density: <%= s.part_density %></li>
+                  <li>Load Weight: <%= s.load_weight %></li>
+                  <li>White Spec: <%= specs[0] %></li>
+                  <li>Red Spec: <%= specs[1]%></li>
+                </ul>
+                <br>
+              </div>
+              <div class="tab-pane fade" id="history<%=s.id%>" role="tabpanel" aria-labelledby="history-tab">
+                <div class="text-center"><strong><u>History</u></strong></div>
+                <% x = s.salt_spray_test_checks.in_groups(2, false ) %>
+                  <div class="row">
+                  <% x.each do |g| %>
+                    <div class="col-6">
+                    <% g.each do |c| %>
+                      <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
+                      <br>
+                    <% end %>
+                    </div>
                   <% end %>
                   </div>
-                <% end %>
-                </div>
-            </div>
-          </div>    
+              </div>
+            </div>    
+          </div>
+        </div>
+      </div>
+      <%# Comments collapsable %>
+      <div class="collapse bg-white" id="collapseComments<%=s.id%>">
+        <div class="card-body py-2 px-1">           
+          <%= render partial: 'comments/comment_combo', locals: { :s => s }%>
         </div>
       </div>
     </div>
-    
-    <%# Comments collapsable %>
-    <div class="collapse bg-white" id="collapseComments<%=s.id%>">
-      <div class="card-body py-2 px-1">           
-        <%= render partial: 'comments/comment_combo', locals: { :s => s }%>
-      </div>
-    </div>
-  </div>
-</li>
-<% end %>
+  </li>
+  <% end %>
 </ul>
 
 <script type="text/javascript">
 $(".carousel").on("touchstart", function(event){
-        var xClick = event.originalEvent.touches[0].pageX;
+    var xClick = event.originalEvent.touches[0].pageX;
     $(this).one("touchmove", function(event){
         var xMove = event.originalEvent.touches[0].pageX;
-        if( Math.floor(xClick - xMove) > 5 ){
+        if( Math.floor(xClick - xMove) > 7 ){
             $(this).carousel('next');
+            $(this).find('.info').click();
         }
-        else if( Math.floor(xClick - xMove) < -5 ){
-            $(this).carousel('prev');
+        else if( Math.floor(xClick - xMove) < -7 ){
         }
     });
     $(".carousel").on("touchend", function(){

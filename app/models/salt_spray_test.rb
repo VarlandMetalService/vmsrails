@@ -66,7 +66,7 @@ class SaltSprayTest < ApplicationRecord
      ['Cadmium (CD, SCD)',                              'CD'],
      ['Copper (CU, SCU)',                               'CU'],
      ['Electroless Nickel (EN, SEN, HP, MP, SHP, SMP)', 'EN'],
-     ['Matte Acide Tin (MT, SMT)',                      'MT'],
+     ['Matte Acid Tin (MT, SMT)',                      'MT'],
      ['Nickel (NI, SNI)',                               'NI'],
      ['Zinc (ZN, SZN)',                                 'ZN'],
      ['Zinc-Iron (ZF, SZF)',                            'ZF'],

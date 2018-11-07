@@ -26,7 +26,7 @@
                     'Process:'  %>
         <%= f.select :with_process_code, 
               options_for_select(SaltSprayTest.options_for_process_code_filter,
-                                params[:with_process_code]),
+                params[:with_process_code]),
               { include_blank: true },
               { class: 'custom-select',
                 onchange: 'this.form.submit();' } %>
@@ -47,7 +47,7 @@
   <div class="form-row">
     <div class="col-1" style="margin-left: -10px;">
       <div class="pull-left">
-          <%= link_to 'Reset', salt_spray_tests_url, class: 'btn btn-link text-white' %>
+          <%= link_to 'Reset', salt_spray_tests_path(:reset => 1), class: 'btn btn-link px-0 py-0 ml-2 text-white mb-0', style: "margin-top: 6px;" %>
       </div>
     </div>
     <div class="col-11">

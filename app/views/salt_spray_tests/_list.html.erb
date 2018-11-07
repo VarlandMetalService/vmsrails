@@ -11,92 +11,94 @@
   </thead>
   <tbody>
     <% @salt_spray_tests.each do |s| %>
-    <% specs = format_spec(s) %>
-    <tr>
-      <%# Shop Order %>
-      <td class="d-md-table-cell d-xs-none" style="white-space: nowrap; overflow: hidden;">
-        <div class="row">
-          <div class="col-12">
-            <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-              <span class="badge badge-warning badge-border float-left mr-2" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span>
-            </a>
-            <strong class="pull-left" style="font-size: 20px;">
-              <% if s.is_sample? || !s.is_sample.blank? %>
-                <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
-              <% else %>
-              <%= s.so_num  %> 
-              <% end %>
-            </strong>
-            <br>
-            <div class="text-muted">
-              Load: <%= s.load_num %>
-              <br>  
-              Dept: <%= s.dept %>
-            </div>
-            <div class="pull-left">
-              <%= s.customer %> - 
-              <%= s.part_tag %> 
-              <%= s.sub_tag unless s.sub_tag.blank? %>
-            </div>
-          </div>  
-        </div>
-      </td>
-      <%# Part %>
-      <td class="d-none d-lg-table-cell">
-        <div class="row">
-          <div class="col-12">
-            Part Area:   <%= s.part_area unless s.part_area.blank? %><br>
-            Density:     <%= s.part_density unless s.part_density.blank?%><br>
-            Load Weight: <%= s.load_weight unless s.load_weight.blank?%><br>
+      <% specs = format_spec(s) %>
+      <tr>
+        <%# Shop Order %>
+        <td class="d-md-table-cell d-xs-none" style="white-space: nowrap; overflow: hidden;">
+          <div class="row">
+            <div class="col-12">
+              <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
+                <span class="badge badge-warning badge-border float-left mr-2" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span>
+              </a>
+              <strong class="pull-left" style="font-size: 20px;">
+                <% if s.is_sample? || !s.is_sample.blank? %>
+                  <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
+                <% else %>
+                  <%= s.so_num  %> 
+                <% end %>
+              </strong>
+              <br>
+              <div class="text-muted">
+                Load: <%= s.load_num %>
+                <br>  
+                Dept: <%= s.dept %>
+              </div>
+              <div class="pull-left">
+                <%= s.customer %> - 
+                <%= s.part_tag %> 
+                <%= s.sub_tag unless s.sub_tag.blank? %>
+              </div>
+            </div>  
           </div>
-        </div>
-      </td>
-      <%# Process %>
-      <td class="d-none d-lg-table-cell">
-        <% if s.process.blank? %>
-          No process entered.
-        <% else %>
-          <% s.process.each_with_index do |k,p| %>
-            <%="#{p+1}: #{k}" unless k.blank? %>
-            <% if p == s.process.count-1 %>
-            <% else %>
-            <br> 
+        </td>
+        <%# Part %>
+        <td class="d-none d-lg-table-cell">
+          <div class="row">
+            <div class="col-12">
+              Part Area:   <%= s.part_area unless s.part_area.blank? %><br>
+              Density:     <%= s.part_density unless s.part_density.blank?%><br>
+              Load Weight: <%= s.load_weight unless s.load_weight.blank?%><br>
+            </div>
+          </div>
+        </td>
+        <%# Process %>
+        <td class="d-none d-lg-table-cell">
+          <% if s.process.blank? || s.process[0].blank? %>
+            No process entered.
+          <% else %>
+            <% s.process.each_with_index do |k,p| %>
+              <%="#{p+1}: #{k}" unless k.blank? %>
+              <% if p == s.process.count-1 %>
+              <% else %>
+              <br> 
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-      </td>
-      <%# User %>
-      <td class="d-none d-lg-table-cell">
-        <small><strong>By:</small></strong>
+        </td>
+        <%# User %>
+        <td class="d-none d-lg-table-cell">
+          <small><strong>By:</small></strong>
           <%= User.find(s.user_id).full_name unless s.user_id.blank? %><br>
           <small><strong>On:</small></strong>
-            <%= s.salt_spray_test_checks.first.date.strftime("%D") unless s.salt_spray_test_checks.blank? %><br>
+          <%= s.salt_spray_test_checks.first.date.strftime("%D") unless s.salt_spray_test_checks.blank? %><br>
           White Spec:  <%= specs[0] %><br>
           Red Spec:    <%= specs[1] %>
-      </td>
-      <%# Progress %>
-      <td class="d-md-table-cell d-xs-none">
-        <div class="mt-4">
-          <%= render partial: 'progress_bar', 
-                    locals: { :s => s, :specs => specs, :type => "desktop" } %>
-        </div>
-        <div class="collapse checks-collapse<%=s.id%>">
-          <% x = s.salt_spray_test_checks.in_groups(2, false) %>
-          <div class="row">
-            <% x.each do |g| %>
-              <div class="col-6">
-                <% g.each do |c| %>
-                  <%= c.date.strftime("%D") %> - <%= c.c_type %>
-                  <br>
-                <% end %> 
-              </div>
-            <% end %>
+        </td>
+        <%# Progress %>
+        <td class="d-md-table-cell d-xs-none">
+          <div class="mt-4">
+            <%= render partial: 'progress_bar', 
+                  locals: { :s => s, 
+                        :specs => specs, 
+                        :type => "desktop" } %>
           </div>
-        </div>
-      </td>
-      <%# Links %>
-      <td class="px-0 text-center align-middle">
-        <div class="btn-group-vertical " role="group">
+          <div class="collapse checks-collapse<%=s.id%>">
+            <% x = s.salt_spray_test_checks.in_groups(2, false) %>
+            <div class="row">
+              <% x.each do |g| %>
+                <div class="col-6">
+                  <% g.each do |c| %>
+                    <%= c.date.strftime("%D") %> - <%= c.c_type %>
+                    <br>
+                  <% end %> 
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </td>
+        <%# Links %>
+        <td class="px-0 text-center align-middle">
+          <div class="btn-group-vertical " role="group">
             <div class="dropleft text-center" data-boundary="viewport">
               <button class="btn btn-sm btn-dark text-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 40px;"><%= fa_icon('check-square-o')%></button>
               <div class="dropdown-menu" data-boundary="viewport">
@@ -114,7 +116,7 @@
                               toggle: 'tooltip', 
                               title: 'Mark as OK' } } %>  
                   <% else %>
-                  <%= f.submit 'OK', 
+                  <%= f.submit 'Already Marked OFF', 
                         { class: "btn btn-primary btn-sm dropdown-item",
                           disabled: true, 
                             data: { 
@@ -137,7 +139,7 @@
                               toggle: 'tooltip', 
                               title: 'Mark as WHITE' } } %>
                   <% else %>
-                  <%= f.submit 'White', 
+                  <%= f.submit 'Already Marked WHITE', 
                           { class: "btn btn-sm dropdown-item",
                             disabled: true, 
                             data: { 
@@ -160,7 +162,7 @@
                               toggle: 'tooltip', 
                               title: 'Mark as RED' } } %>
                   <% else %>
-                  <%= f.submit 'Red', 
+                  <%= f.submit "Already Marked RED", 
                           { class: "btn btn-danger btn-sm dropdown-item", 
                             disabled: true,
                             data: { 
@@ -183,7 +185,7 @@
                               toggle: 'tooltip', 
                               title: 'Mark as OFF' } } %> 
                   <% else %>
-                  <%= f.submit 'Off', 
+                  <%= f.submit 'Already Marked OFF', 
                           { class: "btn btn-success btn-sm dropdown-item",
                             disabled: true, 
                             data: { 
@@ -205,8 +207,8 @@
               </div>
             </div>
           </div>
-      </td>
-    </tr>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
