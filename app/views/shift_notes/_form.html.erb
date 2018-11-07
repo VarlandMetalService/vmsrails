@@ -42,7 +42,8 @@
                           class: 'font-weight-bold btn btn-sm btn-secondary',
                           title: 'Back' %>
         <%= f.submit yield(:button_text), class: "btn btn-primary" %>
-        <% if @access_level >= 2 && action_name != "CREATE" %>
+        
+        <% if @access_level >= 2 && !action_name == "new" %>
           <%= link_to "Delete", @shift_note, 
                class: "btn btn-danger", 
               method: :delete, 
