@@ -42,13 +42,14 @@ class SaltSprayTestsController < ApplicationController
   def create
     @salt_spray_test = SaltSprayTest.new(salt_spray_test_params)
     if @salt_spray_test.save
-      if call_api(@salt_spray_test.so_num)
+      if SaltSprayTest::call_api(@salt_spray_test)
         respond_to do |format|
           flash[:success] = "Salt spray test created."
           format.html { redirect_to salt_spray_tests_path }
           format.json { render :json => @salt_spray_test }
         end
       else
+        flash[:warning] = "Shop order not found in system."
         respond_to do |format|
           format.html { redirect_to edit_salt_spray_test_path(@salt_spray_test)}
           format.json { render :json => @salt_spray_test }
@@ -108,15 +109,11 @@ class SaltSprayTestsController < ApplicationController
     # Never trust parameters from the internet, only allow the white list.
     # { :process => [] }
     def salt_spray_test_params
-      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, :is_sample, :sample_code, { :salt_spray_test_checks_attributes => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => []} )
+      params.require(:salt_spray_test).permit(:so_num, :load_num, :user_id, :process_code, :load_weight, :customer, :dept, :part_tag, :sub_tag, :part_area, :part_density, :white_spec, :red_spec, :deleted_at, :is_sample, :sample_code, { :salt_spray_test_checks_attributes => [:id, :salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :salt_spray_test_check => [:id, :salt_spray_test_id, :c_type, :date, :user_id, :test_id] }, { :process => []} )
     end
 
     def detect_device_variant
       request.variant = :mobile if browser.device.mobile? ||                                               browser.device.tablet?
-    end
-
-    def call_api(so_num)
-      return false
     end
 
     def manage_filter_state

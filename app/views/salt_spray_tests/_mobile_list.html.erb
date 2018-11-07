@@ -208,7 +208,16 @@
                   <% x.each do |g| %>
                     <div class="col-6">
                     <% g.each do |c| %>
-                      <%= c.c_type %> - <%= c.date.strftime("%D") unless c.date.blank? %>
+                      <% if c.user.blank? %>
+                        &nbsp;
+                      <% else %>
+                        <span class="badge badge-pill" 
+                          style="color: <%= c.user.avatar_text_color %>; 
+                          background-color: <%= c.user.avatar_bg_color %>;">
+                          <%= c.user.initials %> </span>
+                      <% end %>
+                      <%= c.date.strftime("%D") %>
+                      <%= c.c_type %>
                       <br>
                     <% end %>
                     </div>
@@ -240,6 +249,7 @@ $(".carousel").on("touchstart", function(event){
             $(this).find('.info').click();
         }
         else if( Math.floor(xClick - xMove) < -7 ){
+          $(this).carousel('prev');
         }
     });
     $(".carousel").on("touchend", function(){

@@ -34,7 +34,7 @@
           <%= f.select :with_employee,
                         options_for_select(user_array.uniq.sort,
                                            params[:with_employee]),
-                              { include_blank: true },                                     
+                              { include_blank: true },                          
                               { class: 'custom-select',
                               onchange: 'this.form.submit();', }%>
         </div>

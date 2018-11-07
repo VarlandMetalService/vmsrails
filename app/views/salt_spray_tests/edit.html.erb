@@ -1,127 +1,300 @@
 <%= form_for @salt_spray_test do |f| %>
-  <div class="container-fluid border p-2 mt-3">
-    <u>Manual Entry</u>
-    <div class='form-row mt-2 mb-0'>
-      <div class="col-12 col-md-6  col-lg-6 col-xl-6">
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Customer: </span>
+  <% if @salt_spray_test.customer.blank? %>
+    <div class="container-fluid border p-2 mt-3">
+      <u>Manual Entry</u>
+      <div class='form-row mt-2 mb-0'>
+        <div class="col-12 col-md-6  col-lg-6 col-xl-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Customer: </span>
+              </div>
+              <%= f.text_field :customer, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Customer required.
+              </div>
             </div>
-            <%= f.text_field :customer, { class: "form-control" } %>
-            <div class="invalid-feedback text-center">
-              Customer required.
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Process Code: </span>
+              </div>
+              <%= f.select :process_code, options_for_select(SaltSprayTest.options_for_process_code, @salt_spray_test.process_code), {},  { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Process Code required.
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Process Code: </span>
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> White Spec: </span>
+              </div>
+              <%= f.number_field :white_spec, class: "form-control" %>
+              <div class="invalid-feedback text-center">
+                White Spec required.
+              </div>
             </div>
-            <%= f.select :process_code, options_for_select(SaltSprayTest.options_for_process_code, @salt_spray_test.process_code), {},  { class: "form-control" } %>
-            <div class="invalid-feedback text-center">
-              Process Code required.
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Red Spec: </span>
+              </div>
+              <%= f.number_field :red_spec, class: "form-control" %>
+              <div class="invalid-feedback text-center">
+                Red Spec required.
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> White Spec: </span>
+      <hr>
+      <div class="form-row mt-4">
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Load Weight: </span>
+              </div>
+              <%= f.number_field :load_weight, class: "form-control", :step => 0.0001 %>
+              <div class="invalid-feedback text-center">
+                Load Weight required.
+              </div>
             </div>
-            <%= f.number_field :white_spec, class: "form-control" %>
-            <div class="invalid-feedback text-center">
-              White Spec required.
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Area: </span>
+              </div>
+              <%= f.number_field :part_area, class: "form-control", :step => 0.0001  %>
+              <div class="invalid-feedback text-center">
+                Area required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Density: </span>
+              </div>
+              <%= f.number_field :part_density, class: "form-control", :step => 0.0001  %>
+              <div class="invalid-feedback text-center">
+                Density required.
+              </div>
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Red Spec: </span>
-            </div>
-            <%= f.number_field :red_spec, class: "form-control" %>
-            <div class="invalid-feedback text-center">
-              Red Spec required.
+        <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Department: </span>
+              </div>
+              <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), {}, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Department required.
+              </div>
             </div>
           </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Part #: </span>
+              </div>
+              <%= f.text_field :part_tag, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Part # required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Sub: </span>
+              </div>
+              <%= f.text_field :sub_tag, { class: "form-control" } %>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  <% else %>
+    <div class="container-fluid p-2 mt-3">
+    <h3 class="text-center"><u>Edit Salt Spray Test</u></h3>
+      <div class='form-row mt-2 mb-0'>
+        <div class="col-6 border pt-2">
+          <p class="text-center">Test</p>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Customer: </span>
+              </div>
+              <%= f.text_field :customer, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Customer required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Process Code: </span>
+              </div>
+              <%= f.select :process_code, options_for_select(SaltSprayTest.options_for_process_code, @salt_spray_test.process_code), {},  { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Process Code required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> White Spec: </span>
+              </div>
+              <%= f.number_field :white_spec, class: "form-control" %>
+              <div class="invalid-feedback text-center">
+                White Spec required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Red Spec: </span>
+              </div>
+              <%= f.number_field :red_spec, class: "form-control" %>
+              <div class="invalid-feedback text-center">
+                Red Spec required.
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Load Weight: </span>
+              </div>
+              <%= f.number_field :load_weight, class: "form-control", :step => 0.0001 %>
+              <div class="invalid-feedback text-center">
+                Load Weight required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Area: </span>
+              </div>
+              <%= f.number_field :part_area, class: "form-control", :step => 0.0001  %>
+              <div class="invalid-feedback text-center">
+                Area required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Density: </span>
+              </div>
+              <%= f.number_field :part_density, class: "form-control", :step => 0.0001  %>
+              <div class="invalid-feedback text-center">
+                Density required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Department: </span>
+              </div>
+              <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), {}, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Department required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Part #: </span>
+              </div>
+              <%= f.text_field :part_tag, { class: "form-control" } %>
+              <div class="invalid-feedback text-center">
+                Part # required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Sub: </span>
+              </div>
+              <%= f.text_field :sub_tag, { class: "form-control" } %>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 border pt-2">
+          <p class="text-center">Checks</p>
+              <%= f.fields_for :salt_spray_test_checks do |ff| %>
+              <div class="form-row">
+                <div class="col-6">
+                  <div class="form-group">
+                    
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                      <%= link_to fa_icon('times'),
+                salt_spray_test_salt_spray_test_check_path(ff.object),
+                method: :delete,
+                class: 'font-weight-bold btn btn-sm btn-danger',
+                title: 'Delete Check',
+                data: { confirm: 'Are you sure you want to delete this check?', toggle: 'tooltip' } %>
+                        <span class="input-group-text"> Time: </span>
+                      </div>
+                      <%= ff.datetime_field :date, { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> User: </span>
+                      </div>
+                      <%= ff.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id] }, ff.object.user_id ), {}, { class: "form-control" } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> Type: </span>
+                      </div>
+                      <%= ff.select :c_type, 
+                            options_for_select([['OFF'  ,   'OFF'],
+                                                ['ON'   ,    'ON'],
+                                                ['RED'  ,   'RED'],
+                                                ['WHITE', 'WHITE'],
+                                                ['OFF'  ,   'OFF']], ff.object.c_type ), 
+                             {  }, 
+                             { class: "form-control" } %>
+                      <div class="invalid-feedback text-center">
+                        Customer required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
         </div>
       </div>
     </div>
-    <hr>
-    <div class="form-row mt-4">
-      <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Load Weight: </span>
-            </div>
-            <%= f.number_field :load_weight, class: "form-control", :step => 0.0001 %>
-            <div class="invalid-feedback text-center">
-              Load Weight required.
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Area: </span>
-            </div>
-            <%= f.number_field :part_area, class: "form-control", :step => 0.0001  %>
-            <div class="invalid-feedback text-center">
-              Area required.
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Density: </span>
-            </div>
-            <%= f.number_field :part_density, class: "form-control", :step => 0.0001  %>
-            <div class="invalid-feedback text-center">
-              Density required.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Department: </span>
-            </div>
-            <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), {}, { class: "form-control" } %>
-            <div class="invalid-feedback text-center">
-              Department required.
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Part #: </span>
-            </div>
-            <%= f.text_field :part_tag, { class: "form-control" } %>
-            <div class="invalid-feedback text-center">
-              Part # required.
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"> Sub: </span>
-            </div>
-            <%= f.text_field :sub_tag, { class: "form-control" } %>
-          </div>
-        </div>
-      </div>  
-    </div>
-  </div>
+  <% end %>
   <div class="btn-group" role="group">
     <%= link_to fa_icon('arrow-left'),
           salt_spray_tests_path,

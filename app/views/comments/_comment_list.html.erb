@@ -18,12 +18,12 @@
         <tr>
           <td class="text-center">
             <% if c.user.blank? %>
-                &nbsp;
-              <% else %>
-                <span class="badge badge-pill" 
-                  style="color: <%= c.user.avatar_text_color %>; 
-                  background-color: <%= c.user.avatar_bg_color %>;">
-                  <%= c.user.initials %> </span>
+              &nbsp;
+            <% else %>
+              <span class="badge badge-pill" 
+              style="color: <%= c.user.avatar_text_color %>; 
+              background-color: <%= c.user.avatar_bg_color %>;">
+              <%= c.user.initials %> </span>
             <% end %>
             <%= c.created_at.strftime('%D') %>
             <% if params[:action] == "edit" %>

@@ -38,7 +38,7 @@
 
   </div>
   <div class="form-row">
-    <div class="col-12">
+    <div class="col-6">
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -47,6 +47,21 @@
            <%= f.number_field :load_num, class: "form-control" %>
             <div class="invalid-feedback text-center">
               Load # required.
+            </div>
+        </div>
+      </div>
+    </div>
+     <div class="col-6">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> Dept: </span>
+          </div>
+          <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), 
+                { include_blank: true }, 
+                { class: "form-control" }%>
+            <div class="invalid-feedback text-center">
+              Dept required.
             </div>
         </div>
       </div>

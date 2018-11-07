@@ -82,13 +82,22 @@
                         :specs => specs, 
                         :type => "desktop" } %>
           </div>
-          <div class="collapse checks-collapse<%=s.id%>">
+          <div class="mx-2 collapse checks-collapse<%=s.id%>">
             <% x = s.salt_spray_test_checks.in_groups(2, false) %>
             <div class="row">
               <% x.each do |g| %>
                 <div class="col-6">
                   <% g.each do |c| %>
-                    <%= c.date.strftime("%D") %> - <%= c.c_type %>
+                    <% if c.user.blank? %>
+                      &nbsp;
+                    <% else %>
+                      <span class="badge badge-pill" 
+                        style="color: <%= c.user.avatar_text_color %>; 
+                        background-color: <%= c.user.avatar_bg_color %>;">
+                        <%= c.user.initials %> </span>
+                    <% end %>
+                    <%= c.date.strftime("%D") %>
+                    <%= c.c_type %>
                     <br>
                   <% end %> 
                 </div>
@@ -100,7 +109,7 @@
         <td class="px-0 text-center align-middle">
           <div class="btn-group-vertical " role="group">
             <div class="dropleft text-center" data-boundary="viewport">
-              <button class="btn btn-sm btn-dark text-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 40px;"><%= fa_icon('check-square-o')%></button>
+              <button class="btn btn-sm btn-dark text-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="width: 50px;"><%= fa_icon('check-square-o')%></button>
               <div class="dropdown-menu" data-boundary="viewport">
                 <%# OK %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -197,15 +206,21 @@
               </div>
             </div>
             <button class="btn btn-sm btn-dark" style="margin-top: -3px;" type="button" data-toggle="modal" data-target="#modalComments<%=s.id%>">
-                <%= fa_icon('commenting')%>
+                <%= fa_icon('commenting', text: s.comments.length)%>
             </button>
             <div class="dropleft text-center" role="button">
-              <button class="btn btn-sm btn-dark text-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; width: 40px;"><%= fa_icon('share')%></button>
+              <button class="btn btn-sm btn-dark text-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; width: 50px;"><%= fa_icon('share')%></button>
               <div class="dropdown-menu">
                 <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
                 <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
               </div>
             </div>
+            <%= link_to fa_icon('pencil'),
+                edit_salt_spray_test_path(s),
+                class: 'font-weight-bold btn btn-sm btn-dark',
+                style: 'margin-top: -3px;',
+                title: 'Edit Salt Spray Test',
+                data: { toggle: 'tooltip' } %>
           </div>
         </td>
       </tr>
