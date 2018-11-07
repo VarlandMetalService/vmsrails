@@ -48,6 +48,9 @@ class User < ApplicationRecord
   has_many      :clock_records,
                 class_name: 'Timeclock::ClockRecord',
                 foreign_key: 'user_id'
+  has_many      :thickness_blocks,
+                class_name: 'Thickness::Blocks',
+                foreign_key: 'user_id'
 
   # Validation.
   validates :employee_number,

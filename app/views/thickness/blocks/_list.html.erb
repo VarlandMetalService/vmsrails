@@ -46,7 +46,7 @@
             <%= b.checks.first.check_timestamp.strftime("%m/%d/%y") %>
           </div>
           <div class="col-8">
-            <%= User.find_by(employee_number: b.user_id ).full_name %><br>
+            <%= b.user.full_name unless b.user.blank? %><br>
             Directory: <%= b.directory %><br>
             Product: <%= b.product %><br>
             Application: <%= b.application %>

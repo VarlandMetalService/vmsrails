@@ -15,8 +15,8 @@ class OptoController < ApplicationController
   has_scope :with_type, only: :logs
   
   def logs
-    @logs = apply_scopes(Opto::Log).includes(:controller).page(params[:page])
-    @unpaged_logs = apply_scopes(Opto::Log).includes(:controller)
+    @unpaged_logs = apply_scopes(Opto::Log).eager_load(:controller)
+    @logs = @unpaged_logs.page(params[:page])
   end
 
   def log

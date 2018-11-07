@@ -27,22 +27,22 @@ class SpecificationsController < ApplicationController
   has_scope :with_inert_bake, only: :index
 
   def index
-    @specifications = apply_scopes(Specification.without_archived).includes(:classifications).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.without_archived).includes(:classifications)
-    @sql = apply_scopes(Specification.without_archived).page(params[:page]).to_sql
+    @specifications = @unpaged_specifications.page(params[:page])
+    @sql = @specifications.to_sql
   end
 
   def archived
-    @specifications = apply_scopes(Specification.archived).includes(:classifications).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.archived).includes(:classifications)
-    @sql = apply_scopes(Specification.archived).page(params[:page]).to_sql
+    @specifications = @unpaged_specifications.page(params[:page])
+    @sql =  @specifications.to_sql
     render :action => 'index'
   end
 
   def deleted
-    @specifications = apply_scopes(Specification.only_deleted).includes(:classifications).page(params[:page])
     @unpaged_specifications = apply_scopes(Specification.only_deleted).includes(:classifications)
-    @sql = apply_scopes(Specification.only_deleted).page(params[:page]).to_sql
+    @specifications = @unpaged_specifications.page(params[:page])
+    @sql = @specifications.to_sql
     render :action => 'index'
   end
 

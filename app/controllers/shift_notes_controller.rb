@@ -13,7 +13,7 @@ class ShiftNotesController < ApplicationController
 
   def index 
     check_permission('shift_notes')
-    @shift_notes = apply_scopes(ShiftNote).includes(:comments, :user).all.page(params[:page])
+    @shift_notes = apply_scopes(ShiftNote).includes(:comments, :user).page(params[:page])
     respond_to do |format|
       format.html
       format.html.mobile render layout: "mobile"

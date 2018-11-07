@@ -10,7 +10,7 @@ class SaltSprayTestsController < ApplicationController
     check_permission('salt_spray_tests')
     manage_filter_state
     if params[:with_deleted]
-      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
+      @salt_spray_tests = apply_scopes(SaltSprayTest.with_deleted).includes( :salt_spray_test_checks, :comments, :user).order("salt_spray_test_checks.date asc")
     else
       @salt_spray_tests = apply_scopes(SaltSprayTest).includes( :salt_spray_test_checks, :comments).order("salt_spray_test_checks.date asc")
     end
