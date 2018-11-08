@@ -41,7 +41,9 @@
           <span class="input-group-text"> Date: </span>
         </div>
         <%= f.date_field :date, class: "form-control" %>
-        
+        <div class="invalid-feedback text-center">
+          Date required.
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +84,32 @@
                                     placeholder: "Weight in lbs." %>
           <div class="invalid-feedback text-center">
             Weight required.
+          </div>  
+      </div>
+    </div>
+  </div>
+    <div class="form-row mt-3">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pb-2">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Reject Tag #: </span>
+        </div>
+        <%= f.number_field :reject_tag_num, class: "form-control",
+                            placeholder: "Double check this." %>
+        <div class="invalid-feedback text-center">
+          Reject Tag # required.
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">From Tag #:</span>
+        </div>
+        <%= f.text_field :from_tag, class: "form-control", 
+                            placeholder: "Double check this, too. (e.g. Original S.O., 1, 2, 3, etc...)" %>
+          <div class="invalid-feedback text-center">
+            From Tag # required.
           </div>  
       </div>
     </div>

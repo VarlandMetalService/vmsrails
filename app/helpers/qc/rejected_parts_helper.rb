@@ -1,5 +1,7 @@
 module Qc::RejectedPartsHelper
   require "base64"
+
+  # Generates PDF, sends to print job controller, returns print_job id
   def gen_pdf(rejected_part)
 
     hash ||= { :form_type     => "Rejected Parts",
@@ -101,9 +103,6 @@ module Qc::RejectedPartsHelper
           :inline_format => true }
       end
       
-
-      
-
       pdf.bounding_box([0, pdf.cursor], 
         :width => pdf.bounds.right*2/3) do
 
@@ -154,7 +153,6 @@ module Qc::RejectedPartsHelper
         :size => 12,
         :inline_format => true}
       pdf.move_down 30
-
 
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
@@ -240,6 +238,7 @@ module Qc::RejectedPartsHelper
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'
       
+      # FOR LOCAL TESTING SWITCH THESE TWO
       # string = pdf.render_file("hello.pdf")
       string = pdf.render()
 
@@ -251,13 +250,14 @@ module Qc::RejectedPartsHelper
       data[:file] = raw_data
       data[:user_id] = rejected_part.user_id
       data[:document_type_id] = 4
-      data[:description] = "RP ##{rejected_part.so_num}"
+      data[:description] = "R.P. ##{rejected_part.so_num}"
 
       printjob = Printing::PrintJob.new(data)
       if printjob.save
         Printing::PrintJob.set_queue(printjob)
         Printing::PrintJob.send_print_cmd(printjob)
       end
+
       return printjob.id
-  end      
+  end
 end
