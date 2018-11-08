@@ -258,5 +258,6 @@ module Qc::RejectedPartsHelper
         Printing::PrintJob.set_queue(printjob)
         Printing::PrintJob.send_print_cmd(printjob)
       end
+      return printjob.id
   end      
 end

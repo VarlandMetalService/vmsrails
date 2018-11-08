@@ -1,0 +1,68 @@
+<h3 class="text-center" style="width: 320px;">Rejected Parts</h3>
+<table class="table table-sm" style="width: 320px;">
+  <caption>
+    <u><strong>SO #: </strong><%= @part.so_num %></u>
+  </caption>
+  <tbody>
+    <tr>
+      <td colspan="1">
+        <div style="width: 50%; float: left;" class="">
+          By: <%= User.find(@part.user_id).initials %>
+          <br>
+          On: <%= @part.date.strftime('%m/%d/%y') %>
+          <br>
+          Defect: <%= @part.defect %>
+        </div>
+        <div style="width: 50%; float: right;">
+          Reject Tag #: <%= @part.reject_tag_num %>
+          <br>
+          From Tag #: <%= @part.from_tag %>
+          <br>
+          Weight: <%= @part.weight %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <% if @part.load_nums.blank? || @part.load_nums == ", " %>
+          <p class="text-center">Section 3 not used.</p>
+        <% else %>
+          <div style="width: 33%; float: left;" class="text-center">
+            <u>Load #'s </u>
+            <br>
+            <% loads = @part.load_nums.split(", ") %>
+            <% loads.each do |l| %>
+              <%= l %>
+              <br>
+            <% end %>
+          </div>
+          <div style="width: 33%; float: right;" class="text-center">
+            <u>Tank #'s </u>
+            <br>
+            <% tanks = @part.tank_nums.split(", ") %>
+            <% tanks.each do |t| %>
+              <%= t %>
+              <br>
+            <% end %>
+          </div>
+          <div style="width: 33%; margin: 0 auto;" class="text-center">
+            <u>Barrel #'s </u>
+            <br>
+            <% barrels = @part.barrel_nums.split(", ") %>
+            <% barrels.each do |b| %>
+              <%= b %>
+              <br>
+            <% end %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong class='text-center'>Cause:</strong>
+        <br>
+        <%= @part.cause %>
+      </td>
+    </tr>
+  </tbody>
+</table>

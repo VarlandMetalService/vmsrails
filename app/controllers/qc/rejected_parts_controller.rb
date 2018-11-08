@@ -1,6 +1,6 @@
 module Qc
   class RejectedPartsController < ApplicationController
-    before_action :set_rejected_part, only: [:show, :edit, :update, :destroy, :create_pdf]
+    before_action :set_rejected_part, only: [:show, :edit, :update, :destroy, :create_pdf, :recreate_pdf]
     after_action :set_tag_nums, only: [:create, :edit, :update]
 
     def index
@@ -25,7 +25,8 @@ module Qc
       respond_to do |format|
         if @rejected_part.save
           set_tag_nums
-          helpers.gen_pdf(@rejected_part)      
+          file = helpers.gen_pdf(@rejected_part)
+         #  RejectedPartsMailer.send_rejected_part(@rejected_part, file).deliver_later
           format.html { redirect_to root_path }
           format.json { redirect_back(fallback_location: root_url) }
         else
@@ -59,7 +60,8 @@ module Qc
     end
 
     def recreate_pdf
-      helpers.gen_pdf(RejectedPart.find(params[:id]))
+      file = helpers.gen_pdf(RejectedPart.find(params[:id]))
+      RejectedPartsMailer.send_rejected_part(@rejected_part, file).deliver_later
       respond_to do |format|
         format.html { redirect_to qc_rejected_parts_path }
         format.json { head :no_content }
