@@ -1,4 +1,4 @@
-<%
+<%#
   organization_array = specifications.map { |s| s.organization }
   name_array = specifications.map { |s| s.name }
   classifications_array = []
@@ -11,6 +11,24 @@
       colors_array << c.color unless c.color.blank?
     end
   end
+%>
+<%
+  name_array = []
+  organization_array = []
+  Specification.pluck(:organization, :name).map { 
+    |organization, name|
+      name_array << name
+      organization_array << organization
+    }
+  classifications_array = []
+  process_codes_array = []
+  colors_array = []
+  Classification.pluck(:name, :vms_process_code, :color).map {
+    |name, process_code, color|
+      classifications_array << name
+      process_codes_array << process_code
+      colors_array << color
+  }
 %>
 <%= form_with class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
@@ -261,11 +279,11 @@
           <%= f.label :with_inert_bake,
                       'Inert Bake:'  %>
           <%= f.select :with_inert_bake, 
-                        options_for_select(['No', 'Yes'],
-                                          params[:with_inert_bake]),
-                        { include_blank: true },
-                        { class: 'custom-select',
-                          onchange: 'this.form.submit();' } %>
+                  options_for_select(['No', 'Yes'],
+                  params[:with_inert_bake]),
+                  { include_blank: true },
+                  { class: 'custom-select',
+                    onchange: 'this.form.submit();' } %>
         </div>
       </div>
     </div>
@@ -286,7 +304,7 @@
     </div>
     <div class="row collapse" id="filterExplanation">
       <div class="col">
-        <p class="text-info text-monospace"><%= @sql %></p>
+        <p class="text-info text-monospace"><%= sql %></p>
       </div>
     </div>
     <div class="row">

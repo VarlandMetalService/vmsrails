@@ -4,6 +4,8 @@ module Printing
 
     belongs_to :document_type, optional: true
     belongs_to :print_queue, optional: true
+    belongs_to :workstation, optional: true
+    belongs_to :user, optional: true
 
     validates_presence_of :file
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }

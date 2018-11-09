@@ -15,6 +15,7 @@ class EmployeeNotesController < ApplicationController
   has_scope :with_date_lte, only: :index
 
   def index
+    # CHANGE THIS w/ PLUCK
     if @access_level >= 3
       @employee_notes = apply_scopes(EmployeeNote).page(params[:page])
       @unpaged_employee_notes = apply_scopes(EmployeeNote)

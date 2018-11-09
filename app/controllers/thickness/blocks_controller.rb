@@ -13,14 +13,14 @@ module Thickness
     has_scope :with_process,      only: :index
     has_scope :with_part,         only: :index
     has_scope :with_rework,       only: :index
+    has_scope :with_so_num,       only: :index
 
     def index
-      @blocks = apply_scopes(Thickness::Block.all).includes(:checks, :user).page(params[:page]).order('updated_at DESC')
-      @bbl = apply_scopes(Thickness::Block.all).includes(:checks, :user).page(params[:page]).order('updated_at DESC')
+      @blocks = apply_scopes(Thickness::Block.all).includes(:checks, :user).order('updated_at DESC').page(params[:page])
     respond_to do |format|
         format.html
         format.json { render :json => @blocks }
-        format.xlsx
+        format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="thickness results.xlsx"'}
       end
     end
   

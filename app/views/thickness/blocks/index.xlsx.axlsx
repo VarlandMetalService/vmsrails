@@ -2,9 +2,11 @@ wb = xlsx_package.workbook
 wb.styles do |s|
   title = s.add_style b: true, sz: 24, alignment: { horizontal: :center, vertical: :center }
   sub_title = s.add_style i: true, sz: 16, alignment: { horizontal: :center, vertical: :center }
+  right_header = s.add_style fg_color: 'FFFFFF', b: true, bg_color: '000000', alignment: { horizontal: :right, vertical: :center, wrap_text: true }
   left_header = s.add_style fg_color: 'FFFFFF', b: true, bg_color: '000000', alignment: { horizontal: :left, vertical: :center, wrap_text: true }
   center_header = s.add_style fg_color: 'FFFFFF', b: true, bg_color: '000000', alignment: { horizontal: :center, vertical: :center, wrap_text: true }
   center = s.add_style alignment: { horizontal: :center, vertical: :top }, border: { style: :thin, color: "00" }
+  right = s.add_style alignment: { horizontal: :right, vertical: :top }, border: { style: :thin, color: "00" }
   left = s.add_style alignment: { horizontal: :left, vertical: :top }, border: { style: :thin, color: "00" }
   wrap = s.add_style alignment: { horizontal: :left, vertical: :top, wrap_text: true }, border: { style: :thin, color: "00" }
   margins = { left: 0.5, center: 0.5, top: 0.5, bottom: 0.5, header: 0.25, footer: 0.25 }
@@ -22,15 +24,29 @@ wb.styles do |s|
     sheet.add_row ["Generated on #{DateTime.now.strftime('%m/%d/%y')}"], style: sub_title, height: 25
     sheet.add_row [''], height: 25
     sheet.add_row ['Date',
+                   'Time',
+                   'Check #',
+                   'Thickness',
+                   'Alloy %',
+                   'X',
+                   'Y',
+                   'Z',
                    'Shop Order #',
                    'Load #',
                    'Block',
-                   'Is rework?',
+                   'RW?',
                    'User',
                    'Directory',
                    'Product',
                    'Application'],
-                   style: [center_header,
+                   style: [left_header,
+                           left_header,
+                           center_header,
+                           right_header,
+                           right_header,
+                           center_header,
+                           center_header,
+                           center_header,
                            center_header,
                            center_header,
                            center_header,
@@ -38,56 +54,44 @@ wb.styles do |s|
                            left_header,
                            left_header,
                            left_header,
-                           center_header], height: 40
-    @blocks.each do |b|
-      row_height = 20 + (15)
-      sheet.add_row [b.checks.first.check_timestamp.strftime('%m/%d/%Y'),
-                     b.so_num,
-                     b.load_num,
-                     b.block_num,
-                     b.is_rework ? 'Y' : 'N',
-                     (b.user_id),
-                     b.directory,
-                     b.product,
-                     b.application],
-                     style: [center,
-                             center,
-                             center,
-                             center,
-                             center,
-                             left,
-                             left,
-                             left,
-                             center], height: row_height
-      sheet.add_row ['',
-                    'Check #',
-                    'Timestamp',
-                    'Thickness',
-                    'Alloy Percentage',
-                    'X',
-                    'Y',
-                    'Z',
-                    ''],
-                    style: [center,
-                            center,
-                            center,
-                            center,
-                            center,
-                            left,
-                            left,
-                            left,
-                            center], height: 40
-      b.checks.each do |c|
-         sheet.add_row ["",
+                           left_header], height: 40
+    mergers = []
+    count = 4
+    row_height = 35
+    results = @blocks.except(:limit, :offset).limit(1000)
+    results.each do |b|
+      b.checks.each_with_index do |c, i|
+        case i
+        when 0
+          sheet.add_row [c.check_timestamp.strftime('%m/%d/%Y'),
+                        c.check_timestamp.strftime('%H:%M'),
                         c.check_num,
-                        c.check_timestamp.strftime("%D"),
                         c.thickness,
                         c.alloy_percentage,
                         c.x,
                         c.y,
                         c.z,
-                        ""],
-                        style: [center,
+                        b.so_num,
+                        b.load_num,
+                        b.block_num,
+                        b.is_rework ? 'Y' : 'N',
+                        b.user.initials,
+                        b.directory,
+                        b.product,
+                        b.application,
+                        '',
+                        'MEAN',
+                        'MIN',
+                        'MAX',
+                        'STD DEV'],
+                        style: [left,
+                                left,
+                                center,
+                                right,
+                                right,
+                                right,
+                                right,
+                                right,
                                 center,
                                 center,
                                 center,
@@ -95,14 +99,145 @@ wb.styles do |s|
                                 left,
                                 left,
                                 left,
-                                center], height: row_height  
-      end                  
+                                left,
+                                center_header,
+                                center_header,
+                                center_header,
+                                center_header,
+                                center_header], height: row_height
+        when 1
+          sheet.add_row [c.check_timestamp.strftime('%m/%d/%Y'),
+                        c.check_timestamp.strftime('%H:%M'),
+                        c.check_num,
+                        c.thickness,
+                        c.alloy_percentage,
+                        c.x,
+                        c.y,
+                        c.z,
+                        b.so_num,
+                        b.load_num,
+                        b.block_num,
+                        b.is_rework ? 'Y' : 'N',
+                        b.user.initials,
+                        b.directory,
+                        b.product,
+                        b.application,
+                        'Thickness:',
+                        "=AVERAGE(D#{count}:D#{b.checks.length + count - 1})",
+                        "=MIN(D#{count}:D#{b.checks.length + count - 1})",
+                        "=MAX(D#{count}:D#{b.checks.length + count - 1})",
+                        "=STDEV(D#{count}:D#{b.checks.length + count - 1})"],
+                        style: [left,
+                                left,
+                                center,
+                                right,
+                                right,
+                                right,
+                                right,
+                                right,
+                                center,
+                                center,
+                                center,
+                                center,
+                                left,
+                                left,
+                                left,
+                                left,
+                                left_header,
+                                right,
+                                right,
+                                right,
+                                right], height: row_height
+        when 2
+          sheet.add_row [c.check_timestamp.strftime('%m/%d/%Y'),
+                        c.check_timestamp.strftime('%H:%M'),
+                        c.check_num,
+                        c.thickness,
+                        c.alloy_percentage,
+                        c.x,
+                        c.y,
+                        c.z,
+                        b.so_num,
+                        b.load_num,
+                        b.block_num,
+                        b.is_rework ? 'Y' : 'N',
+                        b.user.initials,
+                        b.directory,
+                        b.product,
+                        b.application,
+                        'Alloy %:',
+                        "=AVERAGE(E#{count}:E#{b.checks.length + count - 1})",
+                        "=MIN(E#{count}:E#{b.checks.length + count - 1})",
+                        "=MAX(E#{count}:E#{b.checks.length + count - 1})",
+                        "=STDEV(E#{count}:E#{b.checks.length + count - 1})"],
+                        style: [left,
+                                left,
+                                center,
+                                right,
+                                right,
+                                right,
+                                right,
+                                right,
+                                center,
+                                center,
+                                center,
+                                center,
+                                left,
+                                left,
+                                left,
+                                left,
+                                left_header,
+                                right,
+                                right,
+                                right,
+                                right], height: row_height
+        else 
+          sheet.add_row [c.check_timestamp.strftime('%m/%d/%Y'),
+                        c.check_timestamp.strftime('%H:%M'),
+                        c.check_num,
+                        c.thickness,
+                        c.alloy_percentage,
+                        c.x,
+                        c.y,
+                        c.z,
+                        b.so_num,
+                        b.load_num,
+                        b.block_num,
+                        b.is_rework ? 'Y' : 'N',
+                        b.user.initials,
+                        b.directory,
+                        b.product,
+                        b.application],
+                        style: [left,
+                                left,
+                                center,
+                                right,
+                                right,
+                                right,
+                                right,
+                                right,
+                                center,
+                                center,
+                                center,
+                                center,
+                                left,
+                                left,
+                                left,
+                                left], height: row_height
+        end
+        count += 1
+      end
+      count += 1
+      mergers << count
+      sheet.add_row [""]
     end
-    sheet.column_widths(15, 10, 15, 20, 20, 10, 10, 20, 25)
-    sheet.merge_cells("A1:I1")
-    sheet.merge_cells("A2:I2")
-    sheet.merge_cells("A3:I3")
-    sheet.auto_filter = "A4:I4"
-    last_filter_row = 5 + @blocks.size - 1
+    sheet.column_widths(13, 8, 8, 10, 10, 10, 10, 10, 13, 7, 8, 5, 5)
+    sheet.merge_cells("A1:P1")
+    sheet.merge_cells("A2:P2")
+    sheet.merge_cells("A3:P3")
+
+    mergers.each do |m|
+      sheet.merge_cells("A#{m}:P#{m}")
+    end
   end
 end

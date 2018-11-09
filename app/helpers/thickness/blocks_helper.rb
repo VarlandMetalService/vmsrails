@@ -31,11 +31,11 @@ module Thickness::BlocksHelper
     thickness_sum = 0
     alloy_sum = 0
     checks.each do |c|
-      thickness_sum += (output[0].to_f - c.thickness)
-      alloy_sum += (output[4].to_f - c.alloy_percentage) unless c.alloy_percentage.blank?
+      thickness_sum += (c.thickness - output[0].to_f)**2
+      alloy_sum += (c.alloy_percentage - output[4].to_f)**2 unless c.alloy_percentage.blank?
     end
-    output[3] = "%.1e" % (thickness_sum.to_f/checks.length)
-    output[7] = "%.1e" % (alloy_sum.to_f/checks.length)
+    output[3] = "%.1e" % Math.sqrt(thickness_sum.to_f/checks.length)
+    output[7] = "%.1e" % Math.sqrt(alloy_sum.to_f/checks.length)
 
     if checks.first.alloy_percentage.blank?
       output[4] = "N/A"

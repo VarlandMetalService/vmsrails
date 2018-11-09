@@ -29,9 +29,10 @@ module Thickness
     scope :with_process, ->(process) { where("process = ?", process) unless process.nil? }
     scope :with_part, ->(part) { where("part = ?", part) unless part.nil? }
     scope :with_rework, ->(rework) { where("is_rework = ?", rework) unless rework.nil? }
+    scope :with_so_num, ->(so_num) { where("so_num = ?", so_num) unless so_num.nil? }
 
 
     # Pagination.
-    paginates_per 20
+    paginates_per 30
   end
 end

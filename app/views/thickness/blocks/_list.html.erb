@@ -11,7 +11,7 @@
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
-      <th  style="position: sticky; position: -webkit-sticky;top: 0;" class="col-3">Block</th>
+      <th class="col-3">Block</th>
       <th class="col-3">
         <div class="form-row">
           <div class="col-7">
@@ -26,14 +26,14 @@
     </tr>
   </thead>
   <tbody>
-    <% @bbl.each do |b| %>
+    <% @blocks.each do |b| %>
     <% results = calculate_mean(b.checks) %>
     <tr>
       <td>
         <div class="form-row">
           <div class="col-4">
             <strong><%= b.so_num %></strong>
-            <% if !b.is_rework %>
+            <% if b.is_rework %>
               <div class="text-danger d-inline">
                 RW
               </div>

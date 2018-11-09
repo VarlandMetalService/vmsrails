@@ -1,3 +1,6 @@
+<% if @salt_spray_tests.blank? %>
+  Not records found.
+<% else %>
 <table class="table table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
@@ -247,4 +250,5 @@
       </div>
     </div>
   </div>
+<% end %>
 <% end %>

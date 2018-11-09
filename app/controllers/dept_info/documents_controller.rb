@@ -1,4 +1,4 @@
-class DeptInfo::DocumentsController < ApplicationController
+sclass DeptInfo::DocumentsController < ApplicationController
 
   skip_before_action  :authenticate_user
 

@@ -1,7 +1,7 @@
 <%= form_with url: opto_logs_path,
-              class: 'bg-dark text-white border rounded p-3 mb-3',
-              method: 'get',
-              local: true do |f| %>
+      class: 'bg-dark text-white border rounded p-3 mb-3',
+      method: 'get',
+      local: true do |f| %>
 <p class="small font-weight-bold text-warning mb-0 text-uppercase">
     <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
       [ - ]
@@ -15,24 +15,22 @@
       <div class="form-group">
         <%= f.label :with_controller,
                     'Controller:'  %>
-        <% controllers_array = logs.map { |l| [l.controller.name, l.controller_id] } %>
         <%= f.select :with_controller, 
-                      options_for_select(controllers_array.uniq.sort,
-                                         params[:with_controller]),
-                      { include_blank: true },
-                      { class: 'custom-select' } %>
+                options_for_select(Opto::Controller.pluck(:name, :id).uniq.sort,
+                params[:with_controller]),
+                { include_blank: true },
+                { class: 'custom-select' } %>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <%= f.label :with_type,
-                    'Log Type:'  %>
-        <% types_array = logs.map { |l| [l.log_type, l.type] } %>
+                    'Log Type:'  %>        
         <%= f.select :with_type, 
-                      options_for_select(types_array.uniq.sort,
-                                         params[:with_type]),
-                      { include_blank: true },
-                      { class: 'custom-select' } %>
+                options_for_select(Opto::Log.pluck(:type).uniq.map { |t| [t.demodulize.titleize, t]},
+                params[:with_type]),
+                { include_blank: true },
+                { class: 'custom-select' } %>
       </div>
     </div>
     <div class="col">

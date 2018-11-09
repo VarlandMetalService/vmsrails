@@ -13,7 +13,7 @@ class Printing::PrintJobsController < ApplicationController
 
   def index
     manage_filter_state
-    @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue).with_is_complete(params[:with_is_complete])
+    @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue, :workstation, :user).with_is_complete(params[:with_is_complete])
   end
 
   def show

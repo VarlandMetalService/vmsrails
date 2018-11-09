@@ -6,12 +6,12 @@
 </div>
 <div class="row mt-3">
   <div class="col-12" id="filter_form">
-    <%= render partial: 'filter_form', cached: :true, locals: { notes: @blocks} %>
+    <%= render partial: 'filter_form', chached: true %>
   </div>
 </div>
 
 <div class="row">
   <div class="col-12">
-  <%= render partial: 'list', locals: { notes: @bbl, term: params[:with_search_term] } %>
+  <%= render partial: 'list', locals: { notes: @blocks, term: params[:with_search_term] } %>
   </div>
 </div>

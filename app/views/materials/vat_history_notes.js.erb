@@ -9,7 +9,6 @@ $('#vat_history_notes').html("<%= js %>");
 <% js2 = escape_javascript(
   render(
     :partial => 'materials/filter_form',
-    :locals => { :notes => @unpaged_vat_history_notes }
   )
 ) %>
 $('#filter_form').html("<%= js2 %>");

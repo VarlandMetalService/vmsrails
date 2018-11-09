@@ -24,16 +24,16 @@
             <td class="align-middle"><%= p.created_at.strftime("%m/%d @ %I:%M %p") unless p.created_at.blank? %></td>
             <td class="align-middle"><%= p.description unless p.description.blank? %></td>
             <td class="d-none d-lg-table-cell align-middle">
-              <%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %>
+              <%= p.print_queue.name unless p.print_queue.blank? %>
             </td>
             <td class="d-none d-lg-table-cell align-middle">
-              <%= User.find(p.user_id).full_name unless p.user_id.blank? %>
+              <%= p.user.full_name unless p.user_id.blank? %>
             </td> 
             <td class="d-none d-md-table-cell align-middle">
-              <%= Printing::DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %>
+              <%= p.document_type.name unless p.document_type.blank? %>
             </td>
             <td class="d-none d-lg-table-cell align-middle">
-              <%= Printing::Workstation.find(p.workstation_id).name unless p.workstation_id.blank? %>
+              <%= p.workstation.name unless p.workstation.blank? %>
             </td>
             <td class="text-center align-middle">
               <div class="btn-group" role="group">

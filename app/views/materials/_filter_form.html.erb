@@ -15,9 +15,8 @@
       <div class="form-group">
         <%= f.label :with_department,
                     'Department:'  %>
-        <% dept_array = notes.map { |n| n.vat.department } %>
         <%= f.select :with_department, 
-                      options_for_select(dept_array.uniq.sort,
+                      options_for_select(Materials::Vat.pluck(:department).uniq,
                                          params[:with_department]),
                       { include_blank: true },
                       { class: 'custom-select',
@@ -28,26 +27,24 @@
       <div class="form-group">
         <%= f.label :with_vat,
                     'Vat:'  %>
-        <% vat_array = notes.map { |n| ["#{n.vat.code} &ndash; #{n.vat.description}".html_safe, n.vat_id] } %>
         <%= f.select :with_vat, 
-                      options_for_select(vat_array.uniq.sort,
-                                         params[:with_vat]),
-                      { include_blank: true },
-                      { class: 'custom-select',
-                        onchange: 'this.form.submit();' } %>
+                options_for_select(Materials::VatHistoryNote.joins(:vat).distinct.pluck(:code, :description, :vat_id).map { |c, d, i| ["#{c} &ndash; #{d}".html_safe, i]}.uniq,
+                  params[:with_vat]),
+                { include_blank: true },
+                { class: 'custom-select',
+                  onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col">
       <div class="form-group">
         <%= f.label :with_user,
                     'User:' %> 
-                    <% user_array = notes.map { |n| ["#{n.user.full_name}".html_safe, n.user_id] } %>
         <%= f.select :with_user,
-                      options_for_select(user_array.uniq.sort,
-                                        params[:with_user]),
-                            { include_blank: true },
-                            { class: 'custom-select',
-                            onchange: 'this.form.submit();' }%>
+                options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]},
+                      params[:with_user]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                      onchange: 'this.form.submit();' }%>
       </div>
     </div>
     <div class="col">

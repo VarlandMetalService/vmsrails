@@ -25,11 +25,11 @@
         <%= f.label :with_process_code,
                     'Process:'  %>
         <%= f.select :with_process_code, 
-              options_for_select(SaltSprayTest.options_for_process_code_filter,
+                options_for_select(SaltSprayTest.options_for_process_code_filter,
                 params[:with_process_code]),
-              { include_blank: true },
-              { class: 'custom-select',
-                onchange: 'this.form.submit();' } %>
+                { include_blank: true },
+                { class: 'custom-select',
+                  onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col-6">
@@ -37,7 +37,8 @@
         <%= f.label :with_user,
                     'User:' %> 
         <%= f.select :with_user,
-              options_for_select( User.all.map { |u| [u.full_name, u.id]}, params[:with_user]),
+                options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}, 
+                params[:with_user]),
                 { include_blank: true },
                 { class: 'custom-select',
                   onchange: 'this.form.submit();' } %>

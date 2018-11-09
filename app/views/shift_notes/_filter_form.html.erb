@@ -24,22 +24,21 @@
               <%= f.label :with_dept,
                           'Department:'  %>
               <%= f.select :with_dept, 
-                            options_for_select(ShiftNote.options_for_dept,
-                                              params[:with_dept]),
-                            { include_blank: true },
-                            { class: 'custom-select',
-                              onchange: 'this.form.submit();' } %>
+                      options_for_select(ShiftNote.options_for_dept,
+                      params[:with_dept]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
             </div>
             <div class="form-group">
               <%= f.label :with_user,
                           'User:' %> 
-                          <% user_array = notes.map { |n| ["#{n.user.full_name}".html_safe, n.user_id] } %>
               <%= f.select :with_user,
-                            options_for_select(user_array.uniq.sort,
-                                              params[:with_user]),
-                                  { include_blank: true },                                     
-                                  { class: 'custom-select',
-                                  onchange: 'this.form.submit();' }%>
+                      options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]},
+                      params[:with_user]),
+                      { include_blank: true },
+                      { class: 'custom-select',
+                      onchange: 'this.form.submit();' }%>
             </div>
           </div>
 
@@ -48,21 +47,21 @@
               <%= f.label :with_shift_type,
                           'Shift Type:' %> 
               <%= f.select :with_shift_type,
-                            options_for_select(ShiftNote.options_for_shift_type,
-                                              params[:with_shift_type]),
-                                  { include_blank: true },                                     
-                                  { class: 'custom-select',
-                                  onchange: 'this.form.submit();' }%>
+                      options_for_select(ShiftNote.options_for_shift_type,
+                      params[:with_shift_type]),
+                      { include_blank: true }, 
+                      { class: 'custom-select',
+                      onchange: 'this.form.submit();' }%>
             </div>
             <div class="form-group">
               <%= f.label :with_shift_time,
                           'Shift Time:' %> 
               <%= f.select :with_shift_time,
-                            options_for_select(ShiftNote.options_for_shift_time,
-                                              params[:with_shift_time]),
-                                  { include_blank: true },                                     
-                                  { class: 'custom-select',
-                                  onchange: 'this.form.submit();' }%>
+                      options_for_select(ShiftNote.options_for_shift_time,
+                      params[:with_shift_time]),
+                      { include_blank: true }, 
+                      { class: 'custom-select',
+                      onchange: 'this.form.submit();' }%>
             </div>
           </div>
           
@@ -79,11 +78,11 @@
               <%= f.label :sorted_by,
                           'Sort By:'  %>
               <%= f.select :sorted_by, 
-                            options_for_select(ShiftNote.options_for_sorted_by,
-                                              params[:sorted_by]),
-                            { include_blank: false },
-                            { class: 'custom-select',
-                              onchange: 'this.form.submit();' } %>
+                      options_for_select(ShiftNote.options_for_sorted_by,
+                      params[:sorted_by]),
+                      { include_blank: false },
+                      { class: 'custom-select',
+                        onchange: 'this.form.submit();' } %>
             </div>
           </div>
         </div>
