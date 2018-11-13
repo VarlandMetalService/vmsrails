@@ -11,11 +11,14 @@
        data-folder="folder-<%= folder.id %>"><%= folder.name %></a>
   </div>
   <div class="folder-contents collapse" id="collapse-<%= folder.id %>">
-    <%= render partial: "folder", collection: folder.children %>
+    <%= render partial: "folder", 
+            collection: folder.children %>
     <% unless folder.documents.length == 0 %>
-      <%= render partial: "document", collection: folder.documents, locals: { depth: folder.depth + 1,
-                                                                              include_path: false,
-                                                                              dark: false } %>
+      <%= render partial: "document", 
+              collection: folder.documents, 
+                  locals: { depth: folder.depth + 1,
+                     include_path: false, 
+                             dark: false } %>
     <% end %>
   </div>
 </div>

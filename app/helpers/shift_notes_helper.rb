@@ -57,4 +57,26 @@ module ShiftNotesHelper
     end
   end
 
+  def attachment_area(c)
+    if c.attachment?
+      message = 
+      "<td>
+          <button class='btn btn-block float-right' style='background-color: #DDDDDD; border-color: #dee2e6;' type='button' data-toggle='collapse' data-target='.multi-collapse#{c.id}' style='font-size: 11px;'>
+              #{fa_icon('paperclip')}
+          </button>
+        </td>
+      </tr>".html_safe
+      c.attachment.each do |f| 
+      message += "<tr class='collapse multi-collapse#{c.id} bg-white'>
+          <td colspan='3' class='text-center px-0'>
+            <a href='#{f.url}' target='_blank'>#{image_tag(f.url, size: '320') unless f.blank?}</a>
+          </td>
+        </tr>".html_safe
+      end
+    else
+      message = "<td></td>
+      </tr>"
+    end
+    return message.html_safe
+  end
 end

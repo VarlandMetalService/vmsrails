@@ -1,39 +1,6 @@
-<%#
-  organization_array = specifications.map { |s| s.organization }
-  name_array = specifications.map { |s| s.name }
-  classifications_array = []
-  process_codes_array = []
-  colors_array = []
-  specifications.each do |s|
-    s.classifications.each do |c|
-      classifications_array << c.name unless c.name.blank?
-      process_codes_array << c.vms_process_code
-      colors_array << c.color unless c.color.blank?
-    end
-  end
-%>
-<%
-  name_array = []
-  organization_array = []
-  Specification.pluck(:organization, :name).map { 
-    |organization, name|
-      name_array << name
-      organization_array << organization
-    }
-  classifications_array = []
-  process_codes_array = []
-  colors_array = []
-  Classification.pluck(:name, :vms_process_code, :color).map {
-    |name, process_code, color|
-      classifications_array << name
-      process_codes_array << process_code
-      colors_array << color
-  }
-%>
 <%= form_with class: 'bg-dark text-white border rounded p-3 mb-3',
               method: 'get' do |f| %>
               
-
   <p class="small font-weight-bold text-warning mb-0 text-uppercase">
     <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
       [ - ]
@@ -48,7 +15,7 @@
           <%= f.label :with_organization,
                       'Organization:'  %>
           <%= f.select :with_organization, 
-                        options_for_select(organization_array.uniq.sort,
+                        options_for_select(lists[0].uniq.sort,
                                           params[:with_organization]),
                         { include_blank: true },
                         { class: 'custom-select',
@@ -60,7 +27,7 @@
           <%= f.label :with_name,
                       'Name:'  %>
           <%= f.select :with_name, 
-                        options_for_select(name_array.uniq.sort,
+                        options_for_select(lists[1].uniq.sort,
                                           params[:with_name]),
                         { include_blank: true },
                         { class: 'custom-select',
@@ -72,7 +39,7 @@
           <%= f.label :with_classification,
                       'Classification:'  %>
           <%= f.select :with_classification, 
-                        options_for_select(classifications_array.uniq.sort,
+                        options_for_select(lists[2].uniq.sort,
                                           params[:with_classification]),
                         { include_blank: true },
                         { class: 'custom-select',
@@ -84,11 +51,11 @@
           <%= f.label :with_process_code,
                       'Process Code:'  %>
           <%= f.select :with_process_code, 
-                        options_for_select(process_codes_array.uniq.sort,
-                                          params[:with_process_code]),
-                        { include_blank: true },
-                        { class: 'custom-select',
-                          onchange: 'this.form.submit();' } %>
+                options_for_select(lists[3].uniq.sort,
+                params[:with_process_code]),
+                { include_blank: true },
+                { class: 'custom-select',
+                  onchange: 'this.form.submit();' } %>
         </div>
       </div>
       <div class="col">
@@ -96,11 +63,11 @@
           <%= f.label :with_color,
                       'Color:'  %>
           <%= f.select :with_color, 
-                        options_for_select(colors_array.uniq.sort,
-                                          params[:with_color]),
-                        { include_blank: true },
-                        { class: 'custom-select',
-                          onchange: 'this.form.submit();' } %>
+                options_for_select(lists[4].uniq.sort,
+                params[:with_color]),
+                {  },
+                { class: 'custom-select',
+                  onchange: 'this.form.submit();' } %>
         </div>
       </div>
     </div>

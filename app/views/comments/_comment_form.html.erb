@@ -6,18 +6,16 @@
         </div>
     </div>        
     <div class="form-row">
-    <%= f.text_area :body, class: "form-control", placeholder: "Add a comment..." %>
+        <%= f.text_area :body, class: "form-control", 
+                         placeholder: "Add a comment..." %>
         <div class="form-group col">  
             <%= f.label :Attachment , class:"col-form-label" %>       
-            <%= f.file_field :attachment, :multiple => true, class: "form-control-file", name: "comment[attachment][]" %>
+            <%= f.file_field :attachment, :multiple => true, 
+                                     class: "form-control-file", 
+                                      name: "comment[attachment][]" %>
         </div>
     </div>    
     <div class="btn-group" role="group">
-      <%# link_to fa_icon('arrow-left'),
-                          session[:last_page],
-                          method: :get,
-                          class: 'font-weight-bold btn btn-sm btn-secondary align-middle',
-                          title: 'Back' %>
       <%= f.submit "Create Comment", class: "btn btn-primary" %>
     </div>
     

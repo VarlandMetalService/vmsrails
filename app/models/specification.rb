@@ -293,6 +293,7 @@ class Specification < ApplicationRecord
   def default_classification
     self.classifications.find_by_name(['', nil])
   end
+
   def title
     parts = []
     parts << self.organization
@@ -301,6 +302,15 @@ class Specification < ApplicationRecord
       parts << "(Rev: #{self.revision})"
     end
     parts.join ' '
+  end
+
+  def self.filter_form_lists
+    lists = []
+    lists = Specification.pluck(:organization, :name).transpose
+    Classification.pluck(:name, :vms_process_code, :color).transpose.each do |x|
+      lists << x
+    end
+    return lists
   end
 
 end

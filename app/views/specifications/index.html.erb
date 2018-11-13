@@ -31,7 +31,7 @@
 </div>
 <div class="row mt-3">
   <div class="col" id="filter_form">
-    <%= render partial: 'filter_form', locals: { :sql => @specifications.to_sql} %>
+    <%= render partial: 'filter_form', locals: { :sql => @specifications.to_sql, :lists => Specification.filter_form_lists } %>
   </div>
 </div>
 <div class="row mt-3" id="specifications">

@@ -11,10 +11,14 @@
   <div class="col-6">
     <div class="card border bg-light rounded p-3">
       <p class="small font-weight-bold mb-1 text-uppercase">Newest Documents</p>
-      <%= render partial: "document", collection: @newest, locals: { depth: 0, include_path: true, dark: false } %>
+      <%= render partial: "document", 
+              collection: @newest, 
+                  locals: { depth: 0, 
+                     include_path: true, 
+                             dark: false } %>
     </div>
   </div>
   <div class="col-6">
-  <%= render partial: "folder", collection: @folders %>
+    <%= render partial: "folder", collection: @folders %>
   </div>
 </div>
