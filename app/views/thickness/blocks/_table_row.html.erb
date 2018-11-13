@@ -1,0 +1,82 @@
+<tr>
+  <td>
+    <div class="form-row">
+      <div class="col-4">
+        <strong><%= block.so_num %></strong>
+        <%= is_rw(block) %>
+        <br>
+        <div class="text-muted">
+          Load: <%= block.load_num %><br>
+          Block: <%= block.block_num %><br>
+        </div>
+        <%= block.checks.first.check_timestamp.strftime("%m/%d/%y") %>
+      </div>
+      <div class="col-8">
+        <%= badge(block.user) %><br>
+        Directory: <%= block.directory %><br>
+        Product: <%= block.product %><br>
+        Application: <%= block.application %>
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="form-row">
+     <%= customer_cell(block) %>
+   </div>
+  </td>
+  <td>
+    <table class="table mb-0">
+      <thead class="thead-dark">
+        <tr class="mb-0 mt-0">
+          <th class="col-4 text-right"><button class="btn-sm btn-dark text-warning py-0" type="button" data-toggle="collapse" data-target=".<%= block.id %>checks"><%= fa_icon("list-ul")%></button>
+          Check Count: <%= block.checks.length %>
+          </th>
+          <th class="col-2 text-right">Mean</th>
+          <th class="col-2 text-right">Min</th>
+          <th class="col-2 text-right">Max</th>
+          <th class="col-2 text-right">Std. Dev</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= results_set(block.checks) %>
+      </tbody>
+    </table>
+    <div class="px-0 container-fluid collapse <%= block.id %>checks">
+      <table class="table table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th></th>
+            <th class="text-left">Date</th>
+            <th class="text-right">Thickness</th>
+            <th class="text-right">Alloy %</th>
+            <th colspan="2" class="text-center">Coordinates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% block.checks.each do |c| %>
+          <tr>
+            <td class="text-center"><%= c.check_num %></td>
+            <td class="text-left">
+            <%= c.check_timestamp.strftime("%D") %></td>
+            <td class="text-right"><%= number_with_precision(c.thickness, precision: 5) %></td>
+            <td class="text-right"><%= number_with_precision(c.alloy_percentage, precision: 4) %></td>
+            <td>
+              <div class="row">
+                <div class="col-4 text-right">
+                  X: <%= number_with_precision(c.x, precision: 3) %>
+                </div>
+                <div class="col-4 text-right">
+                  Y: <%= number_with_precision(c.y, precision: 3) %>
+                </div>
+                <div class="col-4 text-right">
+                  Z: <%= number_with_precision(c.z, precision: 3) %>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </td>
+</tr>

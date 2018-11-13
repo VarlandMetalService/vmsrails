@@ -17,6 +17,8 @@ module Thickness
 
     def index
       @blocks = apply_scopes(Thickness::Block.all).includes(:checks, :user).order('updated_at DESC').page(params[:page])
+      @filters = Thickness::Block.pluck(:so_num, :directory, :product, :application, :customer, :process, :part).transpose
+      @filters << User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
     respond_to do |format|
         format.html
         format.json { render :json => @blocks }

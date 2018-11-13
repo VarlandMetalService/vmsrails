@@ -1,121 +1,105 @@
 <div class="row">
   <div class="col">
     <div class="pull-right mt-2 mr-2">
-          <%= link_to fa_icon('plus', text: 'New Shift Note' ),new_shift_note_path, class:"btn btn-warning font-weight-bold text-dark"  %>     
-      </div>
+      <%= link_to fa_icon('plus', text: 'New Shift Note' ), new_shift_note_path, class:"btn btn-warning font-weight-bold text-dark"  %>
+    </div>
     <%= form_with url: shift_notes_path,
-              class: 'bg-dark text-white border rounded p-3 mb-3',
-              method: 'get' do |f| %>
+                class: 'bg-dark text-white border rounded p-3 mb-3',
+               method: 'get' do |f| %>
       <p class="small font-weight-bold text-warning mb-0 text-uppercase">
-    <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
-      [ - ]
-    </a>
-    Filter Results
-  </p>
-
-  <div class="collapse mt-2 
-    <% if show == true %>
-      show
-    <% end %>
-    " id="collapseFilters">
+        <a class="collapse-filters text-warning collapsed" data-toggle="collapse" href="#collapseFilters" role="button" aria-collapsed="true" aria-controls="collapseFilters">
+          [ - ]
+        </a>
+        Filter Results
+      </p>
+      <div class="collapse mt-2 <%= show %>" id="collapseFilters">
       <div class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <%= f.label :with_dept,
-                          'Department:'  %>
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label :with_dept, 'Department:'  %>
               <%= f.select :with_dept, 
-                      options_for_select(ShiftNote.options_for_dept,
+                      options_for_select(ShiftNote.options_for("dept"),
                       params[:with_dept]),
                       { include_blank: true },
                       { class: 'custom-select',
                         onchange: 'this.form.submit();' } %>
-            </div>
-            <div class="form-group">
-              <%= f.label :with_user,
-                          'User:' %> 
-              <%= f.select :with_user,
-                      options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]},
-                      params[:with_user]),
-                      { include_blank: true },
-                      { class: 'custom-select',
-                      onchange: 'this.form.submit();' }%>
-            </div>
           </div>
-
-          <div class="col-4">
-            <div class="form-group">
-              <%= f.label :with_shift_type,
-                          'Shift Type:' %> 
-              <%= f.select :with_shift_type,
-                      options_for_select(ShiftNote.options_for_shift_type,
-                      params[:with_shift_type]),
-                      { include_blank: true }, 
-                      { class: 'custom-select',
-                      onchange: 'this.form.submit();' }%>
-            </div>
-            <div class="form-group">
-              <%= f.label :with_shift_time,
-                          'Shift Time:' %> 
-              <%= f.select :with_shift_time,
-                      options_for_select(ShiftNote.options_for_shift_time,
-                      params[:with_shift_time]),
-                      { include_blank: true }, 
-                      { class: 'custom-select',
-                      onchange: 'this.form.submit();' }%>
-            </div>
-          </div>
-          
-          <div class="col-4">
-            <div class="form-group">
-              <%= f.label :with_timestamp,
-                          'From Date:' %>
-              <%= f.date_field :with_timestamp,
-                              class: 'form-control',
-                              onchange: 'this.form.submit();',
-                              value: params[:with_timestamp] %>            
-            </div>
-            <div class="form-group">
-              <%= f.label :sorted_by,
-                          'Sort By:'  %>
-              <%= f.select :sorted_by, 
-                      options_for_select(ShiftNote.options_for_sorted_by,
-                      params[:sorted_by]),
-                      { include_blank: false },
-                      { class: 'custom-select',
-                        onchange: 'this.form.submit();' } %>
-            </div>
+          <div class="form-group">
+            <%= f.label :with_user, 'User:' %> 
+            <%= f.select :with_user,
+                    options_for_select(ShiftNote.options_for("user"),
+                    params[:with_user]),
+                    { include_blank: true },
+                    { class: 'custom-select',
+                    onchange: 'this.form.submit();' }%>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <%= f.label :with_search_term,
-                          'Search:'  %>
-              <%= f.text_field :with_search_term,
-                              class: 'form-control',
-                              onchange: 'this.form.submit();',
-                              value: params[:with_search_term] %>
-              <small class="form-text text-light">
-                Searches for all words in any order. Use double quotes around multiple words to search for exact phrase. To
-                exclude a word or phrase, use two minus signs before the word or phrase (outside the double quotes for a
-                phrase).
-              </small>
-            </div>
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label :with_shift_type, 'Shift Type:' %> 
+            <%= f.select :with_shift_type,
+                    options_for_select(ShiftNote.options_for("shift_type"),
+                    params[:with_shift_type]),
+                    { include_blank: true }, 
+                    { class: 'custom-select',
+                    onchange: 'this.form.submit();' }%>
+          </div>
+          <div class="form-group">
+            <%= f.label :with_shift_time, 'Shift Time:' %> 
+            <%= f.select :with_shift_time,
+                    options_for_select(ShiftNote.options_for("shift_time"),
+                    params[:with_shift_time]),
+                    { include_blank: true }, 
+                    { class: 'custom-select',
+                    onchange: 'this.form.submit();' }%>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="pull-right">
-              <%= link_to 'Reset', shift_notes_url, class: 'btn btn-link text-white' %>
-              <%= f.button fa_icon('filter', text: 'Filter'),
-                            class: 'btn btn-sm btn-warning font-weight-bold',
-                            type: 'submit' %>
-            </div>
-            <div class="clearfix"><!----></div>
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label :with_timestamp, 'From Date:' %>
+            <%= f.date_field :with_timestamp,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_timestamp] %>            
+          </div>
+          <div class="form-group">
+            <%= f.label :sorted_by, 'Sort By:'  %>
+            <%= f.select :sorted_by, 
+                    options_for_select(ShiftNote.options_for("sorted_by"),
+                    params[:sorted_by]),
+                    { include_blank: false },
+                    { class: 'custom-select',
+                      onchange: 'this.form.submit();' } %>
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <%= f.label :with_search_term, 'Search:'  %>
+            <%= f.text_field :with_search_term,
+                            class: 'form-control',
+                            onchange: 'this.form.submit();',
+                            value: params[:with_search_term] %>
+            <small class="form-text text-light">
+              Searches for all words in any order. Use double quotes around multiple words to search for exact phrase. To
+              exclude a word or phrase, use two minus signs before the word or phrase (outside the double quotes for a
+              phrase).
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="pull-right">
+            <%= link_to 'Reset', shift_notes_url, class: 'btn btn-link text-white' %>
+            <%= f.button fa_icon('filter', text: 'Filter'),
+                          class: 'btn btn-sm btn-warning font-weight-bold',
+                          type: 'submit' %>
+          </div>
+          <div class="clearfix"><!----></div>
+        </div>
+      </div>
       <% end %>
       </div>
     </div>

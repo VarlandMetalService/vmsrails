@@ -6,27 +6,7 @@
       [ - ]
     </a>
     Filter Results
-  </p>
-
-  <%
-    so_array = []
-    directory_array = []
-    product_array = []
-    application_array = []
-    customer_array = []
-    process_array = []
-    part_array = []
-    Thickness::Block.pluck(:so_num, :directory, :product, :application, :customer, :process, :part).map { 
-      |so_num, directory, product, application, customer, process, part|
-        so_array << so_num 
-        directory_array << directory
-        product_array << product
-        application_array << application
-        customer_array << customer
-        process_array << process
-        part_array << part }
-  %>
-  
+  </p>  
   <div class="collapse show mt-2" id="collapseFilters">
     <div class="form-row"> 
       <div class="col-4">
@@ -45,7 +25,7 @@
           <%= f.label :with_so_num,
                       'S.O. #:' %>
           <%= f.select :with_so_num,
-                  options_for_select(so_array.uniq,
+                  options_for_select(@filters[0].uniq,
                   params[:with_so_num]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -57,7 +37,7 @@
           <%= f.label :with_directory,
                       'Directory:' %>
           <%= f.select :with_directory,
-                  options_for_select(directory_array.uniq,
+                  options_for_select(@filters[1].uniq,
                   params[:with_directory]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -69,7 +49,7 @@
           <%= f.label :with_product,
                       'Product:' %>
           <%= f.select :with_product,
-                  options_for_select(product_array.uniq,
+                  options_for_select(@filters[2].uniq,
                   params[:with_product]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -81,7 +61,7 @@
           <%= f.label :with_application,
                       'Application:' %>
           <%= f.select :with_application,
-                  options_for_select(application_array.uniq,
+                  options_for_select(@filters[3].uniq,
                   params[:with_application]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -94,7 +74,7 @@
           <%= f.label :with_user,
                       'User Initials:' %>
           <%= f.select :with_user,
-                  options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]},
+                  options_for_select(@filters[7].uniq,
                   params[:with_user]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -106,7 +86,7 @@
           <%= f.label :with_customer,
                       'Customer:' %>
           <%= f.select :with_customer,
-                  options_for_select(customer_array.uniq,
+                  options_for_select(@filters[4].uniq,
                   params[:with_customer]),
                   {  },
                   {class: 'custom-select',
@@ -118,7 +98,7 @@
           <%= f.label :with_process,
                       'Process:' %>
           <%= f.select :with_process,
-                  options_for_select(process_array.uniq, 
+                  options_for_select(@filters[5].uniq, 
                   params[:with_process]),
                   {  },
                   {class: 'custom-select',
@@ -130,7 +110,7 @@
           <%= f.label :with_part,
                       'Part:' %>
           <%= f.select :with_part,
-                  options_for_select(part_array.uniq, 
+                  options_for_select(@filters[6].uniq, 
                   params[:with_part]),
                   {  },
                   {class: 'custom-select',

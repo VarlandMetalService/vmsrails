@@ -1,54 +1,55 @@
 <div class="container-fluid border p-3">
   <%= form_with  model: @shift_note do |f| %>
-
-  <% users_array = User.all.map { |user| [user.full_name, user.id] } %>
-
-  <p> 
-    <%= f.label :User %>:
-    <%= f.select :user_id, options_for_select(users_array, current_user.id), {}, class: "form-control" %>
-  </p>
-
-
-  <p>
-    <%= f.label :Department %>:
-    <%= f.select :dept, options_for_select(ShiftNote.options_for_dept, @shift_note.dept), {}, class: "form-control" %>
-  </p>
-
-  <p>
-    <%= f.label :Shift_type %>:
-    <%= f.select :shift_type, options_for_select(ShiftNote.options_for_shift_type, @shift_note.shift_type), {}, class: "form-control" %>
-  </p>
-
-  <p>
-    <%= f.label :Shift_time %>:
-    <%= f.select :shift_time, options_for_select(ShiftNote.options_for_shift_time, @shift_note.shift_time), {}, 
-                                         class: "form-control" %>
-  </p>
-
-  <p> 
-    <%= f.label :Shift_date %>:
-    <%= f.date_field :created_at, class: "form-control" %>
-  </p>
-
-  <p>
-    <%= f.label :Message %>:
-    <%= f.trix_editor :message, class: "form-control", placeholder:
-                                                        "Add note here..." %>
-  </p>
-  <div class="btn-group" role="group">
+    <p> 
+      <%= f.label :User %>:
+      <%= f.select :user_id, 
+            options_for_select(ShiftNote.options_for("user"), current_user.id),
+            {  }, 
+            { class: "form-control" } %>
+    </p>
+    <p>
+      <%= f.label :Department %>:
+      <%= f.select :dept, 
+            options_for_select(ShiftNote.options_for("dept"), @shift_note.dept),
+            {  }, 
+            { class: "form-control" } %>
+    </p>
+    <p>
+      <%= f.label :Shift_type %>:
+      <%= f.select :shift_type, 
+            options_for_select(ShiftNote.options_for("shift_type"), @shift_note.shift_type), 
+            {  }, 
+            { class: "form-control" } %>
+    </p>
+    <p>
+      <%= f.label :Shift_time %>:
+      <%= f.select :shift_time, 
+            options_for_select(ShiftNote.options_for("shift_time"), @shift_note.shift_time), 
+            {  }, 
+            { class: "form-control" } %>
+    </p>
+    <p> 
+      <%= f.label :Shift_date %>:
+      <%= f.date_field :created_at, class: "form-control" %>
+    </p>
+    <p>
+      <%= f.label :Message %>:
+      <%= f.trix_editor :message, class: "form-control", 
+            placeholder: "Add note here..." %>
+    </p>
+    <div class="btn-group" role="group">
       <%= link_to fa_icon('arrow-left'),
-                          shift_notes_path,
-                          method: :get,
-                          class: 'font-weight-bold btn btn-sm btn-secondary',
-                          title: 'Back' %>
-        <%= f.submit yield(:button_text), class: "btn btn-primary" %>
-        
-        <% if @access_level >= 2 && !action_name == "new" %>
-          <%= link_to "Delete", @shift_note, 
-               class: "btn btn-danger", 
-              method: :delete, 
-                data: { confirm: "You sure?" } %>
-        <% end %>
+                    shift_notes_path,
+                    method: :get,
+                    class: 'font-weight-bold btn btn-sm btn-secondary',
+                    title: 'Back' %>
+      <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+      <% if @access_level >= 2 && !action_name == "new" %>
+        <%= link_to "Delete", @shift_note, 
+                  class: "btn btn-danger", 
+                method: :delete, 
+                  data: { confirm: "You sure?" } %>
+      <% end %>
     </div>
   <% end %>
 </div>

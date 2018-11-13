@@ -9,9 +9,31 @@
     <%= render partial: 'filter_form', chached: true %>
   </div>
 </div>
-
 <div class="row">
   <div class="col-12">
-  <%= render partial: 'list', locals: { notes: @blocks, term: params[:with_search_term] } %>
+    <div class="col d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">
+    <%= paginator(@blocks)%>
+    </div>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th class="col-3">Block</th>
+          <th class="col-3">
+            <div class="form-row">
+              <div class="col-7">
+                Load
+              </div>
+              <div class="col-5">
+                Part
+              </div>
+            </div>
+          </th>
+          <th class="col-6">Checks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'table_row', collection: @blocks, as: :block %>
+      </tbody>
+    </table>
   </div>
 </div>

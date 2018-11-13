@@ -1,18 +1,35 @@
 <% provide(:title, 'Shift Notes') %>
 <div class="row mt-3">
   <div class="col">
-    <h3 class="mb-0">Shift Notes</h3>
+    <h3 class="mb-0"><%= yield(:title) %></h3>
   </div>
 </div>
 <div class="row mt-3">
   <div class="col-12" id="filter_form">
-    <%= render partial: 'filter_form', locals: { notes: @shift_notes, show: true } %>
+    <%= render partial: 'filter_form', locals: { show: "show" } %>
   </div>
 </div>
-
 <div class="row px-3" id="shift_notes">
   <div class="col">
-    <%= render partial: 'list', locals: { notes: @shift_notes,
-                                      term: params[:with_search_term] } %>
+    <div class="col d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">
+      <%= paginator(@shift_notes) %>
     </div>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th class="col-1">                      </th>
+          <th class="col-1">             Info     </th>
+          <th class="col-auto">          Note     </th>
+          <th class="col-3">             Comments </th>
+          <th class="col-1 text-center"> Links    </th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'table_row', collection: @shift_notes, as: :note %>
+      </tbody>
+    </table>
+    <div class="col d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">
+      <%= paginator(@shift_notes) %>
+    </div>
+  </div>
 </div>

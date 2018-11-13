@@ -1,0 +1,54 @@
+<li>
+  <div class="card fluid">
+    <div class="card-header py-2">
+      <div class="form-row mb-0">
+        <div class="col-4 text-right">
+          Dept:
+          <%= filter_link(note.dept, 'dept') %>
+          <br>
+          Shift Time:
+          <%= filter_link(note.shift_time, 'shift_time') %>
+          <br>
+          Shift Type:
+          <%= filter_link(note.shift_type, 'shift_type') %>
+        </div>
+        <div class="col-4 text-center">
+          <%= badge(note.user) %>
+          <br>
+          <%= note.created_at.strftime('%D') %>
+          <br>
+          <%= note.created_at.strftime("%I:%M %p") %>
+        </div>
+        <div class="col-4 text-right">
+          <button class="accord btn btn-block float-right" 
+                  style="background-color: #DDDDDD; border-color: #dee2e6;" 
+                    type="button" 
+            data-toggle="collapse" 
+            data-target="#collapseInfo<%=note.id%>" 
+                  style="font-size: 11px;">
+            <%= fa_icon('info')%>
+          </button>
+          <button class="accord btn btn-block float-right"
+                    type="button" 
+                  style="background-color: #DDDDDD; border-color: #dee2e6;" 
+            data-toggle="collapse" 
+            data-target="#collapseComments<%=note.id%>" 
+                  style="font-size: 11px;">
+            <%= fa_icon('commenting', text: note.comments.length )%>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="collapse bg-white" id="collapseComments<%=note.id%>">
+      <div class="card-body py-2 px-1">           
+      <%= render partial: 'comments/comment_combo', locals: { :s => note }%>
+      </div>
+    </div>
+    <div class="collapse show bg-white" id="collapseInfo<%=note.id%>">
+      <div class="card-body">
+        <strong>Note:</strong>
+        <%= sanitize note.message unless note.message.blank? %>
+      </div>
+    </div>
+  </div>
+</li>

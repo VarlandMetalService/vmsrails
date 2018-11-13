@@ -95,7 +95,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"> Department: </span>
               </div>
-              <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), {}, { class: "form-control" } %>
+              <%= f.select :dept, options_for_select(ShiftNote.options_for("dept")), {}, { class: "form-control" } %>
               <div class="invalid-feedback text-center">
                 Department required.
               </div>

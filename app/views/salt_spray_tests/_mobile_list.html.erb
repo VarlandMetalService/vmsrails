@@ -7,24 +7,10 @@
           <div class="card-header carousel-item active py-2">
             <div class="form-row mb-0">
               <div class="col-4">
-                <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-                <span class="badge badge-warning badge-border float-left mr-2 mt-2 btn-block" style="font-size: 35px;  border: 5px solid #343a40;"><%= s.process_code %></span></a>
+                <%= process_badge(s) %>
               </div>
               <div class="col-4">
-                <% if s.is_sample? || !s.sample_code.blank? %>
-                  <p class="text-center mb-1" style="font-size: 16px;">
-                    <strong>
-                      <%= fa_icon("flask", 
-                            text: %Q[#{s.so_num} - #{s.sample_code}]) %>
-                    </strong>
-                  </p>
-                <% else %>
-                  <p class="text-center mb-1" style="font-size: 20px;">
-                    <strong>
-                      <%= s.so_num %>
-                    </strong>
-                  </p>
-                <% end %>
+                <%= title(s) %>
                 <p class="text-muted text-center mb-0" style="font-size: 16px;"> Load: <%= s.load_num %></p>
                 <p class="text-center text-muted "><%= s.created_at.strftime("%D")%></p>
               </div>
@@ -46,22 +32,7 @@
                 <%= f.hidden_field :c_type, value: "OK" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-                <%= f.submit 'OK', 
-                      { class: "btn btn-primary swipe-btn btn-block border", 
-                        data: { 
-                          confirm: "Mark #{s.so_num} as OK?", 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-                <% else %>
-                <%= f.submit 'ok', 
-                      { class: "btn btn-primary swipe-btn btn-block border",
-                        disabled: true, 
-                        data: { 
-                          confirm: "Mark #{s.so_num} as OK?", 
-                          toggle: 'tooltip', 
-                          title: 'Mark as OK' } } %>  
-                <% end %>           
+                <%= ok_button(s, f) %>
                 <% end %>
               </div>
               <div class="col-3 px-1">
@@ -70,22 +41,7 @@
                 <%= f.hidden_field :c_type, value: "WHITE" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? %>
-                <%= f.submit 'WHITE', 
-                        { class: "btn swipe-btn btn-block border",
-                          data: { 
-                            confirm: "Mark #{s.so_num} as WHITE?", 
-                            toggle: 'tooltip', 
-                            title: 'Mark as WHITE' } } %>
-                <% else %>
-                <%= f.submit 'white', 
-                        { class: "btn swipe-btn btn-block border",
-                          disabled: true, 
-                          data: { 
-                            confirm: 'Mark as WHITE?', 
-                            toggle: 'tooltip', 
-                            title: 'Mark as WHITE' } } %>
-                <% end %>             
+                <%= white_button(s, f) %>
                 <% end %> 
               </div>
               <div class="col-3 px-1">
@@ -94,22 +50,7 @@
                 <%= f.hidden_field :c_type, value: "RED" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank? %>
-                <%= f.submit 'RED', 
-                        { class: "btn btn-danger swipe-btn btn-block border", 
-                        data: { 
-                          confirm: "Mark #{s.so_num} as RED?", 
-                          toggle: 'tooltip', 
-                            title: 'Mark as RED' } } %>
-                <% else %>
-                <%= f.submit 'red', 
-                        { class: "btn btn-danger swipe-btn btn-block border", 
-                          disabled: true,
-                        data: { 
-                          confirm: 'Mark as RED?', 
-                          toggle: 'tooltip', 
-                            title: 'Mark as RED' } } %>
-                <% end %>
+                <%= red_button(s, f) %>
                 <% end %> 
               </div>
               <div class="col-3 px-1">
@@ -118,25 +59,10 @@
                 <%= f.hidden_field :c_type, value: "OFF" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-                <%= f.submit 'OFF', 
-                        { class: "btn btn-success swipe-btn btn-block border", 
-                        data: { 
-                          confirm: "Mark #{s.so_num} as OFF?", 
-                          toggle: 'tooltip', 
-                            title: 'Mark as OFF' } } %> 
-                <% else %>
-                <%= f.submit "off", 
-                        { class: "btn btn-success swipe-btn btn-block border text-strikethrough",
-                          disabled: true, 
-                        data: { 
-                          confirm: 'Mark as OFF?', 
-                          toggle: 'tooltip', 
-                            title: 'Mark as OFF' } } %> 
+                <%= off_button(s, f) %>
                 <% end %>
-                <% end %>  
               </div>
-            </div>        
+            </div>
           </div>
         </div>
       </div>
@@ -168,25 +94,10 @@
               <div class="tab-pane fade show active" id="info<%=s.id%>" role="tabpanel" aria-labelledby="info-tab">
                 <div class="text-center">
                 <u><strong>
-                  <% if s.sample_code.blank? %>
-                    <%= s.so_num %>
-                  <% else %>
-                    <%= fa_icon('flask')%><%= s.so_num %> - <%= s.sample_code %>
-                  <% end %>
+                  <%= sub_title(s) %>
                 </strong></u></div>
                 <div class="float-right text-center border px-1 py-1 mb-0">
-                  <% if s.process.blank? || s.process[0].blank?  %>
-                    No process entered.
-                  <% else %>
-                    <u>Process</u><br>
-                    <% s.process.each_with_index do |k,p| %>
-                      <%= k %>
-                      <% if p == s.process.count-1 %>
-                      <% else %>
-                      <br> 
-                      <% end %>
-                    <% end %>
-                  <% end %>
+                  <%= process_steps(s) %>
                 </div>
                 <ul style="list-style-type:none; padding-inline-start: 0px;">
                   <li>Customer: <%= s.customer %></li>
@@ -208,14 +119,7 @@
                   <% x.each do |g| %>
                     <div class="col-6">
                     <% g.each do |c| %>
-                      <% if c.user.blank? %>
-                        &nbsp;
-                      <% else %>
-                        <span class="badge badge-pill" 
-                          style="color: <%= c.user.avatar_text_color %>; 
-                          background-color: <%= c.user.avatar_bg_color %>;">
-                          <%= c.user.initials %> </span>
-                      <% end %>
+                      <%= badge(c.user) %>
                       <%= c.date.strftime("%D") %>
                       <%= c.c_type %>
                       <br>

@@ -46,4 +46,52 @@ module Thickness::BlocksHelper
 
     return output
   end
+
+  def results_set(checks)
+    results = calculate_mean(checks)
+    return "<tr clas='mb-0 mt-0'>
+      <td class='text-right'>Thickness:</td>
+      <td class='text-right'>#{results[0]}</td>
+      <td class='text-right'>#{results[1]}</td>
+      <td class='text-right'>#{results[2]}</td>
+      <td class='text-right'>#{results[3]}</td>
+    </tr>
+    <tr>
+      <td class='text-right'>Alloy %:</td>
+      <td class='text-right'>#{results[4]}</td>
+      <td class='text-right'>#{results[5]}</td>
+      <td class='text-right'>#{results[6]}</td>
+      <td class='text-right'>#{results[7]}</td>
+    </tr>".html_safe
+  end
+
+  def is_rw(block)
+    if block.is_rework
+      "<div class='text-danger d-inline'>
+        RW
+      </div>".html_safe
+    end
+  end
+
+  def customer_cell(block)
+    if block.customer.blank?
+      "<div class='col-12 text-center'>
+        Customer info (from API) unavailable.
+      </div>".html_safe
+    else
+    "<div class='col-7'>
+      Load Weight: #{block.load_weight} <br>
+      Piece Weight: #{block.piece_weight} <br>
+      Part Area: #{block.part_area} 
+    </div>
+    <div class='col-5'>
+      <strong class='text-center'>#{block.customer}</strong> -
+      <div class='text-muted d-inline'>
+        #{block.process}<br>
+      </div>
+      #{block.part} #{block.sub} <br>
+        Density: #{((block.piece_weight.to_f/32.2)/(block.part_area.to_f*block.checks.first.thickness)).round(2)}
+    </div>".html_safe
+  end 
+  end
 end

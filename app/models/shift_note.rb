@@ -52,35 +52,36 @@ class ShiftNote < ApplicationRecord
         end}
 
     # Options for sorting.    
-    def self.options_for_sorted_by
-        [['Newest', 'newest'],
-         ['Oldest', 'oldest']]
+    def self.options_for(field)
+        case field
+        when "user"
+            User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { 
+                |f,l,s,i| 
+                    ["#{f} #{l} #{s}", i] }
+        when "sorted_by"
+            [['Newest', 'newest'],
+             ['Oldest', 'oldest']]
+        when "shift_time"
+            [['1', '1'],
+             ['2', '2'],
+             ['3', '3']]
+        when "shift_type"
+            [['IT',                   'IT'],
+             ['Lab',                 'Lab'],
+             ['Maintenance', 'Maintenance'],
+             ['Plating',         'Plating'],
+             ['QC',                   'QC'],
+             ['Shipping',       'Shipping']]
+        when "dept"
+            [['Dept. 3',      '3'],
+             ['Dept. 5',      '5'],
+             ['Dept. 6',      '6'],
+             ['Dept. 7',      '7'],
+             ['Dept. 4',      '4'],
+             ['Dept. 8',      '8'],
+             ['Dept. 10',    '10'],
+             ['Dept. 12',    '12'],
+             ['Waste Water', '30']]
+        end 
     end 
-
-    def self.options_for_shift_time
-        [['1', '1'],
-         ['2', '2'],
-         ['3', '3']]
-    end
-
-    def self.options_for_shift_type
-        [['IT', 'IT'],
-         ['Lab', 'Lab'],
-         ['Maintenance', 'Maintenance'],
-         ['Plating', 'Plating'],
-         ['QC', 'QC'],
-         ['Shipping', 'Shipping']]
-      end
-
-    def self.options_for_dept
-        [['Dept. 3', '3'],
-         ['Dept. 4', '4'],
-         ['Dept. 5', '5'],
-         ['Dept. 6', '6'],
-         ['Dept. 7', '7'],
-         ['Dept. 8', '8'],
-         ['Dept. 10', '10'],
-         ['Dept. 12', '12'],
-         ['Waste Water', '30']]
-    end
 end

@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
 
         private
         def comment_params
-            params.require(:comment).permit(:body, :user_id, { attachment:[]} )
+            params.require(:comment).permit(:body, :user_id, :comments_count, { attachment:[]} )
         end
 end
 

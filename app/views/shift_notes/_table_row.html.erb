@@ -1,0 +1,28 @@
+<tr>
+  <td class="text-center">
+    <%= badge(note.user) %>
+    <br>
+    <%= note.created_at.strftime('%D') %>
+    <br>
+    <%= note.created_at.strftime("%I:%M %p") %>
+  </td>
+  <td>
+    Shift Time:
+    <%= filter_link(note.shift_time, 'shift_time') %>
+    <br>
+    Shift Type:
+    <%= filter_link(note.shift_type, 'shift_type') %>
+    <br>
+    Dept:
+    <%= filter_link(note.dept, 'dept') %>
+  </td>
+  <td>
+    <%= note.message.html_safe %>
+  </td>
+  <td class="px-0 py-1">
+    <%= render partial: 'comment_tabs', locals: { :note => note }%>
+  </td>
+  <td class="text-center">
+    <%= button_group(note) %>
+  </td>
+</tr>

@@ -2,19 +2,24 @@
   <% provide(:title, 'Shift Notes') %>
   <div class="row mt-3">
     <div class="col">
-      <h3 class="mb-0">Shift Notes</h3>
+      <h3 class="mb-0"><%= yield(:title) %></h3>
     </div>
   </div>
   <div class="row mt-3">
     <div class="col-12" id="filter_form">
-      <%= render partial: 'filter_form', locals: { notes: @shift_notes, show: false } %>
+      <%= render partial: 'filter_form', 
+                  locals: { notes: @shift_notes,
+                             show: "" } %>
     </div>
   </div>
-
   <div class="row" id="shift_notes">
     <div class="col-12">
-      <%= render partial: 'mobile_list', locals: { notes: @shift_notes,
-                                        term: params[:with_search_term] } %>
-      </div>
+      <ul class="px-0 py-0" style="list-style-type:none;">
+        <%= render partial: 'mobile_row', 
+                collection: @shift_notes, 
+                        as: :note,
+                      term: params[:with_search_term] %>
+      </ul>
+    </div>
   </div>
 </div>

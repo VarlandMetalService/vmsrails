@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Admin::UsersHelper
 
   def highlight_unless_nil(text, terms, options = { highlighter: '<mark class="bold">\1</mark>' })
     return text if terms.nil?
@@ -123,6 +124,17 @@ module ApplicationHelper
       return 1
     else
       return 2
+    end
+  end
+
+  def paginator(collection)
+    if collection.blank?
+      "<p class='text-danger'>No results found.</p>"
+    else
+      "<p class='font-weight-bold'>
+          #{ page_entries_info collection }
+          #{ paginate collection }
+      </p>".html_safe
     end
   end
 end
