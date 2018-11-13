@@ -9,7 +9,7 @@
 
 
 
-    <title><%= page_title %></title>
+    <title><%= [content_for(:title), 'VMS'].compact.join(' – ') %></title>
 
     <%= csrf_meta_tags %>
 

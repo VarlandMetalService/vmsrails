@@ -20,7 +20,8 @@
     <%= note.message.html_safe %>
   </td>
   <td class="px-0 py-1">
-    <%= render partial: 'comment_tabs', locals: { :note => note }%>
+    <%= render partial: 'comment_tabs', 
+                locals: { :note => note }%>
   </td>
   <td class="text-center">
     <%= button_group(note) %>

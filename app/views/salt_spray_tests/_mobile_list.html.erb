@@ -32,7 +32,7 @@
                 <%= f.hidden_field :c_type, value: "OK" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <%= ok_button(s, f) %>
+                <%= ok_button(s, f, "block") %>
                 <% end %>
               </div>
               <div class="col-3 px-1">
@@ -41,7 +41,7 @@
                 <%= f.hidden_field :c_type, value: "WHITE" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <%= white_button(s, f) %>
+                <%= white_button(s, f, "block") %>
                 <% end %> 
               </div>
               <div class="col-3 px-1">
@@ -50,7 +50,7 @@
                 <%= f.hidden_field :c_type, value: "RED" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <%= red_button(s, f) %>
+                <%= red_button(s, f, "block") %>
                 <% end %> 
               </div>
               <div class="col-3 px-1">
@@ -59,7 +59,7 @@
                 <%= f.hidden_field :c_type, value: "OFF" %>
                 <%= f.hidden_field :date, value: DateTime.now %>
                 <%= f.hidden_field :user_id, value: @current_user.id %>
-                <%= off_button(s, f) %>
+                <%= off_button(s, f, "block") %>
                 <% end %>
               </div>
             </div>
@@ -71,7 +71,9 @@
       <div class="collapse bg-white" id="collapseInfo<%=s.id%>">
         <div class="card-header bg-white py-4">
           <%= render partial: 'progress_bar', 
-                      locals: { :s => s, :specs => specs, :type => "mobile" } %>
+                      locals: { :s => s, 
+                            :specs => specs, 
+                             :type => "mobile" } %>
         </div>
         <div class="card-body bg-white py-0">
           <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
@@ -135,7 +137,8 @@
       <%# Comments collapsable %>
       <div class="collapse bg-white" id="collapseComments<%=s.id%>">
         <div class="card-body py-2 px-1">           
-          <%= render partial: 'comments/comment_combo', locals: { :s => s }%>
+          <%= render partial: 'comments/comment_combo', 
+                      locals: { :s => s }%>
         </div>
       </div>
     </div>

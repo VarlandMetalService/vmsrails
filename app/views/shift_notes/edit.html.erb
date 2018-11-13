@@ -3,5 +3,6 @@
 
 <div style="max-width: 600px; margin: 0 auto;" class="py-4">
   <%= render partial: 'form' %> 
-  <%= render partial: 'comments/comment_list', locals: { :commentable => @shift_note }%>
+  <%= render partial: 'comments/comment_list', 
+              locals: { :commentable => @shift_note }%>
 </div>

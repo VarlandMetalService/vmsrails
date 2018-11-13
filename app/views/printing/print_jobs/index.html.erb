@@ -4,10 +4,10 @@
     <h3 class="mb-0">Print Jobs</h3>
   </div>
 </div>
-
 <div class="row">
   <div class="col">
-    <%= render partial: 'filter_form' %>
+    <%= render partial: 'filter_form', 
+                locals: { :lists => Printing::PrintJob.filter_form_lists } %>
     <%= render partial: 'list' %>
   </div>
 </div>

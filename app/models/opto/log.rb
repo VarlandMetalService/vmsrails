@@ -51,15 +51,4 @@ class Opto::Log < ApplicationRecord
     json = ::ActiveSupport::JSON.decode(self.json_data)
     return json.symbolize_keys
   end
-
-  # Class methods.
-
-  def self.options_for_sorted_by
-    [['Newest', 'newest'],
-     ['Oldest', 'oldest'],
-     ['Controller', 'controller'],
-     ['Type', 'type'],
-     ['Controller & Type', 'controller_and_type']]
-  end
-
 end

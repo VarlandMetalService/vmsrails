@@ -16,11 +16,11 @@
         <%= f.label :with_department,
                     'Department:'  %>
         <%= f.select :with_department, 
-                      options_for_select(Materials::Vat.pluck(:department).uniq,
-                                         params[:with_department]),
-                      { include_blank: true },
-                      { class: 'custom-select',
-                        onchange: 'this.form.submit();' } %>
+              options_for_select(Materials::VatHistoryNote.options_for("dept"),
+              params[:with_department]),
+              { include_blank: true },
+              { class: 'custom-select',
+             onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col">
@@ -28,11 +28,11 @@
         <%= f.label :with_vat,
                     'Vat:'  %>
         <%= f.select :with_vat, 
-                options_for_select(Materials::VatHistoryNote.joins(:vat).distinct.pluck(:code, :description, :vat_id).map { |c, d, i| ["#{c} &ndash; #{d}".html_safe, i]}.uniq,
-                  params[:with_vat]),
-                { include_blank: true },
-                { class: 'custom-select',
-                  onchange: 'this.form.submit();' } %>
+              options_for_select(Materials::VatHistoryNote.options_for("vat"),
+              params[:with_vat]),
+              { include_blank: true },
+              { class: 'custom-select',
+             onchange: 'this.form.submit();' } %>
       </div>
     </div>
     <div class="col">
@@ -40,11 +40,11 @@
         <%= f.label :with_user,
                     'User:' %> 
         <%= f.select :with_user,
-                options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]},
-                      params[:with_user]),
-                      { include_blank: true },
-                      { class: 'custom-select',
-                      onchange: 'this.form.submit();' }%>
+              options_for_select(Materials::VatHistoryNote.options_for("user"),
+              params[:with_user]),
+              { include_blank: true },
+              { class: 'custom-select',
+             onchange: 'this.form.submit();' }%>
       </div>
     </div>
     <div class="col">
@@ -72,11 +72,11 @@
         <%= f.label :sorted_by,
                     'Sort By:'  %>
         <%= f.select :sorted_by, 
-                      options_for_select(Materials::VatHistoryNote.options_for_sorted_by,
-                                         params[:sorted_by]),
-                      { include_blank: false },
-                      { class: 'custom-select',
-                        onchange: 'this.form.submit();' } %>
+              options_for_select(Materials::VatHistoryNote.options_for("sort"),
+              params[:sorted_by]),
+              { include_blank: false },
+              { class: 'custom-select',
+             onchange: 'this.form.submit();' } %>
       </div>
     </div>
   </div>

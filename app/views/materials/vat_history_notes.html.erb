@@ -10,6 +10,25 @@
   </div>
 </div>
 <div class="row mt-3" id="vat_history_notes">
-  <%= render partial: 'list', locals: { notes: @vat_history_notes,
-                                        term: params[:with_search_term] } %>
+  <div class="col">
+      <%= paginator(@vat_history_notes) %>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Vat</th>
+            <th>Date/Time</th>
+            <th class="text-center">Entered By</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render partial: 'table_row',
+          collection: @vat_history_notes, 
+                  as: :n,
+              cached: true,
+              locals: { term: params[:with_search_term] } %>
+        </tbody>
+      </table>
+      <%= bottom_paginator(@vat_history_notes) %>
+  </div>
 </div>

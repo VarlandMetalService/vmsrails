@@ -13,6 +13,12 @@ module SpecificationsHelper
     end
   end
 
+  def inches_to_half_micron(inches)
+    calculated = inches.to_f * 25400
+    rounded = (calculated * 2).round / 2.0
+    return rounded
+  end
+
   def temperature(setpoint, variation_limit, unit)
     return "" if setpoint.blank?
     variation_limit = 0 if variation_limit.blank?
@@ -49,6 +55,10 @@ module SpecificationsHelper
     else
       "#{number_with_precision(calculated, precision: 1)}".html_safe
     end
+  end
+
+  def required_field_label(text)
+    (text + '<sup class="text-danger">' + fa_icon('asterisk') + '</sup>:').html_safe
   end
 
 end

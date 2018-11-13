@@ -8,18 +8,6 @@ module Thickness
     self.table_name = "thickness_blocks"
 
     # Scoping.
-
-    # has_scope :with_timestamp,    only: :index
-    # has_scope :with_directory,    only: :index
-    # has_scope :with_product,      only: :index
-    # has_scope :with_application,  only: :index
-    # has_scope :with_user,         only: :index
-    # has_scope :with_customer,     only: :index
-    # has_scope :with_process,      only: :index
-    # has_scope :with_part,         only: :index
-    # has_scope :with_rework,       only: :index
-    # has_scope :with_search_term,  only: :index
-
     scope :with_timestamp, ->(timestamp) { joins(:checks).where(" thickness_checks.check_timestamp >= ?", timestamp) unless timestamp.nil? }
     scope :with_directory, ->(directory) { where("directory = ?", directory)unless directory.nil? }
     scope :with_product, ->(product) { where("product = ?", product) unless product.nil? }
@@ -31,8 +19,22 @@ module Thickness
     scope :with_rework, ->(rework) { where("is_rework = ?", rework) unless rework.nil? }
     scope :with_so_num, ->(so_num) { where("so_num = ?", so_num) unless so_num.nil? }
 
-
     # Pagination.
     paginates_per 30
+    
+    # Model functions
+    def self.filter_form_lists
+      lists = Thickness::Block.pluck(:so_num, :directory, :product, :application, :customer, :process, :part).transpose
+      lists << User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
+      return lists
+    end
+
+    def self.remove_blank_checks(block)
+      block.checks.each do |c|
+        if c.thickness.blank?
+          c.destroy
+        end
+      end
+    end  
   end
 end

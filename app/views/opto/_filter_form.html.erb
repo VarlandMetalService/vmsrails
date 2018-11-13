@@ -16,10 +16,10 @@
         <%= f.label :with_controller,
                     'Controller:'  %>
         <%= f.select :with_controller, 
-                options_for_select(Opto::Controller.pluck(:name, :id).uniq.sort,
-                params[:with_controller]),
-                { include_blank: true },
-                { class: 'custom-select' } %>
+              options_for_select(Opto.options_for("controller"),
+              params[:with_controller]),
+              { include_blank: true },
+              { class: 'custom-select' } %>
       </div>
     </div>
     <div class="col">
@@ -27,10 +27,10 @@
         <%= f.label :with_type,
                     'Log Type:'  %>        
         <%= f.select :with_type, 
-                options_for_select(Opto::Log.pluck(:type).uniq.map { |t| [t.demodulize.titleize, t]},
-                params[:with_type]),
-                { include_blank: true },
-                { class: 'custom-select' } %>
+              options_for_select(Opto.options_for("type"), 
+              params[:with_type]),
+              { include_blank: true },
+              { class: 'custom-select' } %>
       </div>
     </div>
     <div class="col">
@@ -56,10 +56,10 @@
         <%= f.label :sorted_by,
                     'Sort By:'  %>
         <%= f.select :sorted_by, 
-                      options_for_select(Opto::Log.options_for_sorted_by,
-                                         params[:sorted_by]),
-                      { include_blank: false },
-                      { class: 'custom-select' } %>
+              options_for_select(Opto.options_for("sort"),
+              params[:sorted_by]),
+              { include_blank: false },
+              { class: 'custom-select' } %>
       </div>
     </div>
   </div>

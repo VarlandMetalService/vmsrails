@@ -108,7 +108,9 @@
             </div>
           </li>
         <% end %>
-        <%= nav_link 'sessions', 'destroy', 'sign-out', logout_path, :delete %>
+        <li class="nav-item">
+          <%= link_to fa_icon("sign-out 2x"), logout_path, class: 'nav-link p-1', controller: 'sessions', action: 'destroy', method: :delete %>
+        </li>
       </ul>
     <% end %>
 </nav>

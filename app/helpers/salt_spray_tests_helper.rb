@@ -1,22 +1,22 @@
 module SaltSprayTestsHelper
-  # Returns an array of either 'x days' or 'x hours' depending on 
-  #   divisibility e.g. [white_spec, red_spec, units]
-  def format_spec(test)
-    if test.blank? 
-    else
-      results = []
-      if test.white_spec.modulo(24).zero? && test.red_spec.modulo(24).zero?
-        results[0] = pluralize(test.white_spec/24, 'day')
-        results[1] = pluralize(test.red_spec/24, 'day')
-        results[3] = 'day'
+  # Logic functions
+    # Returns an array of either 'x days' or 'x hours' depending on divisibility e.g. [white_spec, red_spec, units]
+    def format_spec(test)
+      if test.blank? 
       else
-        results[0] = pluralize(test.white_spec, 'hour')
-        results[1] = pluralize(test.red_spec, 'hour')
-        results[3] = 'hour'
+        results = []
+        if test.white_spec.modulo(24).zero? && test.red_spec.modulo(24).zero?
+          results[0] = pluralize(test.white_spec/24, 'day')
+          results[1] = pluralize(test.red_spec/24, 'day')
+          results[3] = 'day'
+        else
+          results[0] = pluralize(test.white_spec, 'hour')
+          results[1] = pluralize(test.red_spec, 'hour')
+          results[3] = 'hour'
+        end
+        return results
       end
-      return results
     end
-  end
 
   def title(s)
     if s.is_sample? || !s.sample_code.blank?
@@ -48,7 +48,7 @@ module SaltSprayTestsHelper
     else
       "<u>Process</u><br>" + 
       s.process.each_with_index do |k,p|
-        + "#{k}"
+        + "#{p+1}: #{k}"
         if p == s.process.count-1
         else
         + "<br>" 
@@ -65,77 +65,101 @@ module SaltSprayTestsHelper
     </a>".html_safe unless s.process_code.blank?
   end
 
-  def ok_button(s, f)
+  def ok_button(s, f, type)
+    case type
+    when "block"
+      string = 'swipe-btn btn-block border'
+    when "dropdown"
+      string = 'btn-sm dropdown-item'
+    end
     if s.salt_spray_test_checks.where(:c_type => 'OFF').blank?
       "#{ f.submit 'OK', 
-      { class: 'btn btn-primary swipe-btn btn-block border',
+      { class: 'btn btn-primary ' + %Q[#{string}],
         data: { 
-          confirm: 'Mark' + %Q[#{s.so_num}] + ' as OK?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OK?', 
           toggle: 'tooltip', 
           title: 'Mark as OK' } } }".html_safe
     else
        "#{ f.submit 'ok', 
-            { class: 'btn btn-primary swipe-btn btn-block border',
+            { class: 'btn btn-primary ' + %Q[#{string}],
               disabled: true, 
               data: { 
-                confirm: 'Mark' + %Q[#{s.so_num}] + ' as WHITE?', 
+                confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
                 toggle: 'tooltip', 
                 title: 'Mark as OK' } } }".html_safe
     end 
   end
 
-  def white_button(s, f)
+  def white_button(s, f, type)
+    case type
+    when "block"
+      string = 'swipe-btn btn-block border'
+    when "dropdown"
+      string = 'btn-sm dropdown-item'
+    end
     if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank?
     "#{ f.submit 'WHITE', 
-    { class: 'btn swipe-btn btn-block border',
+    { class: 'btn ' + %Q[#{string}],
       data: { 
-        confirm: 'Mark' + %Q[#{s.so_num}] + ' as WHITE?', 
+        confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
         toggle: 'tooltip', 
         title: 'Mark as WHITE' } } }".html_safe
     else
      "#{ f.submit 'white', 
-          { class: 'btn swipe-btn btn-block border',
+          { class: 'btn ' + %Q[#{string}],
             disabled: true, 
             data: { 
-              confirm: 'Mark' + %Q[#{s.so_num}] + ' as WHITE?', 
+              confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
               toggle: 'tooltip', 
               title: 'Mark as WHITE' } } }".html_safe
     end
   end
 
-  def red_button(s, f)
+  def red_button(s, f, type)
+    case type
+    when "block"
+      string = 'swipe-btn btn-block border'
+    when "dropdown"
+      string = 'btn-sm dropdown-item'
+    end
     if s.salt_spray_test_checks.where(:c_type => 'RED').blank?
       "#{ f.submit 'RED', 
-      { class: 'btn btn-danger swipe-btn btn-block border',
+      { class: 'btn btn-danger ' + %Q[#{string}],
         data: { 
-          confirm: 'Mark' + %Q[#{s.so_num}] + ' as RED?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as RED?', 
           toggle: 'tooltip', 
           title: 'Mark as RED' } } }".html_safe
     else
       "#{ f.submit 'red', 
-      { class: 'btn btn-danger swipe-btn btn-block border',
+      { class: 'btn btn-danger ' + %Q[#{string}],
         disabled: true, 
         data: { 
-          confirm: 'Mark' + %Q[#{s.so_num}] + ' as RED?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as RED?', 
           toggle: 'tooltip', 
           title: 'Mark as RED' } } }".html_safe
     end
   end
 
-  def off_button(s, f)
+  def off_button(s, f, type)
+    case type
+    when "block"
+      string = 'swipe-btn btn-block border'
+    when "dropdown"
+      string = 'btn-sm dropdown-item'
+    end
     if s.salt_spray_test_checks.where(:c_type => 'OFF').blank?
       "#{ f.submit 'OFF', 
-      { class: 'btn btn-success swipe-btn btn-block border',
+      { class: 'btn btn-success ' + %Q[#{string}],
         data: { 
-          confirm: 'Mark' + %Q[#{s.so_num}] + ' as OFF?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OFF?', 
           toggle: 'tooltip', 
           title: 'Mark as OFF' } } }".html_safe
     else
       "#{ f.submit 'off', 
-      { class: 'btn btn-success swipe-btn btn-block border',
+      { class: 'btn btn-success ' + %Q[#{string}],
         disabled: true, 
         data: { 
-          confirm: 'Mark' + %Q[#{s.so_num}] + ' as OFF?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OFF?', 
           toggle: 'tooltip', 
           title: 'Mark as OFF' } } }".html_safe
     end

@@ -63,5 +63,13 @@ module Printing
       data[:document_type_id] = Printing::DocumentType.find_by(name: temp[:document_type]).id unless Printing::DocumentType.find_by(name: temp[:document_type]).blank?
       return data
     end
+
+    def self.filter_form_lists
+      lists = []
+      lists[0] = Printing::DocumentType.pluck(:name, :id).uniq
+      lists[1] = Printing::Workstation.pluck(:name, :id).uniq
+      lists[2] = User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}.uniq
+      return lists
+    end
   end
 end 

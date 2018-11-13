@@ -17,9 +17,7 @@ module Thickness
 
     def index
       @blocks = apply_scopes(Thickness::Block.all).includes(:checks, :user).order('updated_at DESC').page(params[:page])
-      @filters = Thickness::Block.pluck(:so_num, :directory, :product, :application, :customer, :process, :part).transpose
-      @filters << User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
-    respond_to do |format|
+      respond_to do |format|
         format.html
         format.json { render :json => @blocks }
         format.xlsx { response.headers['Content-Disposition'] = 'attachment; filename="thickness results.xlsx"'}
@@ -45,7 +43,7 @@ module Thickness
       @block = Block.new(block_params) 
       @checks = @block.checks.build
       if @block.save
-        remove_blank_checks(@block)
+        Thickness::Block.remove_blank_checks(@block)
         flash[:success] = "Block created."
         respond_to do |format|
           format.html { redirect_to block_path(@block)}
@@ -86,13 +84,5 @@ module Thickness
            :user_id, :so_num, :load_num, :block_num, :is_rework, :directory, :product, :application, :customer, :process,  :part, :sub, :load_weight, :piece_weight, :part_area, :part_density, 
            :checks_attributes => [:id, :check_timestamp, :check_num, :thickness, :alloy_percentage, :x, :y, :z, '_destroy'])
       end 
-
-      def remove_blank_checks(block)
-        block.checks.each do |c|
-          if c.thickness.blank?
-            c.destroy
-          end
-        end
-      end  
   end
 end

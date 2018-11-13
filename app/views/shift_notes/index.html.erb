@@ -6,7 +6,9 @@
 </div>
 <div class="row mt-3">
   <div class="col-12" id="filter_form">
-    <%= render partial: 'filter_form', locals: { show: "show" } %>
+    <%= render partial: 'filter_form', 
+                locals: { show: "show" }, 
+                cached: true %>
   </div>
 </div>
 <div class="row px-3" id="shift_notes">
@@ -25,11 +27,14 @@
         </tr>
       </thead>
       <tbody>
-        <%= render partial: 'table_row', collection: @shift_notes, as: :note %>
+        <%= render partial: 'table_row', 
+                collection: @shift_notes, 
+                        as: :note, 
+                    cached: true %>
       </tbody>
     </table>
     <div class="col d-xl-table-cell d-lg-table-cell d-md-table-cell d-none">
-      <%= paginator(@shift_notes) %>
+      <%= bottom_paginator(@shift_notes) %>
     </div>
   </div>
 </div>

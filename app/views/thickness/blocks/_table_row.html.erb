@@ -1,3 +1,4 @@
+<% cache @blocks do %>
 <tr>
   <td>
     <div class="form-row">
@@ -29,7 +30,7 @@
       <thead class="thead-dark">
         <tr class="mb-0 mt-0">
           <th class="col-4 text-right"><button class="btn-sm btn-dark text-warning py-0" type="button" data-toggle="collapse" data-target=".<%= block.id %>checks"><%= fa_icon("list-ul")%></button>
-          Check Count: <%= block.checks.length %>
+            Check Count: <%= block.checks.length %>
           </th>
           <th class="col-2 text-right">Mean</th>
           <th class="col-2 text-right">Min</th>
@@ -37,9 +38,7 @@
           <th class="col-2 text-right">Std. Dev</th>
         </tr>
       </thead>
-      <tbody>
-        <%= results_set(block.checks) %>
-      </tbody>
+      <%= results_table(block) %>
     </table>
     <div class="px-0 container-fluid collapse <%= block.id %>checks">
       <table class="table table-sm">
@@ -80,3 +79,4 @@
     </div>
   </td>
 </tr>
+<% end %>

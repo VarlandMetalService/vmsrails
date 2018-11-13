@@ -25,7 +25,7 @@
           <%= f.label :with_so_num,
                       'S.O. #:' %>
           <%= f.select :with_so_num,
-                  options_for_select(@filters[0].uniq,
+                  options_for_select(lists[0].uniq,
                   params[:with_so_num]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -37,7 +37,7 @@
           <%= f.label :with_directory,
                       'Directory:' %>
           <%= f.select :with_directory,
-                  options_for_select(@filters[1].uniq,
+                  options_for_select(lists[1].uniq,
                   params[:with_directory]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -49,7 +49,7 @@
           <%= f.label :with_product,
                       'Product:' %>
           <%= f.select :with_product,
-                  options_for_select(@filters[2].uniq,
+                  options_for_select(lists[2].uniq,
                   params[:with_product]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -61,7 +61,7 @@
           <%= f.label :with_application,
                       'Application:' %>
           <%= f.select :with_application,
-                  options_for_select(@filters[3].uniq,
+                  options_for_select(lists[3].uniq,
                   params[:with_application]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -72,9 +72,9 @@
       <div class="col-4">
         <div class="form-group">
           <%= f.label :with_user,
-                      'User Initials:' %>
+                      'User:' %>
           <%= f.select :with_user,
-                  options_for_select(@filters[7].uniq,
+                  options_for_select(lists[7].uniq,
                   params[:with_user]),
                   { include_blank: true },
                   {class: 'custom-select',
@@ -86,7 +86,7 @@
           <%= f.label :with_customer,
                       'Customer:' %>
           <%= f.select :with_customer,
-                  options_for_select(@filters[4].uniq,
+                  options_for_select(lists[4].uniq,
                   params[:with_customer]),
                   {  },
                   {class: 'custom-select',
@@ -98,7 +98,7 @@
           <%= f.label :with_process,
                       'Process:' %>
           <%= f.select :with_process,
-                  options_for_select(@filters[5].uniq, 
+                  options_for_select(lists[5].uniq, 
                   params[:with_process]),
                   {  },
                   {class: 'custom-select',
@@ -110,7 +110,7 @@
           <%= f.label :with_part,
                       'Part:' %>
           <%= f.select :with_part,
-                  options_for_select(@filters[6].uniq, 
+                  options_for_select(lists[6].uniq, 
                   params[:with_part]),
                   {  },
                   {class: 'custom-select',

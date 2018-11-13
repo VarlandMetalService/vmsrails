@@ -38,4 +38,12 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  def input_group_prepend(icon)
+    content_tag :div, class: 'input-group-prepend' do
+      content_tag :span, class: 'input-group-text' do
+        fa_icon icon
+      end
+    end
+  end
+
 end

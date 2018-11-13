@@ -1,5 +1,10 @@
 module Printing
   class PrintQueueRule < ApplicationRecord
+
+    belongs_to :print_queue, optional: true
+    belongs_to :user, class_name: 'User', optional: true
+    belongs_to :workstation, optional: true
+    belongs_to :document_type, optional: true
     # Validations.
     validates_presence_of :print_queue_id
 

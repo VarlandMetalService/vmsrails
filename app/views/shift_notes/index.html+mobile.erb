@@ -9,7 +9,8 @@
     <div class="col-12" id="filter_form">
       <%= render partial: 'filter_form', 
                   locals: { notes: @shift_notes,
-                             show: "" } %>
+                             show: "" },
+                  cached: true %>
     </div>
   </div>
   <div class="row" id="shift_notes">
@@ -18,7 +19,8 @@
         <%= render partial: 'mobile_row', 
                 collection: @shift_notes, 
                         as: :note,
-                      term: params[:with_search_term] %>
+                      term: params[:with_search_term],
+                    cached: true %>
       </ul>
     </div>
   </div>

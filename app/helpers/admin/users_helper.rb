@@ -12,4 +12,12 @@ module Admin::UsersHelper
     end
   end
 
+  def small_label_bold_text(label, text)
+    "<small>#{label}:</small> <strong>#{text}</strong>".html_safe
+  end
+
+  def required_field_label(text)
+    (text + '<sup class="text-danger">' + fa_icon('asterisk') + '</sup>:').html_safe
+  end
+
 end

@@ -20,15 +20,9 @@
         <td class="d-md-table-cell d-xs-none" style="white-space: nowrap; overflow: hidden;">
           <div class="row">
             <div class="col-12">
-              <a href="#" data-process-code="<%= s.process_code %>" title="Filter by process code" class="process-code-filter font-weight-bold">
-                <span class="badge badge-warning badge-border float-left mr-2" style="font-size: 40px;  border: 5px solid #343a40;"><%= s.process_code %></span>
-              </a>
+              <%= process_badge(s) %>
               <strong class="pull-left" style="font-size: 20px;">
-                <% if s.is_sample? || !s.is_sample.blank? %>
-                  <%= fa_icon("flask", text: %Q[#{s.so_num} - #{s.sample_code}]) %>
-                <% else %>
-                  <%= s.so_num  %> 
-                <% end %>
+                <%= sub_title(s) %>
               </strong>
               <br>
               <div class="text-muted">
@@ -56,17 +50,7 @@
         </td>
         <%# Process %>
         <td class="d-none d-lg-table-cell">
-          <% if s.process.blank? || s.process[0].blank? %>
-            No process entered.
-          <% else %>
-            <% s.process.each_with_index do |k,p| %>
-              <%="#{p+1}: #{k}" unless k.blank? %>
-              <% if p == s.process.count-1 %>
-              <% else %>
-              <br> 
-              <% end %>
-            <% end %>
-          <% end %>
+          <%= process_steps(s) %>
         </td>
         <%# User %>
         <td class="d-none d-lg-table-cell">
@@ -81,9 +65,9 @@
         <td class="d-md-table-cell d-xs-none">
           <div class="mt-4">
             <%= render partial: 'progress_bar', 
-                  locals: { :s => s, 
-                        :specs => specs, 
-                        :type => "desktop" } %>
+                        locals: { :s => s, 
+                              :specs => specs, 
+                               :type => "desktop" } %>
           </div>
           <div class="mx-2 collapse checks-collapse<%=s.id%>">
             <% x = s.salt_spray_test_checks.in_groups(2, false) %>
@@ -91,14 +75,7 @@
               <% x.each do |g| %>
                 <div class="col-6">
                   <% g.each do |c| %>
-                    <% if c.user.blank? %>
-                      &nbsp;
-                    <% else %>
-                      <span class="badge badge-pill" 
-                        style="color: <%= c.user.avatar_text_color %>; 
-                        background-color: <%= c.user.avatar_bg_color %>;">
-                        <%= c.user.initials %> </span>
-                    <% end %>
+                    <%= badge(c.user) %>
                     <%= c.date.strftime("%D") %>
                     <%= c.c_type %>
                     <br>
@@ -120,22 +97,7 @@
                   <%= f.hidden_field :c_type, value: "OK" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-                  <%= f.submit 'OK', 
-                        { class: "btn btn-primary btn-sm dropdown-item", 
-                            data: { 
-                            confirm: 'Mark as OK?', 
-                              toggle: 'tooltip', 
-                              title: 'Mark as OK' } } %>  
-                  <% else %>
-                  <%= f.submit 'Already Marked OFF', 
-                        { class: "btn btn-primary btn-sm dropdown-item",
-                          disabled: true, 
-                            data: { 
-                            confirm: 'Mark as OK?', 
-                              toggle: 'tooltip', 
-                              title: 'Mark as OK' } } %>  
-                  <% end %>           
+                  <%= ok_button(s, f, "dropdown")%>  
                 <% end %>
                 <%# WHITE %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -143,22 +105,7 @@
                   <%= f.hidden_field :c_type, value: "WHITE" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank? && s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-                  <%= f.submit 'White', 
-                          { class: "btn btn-sm dropdown-item", 
-                            data: { 
-                            confirm: "Mark #{s.so_num} as WHITE?", 
-                              toggle: 'tooltip', 
-                              title: 'Mark as WHITE' } } %>
-                  <% else %>
-                  <%= f.submit 'Already Marked WHITE', 
-                          { class: "btn btn-sm dropdown-item",
-                            disabled: true, 
-                            data: { 
-                            confirm: 'Mark as WHITE?', 
-                              toggle: 'tooltip', 
-                              title: 'Mark as WHITE' } } %>
-                  <% end %>             
+                  <%= white_button(s, f, "dropdown") %>            
                 <% end %> 
                 <%# RED %>
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -166,22 +113,7 @@
                   <%= f.hidden_field :c_type, value: "RED" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'RED').blank?  && s.salt_spray_test_checks.where(:c_type => 'OFF').blank?%>
-                  <%= f.submit 'Red', 
-                          { class: "btn btn-danger btn-sm dropdown-item", 
-                            data: { 
-                            confirm: "Mark #{s.so_num} as RED?", 
-                              toggle: 'tooltip', 
-                              title: 'Mark as RED' } } %>
-                  <% else %>
-                  <%= f.submit "Already Marked RED", 
-                          { class: "btn btn-danger btn-sm dropdown-item", 
-                            disabled: true,
-                            data: { 
-                            confirm: 'Mark as RED?', 
-                              toggle: 'tooltip', 
-                              title: 'Mark as RED' } } %>
-                    <% end %>
+                  <%= red_button(s, f, "dropdown") %>
                 <% end %>
                 <%# OFF %> 
                 <%= form_for [s, @check], url: salt_spray_test_salt_spray_test_checks_path(salt_spray_test_id: s.id) do |f| %>
@@ -189,22 +121,7 @@
                   <%= f.hidden_field :c_type, value: "OFF" %>
                   <%= f.hidden_field :date, value: DateTime.now %>
                   <%= f.hidden_field :user_id, value: @current_user.id %>
-                  <% if s.salt_spray_test_checks.where(:c_type => 'OFF').blank? %>
-                  <%= f.submit 'Off', 
-                          { class: "btn btn-success btn-sm dropdown-item", 
-                            data: { 
-                            confirm: "Mark #{s.so_num} as OFF?", 
-                              toggle: 'tooltip', 
-                              title: 'Mark as OFF' } } %> 
-                  <% else %>
-                  <%= f.submit 'Already Marked OFF', 
-                          { class: "btn btn-success btn-sm dropdown-item",
-                            disabled: true, 
-                            data: { 
-                            confirm: 'Mark as OFF?', 
-                              toggle: 'tooltip', 
-                              title: 'Mark as OFF' } } %> 
-                  <% end %>
+                  <%= off_button(s, f, "dropdown") %>
                 <% end %>
               </div>
             </div>
@@ -215,7 +132,8 @@
               <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="margin-top: -3px; width: 50px;"><%= fa_icon('share-alt')%></button>
               <div class="dropdown-menu">
                 <%= button_to "Send to management.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_management => s.id).to_unsafe_h } %>
-                <%= button_to "Send to sales.", send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
+                <%= button_to "Send to sales.", 
+                        send_salt_spray_test_path, { class: "dropdown-item", :params => params.merge(:email_sales => s.id).to_unsafe_h } %>
               </div>
             </div>
             <%= link_to fa_icon('pencil'),
@@ -242,7 +160,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <%= render partial: 'comments/comment_combo', locals: { :s => s }%>
+          <%= render partial: 'comments/comment_combo', 
+                      locals: { :s => s }%>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

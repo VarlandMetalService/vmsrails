@@ -212,7 +212,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"> Department: </span>
               </div>
-              <%= f.select :dept, options_for_select(ShiftNote.options_for_dept), {}, { class: "form-control" } %>
+              <%= f.select :dept, options_for_select(ShiftNote.options_for("dept")), {}, { class: "form-control" } %>
               <div class="invalid-feedback text-center">
                 Department required.
               </div>
@@ -265,7 +265,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"> User: </span>
                       </div>
-                      <%= ff.select :user_id, options_for_select(User.all.map { |u| [u.full_name, u.id] }, ff.object.user_id ), {}, { class: "form-control" } %>
+                      <%= ff.select :user_id, options_for_select(@user_filter, ff.object.user_id ), {}, { class: "form-control" } %>
                     </div>
                   </div>
                 </div>

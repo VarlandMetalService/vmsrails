@@ -1,3 +1,4 @@
+<% cache 'table' do %>
 <% provide(:title, 'Thickness Readings') %>
 <div class="row mt-3">
   <div class="col">
@@ -6,7 +7,7 @@
 </div>
 <div class="row mt-3">
   <div class="col-12" id="filter_form">
-    <%= render partial: 'filter_form', chached: true %>
+    <%= render partial: 'filter_form', chached: true, locals: { :lists => Thickness::Block.filter_form_lists } %>
   </div>
 </div>
 <div class="row">
@@ -32,8 +33,10 @@
         </tr>
       </thead>
       <tbody>
-        <%= render partial: 'table_row', collection: @blocks, as: :block %>
+        <%= render partial: 'table_row', collection: @blocks, as: :block, cached: true %>
       </tbody>
     </table>
+    <%= bottom_paginator(@blocks)%>
   </div>
 </div>
+<% end %>

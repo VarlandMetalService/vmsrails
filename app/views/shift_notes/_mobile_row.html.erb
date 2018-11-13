@@ -41,7 +41,8 @@
     </div>
     <div class="collapse bg-white" id="collapseComments<%=note.id%>">
       <div class="card-body py-2 px-1">           
-      <%= render partial: 'comments/comment_combo', locals: { :s => note }%>
+      <%= render partial: 'comments/comment_combo', 
+                  locals: { :s => note }%>
       </div>
     </div>
     <div class="collapse show bg-white" id="collapseInfo<%=note.id%>">

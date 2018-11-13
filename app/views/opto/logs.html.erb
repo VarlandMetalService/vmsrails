@@ -11,34 +11,23 @@
 </div>
 <div class="row mt-3">
   <div class="col">
-    <% if @logs.blank? %>
-      <p class="text-danger">No results found.</p>
-    <% else %>
-      <p class="font-weight-bold">
-        <%= page_entries_info @logs %>
-        <%= paginate @logs %>
-      </p>
-      <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th>Date/Time</th>
-            <th>Controller</th>
-            <th>Type</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @logs.each do |l| %>
-            <tr>
-              <td><%= l.controller_timestamp.strftime('%m/%d/%Y %H:%M:%S') %></td>
-              <td><%= l.controller.name %></td>
-              <td><%= l.log_type %></td>
-              <td><%= l.details.html_safe %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <%= paginate @logs %>
-    <% end %>
+    <%= paginator(@logs) %>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Date/Time</th>
+          <th>Controller</th>
+          <th>Type</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'log', 
+                collection: @logs, 
+                        as: :l, 
+                    cached: true %>
+      </tbody>
+    </table>
+    <%= bottom_paginator(@logs) %>
   </div>
 </div>

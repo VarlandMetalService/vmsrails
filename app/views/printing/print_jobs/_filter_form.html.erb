@@ -17,7 +17,8 @@
           <%= f.label :with_user,
                       'User:' %> 
           <%= f.select :with_user,
-                options_for_select(User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}, params[:with_user]),
+                options_for_select(lists[2], 
+                params[:with_user]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%>
         </div>
@@ -28,7 +29,7 @@
           <%= f.label :with_workstation,
                       'Workstation:' %>
           <%= f.select :with_workstation,
-                options_for_select(Printing::Workstation.pluck(:name, :id), 
+                options_for_select(lists[1], 
                 params[:with_workstation]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%> 
@@ -40,7 +41,7 @@
           <%= f.label :with_doc_type,
                       'Document Type:' %>
           <%= f.select :with_doc_type,
-                  options_for_select(Printing::DocumentType.pluck(:name, :id), 
+                  options_for_select(lists[0], 
                   params[:with_doc_type]),
                   { include_blank: true },
                   { class: 'custom-select', onchange: 'this.form.submit();' }%> 
@@ -51,7 +52,9 @@
           <%= f.label :with_is_complete,
                       'View:' %>
           <%= f.select :with_is_complete,
-                options_for_select([['Failed', '' ],['All', 'true']], params[:with_is_complete]), {}, 
+                options_for_select([['Failed', '' ],['All', 'true']], 
+                params[:with_is_complete]), 
+                {  }, 
                 { class: 'custom-select', onchange: 'this.form.submit();' }%>           
         </div>
       </div>

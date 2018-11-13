@@ -51,6 +51,7 @@ class User < ApplicationRecord
   has_many      :thickness_blocks,
                 class_name: 'Thickness::Blocks',
                 foreign_key: 'user_id'
+  has_many      :print_queue_rules
 
   # Validation.
   validates :employee_number,

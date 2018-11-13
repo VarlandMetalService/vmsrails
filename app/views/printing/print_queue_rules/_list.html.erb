@@ -15,10 +15,10 @@
         <% @print_queue_rules.each do |p| %>
         <tr>
           <td><%= p.weight %></td>
-          <td><%= Printing::PrintQueue.find(p.print_queue_id).name unless !Printing::PrintQueue.all.map{|q| q.id }.include?(p.print_queue_id) %></td>
-          <td><%= User.find(p.user_id).full_name unless p.user_id.blank? %></td>
-          <td><%= Printing::Workstation.find(p.workstation_id).name unless p.workstation_id.blank?  %></td>
-          <td><%= Printing::DocumentType.find(p.document_type_id).name unless p.document_type_id.blank? %></td>
+          <td><%= p.print_queue.name   unless p.print_queue_id.blank? %></td>
+          <td><%= p.user.full_name     unless p.user_id.blank? %></td>
+          <td><%= p.workstation.name   unless p.workstation_id.blank? %></td>
+          <td><%= p.document_type.name unless p.document_type_id.blank? %></td>
           <td class="text-center">
             <div class="btn-group", role="group">
               <%= hidden_field_tag :with_user, params[:with_user] %>

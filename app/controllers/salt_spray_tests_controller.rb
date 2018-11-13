@@ -18,6 +18,7 @@ class SaltSprayTestsController < ApplicationController
     else
       @salt_spray_tests = @salt_spray_tests.not_recently
     end
+    @user_filter = User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
     @check = SaltSprayTestCheck.new
     respond_to do |format|
       format.html
@@ -37,6 +38,7 @@ class SaltSprayTestsController < ApplicationController
   end
 
   def edit
+    @user_filter = User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
   end
 
   def create

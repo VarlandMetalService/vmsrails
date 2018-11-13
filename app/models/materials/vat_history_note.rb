@@ -49,10 +49,19 @@ class Materials::VatHistoryNote < ApplicationRecord
 
   # Class methods.
 
-  def self.options_for_sorted_by
-    [['Newest', 'newest'],
-     ['Oldest', 'oldest'],
-     ['Vat', 'vat']]
+  def self.options_for(field)
+    case field
+    when "sort"
+      [['Newest', 'newest'],
+       ['Oldest', 'oldest'],
+       ['Vat'   , 'vat'   ]]
+    when "dept"
+      Materials::Vat.pluck(:department).uniq
+    when "vat"
+      Materials::VatHistoryNote.joins(:vat).distinct.pluck(:code, :description, :vat_id).map { |c, d, i| ["#{c} &ndash; #{d}".html_safe, i]}.uniq
+    when "user"
+      User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}
+    end
   end
 
 end
