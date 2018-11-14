@@ -7,6 +7,150 @@
 </div>
 <div class="row">
   <div class="col">
-    <%= render partial: 'form' %>
+    <%= form_for @salt_spray_test do |f| %>
+    <div class="container-fluid border p-2">
+      <u>Shop Order Details</u>
+      <div class="form-group mb-0" style="margin-top: 10px">
+          <%= f.label :is_sample,
+                      'Sample?:' %> 
+          <%= f.check_box :is_sample, {class: "align-middle",
+                                  id: "sample_box"}, true, false %>
+      </div>
+      <div class="form-row mt-3">
+        <div class="col">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> VMS S.O. #: </span>
+              </div>
+              <%= f.number_field :so_num, class: "form-control", id: "so_num" %>
+              <div class="invalid-feedback text-center">
+                Shop Order # required.
+              </div>
+            </div>        
+          </div>
+        </div>
+        <div id="sample_col_test" class="col-6" style="display: none;">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Sample Code: </span>
+              </div>
+              <%= f.number_field :sample_code, class: "form-control", id: "sample_field", disabled: true %>
+              <div class="invalid-feedback text-center">
+                Sample Code required.
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Load #: </span>
+              </div>
+              <%= f.number_field :load_num, class: "form-control" %>
+                <div class="invalid-feedback text-center">
+                  Load # required.
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Dept: </span>
+              </div>
+              <%= f.select :dept, options_for_select(ShiftNote.options_for("dept")), 
+                    { include_blank: true }, 
+                    { class: "form-control" }%>
+                <div class="invalid-feedback text-center">
+                  Dept required.
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= f.hidden_field :user_id, value: @current_user.id %>
+
+    <%= f.fields_for :salt_spray_test_checks do |ff| %>
+      <%= ff.hidden_field :c_type,  value: "ON" %>
+      <%= ff.hidden_field :date,    value: DateTime.now %>
+      <%= ff.hidden_field :user_id, value: @current_user.id %>
+    <% end %>
+
+    <div class="container-fluid border p-2">
+      <u>Process Steps</u>
+      <div class="form-group float-right">
+        <%= link_to fa_icon('plus-square'),
+              "javascript:;",
+              class: 'font-weight-bold btn btn-sm btn-success',
+              id: "addNewStep",
+              title: 'Add Step' %>
+      </div>
+      <div class="col-12 px-0">
+        <div id="show_area" class=""></div>
+      </div>
+      <div id="step" style="display: none;">
+        <div id="steps" class="">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"> Step: </span>
+              </div>
+              <%= f.text_field 'process', { name: "salt_spray_test[process][]", class: "form-control", id: "option_select", placeholder: "Enter each step individually!" } %>
+              <%= link_to fa_icon('times'), "javascript:;",
+              class: 'font-weight-bold btn btn-sm btn-danger ml-1',
+              id: "remove_step",
+              title: 'Delete Option' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group" role="group">
+      <%= link_to fa_icon('arrow-left'),
+                          salt_spray_tests_path,
+                          method: :get,
+                          class: 'font-weight-bold btn btn-sm btn-secondary',
+                          title: 'Back' %>
+      <%= f.submit yield(:button_text), class: "btn btn-primary"%>
+    </div>
+    <% end %>
+    </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    $( document ).on('turbolinks:load', function() {
+      $('#addNewStep').on('click', function(){
+        $('#show_area').append($('#step').clone().html());
+      });
+
+      $('#show_area').on('click','#remove_step', function(){
+        $(this).closest('#steps').remove();
+      });
+
+      var column = document.getElementById('sample_col_test');
+      var field = document.getElementById('sample_field');
+      var so = document.getElementById('so_num');
+      $('#sample_box').on('click', function() {
+        if (this.checked) {
+          field.disabled = false;
+          column.style['display'] = "";
+          so.value = "111";
+        }
+        else {
+          field.disabled = true;
+          column.style['display'] = "none";
+          so.value = "";
+        }
+      });
+    });
+  </script>

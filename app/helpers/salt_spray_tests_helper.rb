@@ -65,159 +65,110 @@ module SaltSprayTestsHelper
     </a>".html_safe unless s.process_code.blank?
   end
 
-  def ok_button(s, f, type)
+  def button(s, f, type, text)
     case type
     when "block"
-      string = 'swipe-btn btn-block border'
+      class_string = 'swipe-btn btn-block border'
     when "dropdown"
-      string = 'btn-sm dropdown-item'
+      class_string = 'btn-sm dropdown-item'
     end
-    if s.salt_spray_test_checks.where(:c_type => 'OFF').blank?
-      "#{ f.submit 'OK', 
-      { class: 'btn btn-primary ' + %Q[#{string}],
-        data: { 
-          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OK?', 
-          toggle: 'tooltip', 
-          title: 'Mark as OK' } } }".html_safe
-    else
-       "#{ f.submit 'ok', 
-            { class: 'btn btn-primary ' + %Q[#{string}],
-              disabled: true, 
-              data: { 
-                confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
-                toggle: 'tooltip', 
-                title: 'Mark as OK' } } }".html_safe
-    end 
-  end
 
-  def white_button(s, f, type)
-    case type
-    when "block"
-      string = 'swipe-btn btn-block border'
-    when "dropdown"
-      string = 'btn-sm dropdown-item'
+    case text 
+    when "OK"
+      color = "btn-primary "
+    when "WHITE"
+      color = " "
+    when "RED"
+      color = "btn-danger "
+    when "OFF"
+      color = "btn-success "
     end
-    if s.salt_spray_test_checks.where(:c_type => 'WHITE').blank?
-    "#{ f.submit 'WHITE', 
-    { class: 'btn ' + %Q[#{string}],
-      data: { 
-        confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
-        toggle: 'tooltip', 
-        title: 'Mark as WHITE' } } }".html_safe
-    else
-     "#{ f.submit 'white', 
-          { class: 'btn ' + %Q[#{string}],
+
+    x = s.salt_spray_test_checks.group_by(&:c_type)
+    if (!x["OFF"].blank?) || 
+      ((!x["RED"].blank?) && (text == "RED" || text == "WHITE")) ||
+      (!x["WHITE"].blank? && (text == "WHITE"))
+      "#{ f.submit %Q[#{text}], 
+          { class: 'btn ' + %Q[#{color}] + %Q[#{class_string}],
             disabled: true, 
             data: { 
-              confirm: 'Mark ' + %Q[#{s.so_num}] + ' as WHITE?', 
+              confirm: 'Mark ' + %Q[#{s.so_num}] + ' as ' + %Q[#{text}] + '?',
               toggle: 'tooltip', 
-              title: 'Mark as WHITE' } } }".html_safe
-    end
-  end
-
-  def red_button(s, f, type)
-    case type
-    when "block"
-      string = 'swipe-btn btn-block border'
-    when "dropdown"
-      string = 'btn-sm dropdown-item'
-    end
-    if s.salt_spray_test_checks.where(:c_type => 'RED').blank?
-      "#{ f.submit 'RED', 
-      { class: 'btn btn-danger ' + %Q[#{string}],
-        data: { 
-          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as RED?', 
-          toggle: 'tooltip', 
-          title: 'Mark as RED' } } }".html_safe
+              title: 'Mark as ' + %Q[#{text}] } } }".html_safe
     else
-      "#{ f.submit 'red', 
-      { class: 'btn btn-danger ' + %Q[#{string}],
-        disabled: true, 
+      "#{ f.submit %Q[#{text}], 
+      { class: 'btn ' + %Q[#{color}] + %Q[#{class_string}],
         data: { 
-          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as RED?', 
+          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as ' + %Q[#{text}] + '?', 
           toggle: 'tooltip', 
-          title: 'Mark as RED' } } }".html_safe
+          title: 'Mark as ' + %Q[#{text}] } } }".html_safe
     end
   end
 
-  def off_button(s, f, type)
-    case type
-    when "block"
-      string = 'swipe-btn btn-block border'
-    when "dropdown"
-      string = 'btn-sm dropdown-item'
-    end
-    if s.salt_spray_test_checks.where(:c_type => 'OFF').blank?
-      "#{ f.submit 'OFF', 
-      { class: 'btn btn-success ' + %Q[#{string}],
-        data: { 
-          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OFF?', 
-          toggle: 'tooltip', 
-          title: 'Mark as OFF' } } }".html_safe
-    else
-      "#{ f.submit 'off', 
-      { class: 'btn btn-success ' + %Q[#{string}],
-        disabled: true, 
-        data: { 
-          confirm: 'Mark ' + %Q[#{s.so_num}] + ' as OFF?', 
-          toggle: 'tooltip', 
-          title: 'Mark as OFF' } } }".html_safe
-    end
+  # Progress Bar Functions
+  def progress_bar_is_desktop(s, type)
+    "<button class='btn btn-dark' style='height: 40px;' type='button' data-toggle='collapse' data-target='.checks-collapse#{s.id}'>
+      #{fa_icon('list')}
+    </button>".html_safe unless type != "desktop"
   end
 
-  def is_desktop(s, type)
-    if type == "desktop"
-      "<button class='btn btn-dark' style='height: 40px;' type='button' data-toggle='collapse' data-target='.checks-collapse#{s.id}'>
-        #{fa_icon('list')}
-      </button>".html_safe
-    end
-  end
-
-  def red_bar_step(s, specs)
+  def progress_bar_red_label(s, specs)
     if s.red_spec == 0 || s.red_spec.blank? 
       s.red_spec = 4*s.white_spec
+    end
+  end
+
+  def progress_bar_labels(s, specs)
+    message = ""
+    x = s.salt_spray_test_checks.group_by(&:c_type)
+    if s.red_spec == 0
+      s.red_spec = 4*s.white_spec
     else
-      message = "<div class='bar-step clearfix' style='left: 75%; overflow:hidden;'>
+      message += "<div class='bar-step clearfix' style='left: 75%; overflow:hidden;'>
         <div class='label-txt'>
           Red
           <div class='label-line'></div>
-        </div>" 
-        x = s.salt_spray_test_checks.where(:c_type => 'RED')
-        if x.blank? && (((Time.now() - s.created_at)/60.minutes) < s.red_spec)
-          message += "<div class='label-percent'> #{specs[1]} </div>"
-        elsif !x.blank? && ((x.first.date - s.created_at).to_f/60.minutes < s.red_spec)
-          message += "<span class='label-percent text-danger'>#{fa_icon('times')}</span>"
+        </div>
+        <div class='label-percent'>" 
+        if x["RED"].blank? && (((Time.now() - s.created_at)/60.minutes) < s.red_spec)
+          message += specs[1]
+        elsif !x["RED"].blank? && ((x["RED"].first.date - s.created_at).to_f/60.minutes < s.red_spec)
+          message += "<span class='label-percent text-danger'>
+                        #{fa_icon('times')}</span>"
         else
-          message+ "<span class='label-percent text-success'>#{fa_icon('check')}</span>"
+          message += "<span class='label-percent text-success'>
+                        #{fa_icon('check')}</span>"
         end
-        message += "</div>"
-        return message.html_safe
-    end
-  end
-
-  def white_bar_step(s, specs)
-    if s.red_spec == 0
-      s.red_spe = 4*s.white_spec
+        message += "</div></div>"
     end
     if s.white_spec == 0
     else
-      message = "<div class='bar-step clearfix' style='left: #{75*(s.white_spec.to_f/s.red_spec)}%'>
+      message += "<div class='bar-step clearfix' style='left: #{75*(s.white_spec.to_f/s.red_spec)}%'>
         <div class='label-txt'>
           White
           <div class='label-line'></div>
         </div>
         <div class='label-percent'>"
-          x = s.salt_spray_test_checks.where(:c_type => 'WHITE')
-          if x.blank? && ((Time.now() - s.created_at)/60.minutes) < s.white_spec
-            specs[0]
-          elsif !x.blank? && (x.first.date - s.created_at).to_f/60.minutes < s.white_spec
-            message +=  "<span class='label-percent text-danger'> #{fa_icon('times')}</span>"
+          if x["WHITE"].blank? && ((Time.now() - s.created_at)/60.minutes) < s.white_spec
+            message += specs[0]
+          elsif !x["WHITE"].blank? && (x["WHITE"].first.date - s.created_at).to_f/60.minutes < s.white_spec
+            message +=  "<span class='label-percent text-danger'> 
+                            #{fa_icon('times')}</span>"
           else
-            message +=  "<span class='label-percent text-success'>#{fa_icon('check')}</span>"
+            message +=  "<span class='label-percent text-success'>
+                            #{fa_icon('check')}</span>"
           end
-        message += "</div>
-      </div>"
-      return message.html_safe
+        message += "</div></div>"
+    end
+    return message.html_safe
+  end
+
+  def progress_bar_main_label(s, specs)
+    if specs[3] == 'day'
+        pluralize((((Time.now() - s.created_at)/24.hours).round ), specs[3])
+    else
+        pluralize((((Time.now() - s.created_at)/60.minutes).round ), specs[3])
     end
   end
+
 end

@@ -9,9 +9,47 @@
     <%= render partial: 'filter_form' %>
   </div>
 </div>
-
 <div class="row">
   <div class="col">
-    <%= render partial: 'list' %>
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th class="col-lg-2 col-md-5 col-sm-5">Shop Order</th>
+          <th class="col-lg-2 d-lg-table-cell d-none">Part</th>
+          <th class="col-lg-2 d-lg-table-cell d-none">Process</th>
+          <th class="col-lg-2 d-lg-table-cell d-none">User</th>
+          <th class="col-lg-3 col-md-6 col-sm-6">Results</th>
+          <th class="col-1"></th>
+        </tr>
+      </thead>
+      <tbody>
+          <%= render partial: 'table_row', 
+                  collection: @salt_spray_tests, 
+                          as: :s, 
+                      cached: true, 
+                      locals: {  } %>
+      </tbody>
+    </table>
+    <% @salt_spray_tests.each do |s| %>
+    <div class="modal fade" id="modalComments<%=s.id%>" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <%= render partial: 'comments/comment_combo', 
+                        locals: { :s => s }%>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
+    <% end %>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :user do
+    id                {1}
     username          { "richard" }
     employee_number   { "836" }
     first_name        { "Richard" }
