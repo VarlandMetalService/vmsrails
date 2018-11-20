@@ -3,8 +3,8 @@ class RejectedPartsMailer < ApplicationMailer
 
   # CHANGE_THIS 
   default from: 'varlandmetalservice@gmail.com',
-            to: 'Richard Legacy <richard.legacy@varland.com>'
-            # to: 'Rejected Parts <rejectedparts@varland.com>'
+            # to: 'Richard Legacy <richard.legacy@varland.com>'
+            to: 'Rejected Parts <rejectedparts@varland.com>'
             
   def send_rejected_part(part, pdf_id)
     @pdf = Printing::PrintJob.find(pdf_id).file

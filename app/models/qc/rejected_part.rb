@@ -10,5 +10,19 @@ module Qc
             end
             return str
         end
+
+        def increment_reject_tag_count
+            url = "http://as400railsapi.varland.com/v1/increment_reject_tag_count?shop_order=#{self.so_num}"
+            uri = URI(url)
+            response = Net::HTTP.get(uri)
+            response = JSON.parse(response)
+            puts response["result"]
+            if (response["result"] == false)
+                puts "yahtzee"
+                return false
+            else
+                return true
+            end
+        end
     end
 end

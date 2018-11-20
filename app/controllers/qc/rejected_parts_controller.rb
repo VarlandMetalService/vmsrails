@@ -22,6 +22,12 @@ module Qc
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.save
+          if @rejected_part.increment_reject_tag_count
+            flash[:success] = "Successfully updated AS/400 S.O."
+          else
+            flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
+          end
+          @rejected_part.increment_reject_tag_count
           file = helpers.gen_pdf(@rejected_part)
           RejectedPartsMailer.send_rejected_part(@rejected_part, file).deliver_later
           format.html { redirect_to root_path }
