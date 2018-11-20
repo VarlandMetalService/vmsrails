@@ -18,6 +18,12 @@ RSpec.describe SaltSprayTest do
   end
 
   describe "Associations" do
+    it { assoc = described_class.reflect_on_association(:salt_spray_test_checks)
+         expect(assoc.macro).to eq :has_many }
+    it { assoc = described_class.reflect_on_association(:comments)
+      expect(assoc.macro).to eq :has_many }
+    it { assoc = described_class.reflect_on_association(:user)
+      expect(assoc.macro).to eq :belongs_to }
   end
 
   describe "Instance Methods" do

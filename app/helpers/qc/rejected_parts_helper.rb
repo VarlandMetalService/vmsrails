@@ -97,7 +97,7 @@ module Qc::RejectedPartsHelper
           :size => 12,
           :inline_format => true }
       else
-        pdf.pad(5) { pdf.text "From: <strong>Rejected Tag # #{rejected_part.from_tag}</strong>",
+        pdf.pad(5) { pdf.text "From: <strong> #{rejected_part.from_tag}</strong>",
           :align => :left,
           :size => 12,
           :inline_format => true }

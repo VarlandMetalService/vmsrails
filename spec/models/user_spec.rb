@@ -110,6 +110,20 @@ RSpec.describe User do
       end
    end
 
+   # Associations
+   describe "Associations" do
+      it { assoc = described_class.reflect_on_association(:vat_history_notes)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:assigned_permissions)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:permissions)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:employee_notes)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:authored_employee_notes
+         expect(assoc.macro).to eq :has_many }
+   end
+
    # Scoping Class Methods
    describe User, '.enabled' do
       it 'returns only active users (is_disabled: false)' do
