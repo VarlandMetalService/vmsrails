@@ -2,8 +2,9 @@ class User < ApplicationRecord
 
   # Custom attributes.
   attr_accessor :remember_token
+  attr_accessor :_callback_canceller
 
-  # Scoping.
+  # Scoping Class Methods.
   default_scope { order(:employee_number) }
   scope :enabled, -> { where(is_disabled: false) }
   scope :by_name, ->(name) { where('first_name LIKE ? OR last_name LIKE ? OR nickname LIKE ? OR initials LIKE ? OR username LIKE ?',
@@ -32,6 +33,28 @@ class User < ApplicationRecord
     end
   }
 
+  # Non-scoping Class Methods
+  def self.options_for_category
+    ['Plater',
+     'Maintenance',
+     'Lab',
+     'Shipping/QC',
+     'Production Supervisor',
+     'Office']
+  end
+
+  # Returns hash digest of given string.
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+  # Returns random token.
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
   # Associations.
   has_many      :vat_history_notes,
                 class_name: 'Materials::VatHistoryNote'
@@ -52,7 +75,7 @@ class User < ApplicationRecord
                 class_name: 'Thickness::Blocks',
                 foreign_key: 'user_id'
   has_many      :print_queue_rules
-
+ 
   # Validation.
   validates :employee_number,
             presence: true,
@@ -96,46 +119,48 @@ class User < ApplicationRecord
   # Callbacks.
 
   # Format fields before validation.
-  before_validation do
+  unless :_callback_canceller 
+    before_validation do 
 
-    # Format names.
-    self.first_name = self.first_name.titleize unless self.first_name.blank? || self.first_name.match(/\p{Lower}/)
-    unless self.last_name.blank? || self.last_name.match(/\p{Lower}/)
-      self.last_name = self.last_name.titleize
-      if self.last_name.start_with? 'Mc'
-        self.last_name[2] = self.last_name[2].upcase
+      # Format names.
+      self.first_name = self.first_name.titleize unless self.first_name.blank? || self.first_name.match(/\p{Lower}/)
+      unless self.last_name.blank? || self.last_name.match(/\p{Lower}/)
+        self.last_name = self.last_name.titleize
+        if self.last_name.start_with? 'Mc'
+          self.last_name[2] = self.last_name[2].upcase
+        end
       end
-    end
-    unless self.suffix.blank? || self.suffix.match(/[XVI]+/)
-      self.suffix = self.suffix.titleize
-    end
-    self.nickname = self.first_name if self.nickname.blank?
-    self.nickname = self.nickname.titleize unless self.nickname.blank?
+      unless self.suffix.blank? || self.suffix.match(/[XVI]+/)
+        self.suffix = self.suffix.titleize
+      end
+      self.nickname = self.first_name if self.nickname.blank?
+      self.nickname = self.nickname.titleize unless self.nickname.blank?
 
-    # Auto generate fields that may be left blank.
-    unless self.first_name.blank? || self.last_name.blank?
-      self.initials = "#{self.first_name.first}#{self.last_name.first}".upcase if self.initials.blank?
-      self.username = self.first_name.downcase if self.username.blank?
-      self.email = "#{self.first_name}.#{self.last_name}@varland.com".downcase if self.email.blank?
-    end
+      # Auto generate fields that may be left blank.
+      unless self.first_name.blank? || self.last_name.blank?
+        self.initials = "#{self.first_name.first}#{self.last_name.first}".upcase if self.initials.blank?
+        self.username = self.first_name.downcase if self.username.blank?
+        self.email = "#{self.first_name}.#{self.last_name}@varland.com".downcase if self.email.blank?
+      end
 
-    # Format case-specific fields.
-    ['avatar_bg_color', 'avatar_text_color', 'email', 'username'].each do |a|
-      self[a].downcase! unless self[a].blank?
-    end
-    self.middle_initial.upcase! unless self.middle_initial.blank?
-    self.address = self.address.titleize unless self.address.blank?
-    self.city = self.city.titleize unless self.city.blank?
-    self.state.upcase! unless self.state.blank?
+      # Format case-specific fields.
+      ['avatar_bg_color', 'avatar_text_color', 'email', 'username'].each do |a|
+        self[a].downcase! unless self[a].blank?
+      end
+      self.middle_initial.upcase! unless self.middle_initial.blank?
+      self.address = self.address.titleize unless self.address.blank?
+      self.city = self.city.titleize unless self.city.blank?
+      self.state.upcase! unless self.state.blank?
 
-    # Disables user if necessary before saving.
-    if self.is_disabled
-      self.is_admin = false
-      self.avatar_bg_color = '#ffffff'
-      self.avatar_text_color = '#000000'
-      self.remember_digest = nil
-    end
+      # Disables user if necessary before saving.
+      if self.is_disabled
+        self.is_admin = false
+        self.avatar_bg_color = '#ffffff'
+        self.avatar_text_color = '#000000'
+        self.remember_digest = nil
+      end
 
+    end
   end
 
   # Methods.
@@ -169,7 +194,7 @@ class User < ApplicationRecord
     return result['result']     
   end
 
-  # Returns full name.
+  # Virtual attributes.
   def full_name
     "#{self.first_name} #{self.last_name} #{self.suffix}".strip
   end
@@ -178,26 +203,10 @@ class User < ApplicationRecord
     "#{self.employee_number} - #{self.full_name}"
   end
 
-  # Class methods.
-
-  def self.options_for_category
-    ['Plater',
-     'Maintenance',
-     'Lab',
-     'Shipping/QC',
-     'Production Supervisor',
-     'Office']
-  end
-
-  # Returns hash digest of given string.
-  def self.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                  BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
-  end
-
-  # Returns random token.
-  def self.new_token
-    SecureRandom.urlsafe_base64
+  def badge
+    ActionController::Base.helpers.content_tag(:span, self.initials, 
+                class: ["badge", "badge-pill"], 
+                style: "color: #{self.avatar_text_color}; 
+            background-color: #{self.avatar_bg_color};")
   end
 end

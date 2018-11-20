@@ -1,9 +1,26 @@
 module ApplicationHelper
   include Admin::UsersHelper
 
+  # Formatting
   def highlight_unless_nil(text, terms, options = { highlighter: '<mark class="bold">\1</mark>' })
     return text if terms.nil?
     highlight(text, terms[:include], highlighter: options[:highlighter])
+  end
+
+  def required_field_label(text)
+    (text + content_tag(:sup, fa_icon('asterisk'), 
+              class: ['text-danger'], 
+              style: "font-size: 10px;")).html_safe
+  end
+
+  def small_label_bold_text(label, text)
+    "<small>#{label}:</small> <strong>#{text}</strong>".html_safe
+  end
+
+  def date_and_time(datetime)
+    "#{datetime.strftime('%D')}
+    <br>
+    #{datetime.strftime('%I:%M %p')}".html_safe
   end
 
   # CHANGE THIS should be in opto helper
@@ -27,43 +44,6 @@ module ApplicationHelper
     search
   end
 
-  # Only called from this helper...
-  def split_numeric_terms(input)
-    terms = input.split(/^\s*([>!=<]*)\s*(\d*\.?\d+)\s*(-)?\s*(\d*\.?\d+)?\s*$/)
-    search = nil
-    functions = {}
-    functions['>='] = 'gte'
-    functions['>'] = 'gt'
-    functions['<='] = 'lte'
-    functions['<'] = 'lt'
-    functions['='] = 'eq'
-    functions['=='] = 'eq'
-    functions['!='] = 'ne'
-    functions['<>'] = 'ne'
-    case terms.size
-    when 3
-      function ||= functions[terms[1]]
-      if function.nil?
-        search = {
-          function: 'eq',
-          value: terms[2]
-        }
-      else
-        search = {
-          function: function,
-          value: terms[2]
-        }
-      end
-    when 5
-      search = {
-        function: 'range',
-        minimum: terms[2],
-        maximum: terms[4]
-      }
-    end
-    return search
-  end
-  
   def paginator(collection)
     if collection.blank?
       "<p class='text-danger'>No results found.</p>".html_safe

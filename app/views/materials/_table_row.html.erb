@@ -6,7 +6,7 @@
   </td>
   <td><%= n.notes_timestamp.strftime('%m/%d/%Y %l:%M%P') %></td>
   <td class="text-center">
-    <%= badge(n.user) %>
+    <%= n.user.badge %>
   </td>
   <td>
     <%= searched_note(n, term) %>

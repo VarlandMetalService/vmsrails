@@ -11,7 +11,7 @@
     <% commentable.comments.each do |c| %>
     <tr>
       <td class="text-center">
-        <%= badge(c.user) %>
+        <%= c.user.badge %>
         <%= c.created_at.strftime('%D') %>
         <%= delete_button(c) %>
       </td>

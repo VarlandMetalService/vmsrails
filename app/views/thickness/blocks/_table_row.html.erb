@@ -1,4 +1,3 @@
-<% cache @blocks do %>
 <tr>
   <td>
     <div class="form-row">
@@ -13,7 +12,7 @@
         <%= block.checks.first.check_timestamp.strftime("%m/%d/%y") %>
       </div>
       <div class="col-8">
-        <%= badge(block.user) %><br>
+        <%= block.user.badge %><br>
         Directory: <%= block.directory %><br>
         Product: <%= block.product %><br>
         Application: <%= block.application %>
@@ -79,4 +78,3 @@
     </div>
   </td>
 </tr>
-<% end %>

@@ -13,7 +13,7 @@
           <%= filter_link(note.shift_type, 'shift_type') %>
         </div>
         <div class="col-4 text-center">
-          <%= badge(note.user) %>
+          <%= note.user.badge %>
           <br>
           <%= note.created_at.strftime('%D') %>
           <br>

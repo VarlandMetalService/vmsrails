@@ -20,6 +20,7 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  config.include FactoryBot::Syntax::Methods
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
@@ -98,4 +99,7 @@ RSpec.configure do |config|
 =end
 
 # Destroy all models because they do not get destroyed automatically
+(ActiveRecord::Base.connection.tables - %w{schema_migrations}).each do |table_name|
+  ActiveRecord::Base.connection.execute "TRUNCATE TABLE #{table_name};"
+end
 end

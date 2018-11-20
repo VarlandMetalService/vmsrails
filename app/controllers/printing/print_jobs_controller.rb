@@ -12,7 +12,7 @@ class Printing::PrintJobsController < ApplicationController
   has_scope :with_is_complete
 
   def index
-    manage_filter_state
+    filters_to_cookies
     @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue, :workstation, :user).with_is_complete(params[:with_is_complete])
   end
 
@@ -24,10 +24,10 @@ class Printing::PrintJobsController < ApplicationController
   end
 
   def edit
-    recs_to_delete = Printing::PrintJob.where(:is_complete => 0, )
-    recs_to_delete.each do |r|
-      r.destroy!
-    end
+    # recs_to_delete = Printing::PrintJob.where(:is_complete => 0, )
+    # recs_to_delete.each do |r|
+    #   r.destroy!
+    # end
   end
 
   def create
@@ -102,7 +102,7 @@ class Printing::PrintJobsController < ApplicationController
       params.require(:printing_print_job).permit(:file, :is_complete, :user_id, :workstation_id, :document_type_id, :description)
     end
 
-    def manage_filter_state
+    def filters_to_cookies
       if params[:reset]
         cookies[:with_user] = ""
         cookies[:with_doc_type] = ""

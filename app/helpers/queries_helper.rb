@@ -7,8 +7,4 @@ module QueriesHelper
     parts << sub_id unless sub_id.blank?
     parts.join(separator).html_safe
   end
-
-  def small_label_bold_text(label, text)
-    "<small>#{label}:</small> <strong>#{text}</strong>".html_safe
-  end
 end

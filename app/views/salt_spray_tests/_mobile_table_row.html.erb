@@ -128,7 +128,7 @@
                 <% x.each do |g| %>
                   <div class="col-6">
                   <% g.each do |c| %>
-                    <%= badge(c.user) %>
+                    <%= c.user.badge %>
                     <%= c.date.strftime("%D") %>
                     <%= c.c_type %>
                     <br>

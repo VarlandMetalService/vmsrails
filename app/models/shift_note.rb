@@ -1,5 +1,4 @@
 class ShiftNote < ApplicationRecord
-    default_scope { order(updated_at: :desc) }
 
     # Pagination.
     paginates_per 30
@@ -24,11 +23,10 @@ class ShiftNote < ApplicationRecord
     scope :sorted_by, ->(sort){
     case sort
     when 'oldest'
-        sort_by = 'updated_at'
+        order(updated_at: :asc)
     else
-        sort_by = 'updated_at DESC'
-    end
-    order(sort_by)} 
+        order(updated_at: :desc)
+    end } 
 
     scope :with_search_term, ->(term){
         unless term.blank?

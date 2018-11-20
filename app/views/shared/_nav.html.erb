@@ -92,7 +92,7 @@
       <strong class="nav-link text-muted", id="clock"></strong>
     <% unless @current_user.nil? %>
       
-        <% if @current_user.is_admin %>
+        <% if @current_user %>
           <li class="nav-item dropdown dropdown-right">
             <a class="nav-link dropdown-toggle p-1"
               href="#" id="adminDropdown"

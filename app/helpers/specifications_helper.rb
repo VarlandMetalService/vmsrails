@@ -57,8 +57,40 @@ module SpecificationsHelper
     end
   end
 
-  def required_field_label(text)
-    (text + '<sup class="text-danger">' + fa_icon('asterisk') + '</sup>:').html_safe
+  def split_numeric_terms(input)
+    terms = input.split(/^\s*([>!=<]*)\s*(\d*\.?\d+)\s*(-)?\s*(\d*\.?\d+)?\s*$/)
+    search = nil
+    functions = {}
+    functions['>='] = 'gte'
+    functions['>'] = 'gt'
+    functions['<='] = 'lte'
+    functions['<'] = 'lt'
+    functions['='] = 'eq'
+    functions['=='] = 'eq'
+    functions['!='] = 'ne'
+    functions['<>'] = 'ne'
+    case terms.size
+    when 3
+      function ||= functions[terms[1]]
+      if function.nil?
+        search = {
+          function: 'eq',
+          value: terms[2]
+        }
+      else
+        search = {
+          function: function,
+          value: terms[2]
+        }
+      end
+    when 5
+      search = {
+        function: 'range',
+        minimum: terms[2],
+        maximum: terms[4]
+      }
+    end
+    return search
   end
 
 end

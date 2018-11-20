@@ -9,9 +9,14 @@ class SaltSprayTest < ApplicationRecord
   accepts_nested_attributes_for :salt_spray_test_checks
 
   # Validations.
-  validates_presence_of :so_num
+  validates_presence_of :so_num, :user_id
 
+  # Scopes
   scope :with_process_code, ->(process_code) { where("process_code in #{process_group(process_code)}") unless process_code.nil? }
+
+  def self.not_recently
+    preload(:salt_spray_test_checks).select { |s| s.salt_spray_test_checks.all? {|c| ((Time.now - c.date) > 4.hours) }}
+  end
 
   def self.call_api(salt_spray_test)
     url = "http://api.varland.com/v1/so_details?so=#{salt_spray_test.so_num}"
@@ -21,7 +26,6 @@ class SaltSprayTest < ApplicationRecord
       return false
     else
       data = JSON.parse(response)
-      puts data
       salt_spray_test.update_attributes(
           :process_code => data["process"], 
            :load_weight => data["loadWeight"], 
@@ -132,7 +136,5 @@ class SaltSprayTest < ApplicationRecord
      ["CL - Clean",                              'CL']]
   end
 
-  def self.not_recently
-    preload(:salt_spray_test_checks).select { |s| s.salt_spray_test_checks.all? {|c| ((Time.now - c.date) > 4.hours) }}
-  end
+  
 end
