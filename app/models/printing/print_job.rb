@@ -15,6 +15,8 @@ module Printing
 
     default_scope { order("created_at DESC") }
 
+    paginates_per 25
+
 
     def self.send_print_cmd(print_job)
       if print_job.print_queue_id.blank?

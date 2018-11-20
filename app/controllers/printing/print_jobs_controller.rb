@@ -13,7 +13,7 @@ class Printing::PrintJobsController < ApplicationController
 
   def index
     filters_to_cookies
-    @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue, :workstation, :user).with_is_complete(params[:with_is_complete])
+    @print_jobs = apply_scopes(Printing::PrintJob).includes(:document_type, :print_queue, :workstation, :user).with_is_complete(params[:with_is_complete]).page(params[:page])
   end
 
   def show
