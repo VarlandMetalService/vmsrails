@@ -1,7 +1,6 @@
 class RejectedPartsMailer < ApplicationMailer
   helper :application
 
-  # CHANGE_THIS 
   default from: 'varlandmetalservice@gmail.com',
             to: 'Rejected Parts <rejectedparts@varland.com>'
             
