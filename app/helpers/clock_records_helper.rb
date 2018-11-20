@@ -114,7 +114,4 @@ module ClockRecordsHelper
       return week_totals
     end
   end
-  
-
-
 end

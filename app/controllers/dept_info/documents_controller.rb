@@ -1,5 +1,5 @@
-sclass DeptInfo::DocumentsController < ApplicationController
 
+class DeptInfo::DocumentsController < ApplicationController
   skip_before_action  :authenticate_user
 
   def show
@@ -10,5 +10,4 @@ sclass DeptInfo::DocumentsController < ApplicationController
       redirect_to controller: 'dept_info', action: 'index'
     end
   end
-
 end

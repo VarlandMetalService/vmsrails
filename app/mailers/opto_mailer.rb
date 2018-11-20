@@ -2,7 +2,7 @@ class OptoMailer < ApplicationMailer
 
   default from: 'varlandmetalservice@gmail.com'
   layout 'opto_mailer'
-  helper OptoMailer
+  helper :opto
 
   def acid_silo_solution_low
     @log = params[:log]
