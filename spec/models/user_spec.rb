@@ -120,7 +120,13 @@ RSpec.describe User do
          expect(assoc.macro).to eq :has_many }
       it { assoc = described_class.reflect_on_association(:employee_notes)
          expect(assoc.macro).to eq :has_many }
-      it { assoc = described_class.reflect_on_association(:authored_employee_notes
+      it { assoc = described_class.reflect_on_association(:authored_employee_notes)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:clock_records)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:thickness_blocks)
+         expect(assoc.macro).to eq :has_many }
+      it { assoc = described_class.reflect_on_association(:print_queue_rules)
          expect(assoc.macro).to eq :has_many }
    end
 

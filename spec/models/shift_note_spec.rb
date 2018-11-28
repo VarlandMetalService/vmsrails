@@ -24,6 +24,14 @@ RSpec.describe ShiftNote do
     end
   end
 
+  # Associations
+  describe "Associations" do
+    it { assoc = described_class.reflect_on_association(:user)
+      expect(assoc.macro).to eq :belongs_to }
+    it { assoc = described_class.reflect_on_association(:comments)
+      expect(assoc.macro).to eq :has_many }
+  end
+
   # Scoping class methods
   describe ShiftNote, '.with_timestamp' do
     it "returns records created after X datetime" do

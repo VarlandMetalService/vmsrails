@@ -6,7 +6,7 @@
     <p>Analyzed <%= pluralize @customer[:parts].size, 'part specification' %>:</p>
     <p>
       <%= link_to fa_icon('file-excel-o', 
-                  text: 'Download Spreadsheet (Broken)'), 
+                  text: 'Download Spreadsheet'), 
                   { :format => :xlsx }, 
                   { :class => 'btn btn-sm btn-success text-light' } %>
     </p>
