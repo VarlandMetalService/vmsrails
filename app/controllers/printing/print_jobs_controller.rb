@@ -24,10 +24,6 @@ class Printing::PrintJobsController < ApplicationController
   end
 
   def edit
-    recs_to_delete = Printing::PrintJob.where(:is_complete => 0, )
-    recs_to_delete.each do |r|
-      r.destroy!
-    end
   end
 
   def create

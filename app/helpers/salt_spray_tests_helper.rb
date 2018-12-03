@@ -43,18 +43,19 @@ module SaltSprayTestsHelper
   end
 
   def process_steps(s)
-    if s.process.blank?
-      "No process entered."
-    else
-      "<u>Process</u><br>" + 
-      s.process.each_with_index do |k,p|
-        + "#{p+1}: #{k}"
-        if p == s.process.count-1
-        else
-        + "<br>" 
-        end
-      end
-    end
+    "No process entered."
+    # if s.process.blank?
+    #  
+    # else
+    #   "<u>Process</u><br>" + 
+    #   s.process.each_with_index do |k,p|
+    #     + "#{p+1}: #{k}"
+    #     if p == s.process.count-1
+    #     else
+    #     + "<br>" 
+    #     end
+    #   end
+    # end
   end
 
   def process_badge(s)
