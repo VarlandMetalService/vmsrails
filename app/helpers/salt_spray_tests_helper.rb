@@ -43,7 +43,7 @@ module SaltSprayTestsHelper
   end
 
   def process_steps(s)
-    if s.process.blank? || s.process[0].blank? 
+    if s.process.blank?
       "No process entered."
     else
       "<u>Process</u><br>" + 
