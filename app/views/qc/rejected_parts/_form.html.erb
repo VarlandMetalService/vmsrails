@@ -80,8 +80,9 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Weight:</span>
         </div>
-        <%= f.number_field :weight, class: "form-control", 
-                                    placeholder: "Weight in lbs." %>
+        <%= f.number_field :weight, class: "form-control",
+                                     step: 0.01,  
+                              placeholder: "Weight in lbs." %>
           <div class="invalid-feedback text-center">
             Weight required.
           </div>  
