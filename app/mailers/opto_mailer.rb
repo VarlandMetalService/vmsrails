@@ -15,10 +15,8 @@ class OptoMailer < ApplicationMailer
 
   def chiller_on_warning
     @log = params[:log]
-    mail(to: ['rich.branson@varland.com',
-              'joel.perrine@varland.com',
-              'mike.mitchell.jr@varland.com',
-              'vmsforemen@gmail.com'],
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
          subject: 'Chiller: Running When Not Expected')
   end
 
