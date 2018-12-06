@@ -23,6 +23,15 @@ class OptoController < ApplicationController
     log_details = JSON.parse(params[:data])
     log_details.symbolize_keys!
     case @controller.name
+    when "Chiller"
+      case log_details[:type]
+      when 'chiller_on_warning'
+        log = Opto::ChillerOnWarning.parse(@controller, log_details)
+      when 'chiller_off_warning'
+        log = Opto::ChillerOffWarning.parse(@controller, log_details)
+      else
+        return head(:internal_server_error)
+      end
     when "Dichromate"
       case log_details[:type]
       when 'acid_silo_solution_low'

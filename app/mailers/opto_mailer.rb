@@ -4,6 +4,24 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :opto
 
+  def chiller_off_warning
+    @log = params[:log]
+    mail(to: ['rich.branson@varland.com',
+              'joel.perrine@varland.com',
+              'mike.mitchell.jr@varland.com',
+              'vmsforemen@gmail.com'],
+         subject: 'Chiller: Not Running When Expected')
+  end
+
+  def chiller_on_warning
+    @log = params[:log]
+    mail(to: ['rich.branson@varland.com',
+              'joel.perrine@varland.com',
+              'mike.mitchell.jr@varland.com',
+              'vmsforemen@gmail.com'],
+         subject: 'Chiller: Running When Not Expected')
+  end
+
   def acid_silo_solution_low
     @log = params[:log]
     mail(to: ['rich.branson@varland.com'],
