@@ -73,6 +73,9 @@ private
 
   def load_controller
     @controller = Opto::Controller.find_by(ip_address: request.remote_ip)
+    if @controller.nil?
+      @controller = Opto::Controller.find_by(ip_address: '0.0.0.0')
+    end
   end
 
 end
