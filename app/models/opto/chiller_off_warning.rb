@@ -12,7 +12,7 @@ class Opto::ChillerOffWarning < Opto::Log
   end
 
   def details
-    "Chiller #{self.opto_data[:chiller]} is not running while Opto expects it to be running."
+    "Chiller not running when expected. Chiller: <strong><code>#{self.opto_data[:chiller]}</code></strong>."
   end
 
   # Class methods.
