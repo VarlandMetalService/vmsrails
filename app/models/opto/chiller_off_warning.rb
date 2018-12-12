@@ -8,7 +8,7 @@ class Opto::ChillerOffWarning < Opto::Log
   # Instance methods.
 
   def process_notification
-    OptoMailer.with(log: self).chiller_off_warning.deliver
+    # OptoMailer.with(log: self).chiller_off_warning.deliver
   end
 
   def details
