@@ -10,6 +10,7 @@ class Printing::PrintJobsController < ApplicationController
   has_scope :with_workstation
   has_scope :with_current_user
   has_scope :with_is_complete
+  has_scope :with_description
 
   def index
     filters_to_cookies

@@ -12,7 +12,7 @@
 
   <div class="show mt-2" id="collapseFilters">
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-group">
           <%= f.label :with_user,
                       'User:' %> 
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-group">
           <%= f.label :with_workstation,
                       'Workstation:' %>
@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-4">
         <div class="form-group">
           <%= f.label :with_doc_type,
                       'Document Type:' %>
@@ -47,7 +47,15 @@
                   { class: 'custom-select', onchange: 'this.form.submit();' }%> 
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-8">
+        <div class="form-group">
+          <%= f.label :with_description,
+                      'Description:' %>
+          <%= f.text_field :with_description,
+                  { class: 'form-control', onchange: 'this.form.submit();', placeholder: params[:with_description] }%> 
+        </div>
+      </div>
+      <div class="col-4">
         <div class="form-group">
           <%= f.label :with_is_complete,
                       'View:' %>

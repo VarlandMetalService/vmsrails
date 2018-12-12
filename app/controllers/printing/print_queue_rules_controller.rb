@@ -26,10 +26,10 @@ class Printing::PrintQueueRulesController < ApplicationController
       if @print_queue_rule.save
         flash[:success] = "Print queue rule created."
         format.html { redirect_to printing_print_queue_rules_path }
-        format.json { render :index, status: :created, location: @print_queue_rule }
+        format.json { redirect_to action: :index, status: :created, location: @print_queue_rule }
       else
         flash[:danger] = "Print queue rule creation failed."
-        format.html { render :new }
+        format.html { redirect_to action: :new }
         format.json { render json: @print_queue_rule.errors, status: :unprocessable_entity }
       end
     end
@@ -39,10 +39,10 @@ class Printing::PrintQueueRulesController < ApplicationController
     respond_to do |format|
       if @print_queue_rule.update(print_queue_rule_params)
         flash[:success] = "Print queue rule updated successfully."
-        format.html { render :index }
-        format.json { render :index }
+        format.html { redirect_to action: :index }
+        format.json { redirect_to action: :index }
       else
-        format.html { render :index }
+        format.html { redirect_to action: :index }
         format.json { render json: @print_queue_rule.errors, status: :unprocessable_entity }
       end
     end

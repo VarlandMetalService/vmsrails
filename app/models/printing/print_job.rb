@@ -12,6 +12,7 @@ module Printing
     scope :with_doc_type, ->(doc_type) { where("document_type_id = ?", doc_type) unless doc_type.nil? }
     scope :with_workstation, ->(workstation) { where("workstation_id = ?", workstation) unless workstation.nil? }
     scope :with_is_complete, ->(is_complete) { where("is_complete = false") unless !is_complete.blank? }
+    scope :with_description, -> (description) { where("description LIKE ?", '%' + description + '%')}
 
     default_scope { order("created_at DESC") }
 
@@ -68,9 +69,9 @@ module Printing
 
     def self.filter_form_lists
       lists = []
-      lists[0] = Printing::DocumentType.pluck(:name, :id).uniq
-      lists[1] = Printing::Workstation.pluck(:name, :id).uniq
-      lists[2] = User.pluck(:first_name, :last_name, :suffix, :id).uniq.map { |f,l,s,i| ["#{f} #{l} #{s}", i]}.uniq
+      lists[0] = Printing::DocumentType.pluck(:name, :id).uniq.sort
+      lists[1] = Printing::Workstation.pluck(:name, :id).uniq.sort
+      lists[2] = User.pluck(:nickname, :last_name, :id).uniq.map { |f,l,i| ["#{f} #{l}", i]}.uniq
       return lists
     end
   end
