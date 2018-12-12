@@ -53,7 +53,7 @@
         <%= f.label :with_print_queue,
                     'Print Queue:' %>
         <%= f.select :with_print_queue,
-                options_for_select(Printing::PrintQueue.pluck(:name, :id), 
+                options_for_select(Printing::PrintQueue.pluck(:name, :id).uniq.sort, 
                 params[:with_print_queue]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%> 
@@ -64,7 +64,7 @@
         <%= f.label :with_weight,
                     'Weight:' %>
         <%= f.select :with_weight,
-                options_for_select(Printing::PrintQueueRule.pluck(:weight, :weight), 
+                options_for_select(Printing::PrintQueueRule.pluck(:weight, :weight).uniq.sort, 
                 params[:with_weight]),
                 { include_blank: true },
                 { class: 'custom-select', onchange: 'this.form.submit();' }%> 
