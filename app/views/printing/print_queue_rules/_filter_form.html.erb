@@ -47,6 +47,30 @@
       </div>
     </div>
   </div>
+  <div class='row'>
+    <div class='col-6'>
+      <div class="form-group">
+        <%= f.label :with_print_queue,
+                    'Print Queue:' %>
+        <%= f.select :with_print_queue,
+                options_for_select(Printing::PrintQueue.pluck(:name, :id), 
+                params[:with_print_queue]),
+                { include_blank: true },
+                { class: 'custom-select', onchange: 'this.form.submit();' }%> 
+      </div>
+    </div>
+    <div class='col-6'>
+      <div class="form-group">
+        <%= f.label :with_weight,
+                    'Weight:' %>
+        <%= f.select :with_weight,
+                options_for_select(Printing::PrintQueueRule.pluck(:weight, :weight), 
+                params[:with_weight]),
+                { include_blank: true },
+                { class: 'custom-select', onchange: 'this.form.submit();' }%> 
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <div class="pull-right">

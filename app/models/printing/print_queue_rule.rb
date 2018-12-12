@@ -11,6 +11,8 @@ module Printing
     scope :with_user, ->(user) { where("user_id = ?", user) unless user.nil? }
     scope :with_doc_type, ->(doc_type) { where("document_type_id = ?", doc_type) unless doc_type.nil? }
     scope :with_workstation, ->(workstation) { where("workstation_id = ?", workstation) unless workstation.nil? }
+    scope :with_weight, -> (weight) { where('weight = ?', weight) unless weight.nil? }
+    scope :with_print_queue, -> (print_queue) { where('print_queue_id = ?', print_queue) unless print_queue.nil? }
     scope :with_search_term, ->(term){
         unless term.blank?
         search = ApplicationController.helpers.split_search_terms(term)

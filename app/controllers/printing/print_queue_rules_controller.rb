@@ -4,6 +4,8 @@ class Printing::PrintQueueRulesController < ApplicationController
   has_scope :with_user
   has_scope :with_doc_type
   has_scope :with_workstation
+  has_scope :with_print_queue, only: :index
+  has_scope :with_weight, only: :index
 
   def index
     manage_filter_state
