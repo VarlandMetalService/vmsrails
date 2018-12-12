@@ -32,10 +32,12 @@ module Qc::RejectedPartsHelper
         :align => :left, 
         :size => 12,
         :inline_format => true}
-      pdf.move_down 3
 
-      pdf.move_down 15
-
+      pdf.move_down 10
+      pdf.stroke_color 'd3d3d3'
+      pdf.stroke_horizontal_rule
+      pdf.stroke_color '000000'   
+      pdf.move_down 10
       pdf.fill_color '000000'
       
       # Section 1 header.
@@ -45,79 +47,91 @@ module Qc::RejectedPartsHelper
         :inline_format => true} 
 
       prev = pdf.cursor
-      
-      # Section 1, center column.
-      pdf.bounding_box([pdf.bounds.right/3, prev], 
-        :width => pdf.bounds.right/3) do
 
+      # Section 1, right column.
+      pdf.bounding_box([pdf.bounds.right/2, prev], 
+        :width => pdf.bounds.right/2) do
+
+        # Date
+        pdf.pad(5) { pdf.text "Date: <strong>#{rejected_part.date.strftime("%m/%d/%y")}</strong>",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+
+        # From Tag
+        if rejected_part.from_tag == '0'
+          pdf.pad(5) { pdf.text "From: <strong>Original S.O.</strong>",
+            :align => :left,
+            :size => 12,
+            :inline_format => true }
+        else
+          pdf.pad(5) { pdf.text "From: <strong> #{rejected_part.from_tag}</strong>",
+            :align => :left,
+            :size => 12,
+            :inline_format => true }
+        end
+      
+        # Load #'s
+          pdf.pad(5) { pdf.text "Loads: <strong> #{rejected_part.sec1_loads} </strong>",
+            :align => :left,
+            :size => 12,
+            :inline_format => true }
+        # Supervisor initials
+        pdf.pad(5) { pdf.text "<strong>Supervisor Initials:</strong>__________",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+      end
+
+      # Section 1, left column.
+      pdf.bounding_box([0, prev], 
+        :width => pdf.bounds.right/2) do
+
+        # S.O. #
+        pdf.pad(5) { pdf.text "S.O. #: <strong>#{rejected_part.so_num}</strong>", 
+          :align => :left, 
+          :size => 12,
+          :inline_format => true }
+
+        # Reject Tag #
         pdf.pad(5) { pdf.text "Reject Tag #: <strong>#{rejected_part.reject_tag_num}</strong>",
           :align => :left,
           :size => 12,
           :inline_format => true }
 
+        # Weight
         pdf.pad(5) { pdf.text "Weight: <strong>#{rejected_part.weight}</strong> lbs",
-        :align => :left,
-        :size => 12,
-        :inline_format => true }
-      end
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
 
-      pdf.move_cursor_to prev
-      
-      # Section 1, right column.
-      pdf.bounding_box([pdf.bounds.right*2/3, prev], 
-        :width => pdf.bounds.right/3) do
-
-        pdf.pad(5) { pdf.text "Date: <strong>#{rejected_part.date.strftime("%m/%d/%y")}</strong>",
-        :align => :left,
-        :size => 12,
-        :inline_format => true }
-
+        # Rejected By
         pdf.pad(5) { pdf.text "Rejected By: <strong>#{User.find(rejected_part.user_id).full_name}</strong>",
-        :align => :left,
-        :size => 12,
-        :inline_format => true }
-
-        pdf.pad(5) { pdf.text "<strong>Supervisor Initials:</strong>__________",
-        :align => :left,
-        :size => 12,
-        :inline_format => true }
-      end
-
-      pdf.move_cursor_to prev
-
-      # Section 1, left column.
-      pdf.pad(5) { pdf.text "VMS S.O. #: <strong>#{rejected_part.so_num}</strong>", 
-        :align => :left, 
-        :size => 12,
-        :inline_format => true }
-
-      if rejected_part.from_tag == '0'
-        pdf.pad(5) { pdf.text "From: <strong>Original S.O.</strong>",
           :align => :left,
           :size => 12,
           :inline_format => true }
-      else
-        pdf.pad(5) { pdf.text "From: <strong> #{rejected_part.from_tag}</strong>",
+
+        # Defect
+        pdf.pad(5) { pdf.text "Defect: <strong>#{rejected_part.defect}</strong>",
+          :align => :left,
+          :size => 12,
+          :inline_format => true }
+      end
+
+      pdf.bounding_box([0, pdf.cursor], 
+        :width => pdf.bounds.right) do
+        # Description
+        pdf.pad(5) { pdf.text "Description: <strong>#{rejected_part.defect_description}</strong>",
           :align => :left,
           :size => 12,
           :inline_format => true }
       end
       
-      pdf.bounding_box([0, pdf.cursor], 
-        :width => pdf.bounds.right*2/3) do
-
-        pdf.pad(5) { pdf.text "Defect: <strong>#{rejected_part.defect}</strong>",
-        :align => :left,
-        :size => 12,
-        :inline_format => true }
-
-      end
-
+      pdf.move_down 10
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'   
-
-      pdf.move_down 15
+      pdf.move_down 10
 
       # Section 2 header.
       pdf.pad(5) { pdf.text "<u><strong>#{hash[:sec2_title]}</u></strong> <sup>#{hash[:sec2_flavour]}</sup>", 
@@ -152,12 +166,12 @@ module Qc::RejectedPartsHelper
         :align => :left,
         :size => 12,
         :inline_format => true}
-      pdf.move_down 30
 
+      pdf.move_down 10
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'
-      pdf.move_down 15
+      pdf.move_down 10
 
       # Section 3 header.
       pdf.pad(5) { pdf.text "<u><strong>#{hash[:sec3_title]}</u></strong> <sup> #{hash[:sec3_flavour]}</sup>", 
@@ -201,12 +215,12 @@ module Qc::RejectedPartsHelper
           :inline_format => true} 
       end
 
+      pdf.move_down 10
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'
-      pdf.move_down 15
+      pdf.move_down 10
       
-
       # Section 4
       pdf.pad(5) { pdf.text "<strong><u>#{hash[:sec4_title]}</strong></u>", 
         :align => :left, 
@@ -227,13 +241,8 @@ module Qc::RejectedPartsHelper
             :size => 12,
             :inline_format => true}
         end
-      e = pdf.cursor
-      if e < pdf.cursor
-        pdf.move_cursor_to e-30
-      else 
-        pdf.move_down 30      
-      end
       
+      pdf.move_down 10
       pdf.stroke_color 'd3d3d3'
       pdf.stroke_horizontal_rule
       pdf.stroke_color '000000'

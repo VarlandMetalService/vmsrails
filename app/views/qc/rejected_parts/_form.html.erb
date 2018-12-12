@@ -49,7 +49,58 @@
   </div>
 
   <div class="form-row mt-3">
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pb-2">
+     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> Reject Tag #: </span>
+        </div>
+        <%= f.number_field :reject_tag_num, class: "form-control",
+                            placeholder: "Double check this." %>
+        <div class="invalid-feedback text-center">
+          Reject Tag # required.
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">From Tag #:</span>
+        </div>
+        <%= f.select( :from_tag, 
+                options_for_select([['Original S.O.', 'Original S.O.'],
+                                    ['Reject Tag # 1', 'Reject Tag # 1'],
+                                    ['Reject Tag # 2', 'Reject Tag # 2'],
+                                    ['Reject Tag # 3', 'Reject Tag # 3'],
+                                    ['Reject Tag # 4', 'Reject Tag # 4'],
+                                    ['Reject Tag # 5', 'Reject Tag # 5'],
+                                    ['Reject Tag # 6', 'Reject Tag # 6'],
+                                    ['Reject Tag # 7', 'Reject Tag # 7'],
+                                    ['Reject Tag # 8', 'Reject Tag # 8'],
+                                    ['Reject Tag # 9', 'Reject Tag # 9'],
+                                    ['Reject Tag # 10', 'Reject Tag # 10']]),
+                                    { include_blank: true },
+                                    { class: 'form-control' })%>
+          <div class="invalid-feedback text-center">
+            From Tag # required.
+          </div>  
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Weight:</span>
+        </div>
+        <%= f.number_field :weight, class: "form-control",
+                                     step: 0.01,  
+                              placeholder: "Weight in lbs." %>
+          <div class="invalid-feedback text-center">
+            Weight required.
+          </div>  
+      </div>
+    </div>
+  </div>
+    <div class="form-row mt-3">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text"> Defect/Problem: </span>
@@ -75,55 +126,28 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">Weight:</span>
+          <span class="input-group-text"> Defect Description: </span>
         </div>
-        <%= f.number_field :weight, class: "form-control",
-                                     step: 0.01,  
-                              placeholder: "Weight in lbs." %>
-          <div class="invalid-feedback text-center">
-            Weight required.
-          </div>  
-      </div>
-    </div>
-  </div>
-    <div class="form-row mt-3">
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Reject Tag #: </span>
-        </div>
-        <%= f.number_field :reject_tag_num, class: "form-control",
-                            placeholder: "Double check this." %>
+        <%= f.text_area :defect_description, class: "form-control",
+                            placeholder: "All info about defect location, details, etc..." %>
         <div class="invalid-feedback text-center">
-          Reject Tag # required.
+          Defect description required.
         </div>
       </div>
     </div>
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">From Tag #:</span>
+          <span class="input-group-text"> Loads: </span>
         </div>
-        <%= f.select( :from_tag, 
-                options_for_select([['Original S.O.', 'Original S.O.'],
-                                    ['Reject Tag # 1', 'Reject Tag # 1'],
-                                    ['Reject Tag # 2', 'Reject Tag # 2'],
-                                    ['Reject Tag # 3', 'Reject Tag # 3'],
-                                    ['Reject Tag # 4', 'Reject Tag # 4'],
-                                    ['Reject Tag # 5', 'Reject Tag # 5'],
-                                    ['Reject Tag # 6', 'Reject Tag # 6'],
-                                    ['Reject Tag # 7', 'Reject Tag # 7'],
-                                    ['Reject Tag # 8', 'Reject Tag # 8'],
-                                    ['Reject Tag # 9', 'Reject Tag # 9'],
-                                    ['Reject Tag # 10', 'Reject Tag # 10']]),
-                                    { include_blank: true },
-                                    { class: 'form-control' })%>
-          <div class="invalid-feedback text-center">
-            From Tag # required.
-          </div>  
+        <%= f.text_field :sec1_loads, class: "form-control",
+                            placeholder: "Loads affected." %>
+        <div class="invalid-feedback text-center">
+          Load #'s' required.
+        </div>
       </div>
     </div>
   </div>

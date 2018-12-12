@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105170109) do
+ActiveRecord::Schema.define(version: 20181212152708) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -273,6 +273,8 @@ ActiveRecord::Schema.define(version: 20181105170109) do
     t.boolean "s3box"
     t.string "weight"
     t.integer "supervisor_id"
+    t.string "sec1_loads"
+    t.text "defect_description"
   end
 
   create_table "salt_spray_test_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

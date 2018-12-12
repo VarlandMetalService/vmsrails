@@ -12,6 +12,8 @@
           On: <%= @part.date.strftime('%m/%d/%y') %>
           <br>
           Defect: <%= @part.defect %>
+          <br>
+          Description: <%= @part.defect_description %>
         </div>
         <div style="width: 50%; float: right;">
           Reject Tag #: <%= @part.reject_tag_num %>
@@ -19,6 +21,8 @@
           From Tag #: <%= @part.from_tag %>
           <br>
           Weight: <%= @part.weight %>
+          <br>
+          Loads: <%= @part.sec1_loads %>
         </div>
       </td>
     </tr>
