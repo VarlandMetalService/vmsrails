@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include Admin::UsersHelper
 
   # Formatting
   def highlight_unless_nil(text, terms, options = { highlighter: '<mark class="bold">\1</mark>' })

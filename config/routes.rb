@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   scope module: 'printing', as: 'printing' do
     resources :print_queues
     resources :print_queue_rules
+    resources :workstations
+    resources :workstation_groups
     resources :print_jobs do
       collection do
         get :send_print_cmd

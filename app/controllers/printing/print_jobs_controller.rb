@@ -67,9 +67,12 @@ class Printing::PrintJobsController < ApplicationController
   end
 
   def set_queue
-    Printing::PrintJob.set_queue(Printing::PrintJob.find(params[:id]))
+    Printing::PrintJob.set_queue(@print_job)
     respond_to do |format|
-      flash[:success] = "Print queue set to #{Printing::PrintQueue.find(Printing::PrintJob.find(params[:id]).print_queue_id).name}"
+      if @print_job.print_queue.blank?
+      else
+      flash[:success] = "Print queue set to #{@print_job.print_queue.name}"
+      end
       format.html { redirect_back(fallback_location: "") }
       format.json { head :no_content }
     end

@@ -1,6 +1,5 @@
 class Printing::PrintQueueRulesController < ApplicationController
   before_action :set_print_queue_rule, only: [:show, :edit, :update, :destroy]
-  after_action :set_weight, only: [:create, :update]
   has_scope :with_user
   has_scope :with_doc_type
   has_scope :with_workstation
@@ -66,21 +65,7 @@ class Printing::PrintQueueRulesController < ApplicationController
     end
 
     def print_queue_rule_params
-      params.require(:printing_print_queue_rule).permit(:user_id, :workstation_id, :document_type_id, :print_queue_id, :weight)
-    end
-
-    def set_weight
-      temp = 0
-      if !@print_queue_rule.workstation_id.blank?
-          temp += 5
-      end
-      if !@print_queue_rule.user_id.blank?
-          temp += 3
-      end
-      if !@print_queue_rule.document_type_id.blank?
-          temp += 1
-      end
-      @print_queue_rule.update_attribute(:weight, temp)
+      params.require(:printing_print_queue_rule).permit(:user_id, :workstation_id, :document_type_id, :print_queue_id, :weight, :workstation_group_id)
     end
 
     def manage_filter_state

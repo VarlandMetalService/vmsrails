@@ -60,15 +60,7 @@
       </div>
     </div>
     <div class='col-6'>
-      <div class="form-group">
-        <%= f.label :with_weight,
-                    'Weight:' %>
-        <%= f.select :with_weight,
-                options_for_select(Printing::PrintQueueRule.pluck(:weight, :weight).uniq.sort, 
-                params[:with_weight]),
-                { include_blank: true },
-                { class: 'custom-select', onchange: 'this.form.submit();' }%> 
-      </div>
+
     </div>
   </div>
   <div class="row">

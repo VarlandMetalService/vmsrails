@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181212152708) do
+ActiveRecord::Schema.define(version: 20181213173243) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -232,10 +232,9 @@ ActiveRecord::Schema.define(version: 20181212152708) do
 
   create_table "print_queue_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "user_id"
-    t.integer "workstation_id"
+    t.integer "workstation_group_id"
     t.integer "document_type_id"
     t.integer "print_queue_id"
-    t.integer "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -402,6 +401,18 @@ ActiveRecord::Schema.define(version: 20181212152708) do
     t.boolean "is_clockedin"
   end
 
+  create_table "workstation_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "name"
+    t.string "description"
+  end
+
+  create_table "workstation_groups_workstations", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.bigint "workstation_id"
+    t.bigint "workstation_group_id"
+    t.index ["workstation_group_id"], name: "index_workstation_groups_workstations_on_workstation_group_id"
+    t.index ["workstation_id"], name: "index_workstation_groups_workstations_on_workstation_id"
+  end
+
   create_table "workstations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -409,4 +420,6 @@ ActiveRecord::Schema.define(version: 20181212152708) do
     t.string "ip_address"
   end
 
+  add_foreign_key "workstation_groups_workstations", "workstation_groups"
+  add_foreign_key "workstation_groups_workstations", "workstations"
 end

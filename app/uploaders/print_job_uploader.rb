@@ -42,6 +42,23 @@ class PrintJobUploader < CarrierWave::Uploader::Base
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
   def filename
+    so_regex = /\s*VMS([0-9]{6})\s+/
     "print.pdf" if original_filename
+  end
+
+  def rename_shop_order(file)
+    
+
+    1.upto(4) do |i|
+      puts Rails.root.join(file.current_path)
+      data = File.read(Rails.root.join(file.current_path))
+      text = Yomu.read(:text, data)
+      match_data = so_regex.match(text)
+      if match_data.nil?
+        puts("Failure - need to handle.\n")
+      else
+        puts("S.O. ##{match_data[1]}\n")
+      end
+    end
   end
 end

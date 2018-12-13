@@ -23,9 +23,9 @@
   <div class="form-row">
     <div class="col-6">
       <div class="form-group">
-        <%= f.label :Workstation %>
-        <%= f.select :workstation_id, 
-                options_for_select(Printing::Workstation.all.map { |w| [w.name, w.id]}.sort, @print_queue_rule.workstation_id), { include_blank: true }, { class: 'form-control' } %>
+        <%= f.label :Workstation_group %>
+        <%= f.select :workstation_group_id, 
+                options_for_select(Printing::WorkstationGroup.all.map { |w| [w.name, w.id]}.sort, @print_queue_rule.workstation_group_id), { include_blank: true }, { class: 'form-control' } %>
       </div>
     </div>
     <div class="col-6">
