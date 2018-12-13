@@ -1,5 +1,4 @@
 class TimeclockController < ApplicationController
-  helper Timeclock::ReasonCodesHelper
   skip_before_action  :authenticate_user, only: [:login, :on_clock]
   before_action :detect_device_variant, only: :punch
 
