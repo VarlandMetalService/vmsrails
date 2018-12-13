@@ -35,12 +35,12 @@ module Printing
       groups = Printing::WorkstationGroup.joins(:workstations).where('workstations.id = ?', print_job.workstation_id).map { |x| x.id }
       rules = Printing::PrintQueueRule.where(:user_id => print_job.user_id).or(Printing::PrintQueueRule.where(:document_type_id => print_job.document_type_id)).or(Printing::PrintQueueRule.where('workstation_group_id = ?', groups))
 
-      rules.sort_by { |x| -x.weight }
-      
+      x = rules.map { |x| [x.print_queue_id, x.weight] }.sort_by { |y| -y[1]}.first
+
       if rules.blank?
         print_job.update_attribute(:print_queue_id, nil)
       else
-        print_job.update_attribute(:print_queue_id, rules.first.print_queue_id)
+        print_job.update_attribute(:print_queue_id, x[0])
       end
     end
 
