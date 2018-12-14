@@ -33,11 +33,26 @@ module Printing
   
     def self.set_queue(print_job)
       groups = Printing::WorkstationGroup.joins(:workstations).where('workstations.id = ?', print_job.workstation_id).map { |x| x.id }
+
       rules = Printing::PrintQueueRule.where(:user_id => print_job.user_id).or(Printing::PrintQueueRule.where(:document_type_id => print_job.document_type_id)).or(Printing::PrintQueueRule.where('workstation_group_id = ?', groups))
 
-      x = rules.map { |x| [x.print_queue_id, x.weight] }.sort_by { |y| -y[1]}.first
+      applicable_rules = []
+      puts rules
+      rules.each do |r|
+        if r.document_type == print_job.document_type || r.document_type.blank?
+          puts "document #{r}"
+          if r.user == print_job.user || r.user.blank?
+            puts "user #{r}"
+            if r.workstation_group_id.in? groups || r.workstation_group.blank?
+              puts "workstation #{r}"
+              applicable_rules << r
+            end
+          end
+        end
+      end
+      x = applicable_rules.map { |x| [x.print_queue_id, x.weight] }.sort_by { |y| -y[1]}.first
 
-      if rules.blank?
+      if x.blank?
         print_job.update_attribute(:print_queue_id, nil)
       else
         print_job.update_attribute(:print_queue_id, x[0])
