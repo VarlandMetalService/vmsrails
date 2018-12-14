@@ -54,8 +54,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> Reject Tag #: </span>
         </div>
-        <%= f.number_field :reject_tag_num, class: "form-control",
-                            placeholder: "Double check this." %>
+        <%= f.number_field :reject_tag_num, min: 1, step: 1, class: "form-control", placeholder: "Double check this." %>
         <div class="invalid-feedback text-center">
           Reject Tag # required.
         </div>
