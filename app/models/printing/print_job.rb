@@ -39,12 +39,11 @@ module Printing
       applicable_rules = []
       puts rules
       rules.each do |r|
-        if r.document_type == print_job.document_type || r.document_type.blank?
-          puts "document #{r}"
-          if r.user == print_job.user || r.user.blank?
-            puts "user #{r}"
-            if r.workstation_group_id.in? groups || r.workstation_group.blank?
-              puts "workstation #{r}"
+        if r.document_type == print_job.document_type || r.document_type_id.nil?
+          if r.user == print_job.user || r.user_id.nil?
+            if (r.workstation_group_id.in? groups)
+              applicable_rules << r
+            elsif r.workstation_group_id.nil?
               applicable_rules << r
             end
           end
