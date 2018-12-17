@@ -3,7 +3,7 @@ module Qc::RejectedPartsHelper
 
   def get_from_tags
     hash = {}
-      RejectedPart.all.map { |x| [x.so_num.to_s, x.reject_tag_num] }.each do |y|
+      Qc::RejectedPart.all.map { |x| [x.so_num.to_s, x.reject_tag_num] }.each do |y|
         if hash.has_key?(y[0])
           if hash[y[0]] > y[1]
           else
