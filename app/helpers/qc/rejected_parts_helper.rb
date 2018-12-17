@@ -1,6 +1,21 @@
 module Qc::RejectedPartsHelper
   require "base64"
 
+  def get_from_tags
+    hash = {}
+      RejectedPart.all.map { |x| [x.so_num.to_s, x.reject_tag_num] }.each do |y|
+        if hash.has_key?(y[0])
+          if hash[y[0]] > y[1]
+          else
+            hash[y[0]] = y[1]
+          end
+        else
+          hash[y[0]] = y[1]
+        end
+      end
+      return hash
+  end
+
   # Generates PDF, sends to print job controller, returns print_job id
   def gen_pdf(rejected_part)
 

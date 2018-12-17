@@ -9,7 +9,8 @@ module Qc
     end
 
     def new
-      @rejected_part = RejectedPart.new
+      session[:temp] = helpers.get_from_tags
+      @rejected_part = RejectedPart.new 
     end
 
     def edit
@@ -17,6 +18,7 @@ module Qc
 
     def create
       @rejected_part = RejectedPart.new(rejected_part_params)
+      
       @rejected_part.load_nums = RejectedPart.process_array(params[:qc_rejected_part][:load_nums]) unless params[:qc_rejected_part][:load_nums].blank?
       @rejected_part.tank_nums = RejectedPart.process_array(params[:qc_rejected_part][:tank_nums]) unless params[:qc_rejected_part][:tank_nums].blank?
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
