@@ -24,5 +24,6 @@ module Qc
                 return true
             end
         end
+            
     end
 end

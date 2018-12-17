@@ -65,20 +65,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">From Tag #:</span>
         </div>
-        <%= f.select( :from_tag, 
-                options_for_select([['Original S.O.', 'Original S.O.'],
-                                    ['Reject Tag # 1', 'Reject Tag # 1'],
-                                    ['Reject Tag # 2', 'Reject Tag # 2'],
-                                    ['Reject Tag # 3', 'Reject Tag # 3'],
-                                    ['Reject Tag # 4', 'Reject Tag # 4'],
-                                    ['Reject Tag # 5', 'Reject Tag # 5'],
-                                    ['Reject Tag # 6', 'Reject Tag # 6'],
-                                    ['Reject Tag # 7', 'Reject Tag # 7'],
-                                    ['Reject Tag # 8', 'Reject Tag # 8'],
-                                    ['Reject Tag # 9', 'Reject Tag # 9'],
-                                    ['Reject Tag # 10', 'Reject Tag # 10']]),
-                                    { include_blank: true },
-                                    { class: 'form-control' })%>
+        <%= f.select :from_tag, ['Original S.O.', 'Reject Tag # 1', 'Reject Tag # 2', 'Reject Tag # 3', 'Reject Tag # 4', 'Reject Tag # 5', 'Reject Tag # 6', 'Reject Tag # 7', 'Reject Tag # 8', 'Reject Tag # 9'],{ include_blank: true }, { class: 'form-control' } %>
           <div class="invalid-feedback text-center">
             From Tag # required.
           </div>  
@@ -104,22 +91,9 @@
         <div class="input-group-prepend">
           <span class="input-group-text"> Defect/Problem: </span>
         </div>
-        <%= f.select :defect, 
-              options_for_select([['Adhesion'     , 'Adhesion'     ],
-                                  ['Alloy'        , 'Alloy'        ],
-                                  ['Appearance'   , 'Appearance'   ],
-                                  ['Arced'        , 'Arced'        ],
-                                  ['Built Up'     , 'Built Up'     ],
-                                  ['Chromate'     , 'Chromate'     ],
-                                  ['Coverage'     , 'Coverage'     ],
-                                  ['Not Clean'    , 'Not Clean'    ],
-                                  ['Other'        , 'Other'        ],
-                                  ['Post Dip'     , 'Post Dip'     ],
-                                  ['Thickness'    , 'Thickness'    ],
-                                  ['Wrong Process', 'Wrong Process']]), 
-              {}, 
-              { class: "form-control",
-                placeholder: "What's wrong with it?" } %>
+        <%= f.select :defect, ['Adhesion', 'Alloy', 'Appearance' , 'Arced', 'Built Up', 'Chromate', 'Coverage', 'Not Clean', 'Other', 'Post Dip', 'Thickness', 'Wrong Process'], { include_blank: true }, 
+                                         { class: "form-control",
+                                         placeholder: "What's wrong with it?" } %>
         <div class="invalid-feedback text-center">
           Defect/Problem required.
         </div>
@@ -191,23 +165,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> Category: </span>
           </div>
-          <%= f.select :cause_category, 
-                options_for_select([['Cleaning'      , 'Cleaning'      ],
-                                    ['Customer Issue', 'Customer Issue'],
-                                    ['Development'   , 'Development'   ],
-                                    ['Equipment'     , 'Equipment'     ],
-                                    ['Operator Error', 'Operator Error'],
-                                    ['Opto'          , 'Opto'          ],
-                                    ['Part Related'  , 'Part Related'  ],
-                                    ['S.O. Procedure', 'S.O. Procedure'],
-                                    ['Solution'      , 'Solution'      ],
-                                    ['Technique'     , 'Technique'     ],
-                                    ['Technology'    , 'Technology'    ],
-                                    ['Unknown'       , 'Unknown'       ],
-                                    ['Wrong Process' , 'Wrong Process' ]]), 
-                {  }, 
-                { class: "form-control", 
-                  placeholder: "Choose a category" } %>
+          <%= f.select :cause_category, ['Cleaning', 'Customer Issue', 'Development', 'Equipment', 'Operator Error', 'Opto', 'Part Related', 'S.O. Procedure', 'Solution', 'Technique', 'Technology', 'Unknown', 'Wrong Process' ], { include_blank: true }, { class: "form-control", 
+                                            placeholder: "Choose a category" } %>
           <div class="invalid-feedback text-center">
               Cause required.
           </div>  
