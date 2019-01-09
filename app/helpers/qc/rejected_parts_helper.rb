@@ -263,8 +263,8 @@ module Qc::RejectedPartsHelper
       pdf.stroke_color '000000'
       
       # FOR LOCAL TESTING SWITCH THESE TWO
-      # string = pdf.render_file("hello.pdf")
-      string = pdf.render()
+      string = pdf.render_file("hello.pdf")
+      # string = pdf.render()
 
       raw_data = ""
       raw_data << "data:image/jpeg;base64,"
