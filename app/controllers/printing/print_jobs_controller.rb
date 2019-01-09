@@ -5,6 +5,8 @@ class Printing::PrintJobsController < ApplicationController
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user
   require "base64"
+  require "uri"
+  require "net/http"
 
   has_scope :with_user
   has_scope :with_doc_type
@@ -31,8 +33,8 @@ class Printing::PrintJobsController < ApplicationController
   def create
     data = Printing::PrintJob.parse_data(params[:data])
     @print_job = Printing::PrintJob.new(data)
-    # out_params = {'data' => params[:data] }
-    #   x = Net::HTTP.post_form(URI.parse('192.168.100.7:3000/printing/print_jobs'), out_params)
+    out_params = {'data' => params[:data] }
+      x = Net::HTTP.post_form(URI.parse('192.168.100.7:3000/printing/print_jobs'), out_params)
     respond_to do |format|
       if @print_job.save
         Printing::PrintJob.set_queue(@print_job)

@@ -33,7 +33,25 @@
           <div class="dropdown-divider"></div>
             <%= link_to 'Opto Logs', opto_logs_path, 
             class: "dropdown-item" %>
+            <%= link_to 'Thickness Readings', thickness_path, 
+            class: "dropdown-item" %>
             <%= link_to 'Vat History Notes', materials_vat_history_notes_path, 
+            class: "dropdown-item" %>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Apps
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <%= link_to 'Shift Notes', shift_notes_path, 
+          class: "dropdown-item" %>
+          <%= link_to 'Salt Spray Tests', '/salt_spray_tests', 
+            class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+          <%= link_to 'Timeclock', timeclock_path, 
+          class: "dropdown-item" %>
+          <%= link_to 'Payroll Periods', '/timeclock/clock_periods', 
             class: "dropdown-item" %>
         </div>
       </li>
@@ -53,6 +71,8 @@
           QC
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= link_to 'Salt Spray (Broken)', qc_salt_spray_path, 
+            class: "dropdown-item" %>
             <%= link_to 'Rejected Parts', new_qc_rejected_part_path, 
             class: "dropdown-item" %>
         </div>
