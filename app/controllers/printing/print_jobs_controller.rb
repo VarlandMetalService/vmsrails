@@ -45,6 +45,9 @@ class Printing::PrintJobsController < ApplicationController
     end
   end
 
+  def rework_so
+  end
+
   def update
     respond_to do |format|
       if @print_job.update(print_job_params)

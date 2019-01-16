@@ -65,5 +65,4 @@ class QueriesController < ApplicationController
     remove_nav_xs
     auto_refresh 60
   end
-
 end
