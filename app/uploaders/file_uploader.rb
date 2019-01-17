@@ -8,19 +8,7 @@ class FileUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  process :fix_exif_rotation
-  def fix_exif_rotation
-    if file.content_type == 'image/jpeg'
-      manipulate! do |img|
-        img.tap(&:auto_orient)
-      end
-    end
-  end
 
-  process :save_content_type_in_model
-  def save_content_type_in_model
-    model.content_type = file.content_type if file.content_type
-  end
 
   version :thumb, if: :is_img? do
     process :resize_to_fit => [200, 5000]

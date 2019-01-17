@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get 'salt_spray_test(/:id)/finalized', to: 'salt_spray_tests#finalized', as: :salt_spray_finalized
 
   resources :comments
-
+  resources :shop_order_files
   # Printing
   scope module: 'printing', as: 'printing' do
     resources :print_queues

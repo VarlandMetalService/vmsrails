@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190116214051) do
+ActiveRecord::Schema.define(version: 20190117173446) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -313,6 +313,13 @@ ActiveRecord::Schema.define(version: 20190116214051) do
     t.string "dept"
     t.string "shift_type"
     t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "shop_order_files", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "file"
+    t.integer "so_num"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
