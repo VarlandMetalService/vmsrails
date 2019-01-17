@@ -6,8 +6,8 @@
     <p>Analyzed <%= pluralize @customer[:parts].size, 'part specification' %>:</p>
     <p>
       <%= link_to fa_icon('file-excel-o', 
-                  text: 'Download Spreadsheet'), 
-                  { :format => :xlsx }, 
+                  text: 'Download Spreadsheet'),
+                  prop65_path( :format => :xlsx, :customer => params[:customer] ), 
                   { :class => 'btn btn-sm btn-success text-light' } %>
     </p>
     <div class="table-responsive">

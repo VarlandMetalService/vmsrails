@@ -9,6 +9,7 @@ class QueriesController < ApplicationController
                 only: [:promise_list, :receipts, :prop65]
 
   def prop65
+    #byebug
     if params[:customer].blank?
       @customer = nil
     else
@@ -20,7 +21,7 @@ class QueriesController < ApplicationController
       respond_to do |format|
         format.html
         format.js
-        format.xlsx
+        format.xlsx 
       end
     end
   end

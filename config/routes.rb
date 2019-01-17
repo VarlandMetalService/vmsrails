@@ -86,7 +86,7 @@ Rails.application.routes.draw do
   # Queries
   get '/queries/promise_list',       to: 'queries#promise_list'
   get '/queries/receipts',           to: 'queries#receipts'
-  get '/queries/prop65(/:customer)', to: 'queries#prop65'
+  get '/queries/prop65(/:customer)', to: 'queries#prop65', as: 'prop65'
 
   post '/system_i/update_user', to: 'system_i#update_user'
 

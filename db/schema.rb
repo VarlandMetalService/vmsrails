@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181213173243) do
+ActiveRecord::Schema.define(version: 20190116214051) do
 
   create_table "assigned_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "permission_id"
@@ -398,7 +398,6 @@ ActiveRecord::Schema.define(version: 20181213173243) do
     t.integer "zip_code"
     t.string "phone_number", limit: 10
     t.integer "pin"
-    t.boolean "is_clockedin"
   end
 
   create_table "workstation_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
