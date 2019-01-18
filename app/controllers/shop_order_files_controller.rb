@@ -51,14 +51,25 @@ def update
 end
 
 def destroy
-  @shop_order_file.destroy
-  respond_to do |format|
-    format.html { redirect_to shop_order_files_url, notice: 'shop_order_file was successfully destroyed.' }
-    format.json { head :no_content }
+  remove_file_at_index(params[:file_id].to_i)
+  if @shop_order_file.file.blank?
+    @shop_order_file.destroy
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: shop_order_files_path) }
+      format.json { head :no_content }
+    end
+  else
+  flash[:error] = "Failed deleting image" unless @shop_order_file.save
+    redirect_back(fallback_location: shop_order_files_path)
   end
 end
 
 private
+  def remove_file_at_index(index)
+    remain_files = @shop_order_file.file # copy the array
+    deleted_file = remain_files.delete_at(index) # delete the target image
+    @shop_order_file.file = remain_files # re-assign back
+  end
   # Select shop_order_file by id.
   def set_shop_order_file
     @shop_order_file = ShopOrderFile.find(params[:id])
