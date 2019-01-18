@@ -7,7 +7,11 @@ skip_before_action :verify_authenticity_token
 has_scope :with_so_num,    only: :index
 
 def index
-  @shop_order_files = apply_scopes(ShopOrderFile.all.order('so_num desc'))
+  if params[:with_so_num].blank?
+    @shop_order_files = []
+  else
+    @shop_order_files = apply_scopes(ShopOrderFile.all.order('so_num desc'))
+  end
   respond_to do |format|
     format.html
     format.json { render :json => @shop_order_files }
@@ -62,6 +66,6 @@ private
 
   # Never trust parameters from the internet, only allow the white list.
   def shop_order_file_params
-      params.require(:shop_order_file).permit(:file, :so_num)
+      params.require(:shop_order_file).permit(:file, :so_num, :file_cache, {file: []})
   end 
 end

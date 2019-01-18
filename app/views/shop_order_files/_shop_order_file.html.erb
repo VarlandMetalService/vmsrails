@@ -1,4 +1,13 @@
-<li class='list-item'>
-  <%= shop_order_file.so_num %><br>
-  <a href="<%= shop_order_file.file.url %>" target='_blank'><%= image_tag(shop_order_file.file.url, size: '320')%></a>
-</li>
+  <!--<a href="<%= shop_order_file.file[0].url %>" target='_blank'><%= image_tag(shop_order_file.file[0].url)%></a> -->
+
+<div class='row'>
+  <h3>Uploaded: <%= shop_order_file.created_at.strftime('%D @ %T %p') %></h3>
+</div>
+<div class='row'>
+  <% shop_order_file.file.each do |file| %>
+    <div class='col-6 my-1'>
+    <%= link_to image_tag(file.url, style: 'width: 100%;'), file.url,{ target: '_blank' } %><br>
+    </div>
+  <% end %>
+</div>
+  <hr>

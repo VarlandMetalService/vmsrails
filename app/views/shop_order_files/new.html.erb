@@ -17,7 +17,7 @@
     <div class='input group'>
       <div class='form-group'>
         <%= form.label :file, 'File' %>
-        <%= form.file_field :file, class: 'form-control' %>
+        <%= form.file_field :file, class: 'form-control', multiple: true%>
         <div class="invalid-feedback text-center">
           <% @shop_order_file.errors[:file].each do |e| %>
             <%= e.capitalize %>

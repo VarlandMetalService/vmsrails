@@ -6,7 +6,7 @@
       <div class="form-group">
         <%= f.label :with_so_num, 'Shop Order #'  %>
           <%= f.select :with_so_num, 
-            options_for_select(ShopOrderFile.all.map{ |x| x.so_num },
+            options_for_select(ShopOrderFile.all.map{ |x| x.so_num }.uniq.sort,
             params[:with_so_num]),
             { include_blank: true },
             { class: 'custom-select',
@@ -14,11 +14,10 @@
       </div>
     <% end %>
     <%= link_to 'New File', new_shop_order_file_path, class:'pull-left btn btn-primary my-1 mx-1' %>
-    <%= link_to 'Reset', shift_notes_url, class: 'btn btn-link pull-right' %>
+    <%= link_to 'Reset', shop_order_files_url, class: 'btn btn-link pull-right' %>
   </div>
   <div class='card-body'>
-    <ul class='list-group list-group-flush'>
-      <%= render @shop_order_files %>
-    </ul>
+
+      <%= @shop_order_files.blank? ? 'Select a shop order':(render @shop_order_files)  %>
   </div>
 </div>
