@@ -6,7 +6,6 @@ skip_before_action :verify_authenticity_token
 
 has_scope :with_so_num,    only: :index
 
-
 def index
   @shop_order_files = apply_scopes(ShopOrderFile.all.order('so_num desc'))
   respond_to do |format|

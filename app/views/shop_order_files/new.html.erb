@@ -7,15 +7,26 @@
     <div class="form-group">
       <%= form.label :so_num, 'Shop Order' %>
       <%= form.number_field :so_num, class: 'form-control' %>
+      <div class="invalid-feedback text-center">
+        <% @shop_order_file.errors[:so_num].each do |e| %>
+          <%= e.capitalize %>
+        <% end %>
+      </div>
     </div>
-    <div class='form-group'>
-      <%= form.label :file, 'File' %>
-      <%= form.file_field :file, class: 'form-control' %>
+    
+    <div class='input group'>
+      <div class='form-group'>
+        <%= form.label :file, 'File' %>
+        <%= form.file_field :file, class: 'form-control' %>
+        <div class="invalid-feedback text-center">
+          <% @shop_order_file.errors[:file].each do |e| %>
+            <%= e.capitalize %>
+          <% end %>
+        </div>
+      </div>
+      
     </div>
-  </div>
-  <div class='card-footer'>
     <%= form.submit 'Submit', class: 'btn btn-primary btn-block' %>
     <% end %>
-  </div>
   </div>
 </div>
