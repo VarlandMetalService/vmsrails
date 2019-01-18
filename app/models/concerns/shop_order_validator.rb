@@ -7,7 +7,7 @@ class ShopOrderValidator < ActiveModel::EachValidator
   end
 
   def is_valid_shop_order(value)
-    url = "http://remoteapi.varland.com:8882/v1/so?shop_order=292565#{value}"
+    url = "http://remoteapi.varland.com:8882/v1/so?shop_order=#{value}"
     uri = URI(url)
     response = Net::HTTP.get(uri)
 
