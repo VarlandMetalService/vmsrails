@@ -3,8 +3,10 @@
 
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
+  <script type='text/javascript'>
+    window.module = undefined;
+    window.require = undefined;
+    </script>
     <title><%= [content_for(:title), 'VMS'].compact.join(' – ') %></title>
 
     <%= csrf_meta_tags %>
