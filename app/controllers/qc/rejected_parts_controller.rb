@@ -24,18 +24,21 @@ module Qc
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.save
-          if @rejected_part.increment_reject_tag_count
-            flash[:success] = "Successfully updated AS/400 S.O."
-          else
-            flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
-          end
-          url = "http://remoteapi.varland.com:8882/v1/so?shop_order=282737#{@rejected_part.so_num}"
+          # if @rejected_part.increment_reject_tag_count
+          #   flash[:success] = "Successfully updated AS/400 S.O."
+          # else
+          #   flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
+          # end
+          url = "http://remoteapi.varland.com:8882/v1/so?shop_order=#{@rejected_part.so_num}"
             uri = URI(url)
             response = Net::HTTP.get(uri)
-            @part = JSON.parse(response).first
+            @part_info = JSON.parse(response).first
+            if @part_info.blank?
+              @part_info = {"shopOrder"=>"", "customer"=>"", "processCode"=>"", "partID"=>"", "subID"=>""}
+            end
           
-          file = helpers.gen_pdf(@rejected_part, @part)
-          RejectedPartsMailer.send_rejected_part(@rejected_part, @part).deliver_later
+          file = helpers.gen_pdf(@rejected_part, @part_info)
+          RejectedPartsMailer.send_rejected_part(@rejected_part, @part_info).deliver_later
           format.html { redirect_to root_path }
           format.json { redirect_back(fallback_location: root_url) }
         else

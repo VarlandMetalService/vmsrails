@@ -9,6 +9,7 @@ class RejectTagPdf < VarlandPdf
     # Call parent constructor and store passed data.
     super()
     @part = part
+    puts part_info
     @part_info = part_info
 
     # Set options.
@@ -19,7 +20,7 @@ class RejectTagPdf < VarlandPdf
 
     # Print employer copies.
     self.print_graphics
-    self.print_data
+    self.print_data(@part_info)
 
     # Encrypt PDF.
     encrypt_document(owner_password: :random,
@@ -33,8 +34,7 @@ class RejectTagPdf < VarlandPdf
   end
   
   # Prints data on Reject Tag.
-  def print_data
-
+  def print_data(part_info)
     # Section 1.
     y = 10.75 - SECTION_HEADER_HEIGHT - 0.25
     self.txtb(@part.so_num.to_s, 0.25, y + 0.04, 2, 0.5, 24, :bold, :center, :center, @data_font, @data_color)
@@ -42,10 +42,10 @@ class RejectTagPdf < VarlandPdf
     self.txtb(@part.from_tag, 4.25, y + 0.02, 2, 0.5, 12, :bold, :center, :center, @data_font, @data_color)
     self.txtb(@part.date.strftime('%m/%d/%y'), 6.25, y + 0.02, 2, 0.5, 12, :bold, :center, :center, @data_font, @data_color)
     y -= 0.75
-    self.txtb(@part_info[:customer], 0.25, y + 0.02, 2, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb(@part_info[:processCode], 2.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb(@part_info[:partID], 3.25, y + 0.02, 4, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb(@part_info[:subID], 7.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(part_info["customer"].to_s, 0.25, y + 0.02, 2, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(part_info["processCode"].to_s, 2.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(part_info["partID"].to_s, 3.25, y + 0.02, 4, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(part_info["subID"].to_s, 7.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     y -= 0.6
     self.txtb(@part.sec1_loads, 0.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     self.txtb(helpers.number_with_precision(@part.weight, precision: 2, delimiter: ','), 1.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)

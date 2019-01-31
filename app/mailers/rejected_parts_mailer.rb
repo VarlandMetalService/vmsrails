@@ -5,7 +5,7 @@ class RejectedPartsMailer < ApplicationMailer
   layout('reject_tag_mailer')
 
   default from: 'varlandmetalservice@gmail.com',
-            to: 'Rejected Parts <rejectedparts@varland.com>'
+            to: 'Rejected Parts <richard.legacy@varland.com>'
             
   def send_rejected_part(part, part_info)
     @part = part
@@ -15,6 +15,6 @@ class RejectedPartsMailer < ApplicationMailer
     @centered_cell_style = "color: #000; text-align: center; font-weight: bold; padding: 0.5rem; border: 2px solid #000;"
     @left_cell_style = "color: #000; text-align: left; font-weight: bold; padding: 0.5rem; border: 2px solid #000;"
     @zero_height_cell_style = "font-size: 0; height: 0; line-height: 0; padding: 0;"
-    mail(subject: "Reject Tag #{@part.so_num}##{@part.reject_tag_num} (#{@part_info[:customer]}, #{@part_info[:processCode]}, #{@part_info[:partID]}, #{@part_info[:subID]})")
+    mail(subject: "Reject Tag #{@part.so_num}##{@part.reject_tag_num} (#{@part_info["customer"]}, #{@part_info["processCode"]}, #{@part_info["partID"]}, #{@part_info["subID"]})")
   end
 end
