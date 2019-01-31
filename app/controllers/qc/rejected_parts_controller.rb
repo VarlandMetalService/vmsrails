@@ -1,5 +1,6 @@
 module Qc
   class RejectedPartsController < ApplicationController
+    before_action :inline_only_trix
     before_action :set_rejected_part, only: [:show, :edit, :update, :destroy, :create_pdf, :recreate_pdf]
     def index
         @rejected_parts = RejectedPart.all
@@ -11,6 +12,7 @@ module Qc
     def new
       session[:temp] = helpers.get_from_tags
       @rejected_part = RejectedPart.new 
+      @rejected_part.date = Date.today
     end
 
     def edit

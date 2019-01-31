@@ -270,3 +270,12 @@ trix-toolbar .trix-button-row {
 .bg-danger .text-muted {
   color: white !important;
 }
+
+.trix-inline-only {
+
+  .trix-button-group--block-tools,
+  .trix-button--icon-link {
+    display: none !important;
+  }
+
+}

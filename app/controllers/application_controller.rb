@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     @body_classes << 'no-nav-xs'
   end
 
+  def inline_only_trix
+    @body_classes << 'trix-inline-only'
+  end
+
   def remove_nav
     @body_classes << 'no-nav'
   end

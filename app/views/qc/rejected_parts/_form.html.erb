@@ -1,275 +1,212 @@
-<%= content_tag :div, class: "temp_information", data: {temp: session[:temp]} do %>
-<% end %>
-<%= form_for @rejected_part do |f| %>
-<%# Section 1 %>
-<div class="container-span border p-1">
-  <div class="text"><u>Section 1: Identification & Description</u></div>
-  <div class="form-row mt-3">
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+<%= form_for(@rejected_part, html: { class: "vms-form bg-light border rounded p-3 mb-3" }) do |f| %>
+
+  <% if @rejected_part.errors.any? %>
+    <div class="alert alert-danger p-2 small font-weight-bold">
+      <p class="mb-0">The update could not be processed due to <%= pluralize(@specification.errors.count, "error") %>:</p>
+      <ul class="mb-0">
+        <% @rejected_part.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+
+    <div class="col-12 col-sm-6 col-md-3">
       <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"> VMS S.O. #: </span>
-          </div>
-          <%= f.text_field :so_num, class: "form-control", 
-                                    placeholder: "Shop order number.",
-                                    id: "so_field", :onchange => 'find_so_tags();'%>
-            <div class="invalid-feedback text-center">
-              Shop Order # required.
-            </div>
-        </div>
+        <%= f.label :so_num,
+                    required_field_label('Shop Order') %>
+        <%= f.text_field :so_num,
+                         class: 'form-control',
+                         required: true,
+                         onchange: 'find_so_tags();' %>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Rejected By: </span>
-        </div>
-        <%= f.select :user_id, options_for_select(
-              User.all.map { |u| [u.full_name, u.id] }, 
-              unless @rejected_part.user_id.blank?
-                [User.find(@rejected_part.user_id), @rejected_part.user_id] 
-              end ),
-                { include_blank: true }, 
-                { class: "form-control" } %>
-          <div class="invalid-feedback text-center">
-            Rejected by required.
-          </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :reject_tag_num,
+                    required_field_label('Reject Tag #') %>
+        <%= f.number_field :reject_tag_num,
+                           class: 'form-control',
+                           required: true,
+                           min: 1,
+                           step: 1,
+                           id: 'reject_tag_num_field',
+                           readonly: true  %>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Date: </span>
-        </div>
-        <%= f.date_field :date, class: "form-control" %>
-        <div class="invalid-feedback text-center">
-          Date required.
-        </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :from_tag,
+                    required_field_label('Source') %>
+        <%= f.select :from_tag,
+                     ['Original S.O.'],
+                     { include_blank: true },
+                     { class: 'form-control',
+                       id: 'from_tag_field',
+                       required: true } %>
       </div>
     </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :date,
+                    required_field_label('Date') %>
+        <%= f.date_field :date,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :user_id,
+                    required_field_label('Rejected By') %>
+        <%= f.select :user_id,
+                     options_for_select(User.all.map { |u| [u.display_name, u.id] }, @rejected_part.user_id),
+                     { include_blank: true }, 
+                     { class: "form-control",
+                       required: true } %>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :sec1_loads,
+                    required_field_label('Loads Rejected') %>
+        <%= f.text_field :sec1_loads,
+                         class: 'form-control',
+                         required: true %>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :weight,
+                    required_field_label('Weight') %>
+        <%= f.number_field :weight,
+                           class: 'form-control',
+                           required: true,
+                           min: 0,
+                           step: 0.01  %>
+        <small class="form-text text-muted font-weight-bold">
+          This is the total weight of all loads rejected, not the weight of a single load.
+        </small>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :defect,
+                    required_field_label('Defect') %>
+        <%= f.select :defect,
+                     ['Adhesion', 'Alloy', 'Appearance' , 'Arced', 'Built Up', 'Chromate', 'Coverage', 'Not Clean', 'Other', 'Post Dip', 'Thickness', 'Wrong Process'].sort,
+                     { include_blank: true },
+                     { class: 'form-control',
+                       required: true } %>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-group">
+        <%= f.label :defect_description,
+                    required_field_label('Description of Defect/Problem') %>
+        <%= f.trix_editor :defect_description,
+                          class: 'form-control',
+                          required: true %>
+        <p class="form-text small text-muted font-weight-bold">
+          Be as descriptive as possible about what is wrong with the parts. Don't worry about the cause here &ndash; just describe in detail what's wrong.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="form-group">
+        <%= f.label :cause_category,
+                    required_field_label('Cause') %>
+        <%= f.select :cause_category,
+                     ['Cleaning', 'Customer Issue', 'Development', 'Equipment', 'Operator Error', 'Opto', 'Part Related', 'S.O. Procedure', 'Solution', 'Technique', 'Technology', 'Unknown', 'Wrong Process'].sort,
+                     { include_blank: true },
+                     { class: 'form-control',
+                       required: true } %>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-group">
+        <%= f.label :cause,
+                    required_field_label('Cause of Defect/Problem') %>
+        <%= f.trix_editor :cause,
+                          class: 'form-control',
+                          required: true %>
+        <p class="form-text small text-muted font-weight-bold">
+          Investigate the cause of the defect or problem ASAP once it is discovered. Use this section to record and/all known information or circumstances that may have contributed to the defect or problem.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12"><hr class="mt-0 mb-3" /></div>
+    <div class="col-12 col-md-6">
+      <h5>Load Specific Information</h5>
+      <p class="text-muted form-text small font-weight-bold">If you suspect that a specific barrel or station may have contributed to the problem or defect, record known information below.</p>
+      <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th class="w-auto text-center">Load #</th>
+            <th class="w-auto text-center">Barrel #</th>
+            <th class="w-auto text-center">Station #</th>
+            <th class="w-auto text-center">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody id="load_specific_info">
+          <tr>
+            <td><%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%></td>
+            <td><%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%></td>
+            <td><%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%></td>
+            <td class="text-center">
+              <button class="btn btn-small btn-danger removeLoad"><i class="fa fa-times"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><%= link_to '<i class="fa fa-plus"></i> Add Load'.html_safe,
+                     "javascript:;",
+                     class: 'font-weight-bold btn btn-sm btn-warning',
+                     id: "addLoad",
+                     title: 'Add Load' %></p>
+    </div>
+
+    <div class="col-12"><hr class="mb-0 mt-0" /></div>
+    <div class="col-12">
+      <div class="pull-right">
+        <%= link_to 'Cancel', root_path, class: 'btn btn-link mt-3 form-cancel-button' %>
+        <%= f.button fa_icon('check', text: 'Save'),
+                     class: 'btn btn-primary mt-3 font-weight-bold',
+                     type: 'submit' %>
+      </div>
+      <div class="clearfix"><!----></div>
+    </div>
+
   </div>
 
-  <div class="form-row mt-3">
-     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Reject Tag #: </span>
-        </div>
-        <%= f.number_field :reject_tag_num, min: 1, step: 1, class: "form-control", id: 'reject_tag_num_field', :readonly => true %>
-        <div class="invalid-feedback text-center">
-          Reject Tag # required.
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">From Tag #:</span>
-        </div>
-        <%= f.select :from_tag, ['Original S.O.'],{ include_blank: true }, { class: 'form-control', id: 'from_tag_field' } %>
-          <div class="invalid-feedback text-center">
-            From Tag # required.
-          </div>  
-      </div>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Weight:</span>
-        </div>
-        <%= f.number_field :weight, class: "form-control",
-                                     step: 0.01,  
-                              placeholder: "Weight in lbs." %>
-          <div class="invalid-feedback text-center">
-            Weight required.
-          </div>  
-      </div>
-    </div>
-  </div>
-    <div class="form-row mt-3">
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Defect/Problem: </span>
-        </div>
-        <%= f.select :defect, ['Adhesion', 'Alloy', 'Appearance' , 'Arced', 'Built Up', 'Chromate', 'Coverage', 'Not Clean', 'Other', 'Post Dip', 'Thickness', 'Wrong Process'], { include_blank: true }, 
-                                         { class: "form-control",
-                                         placeholder: "What's wrong with it?" } %>
-        <div class="invalid-feedback text-center">
-          Defect/Problem required.
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Defect Description: </span>
-        </div>
-        <%= f.text_area :defect_description, class: "form-control",
-                            placeholder: "All info about defect location, details, etc..." %>
-        <div class="invalid-feedback text-center">
-          Defect description required.
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pb-2">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text"> Loads: </span>
-        </div>
-        <%= f.text_field :sec1_loads, class: "form-control",
-                            placeholder: "Loads affected." %>
-        <div class="invalid-feedback text-center">
-          Load #'s' required.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br>
-
-<div class="container-flex border p-1">
-  <div class="text">
-    <%= f.check_box :s3box, id: "section3radio" %>
-    <u>Section 3: Load Specific Info (use if barrel or station are possible causes of the defect)</u>
-  </div>
-  <div class="container-span", style="display:<% if @rejected_part.s3box == true %> ;<% else %> none;<% end %>", id="section3">
-    <div class="form-row mt-3">
-      <div class="col-12">
-        <div class="form-group">
-          <%= link_to fa_icon('plus-square'),
-                            "javascript:;",
-                            class: 'font-weight-bold btn btn-sm btn-success',
-                            id: "addNewOption",
-                            title: 'Add Option' %>
-          <%= f.label "Loads:"%>
-        </div>
-      </div>
-      <div class="col-12">
-        <div id="option_area"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br>
-
-<div class="container-span border p-1">
-  <div class="text">
-    <u>Section 4: Cause of Defect/Problem</u>
-  </div>
-  <div class="container-span", id="section4">
-    <div class="form-row mt-3">
-      <div class="col-12">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"> Category: </span>
-          </div>
-          <%= f.select :cause_category, ['Cleaning', 'Customer Issue', 'Development', 'Equipment', 'Operator Error', 'Opto', 'Part Related', 'S.O. Procedure', 'Solution', 'Technique', 'Technology', 'Unknown', 'Wrong Process' ], { include_blank: true }, { class: "form-control", 
-                                            placeholder: "Choose a category" } %>
-          <div class="invalid-feedback text-center">
-              Cause required.
-          </div>  
-        </div>
-        <br>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"> Cause: </span>
-          </div>
-          <%= f.text_area :cause, class: "form-control", 
-                placeholder: "Investigate CAUSE asap after DEFECT is discovered/identified. Record ANY known information and circumstances related to the rework that may help identify the cause.", rows: "6" %>
-          <div class="invalid-feedback text-center">
-              Cause required.
-          </div>  
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br>
-
-<div class="btn-group" role="group">
-  <%= link_to fa_icon('arrow-left'),
-                      root_path,
-                      method: :get,
-                      class: 'font-weight-bold btn btn-sm btn-secondary',
-                      title: 'Back' %>
-  <%= f.submit 'Print', class: "btn btn-primary"%>
-</div>
-
-<div id="option_field" style="display: none;">
-            <div id="options" class="form-row mb-3">
-              <div class="form-group">
-                <div class="form-row">
-                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"> Load #: </span>
-                      </div>
-                      <%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"> Tank: </span>
-                      </div>
-                      <%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%>
-                    </div>
-                  </div>
-
-                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"> Barrel: </span>
-                      </div>
-                      <%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%>
-                    </div>
-                  </div>
-
-                  <div class="col-1">
-                    <%= link_to fa_icon('times'), "javascript:;",
-                      class: 'font-weight-bold btn btn-sm btn-danger ml-1',
-                      id: "remove_option",
-                      title: 'Delete Option' %>
-                  </div>
-              </div>
-            
-          </div>
-        </div>
-      </div>
 <% end %>
-<script type="text/javascript">
-  var section3radio = document.getElementById('section3radio')
-  var section3      = document.getElementById('section3')
-
-  section3radio.addEventListener("click", function() {
-    if(section3radio.checked) {
-      section3.style['display'] = "";
-      document.getElementById('section3load'  ).disabled = false;
-      document.getElementById('section3tank'  ).disabled = false;
-      document.getElementById('section3barrel').disabled = false;
-    }
-    else {
-      section3.style['display'] = "none";
-      document.getElementById('section3load'  ).disabled = true;
-      document.getElementById('section3tank'  ).disabled = true;
-      document.getElementById('section3barrel').disabled = true;
-    } 
-  });
-</script>
 
 <script type="text/javascript">
+
     $(document).ready(function(){
-      $('#addNewOption').on('click', function(){
-        $('#option_area').append($('#option_field').clone().html());
+      $('#addNewLoad').on('click', function(){
+        var contentToAppend = $('#specific_load_fields').clone();
+        console.log(contentToAppend);
+        $('#load_specific_info').append($('#specific_load_fields').clone().html());
       });
 
-      $('#option_area').on('click','#remove_option', function(){
+      $('#load_specific_info').on('click','#remove_option', function(){
         $(this).closest('#options').remove();
       });
     });
