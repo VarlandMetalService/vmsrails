@@ -15,6 +15,10 @@ class RejectedPartsMailer < ApplicationMailer
     @centered_cell_style = "color: #000; text-align: center; font-weight: bold; padding: 0.5rem; border: 2px solid #000;"
     @left_cell_style = "color: #000; text-align: left; font-weight: bold; padding: 0.5rem; border: 2px solid #000;"
     @zero_height_cell_style = "font-size: 0; height: 0; line-height: 0; padding: 0;"
-    mail(subject: "Reject Tag #{@part.so_num}##{@part.reject_tag_num} (#{@part_info["customer"]}, #{@part_info["processCode"]}, #{@part_info["partID"]}, #{@part_info["subID"]})")
+    subject_parts = [@part_info[:customer], @part_info[:processCode], @part_info[:partID]]
+    unless @part_info[:subID].blank?
+      subject_parts << @part_info[:subID]
+    end
+    mail(subject: "Reject Tag #{@part.so_num}##{@part.reject_tag_num} (#{subject_parts.join(', ')})")
   end
 end
