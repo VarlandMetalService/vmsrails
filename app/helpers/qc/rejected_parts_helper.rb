@@ -17,9 +17,9 @@ module Qc::RejectedPartsHelper
   end
 
   # Generates PDF, sends to print job controller, returns print_job id
-  def gen_pdf(rejected_part)
+  def gen_pdf(rejected_part, part)
 
-    pdf = RejectTagPdf.new(rejected_part)
+    pdf = RejectTagPdf.new(rejected_part, part)
       
       # FOR LOCAL TESTING SWITCH THESE TWO
       # string = pdf.render_file("hello.pdf")

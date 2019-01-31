@@ -11,7 +11,7 @@ class ShopOrderValidator < ActiveModel::EachValidator
     uri = URI(url)
     response = Net::HTTP.get(uri)
 
-    if JSON.parse(response)["customer"].blank?
+    if JSON.parse(response).first["customer"].blank?
       false
     else
       true

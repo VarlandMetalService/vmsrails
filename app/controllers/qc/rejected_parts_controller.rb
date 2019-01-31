@@ -29,8 +29,13 @@ module Qc
           else
             flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
           end
-          file = helpers.gen_pdf(@rejected_part)
-          RejectedPartsMailer.send_rejected_part(@rejected_part).deliver_later
+          url = "http://remoteapi.varland.com:8882/v1/so?shop_order=282737#{@rejected_part.so_num}"
+            uri = URI(url)
+            response = Net::HTTP.get(uri)
+            @part = JSON.parse(response).first
+          
+          file = helpers.gen_pdf(@rejected_part, @part)
+          RejectedPartsMailer.send_rejected_part(@rejected_part, @part).deliver_later
           format.html { redirect_to root_path }
           format.json { redirect_back(fallback_location: root_url) }
         else

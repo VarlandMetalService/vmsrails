@@ -43,10 +43,10 @@
       <th style="<%= @table_header_style %>">Sub ID</th>
     </tr>
     <tr>
-      <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>">@cust</td>
-      <td style="font-size: 1.2rem; <%= @centered_cell_style %>">@proc</td>
-      <td colspan="5" style="font-size: 1.2rem; <%= @centered_cell_style %>">@part_id</td>
-      <td style="font-size: 1.2rem; <%= @centered_cell_style %>">@sub_id</td>
+      <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>">@part_info[:customer]</td>
+      <td style="font-size: 1.2rem; <%= @centered_cell_style %>">@part_info[:processCode]</td>
+      <td colspan="5" style="font-size: 1.2rem; <%= @centered_cell_style %>">@part_info[:partID]</td>
+      <td style="font-size: 1.2rem; <%= @centered_cell_style %>">@part_info[:subID]</td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Loads</th>

@@ -4,11 +4,12 @@ class RejectTagPdf < VarlandPdf
   SECTION_HEADER_HEIGHT = 0.35
   
   # Constructor.
-  def initialize(part)
+  def initialize(part, part_info)
 
     # Call parent constructor and store passed data.
     super()
     @part = part
+    @part_info = part_info
 
     # Set options.
     @standard_color = '000000'
@@ -41,10 +42,10 @@ class RejectTagPdf < VarlandPdf
     self.txtb(@part.from_tag, 4.25, y + 0.02, 2, 0.5, 12, :bold, :center, :center, @data_font, @data_color)
     self.txtb(@part.date.strftime('%m/%d/%y'), 6.25, y + 0.02, 2, 0.5, 12, :bold, :center, :center, @data_font, @data_color)
     y -= 0.75
-    self.txtb("@cust", 0.25, y + 0.02, 2, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb("@proc", 2.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb("@part_id", 3.25, y + 0.02, 4, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb("@sub_id", 7.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(@part_info[:customer], 0.25, y + 0.02, 2, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(@part_info[:processCode], 2.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(@part_info[:partID], 3.25, y + 0.02, 4, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(@part_info[:subID], 7.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     y -= 0.6
     self.txtb(@part.sec1_loads, 0.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     self.txtb(helpers.number_with_precision(@part.weight, precision: 2, delimiter: ','), 1.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)

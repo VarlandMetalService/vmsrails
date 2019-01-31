@@ -7,8 +7,9 @@ class RejectedPartsMailer < ApplicationMailer
   default from: 'varlandmetalservice@gmail.com',
             to: 'Rejected Parts <rejectedparts@varland.com>'
             
-  def send_rejected_part(part)
+  def send_rejected_part(part, part_info)
     @part = part
+    @part_info = part_info
     @section_header_style = "border: 2px solid #000; border-bottom-width: 0; padding: 0.5rem 1rem; text-align: left; color: #fff; background-color: #222; font-weight: bold; text-transform: uppercase; font-size: 1.5rem;";
     @table_header_style = "padding: 0.5rem; background-color: #900000; color: #fff; font-weight: bold; text-transform: uppercase; border: 2px solid #000; font-size: 1rem;";
     @centered_cell_style = "color: #000; text-align: center; font-weight: bold; padding: 0.5rem; border: 2px solid #000;"
