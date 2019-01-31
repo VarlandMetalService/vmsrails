@@ -24,11 +24,11 @@ module Qc
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
       respond_to do |format|
         if @rejected_part.save
-          # if @rejected_part.increment_reject_tag_count
-          #   flash[:success] = "Successfully updated AS/400 S.O."
-          # else
-          #   flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
-          # end
+          if @rejected_part.increment_reject_tag_count
+            flash[:success] = "Successfully updated AS/400 S.O."
+          else
+            flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
+          end
           url = "http://remoteapi.varland.com:8882/v1/so?shop_order=#{@rejected_part.so_num}"
             uri = URI(url)
             response = Net::HTTP.get(uri)

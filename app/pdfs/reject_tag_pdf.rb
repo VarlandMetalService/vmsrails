@@ -9,8 +9,6 @@ class RejectTagPdf < VarlandPdf
     # Call parent constructor and store passed data.
     super()
     @part = part
-    puts part_info
-    @part_info = part_info
 
     # Set options.
     @standard_color = '000000'
@@ -20,7 +18,7 @@ class RejectTagPdf < VarlandPdf
 
     # Print employer copies.
     self.print_graphics
-    self.print_data(@part_info)
+    self.print_data(part_info)
 
     # Encrypt PDF.
     encrypt_document(owner_password: :random,
