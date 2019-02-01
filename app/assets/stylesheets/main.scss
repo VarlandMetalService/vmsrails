@@ -274,7 +274,8 @@ trix-toolbar .trix-button-row {
 .trix-inline-only {
 
   .trix-button-group--block-tools,
-  .trix-button--icon-link {
+  .trix-button--icon-link,
+  .trix-button--icon-strike {
     display: none !important;
   }
 

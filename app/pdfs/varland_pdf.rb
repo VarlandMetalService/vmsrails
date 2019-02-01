@@ -74,9 +74,9 @@ class VarlandPdf < Prawn::Document
     font_families.update(
       "SF Mono" => {
         :normal       => Rails.root.join('lib', 'assets', 'SFMono-Medium.ttf'),
-        :italic       => Rails.root.join('lib', 'assets', 'SFMono-Semibold.ttf'),
+        :italic       => Rails.root.join('lib', 'assets', 'SFMono-MediumItalic.ttf'),
         :bold         => Rails.root.join('lib', 'assets', 'SFMono-Bold.ttf'),
-        :bold_italic  => Rails.root.join('lib', 'assets', 'SFMono-Heavy.ttf')
+        :bold_italic  => Rails.root.join('lib', 'assets', 'SFMono-BoldItalic.ttf')
       }
     )
 

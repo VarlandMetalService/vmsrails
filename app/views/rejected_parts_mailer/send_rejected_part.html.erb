@@ -66,7 +66,7 @@
       <th colspan="9" style="<%= @table_header_style %>">Description</th>
     </tr>
     <tr>
-      <td colspan="9" style="font-size: 1rem; <%= @left_cell_style %>"><%= @part.defect_description %></td>
+      <td colspan="9" style="font-size: 1rem; <%= @left_cell_style %>"><%= @part.defect_description.html_safe %></td>
     </tr>
   </tbody>
 </table>
@@ -167,7 +167,7 @@
     <tr>
       <th style="<%= @table_header_style %>">Customer Issue</th>
       <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Customer Issue' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
-      <td rowspan="12" style="font-size: 1rem; vertical-align: top; <%= @left_cell_style %>"><%= @part.cause %></th>
+      <td rowspan="12" style="font-size: 1rem; vertical-align: top; <%= @left_cell_style %>"><%= @part.cause.html_safe %></th>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Development</th>

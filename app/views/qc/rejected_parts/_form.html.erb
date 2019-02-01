@@ -1,3 +1,6 @@
+<%= content_tag :div, class: "temp_information", data: {temp: session[:temp]} do %>
+<% end %>
+
 <%= form_for(@rejected_part, html: { class: "vms-form bg-light border rounded p-3 mb-3" }) do |f| %>
 
   <% if @rejected_part.errors.any? %>
@@ -18,9 +21,8 @@
         <%= f.label :so_num,
                     required_field_label('Shop Order') %>
         <%= f.text_field :so_num,
-                         class: 'form-control',
-                         required: true,
-                         onchange: 'find_so_tags();' %>
+                         class: 'form-control shop-order-field',
+                         required: true %>
       </div>
     </div>
 
@@ -29,11 +31,8 @@
         <%= f.label :reject_tag_num,
                     required_field_label('Reject Tag #') %>
         <%= f.number_field :reject_tag_num,
-                           class: 'form-control',
+                           class: 'form-control reject-tag-field',
                            required: true,
-                           min: 1,
-                           step: 1,
-                           id: 'reject_tag_num_field',
                            readonly: true  %>
       </div>
     </div>
@@ -45,8 +44,7 @@
         <%= f.select :from_tag,
                      ['Original S.O.'],
                      { include_blank: true },
-                     { class: 'form-control',
-                       id: 'from_tag_field',
+                     { class: 'form-control from-tag-field',
                        required: true } %>
       </div>
     </div>
@@ -164,21 +162,12 @@
             <th class="w-auto text-center">&nbsp;</th>
           </tr>
         </thead>
-        <tbody id="load_specific_info">
-          <tr>
-            <td><%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%></td>
-            <td><%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%></td>
-            <td><%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%></td>
-            <td class="text-center">
-              <button class="btn btn-small btn-danger removeLoad"><i class="fa fa-times"></i></button>
-            </td>
-          </tr>
+        <tbody id="load-specific-info">
         </tbody>
       </table>
       <p><%= link_to '<i class="fa fa-plus"></i> Add Load'.html_safe,
-                     "javascript:;",
-                     class: 'font-weight-bold btn btn-sm btn-warning',
-                     id: "addLoad",
+                     "#",
+                     class: 'font-weight-bold btn btn-sm btn-warning add-load-button',
                      title: 'Add Load' %></p>
     </div>
 
@@ -195,42 +184,17 @@
 
   </div>
 
+  <table class="d-none">
+    <tbody id="load-template">
+      <tr>
+        <td><%= f.text_field 'load_nums', { name: "qc_rejected_part[load_nums][]", class: "form-control" }%></td>
+        <td><%= f.text_field 'barrel_nums', { name: "qc_rejected_part[barrel_nums][]", class: "form-control" }%></td>
+        <td><%= f.text_field 'tank_nums', { name: "qc_rejected_part[tank_nums][]", class: "form-control" }%></td>
+        <td class="text-center">
+          <button class="btn btn-small btn-danger remove-load-button" type="button"><i class="fa fa-times"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 <% end %>
-
-<script type="text/javascript">
-
-    $(document).ready(function(){
-      $('#addNewLoad').on('click', function(){
-        var contentToAppend = $('#specific_load_fields').clone();
-        console.log(contentToAppend);
-        $('#load_specific_info').append($('#specific_load_fields').clone().html());
-      });
-
-      $('#load_specific_info').on('click','#remove_option', function(){
-        $(this).closest('#options').remove();
-      });
-    });
-  </script>
-
-<script type='text/javascript'>
-var temp = $('.temp_information').data('temp');
-var so_num = $('#so_field').val();
-
-function find_so_tags(){
-  var temp = $('.temp_information').data('temp');
-  var so_num = $('#so_field').val();
-  $('#from_tag_field').empty();
-  $("#from_tag_field").append($("<option></option>").attr("value", '').text(``))
-  $("#from_tag_field").append($("<option></option>").attr("value", 'Original S.O.').text(`Original S.O.`))
-  if(so_num in temp){
-    document.getElementById("reject_tag_num_field").value = temp[so_num]+1;
-    if(so_num.toString().length > 0 ){
-      for(i=0; i<temp[so_num]; i++){
-        $("#from_tag_field").append($("<option></option>").attr("value", `Reject Tag # ${i+1}`).text(`Reject Tag # ${i+1}`))
-      }
-    }
-  }else{
-    document.getElementById("reject_tag_num_field").value = 1;
-  }
-}
-</script>
