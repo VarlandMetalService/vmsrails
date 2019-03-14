@@ -27,7 +27,7 @@ module Qc
       respond_to do |format|
         if @rejected_part.save
           if @rejected_part.increment_reject_tag_count
-            flash[:success] = "Successfully updated AS/400 S.O."
+            flash[:success] = "Reject tag printed, updated AS/400 S.O."
           else
             flash[:danger] = "Failed to update AS/400, S.O. # may not exist."
           end
