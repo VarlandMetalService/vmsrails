@@ -1,5 +1,5 @@
 module Timeclock
   class Timeclock::ReasonCode < ApplicationRecord
-    belongs_to :clock_edit, class_name: 'Timeclock::ClockEdit', optional: true
+    has_many :clock_edits, class_name: 'Timeclock::ClockEdit'
   end
 end

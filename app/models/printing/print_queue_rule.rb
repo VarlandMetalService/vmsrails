@@ -3,7 +3,7 @@ module Printing
 
     # Associations
     belongs_to :print_queue, optional: true
-    belongs_to :user, class_name: 'User', optional: true
+    belongs_to :user, optional: true
     belongs_to :workstation_group, optional: true
     has_many   :workstations, through: :workstation_group
     belongs_to :document_type, optional: true

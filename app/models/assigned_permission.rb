@@ -1,7 +1,7 @@
 class AssignedPermission < ApplicationRecord
 
   # Associations.
-  belongs_to      :user
+  belongs_to      :user, optional: true
   belongs_to      :permission
 
   accepts_nested_attributes_for   :permission,

@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   # Formatting
   def highlight_unless_nil(text, terms, options = { highlighter: '<mark class="bold">\1</mark>' })
     return text if terms.nil?

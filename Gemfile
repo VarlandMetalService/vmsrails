@@ -61,6 +61,7 @@ gem 'bootstrap-email'
 gem 'chartkick'
 gem 'browser'
 gem 'yomu'
+gem 'bullet'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

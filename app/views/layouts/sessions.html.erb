@@ -21,10 +21,11 @@
 
     <div class="container mt-3 mb-3">
       <div class="row justify-content-center">
-        <div class="col-12 col-sm-6 col-md-4 mb-3">
-          <%= image_tag 'logo.png', class: 'mw-100' %>
+        <div class="col-12 col-sm-6 col-md-4 mb-3 px-2 py-2 rounded text-center text-white" style='background: black;'>
+          <%= image_tag 'Logo_M_WhiteRed.svg', size: '100', class: 'mw-100' %><br>
+          <strong>Varland Plating</strong>
         </div>
-        <div class="w-100"><!----></div>
+        <div class="w-100"></div>
         <div class="col-12 col-sm-6 bg-white rounded yield-content">
           <% flash.each do |message_type, message| %>
             <div class="alert alert-<%= message_type %> mt-3"

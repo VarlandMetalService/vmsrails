@@ -71,10 +71,8 @@ class User < ApplicationRecord
   has_many      :clock_records,
                 class_name: 'Timeclock::ClockRecord',
                 foreign_key: 'user_id'
-  has_many      :thickness_blocks,
-                class_name: 'Thickness::Blocks',
-                foreign_key: 'user_id'
-  has_many      :print_queue_rules
+  has_many      :print_queue_rules,
+                class_name: 'Printing::PrintQueueRule'
  
   # Validation.
   validates :employee_number,
