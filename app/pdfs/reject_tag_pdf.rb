@@ -175,7 +175,7 @@ class RejectTagPdf < VarlandPdf
     self.txtb("LOAD #(S)", 0.25, y, 1, 0.25, 8, :bold, :center, :center)
     self.txtb("POUNDS", 1.25, y, 1, 0.25, 8, :bold, :center, :center)
     self.txtb("REJECTED BY", 2.25, y, 3, 0.25, 8, :bold, :center, :center)
-    self.txtb("DEFECT", 4.75, y, 3, 0.25, 8, :bold, :center, :center)
+    self.txtb("DEFECT", 5.25, y, 3, 0.25, 8, :bold, :center, :center)
     # self.txtb("SUPERVISOR INITIALS", 6.75, y, 1.5, 0.25, 8, :bold, :center, :center)
     y -= 0.25
     self.hline(0.25, y, 8)
