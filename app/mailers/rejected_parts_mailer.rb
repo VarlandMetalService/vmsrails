@@ -5,7 +5,7 @@ class RejectedPartsMailer < ApplicationMailer
   layout('reject_tag_mailer')
 
   default from: 'varlandmetalservice@gmail.com',
-            to: 'Rejected Parts <rejectedparts@varland.com>'
+            to: 'richard <richard.legacy@varland.com>'#'Rejected Parts <rejectedparts@varland.com>'
             
   def send_rejected_part(part, part_info)
     @part = part
