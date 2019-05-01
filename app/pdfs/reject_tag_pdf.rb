@@ -48,10 +48,10 @@ class RejectTagPdf < VarlandPdf
     y -= 0.6
     self.txtb(@part.sec1_loads, 0.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     self.txtb(helpers.number_with_precision(@part.weight, precision: 2, delimiter: ','), 1.25, y + 0.02, 1, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb(User.find(@part.user_id).display_name, 2.25, y + 0.02, 2.5, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
-    self.txtb(@part.defect, 4.75, y + 0.02, 2, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(User.find(@part.user_id).display_name, 2.25, y + 0.02, 3, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
+    self.txtb(@part.defect, 5.25, y + 0.02, 3, 0.35, 10, :bold, :center, :center, @data_font, @data_color)
     y -= 0.6
-    self.txtb(@part.defect_description.gsub(/<div.*?>|<\/div>/, ''), 0.3, y - 0.05, 7.9, 1, 10, :normal, :left, :top, @data_font, @data_color)
+    self.txtb(@part.defect_description.gsub(/<div.*?>|<\/div>|&nbsp;/, ''), 0.3, y - 0.05, 7.9, 1, 10, :normal, :left, :top, @data_font, @data_color)
 
     # Section 2.
     y = 6.85 - SECTION_HEADER_HEIGHT + 0.01
@@ -98,7 +98,7 @@ class RejectTagPdf < VarlandPdf
     index = causes.index(@part.cause_category.upcase)
     y = 5.5 - SECTION_HEADER_HEIGHT
     x = 1.75
-    self.txtb(@part.cause.gsub(/<div.*?>|<\/div>/, ''), 2.3, y - 0.3, 5.9, 2.9, 10, :normal, :left, :top, @data_font, @data_color)
+    self.txtb(@part.cause.gsub(/<div.*?>|<\/div>|&nbsp;/, ''), 2.3, y - 0.3, 5.9, 2.9, 10, :normal, :left, :top, @data_font, @data_color)
     y -= (index * 0.25)
     self.txtb("×", x, y + 0.02, 0.5, 0.25, 12, :bold, :center, :center, @data_font, @data_color)
 
@@ -165,18 +165,18 @@ class RejectTagPdf < VarlandPdf
     y -= 0.25
     self.hline(0.25, y, 8)
     y -= 0.35
-    self.hline(0.25, y, 8)
-    self.vline(0.25, y, 0.6)
-    self.vline(1.25, y, 0.6)
-    self.vline(2.25, y, 0.6)
-    self.vline(4.75, y, 0.6)
-    self.vline(6.75, y, 0.6)
-    self.vline(8.25, y, 0.6)
+    self.hline(0.25, y, 8)                                                              # horizontal line above supervisor initials line
+    self.vline(0.25, y, 0.6)                                                            # vertical line to left of loads box
+    self.vline(1.25, y, 0.6)                                                            # vertical line to left of pounds box
+    self.vline(2.25, y, 0.6)                                                            # vertical line to left of rejected by box
+    self.vline(5.25, y, 0.6)                                                            # vertical line to left of defect box
+    # self.vline(6.75, y, 0.6)                                                            # vertical line to left of supervisor initials box
+    self.vline(8.25, y, 0.6)                                                            # vertical line to right of supervisor initials box
     self.txtb("LOAD #(S)", 0.25, y, 1, 0.25, 8, :bold, :center, :center)
     self.txtb("POUNDS", 1.25, y, 1, 0.25, 8, :bold, :center, :center)
-    self.txtb("REJECTED BY", 2.25, y, 2.5, 0.25, 8, :bold, :center, :center)
-    self.txtb("DEFECT", 4.75, y, 2, 0.25, 8, :bold, :center, :center)
-    self.txtb("SUPERVISOR INITIALS", 6.75, y, 1.5, 0.25, 8, :bold, :center, :center)
+    self.txtb("REJECTED BY", 2.25, y, 3, 0.25, 8, :bold, :center, :center)
+    self.txtb("DEFECT", 4.75, y, 3, 0.25, 8, :bold, :center, :center)
+    # self.txtb("SUPERVISOR INITIALS", 6.75, y, 1.5, 0.25, 8, :bold, :center, :center)
     y -= 0.25
     self.hline(0.25, y, 8)
     y -= 0.35
