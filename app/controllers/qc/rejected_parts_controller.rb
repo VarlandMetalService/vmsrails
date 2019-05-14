@@ -10,7 +10,7 @@ module Qc
     end
 
     def new
-      session[:temp] = helpers.get_from_tags
+      @temp = helpers.get_from_tags
       @rejected_part = RejectedPart.new 
       @rejected_part.date = Date.today
     end

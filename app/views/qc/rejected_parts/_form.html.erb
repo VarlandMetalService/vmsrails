@@ -1,4 +1,4 @@
-<%= content_tag :div, class: "temp_information", data: {temp: session[:temp]} do %>
+<%= content_tag :div, class: "temp_information", data: {temp: @temp} do %>
 <% end %>
 
 <%= form_for(@rejected_part, html: { class: "vms-form bg-light border rounded p-3 mb-3" }) do |f| %>
