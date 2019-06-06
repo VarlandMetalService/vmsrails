@@ -26,9 +26,9 @@ class OptoController < ApplicationController
     when "Ovens"
       case log_details[:type]
       when 'ro_level_low'
-        log = Opto::ROLevelLow.parse(@controller, log_details)
+        log = Opto::RoLevelLow.parse(@controller, log_details)
       when 'ro_level_high'
-        log = Opto::ROLevelHigh.parse(@controller, log_details)
+        log = Opto::RoLevelHigh.parse(@controller, log_details)
       else
         return head(:internal_server_error)
       end
