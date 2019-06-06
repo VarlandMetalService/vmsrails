@@ -25,6 +25,12 @@ class OptoController < ApplicationController
     case @controller.name
     when "Ovens"
       case log_details[:type]
+      when 'ro_city_water_pressure'
+        log = Opto::RoCityWaterPressure.parse(@controller, log_details)
+      when 'ro_reject_overflow'
+        log = Opto::RoRejectOverflow.parse(@controller, log_details)
+      when 'ro_storage_tank_overflow'
+        log = Opto::RoStorageTankOverflow.parse(@controller, log_details)
       when 'ro_level_low'
         log = Opto::RoLevelLow.parse(@controller, log_details)
       when 'ro_level_high'

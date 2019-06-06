@@ -4,6 +4,30 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :opto
 
+  def ro_city_water_pressure
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com',
+              '5134768439@vtext.com'],
+         subject: 'Ovens: RO City Water Pressure Problem')
+  end
+
+  def ro_reject_overflow
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com',
+              '5134768439@vtext.com'],
+         subject: 'Ovens: RO Reject Overflow')
+  end
+
+  def ro_storage_tank_overflow
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com',
+              '5134768439@vtext.com'],
+         subject: 'Ovens: RO Storage Tank Overflow')
+  end
+
   def ro_level_low
     @log = params[:log]
     mail(to: ['8594964920@vtext.com',
