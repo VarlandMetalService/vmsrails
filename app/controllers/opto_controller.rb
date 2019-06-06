@@ -23,6 +23,15 @@ class OptoController < ApplicationController
     log_details = JSON.parse(params[:data])
     log_details.symbolize_keys!
     case @controller.name
+    when "Ovens"
+      case log_details[:type]
+      when 'ro_level_low'
+        log = Opto::ROLevelLow.parse(@controller, log_details)
+      when 'ro_level_high'
+        log = Opto::ROLevelHigh.parse(@controller, log_details)
+      else
+        return head(:internal_server_error)
+      end
     when "Chiller"
       case log_details[:type]
       when 'chiller_on_warning'

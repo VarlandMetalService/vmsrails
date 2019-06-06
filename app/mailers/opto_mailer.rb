@@ -4,6 +4,20 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :opto
 
+  def ro_level_low
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: RO Level Low')
+  end
+
+  def ro_level_high
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: RO Level High')
+  end
+
   def chiller_off_warning
     @log = params[:log]
     mail(to: ['5138140536@vtext.com',
