@@ -1,7 +1,5 @@
 class RedesignPrintTables < ActiveRecord::Migration[5.1]
   def change
-    drop_table :print_job_rules
-    drop_table :print_jobs
 
     create_table :print_queues do |t|
       t.string :printer

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # QC
   scope module: 'qc', as: 'qc', path: 'qc' do
     resources :rejected_parts

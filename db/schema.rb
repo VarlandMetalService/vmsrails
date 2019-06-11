@@ -212,12 +212,6 @@ ActiveRecord::Schema.define(version: 20190117173446) do
     t.integer "label_set"
   end
 
-  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.text "image_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "print_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "user_id"
     t.integer "workstation_id"
@@ -404,7 +398,6 @@ ActiveRecord::Schema.define(version: 20190117173446) do
     t.string "state", limit: 2
     t.integer "zip_code"
     t.string "phone_number", limit: 10
-    t.integer "pin"
   end
 
   create_table "workstation_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

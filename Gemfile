@@ -63,9 +63,6 @@ gem 'browser'
 gem 'yomu'
 gem 'bullet'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test, :remote do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -74,6 +71,7 @@ group :development, :test, :remote do
   gem 'selenium-webdriver'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'dotenv-rails'
 end
 
 group :development, :remote do

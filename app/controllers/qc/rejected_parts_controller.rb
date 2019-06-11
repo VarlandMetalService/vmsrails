@@ -74,7 +74,14 @@ module Qc
     end
 
     def recreate_pdf
-      file = helpers.gen_pdf(RejectedPart.find(params[:id]))
+      url = "http://remoteapi.varland.com:8882/v1/so?shop_order=#{@rejected_part.so_num}"
+      uri = URI(url)
+      response = Net::HTTP.get(uri)
+      @part_info = JSON.parse(response, { symbolize_names: true }).first
+      if @part_info.blank?
+        @part_info = { shopOrder: "", customer: "", processCode: "", partID: "", subID: "" }
+      end
+      file = helpers.gen_pdf(RejectedPart.find(params[:id]), @part_info)
       respond_to do |format|
         format.html { redirect_to qc_rejected_parts_path }
         format.json { head :no_content }
