@@ -65,8 +65,8 @@
     <tr>
       <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= @part.sec1_loads %></td>
       <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= number_with_precision(@part.weight, precision: 2, delimiter: ',') %></td>
-      <td colspan="3" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= User.find(@part.user_id).display_name %></td>
-      <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= @part.defect %></td>
+      <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= User.find(@part.user_id).display_name %></td>
+      <td colspan="3" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= @part.defect %></td>
     </tr>
     <tr>
       <th colspan="9" style="<%= @table_header_style %>">Description</th>
