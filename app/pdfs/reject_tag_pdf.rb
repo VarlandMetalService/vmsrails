@@ -95,12 +95,14 @@ class RejectTagPdf < VarlandPdf
               "TECHNOLOGY",
               "UNKNOWN",
               "WRONG PROCESS"]
-    index = causes.index(@part.cause_category.upcase)
-    y = 5.5 - SECTION_HEADER_HEIGHT
-    x = 1.75
-    self.txtb(@part.cause.gsub(/<div.*?>|<\/div>|&nbsp;/, ''), 2.3, y - 0.3, 5.9, 2.9, 10, :normal, :left, :top, @data_font, @data_color)
-    y -= (index * 0.25)
-    self.txtb("×", x, y + 0.02, 0.5, 0.25, 12, :bold, :center, :center, @data_font, @data_color)
+    @part.cause_category.split(', ').each do |cause|
+      index = causes.index(cause.upcase)
+      y = 5.5 - SECTION_HEADER_HEIGHT
+      x = 1.75
+      self.txtb(@part.cause.gsub(/<div.*?>|<\/div>|&nbsp;/, ''), 2.3, y - 0.3, 5.9, 2.9, 10, :normal, :left, :top, @data_font, @data_color)
+      y -= (index * 0.25)
+      self.txtb("×", x, y + 0.02, 0.5, 0.25, 12, :bold, :center, :center, @data_font, @data_color)
+    end
 
   end
 

@@ -62,6 +62,7 @@ gem 'chartkick'
 gem 'browser'
 gem 'yomu'
 gem 'bullet'
+gem 'select2-rails'
 
 group :development, :test, :remote do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

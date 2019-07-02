@@ -5,8 +5,9 @@ module Qc
         
         def self.process_array(array)
             str = ""
-            array.each do |x|
-                str << "#{x}, "
+            array.each_with_index do |x, index|
+                str << "#{x}" unless x.blank?
+                str << ", " unless index+1 == array.length || x.blank?
             end
             return str
         end

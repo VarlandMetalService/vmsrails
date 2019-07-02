@@ -18,4 +18,5 @@
 //= require cocoon
 //= require trix
 //= require chartkick
+//= require select2-full
 //= require_tree

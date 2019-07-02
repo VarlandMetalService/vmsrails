@@ -59,8 +59,8 @@
     <tr>
       <th colspan="2" style="<%= @table_header_style %>">Load #(S)</th>
       <th colspan="2" style="<%= @table_header_style %>">Pounds</th>
-      <th colspan="3" style="<%= @table_header_style %>">Rejected By</th>
-      <th colspan="2" style="<%= @table_header_style %>">Defect</th>
+      <th colspan="2" style="<%= @table_header_style %>">Rejected By</th>
+      <th colspan="3" style="<%= @table_header_style %>">Defect</th>
     </tr>
     <tr>
       <td colspan="2" style="font-size: 1.2rem; <%= @centered_cell_style %>"><%= @part.sec1_loads %></td>
@@ -167,57 +167,57 @@
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Cleaning</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Cleaning' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Cleaning') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
       <th style="<%= @table_header_style %>">Comments</th>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Customer Issue</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Customer Issue' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Customer Issue') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
       <td rowspan="12" style="font-size: 1rem; vertical-align: top; <%= @left_cell_style %>"><%= @part.cause.html_safe %></th>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Development</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Development' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Development') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Equipment</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Equipment' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Equipment') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Operator Error</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Operator Error' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Operator Error') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Opto</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Opto' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Opto') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Part Related</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Part Related' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Part Related') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">S.O. Procedure</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'S.O. Procedure' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('S.O. Procedure') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Solution</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Solution' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Solution') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Technique</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Technique' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Technique') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Technology</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Technology' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Technology') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Unknown</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Unknown' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Unknown') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
     <tr>
       <th style="<%= @table_header_style %>">Wrong Process</th>
-      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category == 'Wrong Process' ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
+      <td style="font-size: 1rem; <%= @centered_cell_style %>"><%= @part.cause_category.include?('Wrong Process') ? '&times;'.html_safe : '&nbsp;'.html_safe %></td>
     </tr>
   </tbody>
 </table>

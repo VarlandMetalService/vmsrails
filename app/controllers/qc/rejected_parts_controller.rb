@@ -24,6 +24,8 @@ module Qc
       @rejected_part.load_nums = RejectedPart.process_array(params[:qc_rejected_part][:load_nums]) unless params[:qc_rejected_part][:load_nums].blank?
       @rejected_part.tank_nums = RejectedPart.process_array(params[:qc_rejected_part][:tank_nums]) unless params[:qc_rejected_part][:tank_nums].blank?
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
+      @rejected_part.cause_category = RejectedPart.process_array(params[:qc_rejected_part][:cause_category]) unless params[:qc_rejected_part][:cause_category].blank?
+      @rejected_part.defect = RejectedPart.process_array(params[:qc_rejected_part][:defect]) unless params[:qc_rejected_part][:defect].blank?
       respond_to do |format|
         if @rejected_part.save
           if @rejected_part.increment_reject_tag_count
@@ -54,6 +56,8 @@ module Qc
       @rejected_part.load_nums = RejectedPart.process_array(params[:qc_rejected_part][:load_nums]) unless params[:qc_rejected_part][:load_nums].blank?
       @rejected_part.tank_nums = RejectedPart.process_array(params[:qc_rejected_part][:tank_nums]) unless params[:qc_rejected_part][:tank_nums].blank?
       @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:barrel_nums]) unless params[:qc_rejected_part][:barrel_nums].blank?
+      @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:cause_category]) unless params[:qc_rejected_part][:cause_category].blank?
+      @rejected_part.barrel_nums = RejectedPart.process_array(params[:qc_rejected_part][:defect]) unless params[:qc_rejected_part][:defect].blank?
       respond_to do |format|
         if @rejected_part.update(rejected_part_params)
           format.html { redirect_to qc_rejected_parts_path, notice: 'Rejected Part succesfully updated.'}

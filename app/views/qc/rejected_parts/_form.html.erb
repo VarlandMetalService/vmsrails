@@ -32,7 +32,7 @@
                     required_field_label('Reject Tag #') %>
         <%= f.number_field :reject_tag_num,
                            class: 'form-control reject-tag-field',
-                           required: true,
+                           required: true,                         
                            readonly: true  %>
       </div>
     </div>
@@ -106,8 +106,9 @@
         <%= f.select :defect,
                      ['Adhesion', 'Alloy', 'Appearance' , 'Arced', 'Built Up', 'Chromate', 'Coverage', 'Not Clean', 'Other', 'Post Dip', 'Thickness', 'Wrong Process'].sort,
                      { include_blank: true },
-                     { class: 'form-control',
-                       required: true } %>
+                     { class: 'form-control multi-select',
+                       required: true, 
+                       multiple: 'multiple' } %>
       </div>
     </div>
 
@@ -130,9 +131,10 @@
                     required_field_label('Cause') %>
         <%= f.select :cause_category,
                      ['Cleaning', 'Customer Issue', 'Development', 'Equipment', 'Operator Error', 'Opto', 'Part Related', 'S.O. Procedure', 'Solution', 'Technique', 'Technology', 'Unknown', 'Wrong Process'].sort,
-                     { include_blank: true },
-                     { class: 'form-control',
-                       required: true } %>
+                     {  },
+                     { class: 'form-control multi-select',
+                       required: true, 
+                       multiple: 'multiple' } %>
       </div>
     </div>
 
@@ -198,3 +200,13 @@
   </table>
 
 <% end %>
+
+<script>
+$( document ).on('turbolinks:load', function() {
+  $( ".multi-select" ).select2({
+    theme: "bootstrap",
+    width: 'element'
+  });
+})
+
+</script>
