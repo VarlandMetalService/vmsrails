@@ -7,9 +7,9 @@ module SpecificationsHelper
     when 'µm'
       calculated *= 0.0000393701
       #"#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 5)}&Prime;<br /><small class=\"text-muted\">(#{thickness == thickness.to_i ? thickness.to_i : thickness}µm)</small>".html_safe
-      "#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 5)}&Prime;".html_safe
+      "#{number_with_precision(calculated.round(thickness < 2.5 ? 5 : 4), precision: 7)}&Prime;".html_safe
     else
-      "#{number_with_precision(calculated, precision: 5)}&Prime;".html_safe
+      "#{number_with_precision(calculated, precision: 7)}&Prime;".html_safe
     end
   end
 
