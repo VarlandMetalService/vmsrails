@@ -34,7 +34,7 @@ module Printing
     def self.set_queue(print_job)
       groups = Printing::WorkstationGroup.joins(:workstations).where('workstations.id = ?', print_job.workstation_id).map { |x| x.id }
 
-      rules = Printing::PrintQueueRule.where(:user_id => print_job.user_id).or(Printing::PrintQueueRule.where(:document_type_id => print_job.document_type_id)).or(Printing::PrintQueueRule.where('workstation_group_id IN ?', groups))
+      rules = Printing::PrintQueueRule.where(:user_id => print_job.user_id).or(Printing::PrintQueueRule.where(:document_type_id => print_job.document_type_id)).or(Printing::PrintQueueRule.where('workstation_group_id IN (?)', groups))
 
       applicable_rules = []
       puts rules
