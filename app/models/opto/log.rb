@@ -2,6 +2,9 @@ require 'json'
 
 class Opto::Log < ApplicationRecord
 
+  # Callbacks.
+  after_create :process_notification
+
   # Pagination.
   paginates_per 100
 
@@ -31,14 +34,20 @@ class Opto::Log < ApplicationRecord
 
   # Instance methods.
 
+  def process_notification
+    method_name = self.class.demodulize.underscore.constantize
+    Rails.logger.debug method_name
+    if OptoMailer.respond_to? method_name
+      OptoMailer.with(log: self).send(method_name).deliver_later
+    end
+  end
+
   def parse_controller_timestamp(raw)
     timestamp_parts = raw.split
     date_parts = timestamp_parts[0].split('/')
     time_parts = timestamp_parts[1].split(':')
     date_string = "#{date_parts[1]}.#{date_parts[0]}.#{date_parts[2]} #{time_parts[0]}:#{time_parts[1]}:#{time_parts[2]}"
     self.controller_timestamp = date_string.in_time_zone("Eastern Time (US & Canada)").to_datetime
-    # timestamp = ::DateTime.strptime(raw, "%m/%d/%Y %H:%M:%S")
-    # self.controller_timestamp = Time.zone.parse(timestamp.to_s)
   end
 
   def log_type
@@ -67,4 +76,5 @@ class Opto::Log < ApplicationRecord
     json = ::ActiveSupport::JSON.decode(self.json_data)
     return json.symbolize_keys
   end
+
 end

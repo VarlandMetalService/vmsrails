@@ -2,14 +2,11 @@ require 'json'
 
 class Opto::BadOvenProbe < Opto::Log
 
-  # Callbacks.
-  after_create :process_notification
-
   # Instance methods.
 
-  def process_notification
-    OptoMailer.with(log: self).bad_oven_probe.deliver
-  end
+  # def process_notification
+  #   OptoMailer.with(log: self).bad_oven_probe.deliver
+  # end
 
   def details
     details = ::ActiveSupport::JSON.decode(self.json_data)

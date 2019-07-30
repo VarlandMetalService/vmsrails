@@ -20,7 +20,7 @@ class OptoController < ApplicationController
 
   def log
     return head(:internal_server_error) if params[:data].blank?
-    Rails.logger.debug params[:data]
+    # Rails.logger.debug params[:data]
     return head(:internal_server_error) if @controller.blank?
     log_details = JSON.parse(params[:data])
     log_details.symbolize_keys!
