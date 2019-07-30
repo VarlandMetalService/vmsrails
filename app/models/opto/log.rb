@@ -36,7 +36,7 @@ class Opto::Log < ApplicationRecord
     date_parts = timestamp_parts[0].split('/')
     time_parts = timestamp_parts[1].split(':')
     date_string = "#{date_parts[1]}.#{date_parts[0]}.#{date_parts[2]} #{time_parts[0]}:#{time_parts[1]}:#{time_parts[2]}"
-    self.controller_timestamp = date_string.in_time_zone("Eastern Time (US & Canada)")
+    self.controller_timestamp = date_string.in_time_zone("Eastern Time (US & Canada)").to_datetime
     # timestamp = ::DateTime.strptime(raw, "%m/%d/%Y %H:%M:%S")
     # self.controller_timestamp = Time.zone.parse(timestamp.to_s)
   end
