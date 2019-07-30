@@ -18,7 +18,7 @@ class Opto::RoCityWaterPressure < Opto::Log
   # Class methods.
 
   def self.parse(controller, log_details)
-    new_log = Opto::RoStorageTankOverflow.new
+    new_log = Opto::RoCityWaterPressure.new
     new_log.controller = controller
     new_log.parse_controller_timestamp(log_details[:controller_timestamp])
     new_log.json_data = ::ActiveSupport::JSON.encode(log_details)
