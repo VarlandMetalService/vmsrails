@@ -15,7 +15,9 @@ class Opto::BadOvenProbe < Opto::Log
     details = ::ActiveSupport::JSON.decode(self.json_data)
     probes = []
     details["probes"].each_with_index do |name, index|
-      probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}</code></strong>"
+      unless name.blank?
+        probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}</code></strong>"
+      end
     end
     "Suspected bad temperature probe.<br />#{probes.join("<br />")}"
   end
