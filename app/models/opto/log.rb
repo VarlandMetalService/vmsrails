@@ -36,7 +36,13 @@ class Opto::Log < ApplicationRecord
   end
 
   def log_type
-    self.type.demodulize.titleize
+    custom_words = ["Ro", "Kwh"]
+    custom_substitutes = ["RO", "KWH"]
+    temp = self.type.demodulize.titleize
+    0.upto(custom_words.length) do |i|
+      temp.gsub! custom_words[i], custom_substitutes[i]
+    end
+    return temp
   end
 
   def details

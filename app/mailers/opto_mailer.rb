@@ -4,6 +4,13 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :opto
 
+  def oven_not_requesting_power
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Not Requesting Power During Warmup')
+  end
+
   def ro_city_water_pressure
     @log = params[:log]
     mail(to: ['8594964920@vtext.com',
