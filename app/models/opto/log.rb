@@ -36,11 +36,15 @@ class Opto::Log < ApplicationRecord
   end
 
   def log_type
-    custom_words = ["Ro", "Kwh"]
-    custom_substitutes = ["RO", "KWH"]
+    vms_substitutions = [
+      {replace: "Ro", with: "RO"},
+      {replace: "Kwh", with: "KWH"}
+    ]
     temp = self.type.demodulize.titleize
-    0.upto(custom_words.length) do |i|
-      temp.gsub! custom_words[i], custom_substitutes[i]
+    vms_substitutions.each do |sub|
+      if temp.include? sub[:replace]
+        temp[sub[:replace]] = sub[:with]
+      end
     end
     return temp
   end
