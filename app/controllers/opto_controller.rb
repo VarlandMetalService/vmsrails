@@ -26,8 +26,8 @@ class OptoController < ApplicationController
     case @controller.name
     when "Ovens"
       case log_details[:type]
-      when 'oven_not_requesting_power'
-        log = Opto::OvenNotRequestingPower.parse(@controller, log_details)
+      # when 'oven_not_requesting_power'
+      #   log = Opto::OvenNotRequestingPower.parse(@controller, log_details)
       # when 'oven_requesting_power_too_high'
       #   log = Opto::OvenRequestingPowerTooHigh.parse(@controller, log_details)
       # when 'oven_temp_too_high'
@@ -52,8 +52,8 @@ class OptoController < ApplicationController
       #   log = Opto::SaltSprayTemperatureLow.parse(@controller, log_details)
       # when 'display_project_not_responding'
       #   log = Opto::DisplayProjectNotResponding.parse(@controller, log_details)
-      # when 'bad_oven_probe'
-      #   log = Opto::BadOvenProbe.parse(@controller, log_details)
+      when 'bad_oven_probe'
+        log = Opto::BadOvenProbe.parse(@controller, log_details)
       # when 'oven_kwh_high_restricted'
       #   log = Opto::OvenKwhHighRestricted.parse(@controller, log_details)
       # when 'oven_air_temp_exceeded'

@@ -4,6 +4,174 @@ class OptoMailer < ApplicationMailer
   layout 'opto_mailer'
   helper :opto
 
+  def fifteen_minute_kwh_high
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: 15 Minute KWH High')
+  end
+
+  def three_phase_power_off
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: 3 Phase Power Off')
+  end
+
+  def eom_monthly_high_kwh
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: EOM KWH High for Previous Month')
+  end
+
+  def monthly_high_kwh
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: New KWH High for Month Established')
+  end
+
+  def bead_blaster_no_motion
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Bead Blaster Stopped Because No Motion')
+  end
+
+  def ovens_io_error
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: I/O Error')
+  end
+
+  def oven_door_open_while_running
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Door Opened While Oven Running')
+  end
+
+  def request_power_not_loaded
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Stopped Because Requesting Power While Not Loaded')
+  end
+
+  def pcr_temp_exceeded
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Power Restricted to Oven Because Temperature Too High for Process Code')
+  end
+
+  def oven_air_temp_exceeded
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Power Restricted to Oven Because Air Temperature High')
+  end
+
+  def oven_kwh_high_restricted
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Power Restricted to Oven Because KWH High')
+  end
+
+  def bad_oven_probe
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Bad Oven Temperature Probe')
+  end
+
+  def display_project_not_responding
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Display Project Not Responding')
+  end
+
+  def salt_spray_temperature_low
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Salt Spray Cabinet Temperature Low')
+  end
+
+  def salt_spray_temperature_high
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Salt Spray Cabinet Temperature High')
+  end
+
+  def pcr_temp_exceeded_shutdown
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Stopped Because Temperature Too High for Process Code')
+  end
+
+  def oven_loadings_timeout
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Loadings Timed Out, No Longer Holding Temperature')
+  end
+
+  def oven_warmup_shutdown
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Stopped Because Warmup Taking Too Long')
+  end
+
+  def oven_warmup_too_long
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Warmup Taking Longer Than Expected')
+  end
+
+  def oven_too_low_too_long
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Bake Cycle Reset Because Temperature Too Low Too Long')
+  end
+
+  def oven_too_high_too_long
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Stopped Because Temperature Too High Too Long')
+  end
+
+  def oven_temp_too_low
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Temperature Low')
+  end
+
+  def oven_temp_too_high
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Temperature High')
+  end
+
+  def oven_requesting_power_too_high
+    @log = params[:log]
+    mail(to: ['8594964920@vtext.com',
+              'toby.varland@varland.com'],
+         subject: 'Ovens: Oven Requesting Power While Temperature High')
+  end
+
   def oven_not_requesting_power
     @log = params[:log]
     mail(to: ['8594964920@vtext.com',
