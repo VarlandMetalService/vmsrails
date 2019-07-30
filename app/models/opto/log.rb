@@ -32,7 +32,7 @@ class Opto::Log < ApplicationRecord
   # Instance methods.
 
   def parse_controller_timestamp(raw)
-    self.controller_timestamp = ::DateTime.strptime(raw, "%m/%d/%Y %H:%M:%S")
+    self.controller_timestamp = ::DateTime.strptime(raw, "%m/%d/%Y %H:%M:%S").in_time_zone
   end
 
   def log_type
