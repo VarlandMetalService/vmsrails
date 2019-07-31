@@ -9,7 +9,7 @@ class Opto::BadOvenProbe < Opto::Log
     probes = []
     details["probes"].each_with_index do |name, index|
       unless name.blank?
-        probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}° F</code></strong>"
+        probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}&deg; F</code></strong>"
       end
     end
     "Suspected bad temperature probe.<br /><br />#{probes.join("<br />")}"
