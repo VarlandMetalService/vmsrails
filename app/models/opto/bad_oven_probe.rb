@@ -9,17 +9,17 @@ class Opto::BadOvenProbe < Opto::Log
     probes = []
     details["probes"].each_with_index do |name, index|
       unless name.blank?
-        probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}</code></strong>"
+        probes << "Probe Name: <strong><code>#{name}</code></strong>, Reading: <strong><code>#{details["readings"][index]}° F</code></strong>"
       end
     end
-    "Suspected bad temperature probe.<br />#{probes.join("<br />")}"
+    "Suspected bad temperature probe.<br /><br />#{probes.join("<br />")}"
   end
 
   def notification_settings
     {
       enabled: true,
       subject: "Ovens: Bad Temperature Probe",
-      recipients: ["toby.varland@varland.com", "8594964920@vtext.com"]
+      recipients: ["toby.varland@varland.com"]
     }
   end
 

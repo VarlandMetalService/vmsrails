@@ -65,7 +65,7 @@ class Opto::Log < ApplicationRecord
   end
 
   def sms
-    ::ActionView::Base.full_sanitizer.sanitize(self.details)
+    ::ActionView::Base.full_sanitizer.sanitize(self.details.gsub("<br>", "\n").gsub("<br />", "\n"))
   end
 
   def opto_data

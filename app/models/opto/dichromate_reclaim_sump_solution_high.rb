@@ -4,8 +4,16 @@ class Opto::DichromateReclaimSumpSolutionHigh < Opto::Log
 
   # Instance methods.
 
+  def notification_settings
+    {
+      enabled: true,
+      subject: "Dichromate: Dichromate Reclaim Sump Solution Level Low",
+      recipients: ["vmsforemen@gmail.com"]
+    }
+  end
+
   def details
-    "Dichromate rinse holding tank solution level is high."
+    "Dichromate reclaim sump solution level is high."
   end
 
 end
