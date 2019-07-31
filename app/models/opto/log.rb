@@ -61,7 +61,7 @@ class Opto::Log < ApplicationRecord
   end
 
   def details
-    self.json_data.to_s
+    "<code>#{self.json_data.to_s}</code>"
   end
 
   def sms
