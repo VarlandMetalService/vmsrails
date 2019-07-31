@@ -10,7 +10,17 @@
                font-size: 1rem;
                font-weight: 400;">
 
-    <%= yield %>
+    <%= content_tag :h4, style: "font-weight: 500; line-height: 1.2; margin: 1rem 0 0; font-size: 1.5rem;" do -%>
+      <%= @log.log_type %>
+    <% end -%>
+
+    <%= content_tag :p, style: "margin: 1rem 0 0; background-color: #eeeeee; border: 1px solid #dddddd; padding: 0.5rem;" do -%>
+      <%= yield %>
+    <% end -%>
+
+    <%= content_tag :p, style: "margin: 1rem 0 0; line-height: 1.2; font-size: 0.85rem; color: #6c757d; font-style: italic;" do -%>
+      Controller: <%= @log.controller.name %> (<%= @log.controller.ip_address %>)
+    <% end -%>
 
   </body>
 
