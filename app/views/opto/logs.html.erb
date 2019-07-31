@@ -24,8 +24,7 @@
       <tbody>
         <%= render partial: 'log', 
                 collection: @logs, 
-                        as: :l, 
-                    cached: true %>
+                        as: :l %>
       </tbody>
     </table>
     <%= bottom_paginator(@logs) %>
