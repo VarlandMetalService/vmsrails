@@ -16,7 +16,7 @@ class Opto::FifteenMinuteKwhHigh < Opto::Log
     {
       enabled: true,
       subject: "Energy: 15 Minute KWH High",
-      recipients: ["toby.varland@varland.com"]
+      recipients: ["toby.varland@varland.com", "joel.perrine@varland.com", "rich.branson@varland.com", "brian.mangold@varland.com", "vmsforemen@gmail.com"]
     }
   end
 

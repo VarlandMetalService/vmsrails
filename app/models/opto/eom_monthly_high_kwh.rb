@@ -16,7 +16,7 @@ class Opto::EomMonthlyHighKwh < Opto::Log
     {
       enabled: true,
       subject: "Energy: KWH High for Previous Month",
-      recipients: ["toby.varland@varland.com"]
+      recipients: ["toby.varland@varland.com", "joel.perrine@varland.com", "rich.branson@varland.com", "brian.mangold@varland.com"]
     }
   end
 
