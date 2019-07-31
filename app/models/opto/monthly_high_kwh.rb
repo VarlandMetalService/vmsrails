@@ -9,7 +9,7 @@ class Opto::MonthlyHighKwh < Opto::Log
   end
 
   def log_type
-    "Monthly High KWH"
+    "High KWH Reading for Month"
   end
 
   def notification_settings
