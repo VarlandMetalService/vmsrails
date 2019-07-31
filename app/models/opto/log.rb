@@ -34,11 +34,17 @@ class Opto::Log < ApplicationRecord
 
   # Instance methods.
 
+  def notification_settings
+    {
+      enabled: false,
+      subject: nil,
+      recipients: nil
+    }
+  end
+
   def process_notification
-    method_name = self.class.demodulize.underscore.constantize
-    Rails.logger.debug method_name
-    if OptoMailer.respond_to? method_name
-      OptoMailer.with(log: self).send(method_name).deliver_later
+    if self.notification_settings[:enabled]
+      OptoMailer.with(log: self).opto_notification.deliver_later
     end
   end
 
@@ -51,21 +57,11 @@ class Opto::Log < ApplicationRecord
   end
 
   def log_type
-    vms_substitutions = [
-      {replace: "Ro", with: "RO"},
-      {replace: "Kwh", with: "KWH"}
-    ]
-    temp = self.type.demodulize.titleize
-    vms_substitutions.each do |sub|
-      if temp.include? sub[:replace]
-        temp[sub[:replace]] = sub[:with]
-      end
-    end
-    return temp
+    self.type.demodulize.titleize
   end
 
   def details
-    "Method must be overridden in child classes!"
+    self.json_data.to_s
   end
 
   def sms
@@ -73,8 +69,28 @@ class Opto::Log < ApplicationRecord
   end
 
   def opto_data
-    json = ::ActiveSupport::JSON.decode(self.json_data)
-    return json.symbolize_keys
+    ::ActiveSupport::JSON.decode(self.json_data).symbolize_keys
+  end
+
+# Class methods.
+
+  def self.parse(controller, log_details)
+    new_log = self.new
+    new_log.controller = controller
+    new_log.parse_controller_timestamp(log_details[:controller_timestamp]) if log_details.key?(:controller_timestamp)
+    new_log.limit = log_details.fetch(:limit, nil)
+    new_log.reading = log_details.fetch(:reading, nil)
+    new_log.lane = log_details.fetch(:lane, nil)
+    new_log.station = log_details.fetch(:station, nil)
+    new_log.shop_order = log_details.fetch(:shop_order, nil)
+    new_log.load = log_details.fetch(:load, nil)
+    new_log.barrel = log_details.fetch(:barrel, nil)
+    new_log.customer = log_details.fetch(:customer, nil)
+    new_log.process = log_details.fetch(:process, nil)
+    new_log.part = log_details.fetch(:part, nil)
+    new_log.sub = log_details.fetch(:sub, nil)
+    new_log.json_data = ::ActiveSupport::JSON.encode(log_details)
+    return new_log
   end
 
 end
