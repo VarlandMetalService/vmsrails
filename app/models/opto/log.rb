@@ -89,6 +89,8 @@ class Opto::Log < ApplicationRecord
     new_log.process = log_details.fetch(:process, nil)
     new_log.part = log_details.fetch(:part, nil)
     new_log.sub = log_details.fetch(:sub, nil)
+    new_log.oven = log_details.fetch(:oven, nil)
+    new_log.side = log_details.fetch(:side, nil)
     new_log.json_data = ::ActiveSupport::JSON.encode(log_details)
     return new_log
   end
