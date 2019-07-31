@@ -10,11 +10,11 @@ module Opto
        ['Oldest'           , 'oldest'             ],
        ['Controller'       , 'controller'         ],
        ['Type'             , 'type'               ],
-       ['Controller & Type', 'controller_and_type']]
+       ['Controller & Type', 'controller_and_type']].sort
     when "controller"
       Opto::Controller.pluck(:name, :id).uniq.sort
     when "type"
-      Opto::Log.pluck(:type).uniq.map { |t| [t.demodulize.titleize, t]}
+      Opto::Log.pluck(:type).uniq.map { |t| [t.demodulize.titleize, t]}.sort
     end
   end
 end
