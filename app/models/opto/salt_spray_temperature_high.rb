@@ -12,7 +12,7 @@ class Opto::SaltSprayTemperatureHigh < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Salt Spray Temperature High",
-      recipients: ["toby.varland@varland.com"]
+      recipients: ["toby.varland@varland.com", "5133820271@vtext.com"]
     }
   end
 
