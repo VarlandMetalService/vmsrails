@@ -27,7 +27,7 @@ class Opto::OvensAiCalibration < Opto::Log
               details["initials"],
               details["notes"]]
     lines = []
-    0.upto(fields.length) do |i|
+    0.upto(fields.length - 1) do |i|
       lines << "#{fields[i]}: <strong><code>#{values[i]}</code></strong>"
     end
     "Analog input calibrated:<br /><br />#{lines.join("<br />")}"
