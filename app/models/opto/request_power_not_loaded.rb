@@ -12,7 +12,7 @@ class Opto::RequestPowerNotLoaded < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Requesting Power While Not Loaded",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

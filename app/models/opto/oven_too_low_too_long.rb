@@ -12,7 +12,7 @@ class Opto::OvenTooLowTooLong < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Too Low Too Long",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

@@ -12,7 +12,7 @@ class Opto::OvenDoorOpenWhileRunning < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Door Open While Running",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

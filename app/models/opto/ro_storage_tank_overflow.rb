@@ -8,7 +8,11 @@ class Opto::RoStorageTankOverflow < Opto::Log
     {
       enabled: true,
       subject: "Ovens: RO Storage Tank Overflow",
-      recipients: ["toby.varland@varland.com", "5134768439@vtext.com"]
+      recipients: [Opto::FOREMAN_EMAIL,
+                   Opto::LAB_EMAIL,
+                   Opto::RICH_CELL,
+                   Opto::CLIFF_CELL,
+                   Opto::TED_CELL]
     }
   end
 

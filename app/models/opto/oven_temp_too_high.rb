@@ -12,7 +12,7 @@ class Opto::OvenTempTooHigh < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Temp High",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

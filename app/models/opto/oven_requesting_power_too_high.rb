@@ -8,7 +8,7 @@ class Opto::OvenRequestingPowerTooHigh < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Requesting Power While Too Hot",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

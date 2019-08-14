@@ -12,7 +12,7 @@ class Opto::OvenFinishedBaking < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Finished Baking",
-      recipients: ["toby.varland@varland.com", "5133820271@vtext.com"]
+      recipients: [Opto::FOREMEN_EMAIL, Opto::GREG_CELL]
     }
   end
 

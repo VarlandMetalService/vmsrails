@@ -16,7 +16,12 @@ class Opto::ThreePhasePowerOff < Opto::Log
     {
       enabled: true,
       subject: "Energy: 3 Phase Power Off",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::BRIAN_CELL,
+                   Opto::CLIFF_CELL,
+                   Opto::ROSS_CELL,
+                   Opto::TED_CELL,
+                   Opto::RICH_CELL,
+                   Opto::LAB_EMAIL]
     }
   end
 

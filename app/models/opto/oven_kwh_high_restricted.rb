@@ -16,7 +16,7 @@ class Opto::OvenKwhHighRestricted < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Power Restricted Because KWH High",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

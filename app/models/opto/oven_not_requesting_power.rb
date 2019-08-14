@@ -8,7 +8,7 @@ class Opto::OvenNotRequestingPower < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Not Requesting Power During Warmup",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

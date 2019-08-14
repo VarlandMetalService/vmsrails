@@ -22,7 +22,7 @@ class Opto::OvensIoError < Opto::Log
     {
       enabled: true,
       subject: "Ovens: I/O Error",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL, Opto::TOBY_EMAIL]
     }
   end
 

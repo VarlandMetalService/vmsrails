@@ -16,7 +16,7 @@ class Opto::PcrTempExceededShutdown < Opto::Log
     {
       enabled: true,
       subject: "Ovens: PCR Temp Exceeded & Oven Shut Down",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

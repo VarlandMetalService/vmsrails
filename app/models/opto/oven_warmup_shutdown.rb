@@ -16,7 +16,7 @@ class Opto::OvenWarmupShutdown < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Turned Off Because Warmup Took Too Long",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::JOEL_CELL, Opto::RICH_CELL]
     }
   end
 

@@ -8,7 +8,9 @@ class Opto::RoLevelHigh < Opto::Log
     {
       enabled: true,
       subject: "Ovens: RO Solution Level High",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMAN_EMAIL,
+                   Opto::LAB_EMAIL,
+                   Opto::RICH_CELL]
     }
   end
 
