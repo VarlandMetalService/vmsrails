@@ -2,6 +2,11 @@ require 'json'
 
 class Opto::Log < ApplicationRecord
 
+  # Define recipient addresses as instance variables.
+  @toby = "toby.varland@varland.com"
+  @toby_cell = "8594964920@vtext.com"
+  @foremen = "vmsforemen@gmail.com"
+
   # Callbacks.
   after_create :process_notification
 
