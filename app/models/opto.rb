@@ -1,4 +1,8 @@
 module Opto
+
+  TOBY = "toby.varland@varland.com"
+  TOBY_CELL = "8594964920@vtext.com"
+
   def self.table_name_prefix
     'opto_'
   end
