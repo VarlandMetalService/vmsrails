@@ -13,7 +13,7 @@ class Opto::DisplayProjectNotResponding < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Display Project Not Responding",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

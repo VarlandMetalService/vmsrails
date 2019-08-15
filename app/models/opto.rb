@@ -11,6 +11,7 @@ module Opto
   JOEL_EMAIL = "joel.perrine@varland.com"
   LAB_EMAIL = "varlandlab@gmail.com"
   RICH_CELL = "5138140536@vtext.com"
+  RICH_EMAIL = "rich.branson@varland.com"
   ROSS_CELL = "5133820277@vtext.com"
   ROSS_EMAIL = "ross.varland@varland.com"
   TED_CELL = "5134768439@vtext.com"
