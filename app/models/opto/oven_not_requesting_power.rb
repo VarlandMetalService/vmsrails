@@ -8,13 +8,12 @@ class Opto::OvenNotRequestingPower < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Oven Not Requesting Power During Warmup",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 
   def details
-    details = ::ActiveSupport::JSON.decode(self.json_data)
-    "Oven not requesting power during warmup. Oven may not be turned on. Oven: <strong><code>#{details["oven"]}#{details["side"]}</code></strong>."
+    "Oven not requesting power during warmup. Oven may not be turned on. Oven: <strong><code>#{self.oven}#{self.side}</code></strong>."
   end
 
 end

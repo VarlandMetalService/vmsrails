@@ -4,7 +4,7 @@ class Opto::GenericOptoLog < Opto::Log
     {
       enabled: true,
       subject: "Opto Notification",
-      recipients: ["toby.varland@varland.com", "8594964920@vtext.com"]
+      recipients: ["toby.varland@varland.com"]
     }
   end
   

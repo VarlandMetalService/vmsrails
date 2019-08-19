@@ -19,7 +19,7 @@ class Opto::BadOvenProbe < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Bad Temperature Probe",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMAN_EMAIL]
     }
   end
 

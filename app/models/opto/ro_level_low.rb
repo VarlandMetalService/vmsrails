@@ -8,7 +8,9 @@ class Opto::RoLevelLow < Opto::Log
     {
       enabled: true,
       subject: "Ovens: RO Solution Level Low",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMAN_EMAIL,
+                   Opto::LAB_EMAIL,
+                   Opto::RICH_CELL]
     }
   end
 
