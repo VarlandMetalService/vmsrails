@@ -4,6 +4,7 @@ module Opto
   BRIAN_EMAIL = "brian.mangold@varland.com"
   CLIFF_CELL = "5134700754@messaging.sprintpcs.com"
   FOREMAN_EMAIL = "vmsforemen@gmail.com"
+  FOREMEN_EMAIL = "vmsforemen@gmail.com"
   GREG_CELL = "5133820271@vtext.com"
   GREG_EMAIL = "greg.turner@varland.com"
   IT_EMAIL = "it@varland.com"
