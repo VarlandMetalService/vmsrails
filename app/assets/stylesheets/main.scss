@@ -280,3 +280,13 @@ trix-toolbar .trix-button-row {
   }
 
 }
+
+.sticky-header {
+  thead {
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 99999;
+    }
+  }
+}
