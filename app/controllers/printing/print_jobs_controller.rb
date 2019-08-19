@@ -36,10 +36,8 @@ class Printing::PrintJobsController < ApplicationController
         Printing::PrintJob.set_queue(@print_job)
         Printing::PrintJob.send_print_cmd(@print_job)
         flash[:success] = 'Print job was created.'
-        format.html { render :index }
-        format.json { render :index, status: :created, location: @print_job }
+        format.json { render json: '', status: :created }
       else
-        format.html { render :new }
         format.json { render json: @print_job.errors, status: :unprocessable_entity }
       end
     end
