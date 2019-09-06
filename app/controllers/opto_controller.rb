@@ -18,9 +18,13 @@ class OptoController < ApplicationController
 
   def log
     return head(:internal_server_error) if params[:data].blank?
-    @controller = Opto::Controller.find_by(ip_address: request.remote_ip)
-    return head(:internal_server_error) if @controller.blank?
     log_details = JSON.parse(params[:data], symbolize_names: true)
+    if log_details[:controller_ip].present?
+      @controller = Opto::Controller.find_by(ip_address: log_details[:controller_ip])
+    else
+      @controller = Opto::Controller.find_by(ip_address: request.remote_ip)
+    end
+    return head(:internal_server_error) if @controller.blank?
     begin
       log_class = "opto/#{log_details[:type]}".camelize.constantize
     rescue NameError
