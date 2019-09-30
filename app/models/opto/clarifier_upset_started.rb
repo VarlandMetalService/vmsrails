@@ -13,7 +13,7 @@ class Opto::ClarifierUpsetStarted < Opto::Log
     {
       enabled: true,
       subject: "Clarifier: Upset Started",
-      recipients: [Opto::BRIAN_EMAIL, Opto::TOBY_EMAIL, Opto::BRIAN_CELL, Opto::TOBY_CELL]
+      recipients: [Opto::FOREMEN_EMAIL, Opto::BRIAN_EMAIL, Opto::TOBY_EMAIL, Opto::RICH_EMAIL, Opto::BRIAN_CELL, Opto::TOBY_CELL, Opto::RICH_CELL]
     }
   end
 
