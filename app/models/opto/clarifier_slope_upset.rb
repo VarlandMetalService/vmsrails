@@ -12,7 +12,7 @@ class Opto::ClarifierSlopeUpset < Opto::Log
     {
       enabled: true,
       subject: "Clarifier: Slope Upset",
-      recipients: [Opto::FOREMEN_EMAIL, Opto::BRIAN_EMAIL, Opto::TOBY_EMAIL, Opto::RICH_EMAIL, Opto::BRIAN_CELL, Opto::TOBY_CELL, Opto::RICH_CELL]
+      recipients: [Opto::FOREMEN_EMAIL, Opto::BRIAN_EMAIL, Opto::RICH_EMAIL, Opto::BRIAN_CELL, Opto::RICH_CELL]
     }
   end
 
