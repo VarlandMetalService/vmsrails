@@ -17,7 +17,7 @@ class Opto::BeadBlasterNoMotion < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Bead Blaster Turned Off Because No Motion",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 

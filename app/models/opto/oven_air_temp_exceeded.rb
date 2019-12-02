@@ -12,7 +12,7 @@ class Opto::OvenAirTempExceeded < Opto::Log
     {
       enabled: true,
       subject: "Ovens: Air Temp Exceeded",
-      recipients: ["toby.varland@varland.com"]
+      recipients: [Opto::FOREMEN_EMAIL]
     }
   end
 
