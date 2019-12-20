@@ -28,12 +28,12 @@
             </div>
             <div class="col-xs-12 col-md-1 pt-1 pb-1 border-right order-3 order-md-1 text-left text-md-center">
               <% if r[:new_part] %>
-                <span class="badge badge-pill badge-primary">New Part</span><br class="d-none">
+                <span class="badge badge-pill badge-primary">New Part</span><br class="d-none d-md-inline">
               <% else %>
                 <% if r[:bad_price] %>
-                  <span class="badge badge-pill badge-danger">Bad Price</span><br class="d-none">
+                  <span class="badge badge-pill badge-danger">Bad Price</span><br class="d-none d-md-inline">
                 <% else %>
-                  <span class="badge badge-pill badge-success">Price OK</span><br class="d-none">
+                  <span class="badge badge-pill badge-success">Price OK</span><br class="d-none d-md-inline">
                 <% end %>
                 <% if r[:bad_procedure] %>
                   <span class="badge badge-pill badge-danger">Bad Procedure</span>
