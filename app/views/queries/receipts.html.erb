@@ -26,7 +26,7 @@
                 <span class="text-danger"><%= small_label_bold_text 'Promise Date', Date.strptime(r[:promise_date].to_s, '%s').strftime('%m/%d/%y') %></span>
               <% end %>
             </div>
-            <div class="d-none d-md-block col-md-1 pt-1 pb-1 border-right text-center">
+            <div class="d-none d-md-block col-md-1 pt-1 pb-1 border-right order-2 order-md-1 text-center">
               <% if r[:new_part] %>
                 <span class="badge badge-pill badge-primary">New Part</span><br>
               <% else %>
