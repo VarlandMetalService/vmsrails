@@ -26,19 +26,19 @@
                 <span class="text-danger"><%= small_label_bold_text 'Promise Date', Date.strptime(r[:promise_date].to_s, '%s').strftime('%m/%d/%y') %></span>
               <% end %>
             </div>
-            <div class="col-xs-12 col-md-1 pt-1 pb-1 border-right order-3 order-md-1 text-center">
+            <div class="col-xs-12 col-md-1 pt-1 pb-1 border-right order-3 order-md-1 text-left text-md-center">
               <% if r[:new_part] %>
-                <span class="badge badge-pill badge-primary">New Part</span><br>
+                <span class="badge badge-pill badge-primary">New Part</span><br class="d-none">
               <% else %>
                 <% if r[:bad_price] %>
-                  <span class="badge badge-pill badge-danger">Bad Price</span><br>
+                  <span class="badge badge-pill badge-danger">Bad Price</span><br class="d-none">
                 <% else %>
-                  <span class="badge badge-pill badge-success">Price OK</span><br>
+                  <span class="badge badge-pill badge-success">Price OK</span><br class="d-none">
                 <% end %>
                 <% if r[:bad_procedure] %>
-                  <span class="badge badge-pill badge-danger">Bad Procedure</span><br>
+                  <span class="badge badge-pill badge-danger">Bad Procedure</span>
                 <% else %>
-                  <span class="badge badge-pill badge-success">Procedure OK</span><br>
+                  <span class="badge badge-pill badge-success">Procedure OK</span>
                 <% end %>
               <% end %>
             </div>
