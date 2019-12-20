@@ -16,7 +16,7 @@
         </div>
         <% alt = false %>
         <% @receipts.each_with_index do |r, index| alt = !alt %>
-          <div class="row border border-right-0<%= ' border-top-0' unless index == 0 %><%= ' bg-light' if alt %><%= ' mb-3' if index == (@receipts.size - 1) %>">
+          <div class="row border border-right-0<%= ' border-top-0' unless index == 0 %><%= ' bg-light' if alt %><%= ' bg-warning' if r[:age] > 1 %><%= ' mb-3' if index == (@receipts.size - 1) %>">
             <div class="col-xs-12 col-md-2 pt-1 pb-1 border-right order-2 order-md-1">
               <%= small_label_bold_text 'Age', "#{pluralize(r[:age], 'day')} old" %>
               <br />
