@@ -111,7 +111,7 @@ GEM
     carrierwave-base64 (2.7.0)
       carrierwave (>= 0.8.0)
       mime-types (~> 3.0)
-    chartkick (3.0.1)
+    chartkick (3.4.0)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
