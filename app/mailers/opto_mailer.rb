@@ -6,9 +6,10 @@ class OptoMailer < ApplicationMailer
 
   def opto_notification
     @log = params[:log]
-    if @log.notification_settings[:recipients].include?("toby.varland@varland.com")
-      @log.notification_settings[:recipients].delete("toby.varland@varland.com")
-      uri = "http://timeclock.varland.com/foremen_email.json"
+    if @log.notification_settings[:recipients].include?("vmsforemen@gmail.com")
+      @log.notification_settings[:recipients].delete("vmsforemen@gmail.com")
+      escaped_url = URI.escape("http://timeclock.varland.com/foremen_email.json")
+      uri = URI.parse(escaped_url)
       response = Net::HTTP.get(uri)
       addresses = JSON.parse(response)
       addresses.each do |email|
