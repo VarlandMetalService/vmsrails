@@ -42,6 +42,21 @@ class Opto::Log < ApplicationRecord
     }
   end
 
+  def get_recipients
+    recipients = self.notification_settings[:recipients]
+    if recipients.include?("vmsforemen@gmail.com")
+      recipients.delete("vmsforemen@gmail.com")
+      escaped_url = URI.escape("http://timeclock.varland.com/foremen_email.json")
+      uri = URI.parse(escaped_url)
+      response = Net::HTTP.get(uri)
+      addresses = JSON.parse(response)
+      addresses.each do |email|
+        recipients << email
+      end
+    end
+    return recipients
+  end
+
   def process_notification
     if self.notification_settings[:enabled]
       OptoMailer.with(log: self).opto_notification.deliver_later
