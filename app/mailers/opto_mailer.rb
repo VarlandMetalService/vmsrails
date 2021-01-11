@@ -16,8 +16,6 @@ class OptoMailer < ApplicationMailer
         @log.notification_settings[:recipients] << email
       end
     end
-    puts @log
-    return
     timestamp = Time.now.strftime("%m/%d/%y %l:%M%P")
     mail(to: @log.notification_settings[:recipients],
          subject: "#{@log.notification_settings[:subject]} (#{timestamp})")
