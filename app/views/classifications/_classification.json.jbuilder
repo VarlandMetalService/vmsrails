@@ -1,0 +1,1 @@
+json.url classification_url(classification, format: :json)
