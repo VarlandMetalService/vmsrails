@@ -61,7 +61,6 @@ Rails.application.routes.draw do
   get '/thickness', to: 'thickness/blocks#index'
 
   # Specifications
-  resources :classifications
   resources :specifications do
     collection do
       get   'archived'
