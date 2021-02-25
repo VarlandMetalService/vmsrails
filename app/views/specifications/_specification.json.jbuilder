@@ -1,0 +1,1 @@
+json.url specification_url(specification, format: :json)
