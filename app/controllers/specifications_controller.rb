@@ -28,6 +28,7 @@ class SpecificationsController < ApplicationController
 
   def index
     @specifications = apply_scopes(Specification.without_archived).includes(:classifications).page(params[:page])
+    @unpaged_specifications = apply_scopes(Specification.without_archived).includes(:classifications)
   end
 
   def archived

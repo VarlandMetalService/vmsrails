@@ -1,1 +1,1 @@
-json.array! @specifications, partial: "specifications/specification", as: :specification
+json.array! @unpaged_specifications, partial: "specifications/specification", as: :specification
