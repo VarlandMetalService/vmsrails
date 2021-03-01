@@ -13,7 +13,7 @@ class Opto::EnAmpWarning < Opto::Log
   end
 
   def details
-    "EN amp warning. Limit: <strong><code>#{self.limit.to_f.round(3)} amps</code></strong>. Reading: <strong><code>#{self.reading.to_f.round(3)} amps</code></strong>."
+    "EN amp warning. Limit: <strong><code>#{self.limit.to_f.round(3)} amps</code></strong>. Reading: <strong><code>#{self.opto_data[:value].to_f.round(3)} amps</code></strong>."
   end
 
 end
