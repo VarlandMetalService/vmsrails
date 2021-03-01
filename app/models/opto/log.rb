@@ -64,7 +64,7 @@ class Opto::Log < ApplicationRecord
   end
 
   def parse_controller_timestamp(raw)
-    timestamp_parts = raw.split
+    timestamp_parts = raw.chomp('.').split
     date_parts = timestamp_parts[0].split('/')
     time_parts = timestamp_parts[1].split(':')
     date_string = "#{date_parts[1]}.#{date_parts[0]}.#{date_parts[2]} #{time_parts[0]}:#{time_parts[1]}:#{time_parts[2]}"
